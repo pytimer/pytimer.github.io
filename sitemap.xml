@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://pytimer.github.io/posts/readme/</loc>
+    <lastmod>2018-05-18T16:29:28+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://pytimer.github.io/archives/</loc>
     <priority>0</priority>
   </url>
@@ -13,12 +18,19 @@
   </url>
   
   <url>
+    <loc>https://pytimer.github.io/posts/</loc>
+    <lastmod>2018-05-18T16:29:28+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://pytimer.github.io/tags/</loc>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://pytimer.github.io/</loc>
+    <lastmod>2018-05-18T16:29:28+08:00</lastmod>
     <priority>0</priority>
   </url>
   

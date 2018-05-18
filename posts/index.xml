@@ -6,7 +6,7 @@
     <description>Recent content in Posts on pytimer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 17 May 2018 16:18:51 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 18 May 2018 16:29:28 +0800</lastBuildDate>
     
 	<atom:link href="https://pytimer.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,10 +14,10 @@
     <item>
       <title>Readme</title>
       <link>https://pytimer.github.io/posts/readme/</link>
-      <pubDate>Thu, 17 May 2018 16:18:51 +0800</pubDate>
+      <pubDate>Fri, 18 May 2018 16:29:28 +0800</pubDate>
       
       <guid>https://pytimer.github.io/posts/readme/</guid>
-      <description>Hello Hello Pytimer World!</description>
+      <description>Readme Hello, welcome to Pytimer world!</description>
     </item>
     
   </channel>
