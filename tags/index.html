@@ -7,8 +7,6 @@
 
 
 
-  
-
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
@@ -42,8 +40,6 @@
     
 
     
-      <meta property="og:image" content="https://github.com/pytimer/pytimer.github.io/blob/master/gopher.png">
-    
 
     
     
@@ -75,32 +71,10 @@
     <a class="header-title-link" href="https://pytimer.github.io/">pytimer</a>
   </div>
   
-    
-      <a class="header-right-picture "
-         href="https://pytimer.github.io/#about">
-    
-    
-    
-      
-        <img class="header-picture" src="https://github.com/pytimer/pytimer.github.io/blob/master/gopher.png" alt="Author&#39;s picture" />
-      
-    
-    </a>
-  
 </header>
 
       <nav id="sidebar" data-behavior="1">
   <div class="sidebar-container">
-    
-      <div class="sidebar-profile">
-        <a href="https://pytimer.github.io/#about">
-          <img class="sidebar-profile-picture" src="https://github.com/pytimer/pytimer.github.io/blob/master/gopher.png" alt="Author&#39;s picture" />
-        </a>
-        <h4 class="sidebar-profile-name">Pytimer</h4>
-        
-          <h5 class="sidebar-profile-bio">Markdown</h5>
-        
-      </div>
     
     <ul class="sidebar-buttons">
       
@@ -144,16 +118,6 @@
     </a>
   </li>
 
-  <li class="sidebar-button">
-    
-      <a class="sidebar-button-link " href="https://pytimer.github.io/#about">
-    
-      <i class="sidebar-button-icon fa fa-lg fa-question"></i>
-      
-      <span class="sidebar-button-desc">About</span>
-    </a>
-  </li>
-
 
     </ul>
     <ul class="sidebar-buttons">
@@ -172,16 +136,6 @@
     </ul>
     <ul class="sidebar-buttons">
       
-  <li class="sidebar-button">
-    
-      <a class="sidebar-button-link " href="https://pytimer.github.io/index.xml">
-    
-      <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
-      
-      <span class="sidebar-button-desc">RSS</span>
-    </a>
-  </li>
-
 
     </ul>
   </div>
@@ -193,42 +147,30 @@
         class="
                hasCoverMetaIn
                ">
+        <section class="postShorten-group main-content-wrap">
+          
+          
+          
 
-        <div id="tags-archives" class="main-content-wrap">
-          <form id="filter-form" action="#">
-            <input name="tag" type="text" class="form-control input--xlarge" placeholder="Search tag" autofocus="autofocus">
-          </form>
-          <h4 class="archive-result text-color-base text-xlarge"
-              data-message-zero="no tag found"
-              data-message-one="1 tag found"
-              data-message-other="{n} tags found"></h4>
-
-            <section>
-              
-            </section>
-            <section class="boxes">
-              
-           </section>
-         </div>
+        </section>
         <footer id="footer" class="main-content-wrap">
   <span class="copyrights">
-    &copy; 2018 <a href="https://github.com/pytimer">? 2018 pytimer</a>. All Rights Reserved
+    &copy; 2018 <a href="https://github.com/pytimer">pytimer</a>. All Rights Reserved
   </span>
 </footer>
 
       </div>
     </div>
+    
     <div id="about">
   <div id="about-card">
     <div id="about-btn-close">
       <i class="fa fa-remove"></i>
     </div>
     
-      <img id="about-card-picture" src="https://github.com/pytimer/pytimer.github.io/blob/master/gopher.png" alt="Author&#39;s picture" />
-    
     <h4 id="about-card-name">Pytimer</h4>
     
-      <div id="about-card-bio">Markdown</div>
+      <div id="about-card-bio"><strong>Golang</strong></div>
     
     
       <div id="about-card-job">
@@ -247,6 +189,37 @@
   </div>
 </div>
 
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="Search" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center">no post found</div>
+      <div class="results">
+        
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero="no post found"
+         data-message-one="1 post found"
+         data-message-other="{n} posts found">
+         0 posts found
+      </p>
+    </div>
+  </div>
+</div>
     
   
     
@@ -254,8 +227,7 @@
   
 
 
-  </body>
-  
+    
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
@@ -282,4 +254,7 @@ $(document).ready(function() {
 
 
 
+    
+  </body>
 </html>
+
