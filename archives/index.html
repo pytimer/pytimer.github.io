@@ -159,6 +159,10 @@
         <ul class="archive-posts archive-month" data-date="201805">
           <h5 class="archive-title" style="text-decoration: none;">May</h5>
           
+            <li class="archive-post archive-day" data-date="20180524">
+              <a class="archive-post-title" href="https://pytimer.github.io/2018/05/golang-contribution/">Golang Contribution</a>
+            </li>
+          
             <li class="archive-post archive-day" data-date="20180518">
               <a class="archive-post-title" href="https://pytimer.github.io/2018/05/readme/">Readme</a>
             </li>
@@ -221,6 +225,35 @@
           <div class="media">
             
             <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/05/golang-contribution/">
+                <h3 class="media-heading">Golang Contribution</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">golang/go标准库贡献方式 阅读contribute内容 https://golang.org/doc/contribute.html
+准备工作 安装配置go-contrib-init工具 $ go get -v -u golang.org/x/tools/cmd/go-contrib-init $ cd /code/to/edit $ go-contrib-init  安装git 配置git使用Gerrit  申请Google Account。
+ 登录googlesource并生成密码
+  进入go.googlesourc.com，单击右上角的&rdquo;Generate Password&rdquo;
+ 执行完第2步后，会看到&rdquo;Configure Git&rdquo;页面，该页面说明如何配置git使用你的认证token，按说明执行后，在~/.gitcookies文件中可以看到你的token
+ 注册Gerrit
+  用你的Google Account登录go-review.googlesource.com/login/
+Contributor License  登录Gerrit
+ 点击右上角头像的settings，再点击&rdquo;Agreements&rdquo;，如果没有任何的agreements，点击&rdquo;New Contributor Agreement&rdquo;，按提示进行操作。
+  设置开发环境 安装git-codereview工具 $ go get -u golang.org/x/review/git-codereview  安装完后git-codereview会在$GOPATH/bin下，把$GOPATH/bin添加到PATH。 (Windows的话执行git --exec-path查看git的执行路径，把git-codereview拷贝到该目录下)
+执行以下命令查看是否安装完成
+$ git codereview help  设置git aliases 把以下内容写入到~/.gitconfig文件
+[alias] change = codereview change gofmt = codereview gofmt mail = codereview mail pending = codereview pending submit = codereview submit sync = codereview sync  代码贡献 讨论设计 在提交代码之前，先去github仓库上提交issue，说明自己的意图，经过讨论后再进行代码的提交</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
               <a class="link-unstyled" href="https://pytimer.github.io/2018/05/readme/">
                 <h3 class="media-heading">Readme</h3>
               </a>
@@ -243,7 +276,7 @@ Language Golang python</div>
          data-message-zero="no post found"
          data-message-one="1 post found"
          data-message-other="{n} posts found">
-         1 posts found
+         2 posts found
       </p>
     </div>
   </div>

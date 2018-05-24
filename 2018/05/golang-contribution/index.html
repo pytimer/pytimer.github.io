@@ -18,7 +18,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.40.3 with theme Tranquilpeak 0.4.3-BETA">
-    <title>Readme</title>
+    <title>Golang Contribution</title>
     <meta name="author" content="Pytimer">
     <meta name="keywords" content="">
 
@@ -26,18 +26,51 @@
     
 
     
-    <meta name="description" content="Readme Hello, welcome to Pytimer world!
-Language Golang python">
-    <meta property="og:description" content="Readme Hello, welcome to Pytimer world!
-Language Golang python">
+    <meta name="description" content="golang/go标准库贡献方式 阅读contribute内容 https://golang.org/doc/contribute.html
+准备工作 安装配置go-contrib-init工具 $ go get -v -u golang.org/x/tools/cmd/go-contrib-init $ cd /code/to/edit $ go-contrib-init  安装git 配置git使用Gerrit  申请Google Account。
+ 登录googlesource并生成密码
+  进入go.googlesourc.com，单击右上角的&rdquo;Generate Password&rdquo;
+ 执行完第2步后，会看到&rdquo;Configure Git&rdquo;页面，该页面说明如何配置git使用你的认证token，按说明执行后，在~/.gitcookies文件中可以看到你的token
+ 注册Gerrit
+  用你的Google Account登录go-review.googlesource.com/login/
+Contributor License  登录Gerrit
+ 点击右上角头像的settings，再点击&rdquo;Agreements&rdquo;，如果没有任何的agreements，点击&rdquo;New Contributor Agreement&rdquo;，按提示进行操作。
+  设置开发环境 安装git-codereview工具 $ go get -u golang.org/x/review/git-codereview  安装完后git-codereview会在$GOPATH/bin下，把$GOPATH/bin添加到PATH。 (Windows的话执行git --exec-path查看git的执行路径，把git-codereview拷贝到该目录下)
+执行以下命令查看是否安装完成
+$ git codereview help  设置git aliases 把以下内容写入到~/.gitconfig文件
+[alias] change = codereview change gofmt = codereview gofmt mail = codereview mail pending = codereview pending submit = codereview submit sync = codereview sync  代码贡献 讨论设计 在提交代码之前，先去github仓库上提交issue，说明自己的意图，经过讨论后再进行代码的提交">
+    <meta property="og:description" content="golang/go标准库贡献方式 阅读contribute内容 https://golang.org/doc/contribute.html
+准备工作 安装配置go-contrib-init工具 $ go get -v -u golang.org/x/tools/cmd/go-contrib-init $ cd /code/to/edit $ go-contrib-init  安装git 配置git使用Gerrit  申请Google Account。
+ 登录googlesource并生成密码
+  进入go.googlesourc.com，单击右上角的&rdquo;Generate Password&rdquo;
+ 执行完第2步后，会看到&rdquo;Configure Git&rdquo;页面，该页面说明如何配置git使用你的认证token，按说明执行后，在~/.gitcookies文件中可以看到你的token
+ 注册Gerrit
+  用你的Google Account登录go-review.googlesource.com/login/
+Contributor License  登录Gerrit
+ 点击右上角头像的settings，再点击&rdquo;Agreements&rdquo;，如果没有任何的agreements，点击&rdquo;New Contributor Agreement&rdquo;，按提示进行操作。
+  设置开发环境 安装git-codereview工具 $ go get -u golang.org/x/review/git-codereview  安装完后git-codereview会在$GOPATH/bin下，把$GOPATH/bin添加到PATH。 (Windows的话执行git --exec-path查看git的执行路径，把git-codereview拷贝到该目录下)
+执行以下命令查看是否安装完成
+$ git codereview help  设置git aliases 把以下内容写入到~/.gitconfig文件
+[alias] change = codereview change gofmt = codereview gofmt mail = codereview mail pending = codereview pending submit = codereview submit sync = codereview sync  代码贡献 讨论设计 在提交代码之前，先去github仓库上提交issue，说明自己的意图，经过讨论后再进行代码的提交">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="Readme">
-    <meta property="og:url" content="/2018/05/readme/">
+    <meta property="og:title" content="Golang Contribution">
+    <meta property="og:url" content="/2018/05/golang-contribution/">
     <meta property="og:site_name" content="pytimer">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="pytimer">
-    <meta name="twitter:description" content="Readme Hello, welcome to Pytimer world!
-Language Golang python">
+    <meta name="twitter:description" content="golang/go标准库贡献方式 阅读contribute内容 https://golang.org/doc/contribute.html
+准备工作 安装配置go-contrib-init工具 $ go get -v -u golang.org/x/tools/cmd/go-contrib-init $ cd /code/to/edit $ go-contrib-init  安装git 配置git使用Gerrit  申请Google Account。
+ 登录googlesource并生成密码
+  进入go.googlesourc.com，单击右上角的&rdquo;Generate Password&rdquo;
+ 执行完第2步后，会看到&rdquo;Configure Git&rdquo;页面，该页面说明如何配置git使用你的认证token，按说明执行后，在~/.gitcookies文件中可以看到你的token
+ 注册Gerrit
+  用你的Google Account登录go-review.googlesource.com/login/
+Contributor License  登录Gerrit
+ 点击右上角头像的settings，再点击&rdquo;Agreements&rdquo;，如果没有任何的agreements，点击&rdquo;New Contributor Agreement&rdquo;，按提示进行操作。
+  设置开发环境 安装git-codereview工具 $ go get -u golang.org/x/review/git-codereview  安装完后git-codereview会在$GOPATH/bin下，把$GOPATH/bin添加到PATH。 (Windows的话执行git --exec-path查看git的执行路径，把git-codereview拷贝到该目录下)
+执行以下命令查看是否安装完成
+$ git codereview help  设置git aliases 把以下内容写入到~/.gitconfig文件
+[alias] change = codereview change gofmt = codereview gofmt mail = codereview mail pending = codereview pending submit = codereview submit sync = codereview sync  代码贡献 讨论设计 在提交代码之前，先去github仓库上提交issue，说明自己的意图，经过讨论后再进行代码的提交">
     
     
 
@@ -158,15 +191,15 @@ Language Golang python">
             <div class="post-header main-content-wrap text-left">
   
     <h1 class="post-title" itemprop="headline">
-      Readme
+      Golang Contribution
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2018-05-18T16:29:28&#43;08:00">
+      <time itemprop="datePublished" datetime="2018-05-24T10:48:15&#43;08:00">
         
-  May 18, 2018
+  May 24, 2018
 
       </time>
     
@@ -179,13 +212,163 @@ Language Golang python">
             <div class="main-content-wrap">
               
 
-<h1 id="readme">Readme</h1>
+<h1 id="golang-go标准库贡献方式">golang/go标准库贡献方式</h1>
 
-<p>Hello, welcome to Pytimer world!</p>
+<h2 id="阅读contribute内容">阅读contribute内容</h2>
 
-<h2 id="language">Language</h2>
+<p><a href="https://golang.org/doc/contribute.html">https://golang.org/doc/contribute.html</a></p>
 
-<p>Golang python</p>
+<h2 id="准备工作">准备工作</h2>
+
+<h3 id="安装配置go-contrib-init工具">安装配置go-contrib-init工具</h3>
+
+<pre><code class="language-sh">$ go get -v -u golang.org/x/tools/cmd/go-contrib-init
+$ cd /code/to/edit
+$ go-contrib-init
+</code></pre>
+
+<h3 id="安装git">安装git</h3>
+
+<h3 id="配置git使用gerrit">配置git使用Gerrit</h3>
+
+<ol>
+<li><p>申请Google Account。</p></li>
+
+<li><p>登录googlesource并生成密码</p></li>
+</ol>
+
+<p>进入<a href="https://go.googlesource.com/">go.googlesourc.com</a>，单击右上角的&rdquo;Generate Password&rdquo;</p>
+
+<ol>
+<li><p>执行完第2步后，会看到&rdquo;Configure Git&rdquo;页面，该页面说明如何配置git使用你的认证token，按说明执行后，在~/.gitcookies文件中可以看到你的token</p></li>
+
+<li><p>注册Gerrit</p></li>
+</ol>
+
+<p>用你的Google Account登录<a href="https://go-review.googlesource.com/login/">go-review.googlesource.com/login/</a></p>
+
+<h3 id="contributor-license">Contributor License</h3>
+
+<ol>
+<li><p>登录<a href="https://go-review.googlesource.com/login/">Gerrit</a></p></li>
+
+<li><p>点击右上角头像的settings，再点击&rdquo;Agreements&rdquo;，如果没有任何的agreements，点击&rdquo;New Contributor Agreement&rdquo;，按提示进行操作。</p></li>
+</ol>
+
+<h2 id="设置开发环境">设置开发环境</h2>
+
+<h3 id="安装git-codereview工具">安装git-codereview工具</h3>
+
+<pre><code class="language-sh">$ go get -u golang.org/x/review/git-codereview
+</code></pre>
+
+<p>安装完后git-codereview会在<code>$GOPATH/bin</code>下，把<code>$GOPATH/bin</code>添加到<code>PATH</code>。
+(Windows的话执行<code>git --exec-path</code>查看git的执行路径，把git-codereview拷贝到该目录下)</p>
+
+<p>执行以下命令查看是否安装完成</p>
+
+<pre><code class="language-sh">$ git codereview help
+</code></pre>
+
+<h3 id="设置git-aliases">设置git aliases</h3>
+
+<p>把以下内容写入到~/.gitconfig文件</p>
+
+<pre><code class="language-sh">[alias]
+	change = codereview change
+	gofmt = codereview gofmt
+	mail = codereview mail
+	pending = codereview pending
+	submit = codereview submit
+	sync = codereview sync
+</code></pre>
+
+<h2 id="代码贡献">代码贡献</h2>
+
+<h3 id="讨论设计">讨论设计</h3>
+
+<p>在提交代码之前，先去github仓库上提交issue，说明自己的意图，经过讨论后再进行代码的提交</p>
+
+<h3 id="获取go源码">获取Go源码</h3>
+
+<p>在除你现有GOPATH外的其他目录下clone</p>
+
+<pre><code class="language-sh">$ git clone https://go.googlesource.com/go
+$ cd go
+</code></pre>
+
+<p>go使用master分支进行管理，确保当前的分支在master</p>
+
+<pre><code class="language-sh">$ git checkout master
+$ git sync
+</code></pre>
+
+<h4 id="如果贡献子库-golang-org-x">如果贡献子库(golang.org/x/&hellip;)</h4>
+
+<p>如果贡献的为子库，需要使用<code>go get</code>命令，获取指定的库</p>
+
+<p>如：<code>golang.org/x/sys</code></p>
+
+<pre><code class="language-sh">$ go get -v -d golang.org/x/sys/...
+</code></pre>
+
+<h3 id="修改源码并提交">修改源码并提交</h3>
+
+<p>在修改源码后，先执行<code>git add &lt;filename&gt;</code>添加修改的文件</p>
+
+<p>执行</p>
+
+<pre><code class="language-sh">$ git change &lt;branch&gt;
+</code></pre>
+
+<p><code>&lt;branch&gt;</code>是本地的分支，不会提交到远程服务端</p>
+
+<p>(git change <branch> 相当于执行 git checkout -b branch, 接着执行 git branch &ndash;set-upstream-to origin/master, 然后 git commit.)</p>
+
+<p>在最后的commit的时候，会出现一个编辑的对话框，类似</p>
+
+<pre><code class="language-sh">
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch foo
+# Changes not staged for commit:
+#	modified:   editedfile.go
+#
+</code></pre>
+
+<p>在第一行空白处填写自己的提交信息。</p>
+
+<p>信息内容：</p>
+
+<ul>
+<li>本次提交的功能是为了做什么。</li>
+<li>描述本次修改了哪些地方，并说明作用。如果有引用，最好是在此处表明。</li>
+<li>如果你本次提交是修复某个issue，在下面写明。<code>Fixes #123</code></li>
+</ul>
+
+<h3 id="发送修改到review">发送修改到review</h3>
+
+<pre><code class="language-sh">$ git mail
+</code></pre>
+
+<p>在执行完成后，会出现code review的URL</p>
+
+<pre><code class="language-sh">remote: New Changes:
+remote:   https://go-review.googlesource.com/99999 math: improved Sin, Cos and Tan precision for very large arguments
+</code></pre>
+
+<h3 id="修改review意见">修改review意见</h3>
+
+<ol>
+<li>同步仓库代码</li>
+</ol>
+
+<pre><code class="language-sh">$ git sync
+</code></pre>
+
+<ol>
+<li>继续之前步骤的修改，使用<code>git change</code>和<code>git mail</code></li>
+</ol>
 
               
             </div>
@@ -201,7 +384,7 @@ Language Golang python">
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/05/golang-contribution/" data-tooltip="Golang Contribution">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
@@ -209,7 +392,7 @@ Language Golang python">
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/05/readme/" data-tooltip="Readme">
               
                   <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
                   <i class="fa fa-angle-right"></i>
@@ -227,19 +410,19 @@ Language Golang python">
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2018/05/readme/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2018/05/golang-contribution/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2018/05/readme/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2018/05/golang-contribution/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2018/05/readme/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2018/05/golang-contribution/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -287,7 +470,7 @@ Language Golang python">
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/05/golang-contribution/" data-tooltip="Golang Contribution">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
@@ -295,7 +478,7 @@ Language Golang python">
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/05/readme/" data-tooltip="Readme">
               
                   <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
                   <i class="fa fa-angle-right"></i>
@@ -313,19 +496,19 @@ Language Golang python">
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2018/05/readme/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2018/05/golang-contribution/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2018/05/readme/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2018/05/golang-contribution/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2018/05/readme/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2018/05/golang-contribution/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -355,19 +538,19 @@ Language Golang python">
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fpytimer.github.io%2F2018%2F05%2Freadme%2F">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fpytimer.github.io%2F2018%2F05%2Fgolang-contribution%2F">
           <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fpytimer.github.io%2F2018%2F05%2Freadme%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fpytimer.github.io%2F2018%2F05%2Fgolang-contribution%2F">
           <i class="fa fa-twitter"></i><span>Share on Twitter</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fpytimer.github.io%2F2018%2F05%2Freadme%2F">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fpytimer.github.io%2F2018%2F05%2Fgolang-contribution%2F">
           <i class="fa fa-google-plus"></i><span>Share on Google&#43;</span>
         </a>
       </li>
@@ -518,9 +701,9 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'https:\/\/pytimer.github.io\/2018\/05\/readme\/';
+          this.page.url = 'https:\/\/pytimer.github.io\/2018\/05\/golang-contribution\/';
           
-            this.page.identifier = '\/2018\/05\/readme\/'
+            this.page.identifier = '\/2018\/05\/golang-contribution\/'
           
         };
         (function() {

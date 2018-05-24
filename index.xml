@@ -6,10 +6,31 @@
     <description>Recent content on pytimer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 18 May 2018 16:29:28 +0800</lastBuildDate>
+    <lastBuildDate>Thu, 24 May 2018 10:48:15 +0800</lastBuildDate>
     
 	<atom:link href="https://pytimer.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Golang Contribution</title>
+      <link>https://pytimer.github.io/2018/05/golang-contribution/</link>
+      <pubDate>Thu, 24 May 2018 10:48:15 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/2018/05/golang-contribution/</guid>
+      <description>golang/go标准库贡献方式 阅读contribute内容 https://golang.org/doc/contribute.html
+准备工作 安装配置go-contrib-init工具 $ go get -v -u golang.org/x/tools/cmd/go-contrib-init $ cd /code/to/edit $ go-contrib-init  安装git 配置git使用Gerrit  申请Google Account。
+ 登录googlesource并生成密码
+  进入go.googlesourc.com，单击右上角的&amp;rdquo;Generate Password&amp;rdquo;
+ 执行完第2步后，会看到&amp;rdquo;Configure Git&amp;rdquo;页面，该页面说明如何配置git使用你的认证token，按说明执行后，在~/.gitcookies文件中可以看到你的token
+ 注册Gerrit
+  用你的Google Account登录go-review.googlesource.com/login/
+Contributor License  登录Gerrit
+ 点击右上角头像的settings，再点击&amp;rdquo;Agreements&amp;rdquo;，如果没有任何的agreements，点击&amp;rdquo;New Contributor Agreement&amp;rdquo;，按提示进行操作。
+  设置开发环境 安装git-codereview工具 $ go get -u golang.org/x/review/git-codereview  安装完后git-codereview会在$GOPATH/bin下，把$GOPATH/bin添加到PATH。 (Windows的话执行git --exec-path查看git的执行路径，把git-codereview拷贝到该目录下)
+执行以下命令查看是否安装完成
+$ git codereview help  设置git aliases 把以下内容写入到~/.gitconfig文件
+[alias] change = codereview change gofmt = codereview gofmt mail = codereview mail pending = codereview pending submit = codereview submit sync = codereview sync  代码贡献 讨论设计 在提交代码之前，先去github仓库上提交issue，说明自己的意图，经过讨论后再进行代码的提交</description>
+    </item>
     
     <item>
       <title>Readme</title>
