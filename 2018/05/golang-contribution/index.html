@@ -384,7 +384,7 @@ remote:   https://go-review.googlesource.com/99999 math: improved Sin, Cos and T
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/06/seccomp/" data-tooltip="Seccomp">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
@@ -470,7 +470,7 @@ remote:   https://go-review.googlesource.com/99999 math: improved Sin, Cos and T
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/06/seccomp/" data-tooltip="Seccomp">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
@@ -609,6 +609,26 @@ remote:   https://go-review.googlesource.com/99999 math: improved Sin, Cos and T
           <div class="media">
             
             <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/06/seccomp/">
+                <h3 class="media-heading">Seccomp</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"> 什么是Seccomp？ 全称：secure computing mode， 是linux kernel2.6.23版本以后支持的一种安全机制。
+在Linux中，系统调用会直接暴露给用户态程序，因此不安全的代码滥用调用就会对系统安全造成威胁。通过seccomp可以限制程序对于系统调用的使用，减少系统的暴露面。
+查看内核是否支持和使用seccomp  利用/proc//status中的Seccomp查看，如果有该字段，说明支持Seccomp。  cat /proc/1/status | grep Seccomp
+ 利用prctl(2)的PR_GET_SECCOMP的参数获取当前进程的seccomp状态。返回值0表示没有使用seccomp;返回值2表示使用了seccomp并处于SECCOMP_MODE_FILTER模式；其他情况进程会被SIGKILL信号杀死  </div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
               <a class="link-unstyled" href="https://pytimer.github.io/2018/05/golang-contribution/">
                 <h3 class="media-heading">Golang Contribution</h3>
               </a>
@@ -660,7 +680,7 @@ Language Golang python</div>
          data-message-zero="no post found"
          data-message-one="1 post found"
          data-message-other="{n} posts found">
-         2 posts found
+         3 posts found
       </p>
     </div>
   </div>

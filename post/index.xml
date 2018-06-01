@@ -6,10 +6,22 @@
     <description>Recent content in Posts on pytimer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 24 May 2018 10:48:15 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 01 Jun 2018 14:17:19 +0800</lastBuildDate>
     
 	<atom:link href="https://pytimer.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Seccomp</title>
+      <link>https://pytimer.github.io/2018/06/seccomp/</link>
+      <pubDate>Fri, 01 Jun 2018 14:17:19 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/2018/06/seccomp/</guid>
+      <description> 什么是Seccomp？ 全称：secure computing mode， 是linux kernel2.6.23版本以后支持的一种安全机制。
+在Linux中，系统调用会直接暴露给用户态程序，因此不安全的代码滥用调用就会对系统安全造成威胁。通过seccomp可以限制程序对于系统调用的使用，减少系统的暴露面。
+查看内核是否支持和使用seccomp  利用/proc//status中的Seccomp查看，如果有该字段，说明支持Seccomp。  cat /proc/1/status | grep Seccomp
+ 利用prctl(2)的PR_GET_SECCOMP的参数获取当前进程的seccomp状态。返回值0表示没有使用seccomp;返回值2表示使用了seccomp并处于SECCOMP_MODE_FILTER模式；其他情况进程会被SIGKILL信号杀死  </description>
+    </item>
     
     <item>
       <title>Golang Contribution</title>

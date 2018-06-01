@@ -10,5 +10,14 @@
 	<atom:link href="https://pytimer.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     
     
+    <item>
+      <title>Linux</title>
+      <link>https://pytimer.github.io/categories/linux/</link>
+      <pubDate>Fri, 01 Jun 2018 14:17:19 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/categories/linux/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

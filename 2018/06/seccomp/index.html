@@ -18,7 +18,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.40.3 with theme Tranquilpeak 0.4.3-BETA">
-    <title>Readme</title>
+    <title>Seccomp</title>
     <meta name="author" content="Pytimer">
     <meta name="keywords" content="">
 
@@ -26,18 +26,24 @@
     
 
     
-    <meta name="description" content="Readme Hello, welcome to Pytimer world!
-Language Golang python">
-    <meta property="og:description" content="Readme Hello, welcome to Pytimer world!
-Language Golang python">
+    <meta name="description" content=" 什么是Seccomp？ 全称：secure computing mode， 是linux kernel2.6.23版本以后支持的一种安全机制。
+在Linux中，系统调用会直接暴露给用户态程序，因此不安全的代码滥用调用就会对系统安全造成威胁。通过seccomp可以限制程序对于系统调用的使用，减少系统的暴露面。
+查看内核是否支持和使用seccomp  利用/proc//status中的Seccomp查看，如果有该字段，说明支持Seccomp。  cat /proc/1/status | grep Seccomp
+ 利用prctl(2)的PR_GET_SECCOMP的参数获取当前进程的seccomp状态。返回值0表示没有使用seccomp;返回值2表示使用了seccomp并处于SECCOMP_MODE_FILTER模式；其他情况进程会被SIGKILL信号杀死  ">
+    <meta property="og:description" content=" 什么是Seccomp？ 全称：secure computing mode， 是linux kernel2.6.23版本以后支持的一种安全机制。
+在Linux中，系统调用会直接暴露给用户态程序，因此不安全的代码滥用调用就会对系统安全造成威胁。通过seccomp可以限制程序对于系统调用的使用，减少系统的暴露面。
+查看内核是否支持和使用seccomp  利用/proc//status中的Seccomp查看，如果有该字段，说明支持Seccomp。  cat /proc/1/status | grep Seccomp
+ 利用prctl(2)的PR_GET_SECCOMP的参数获取当前进程的seccomp状态。返回值0表示没有使用seccomp;返回值2表示使用了seccomp并处于SECCOMP_MODE_FILTER模式；其他情况进程会被SIGKILL信号杀死  ">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="Readme">
-    <meta property="og:url" content="/2018/05/readme/">
+    <meta property="og:title" content="Seccomp">
+    <meta property="og:url" content="/2018/06/seccomp/">
     <meta property="og:site_name" content="pytimer">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="pytimer">
-    <meta name="twitter:description" content="Readme Hello, welcome to Pytimer world!
-Language Golang python">
+    <meta name="twitter:description" content=" 什么是Seccomp？ 全称：secure computing mode， 是linux kernel2.6.23版本以后支持的一种安全机制。
+在Linux中，系统调用会直接暴露给用户态程序，因此不安全的代码滥用调用就会对系统安全造成威胁。通过seccomp可以限制程序对于系统调用的使用，减少系统的暴露面。
+查看内核是否支持和使用seccomp  利用/proc//status中的Seccomp查看，如果有该字段，说明支持Seccomp。  cat /proc/1/status | grep Seccomp
+ 利用prctl(2)的PR_GET_SECCOMP的参数获取当前进程的seccomp状态。返回值0表示没有使用seccomp;返回值2表示使用了seccomp并处于SECCOMP_MODE_FILTER模式；其他情况进程会被SIGKILL信号杀死  ">
     
     
 
@@ -158,19 +164,27 @@ Language Golang python">
             <div class="post-header main-content-wrap text-left">
   
     <h1 class="post-title" itemprop="headline">
-      Readme
+      Seccomp
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2018-05-18T16:29:28&#43;08:00">
+      <time itemprop="datePublished" datetime="2018-06-01T14:17:19&#43;08:00">
         
-  May 18, 2018
+  June 1, 2018
 
       </time>
     
     
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://pytimer.github.io/categories/linux">linux</a>
+    
+  
+
   </div>
 
 </div>
@@ -179,13 +193,23 @@ Language Golang python">
             <div class="main-content-wrap">
               
 
-<h1 id="readme">Readme</h1>
+<h2 id="什么是seccomp">什么是Seccomp？</h2>
 
-<p>Hello, welcome to Pytimer world!</p>
+<p>全称：secure computing mode， 是linux kernel2.6.23版本以后支持的一种安全机制。</p>
 
-<h2 id="language">Language</h2>
+<p>在Linux中，系统调用会直接暴露给用户态程序，因此不安全的代码滥用调用就会对系统安全造成威胁。通过seccomp可以限制程序对于系统调用的使用，减少系统的暴露面。</p>
 
-<p>Golang python</p>
+<h2 id="查看内核是否支持和使用seccomp">查看内核是否支持和使用seccomp</h2>
+
+<ul>
+<li>利用/proc/<pid>/status中的Seccomp查看，如果有该字段，说明支持Seccomp。</li>
+</ul>
+
+<p><code>cat /proc/1/status | grep Seccomp</code></p>
+
+<ul>
+<li>利用<a href="http://man7.org/linux/man-pages/man2/prctl.2.html">prctl(2)</a>的PR_GET_SECCOMP的参数获取当前进程的seccomp状态。返回值0表示没有使用seccomp;返回值2表示使用了seccomp并处于SECCOMP_MODE_FILTER模式；其他情况进程会被SIGKILL信号杀死</li>
+</ul>
 
               
             </div>
@@ -201,7 +225,7 @@ Language Golang python">
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/05/golang-contribution/" data-tooltip="Golang Contribution">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
@@ -209,7 +233,7 @@ Language Golang python">
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/05/golang-contribution/" data-tooltip="Golang Contribution">
               
                   <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
                   <i class="fa fa-angle-right"></i>
@@ -227,19 +251,19 @@ Language Golang python">
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2018/05/readme/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2018/06/seccomp/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2018/05/readme/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2018/06/seccomp/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2018/05/readme/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2018/06/seccomp/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -287,7 +311,7 @@ Language Golang python">
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/05/golang-contribution/" data-tooltip="Golang Contribution">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
@@ -295,7 +319,7 @@ Language Golang python">
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--disabled">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/05/golang-contribution/" data-tooltip="Golang Contribution">
               
                   <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
                   <i class="fa fa-angle-right"></i>
@@ -313,19 +337,19 @@ Language Golang python">
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2018/05/readme/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2018/06/seccomp/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2018/05/readme/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2018/06/seccomp/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2018/05/readme/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2018/06/seccomp/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -355,19 +379,19 @@ Language Golang python">
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fpytimer.github.io%2F2018%2F05%2Freadme%2F">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fpytimer.github.io%2F2018%2F06%2Fseccomp%2F">
           <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fpytimer.github.io%2F2018%2F05%2Freadme%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fpytimer.github.io%2F2018%2F06%2Fseccomp%2F">
           <i class="fa fa-twitter"></i><span>Share on Twitter</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fpytimer.github.io%2F2018%2F05%2Freadme%2F">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fpytimer.github.io%2F2018%2F06%2Fseccomp%2F">
           <i class="fa fa-google-plus"></i><span>Share on Google&#43;</span>
         </a>
       </li>
@@ -538,9 +562,9 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'https:\/\/pytimer.github.io\/2018\/05\/readme\/';
+          this.page.url = 'https:\/\/pytimer.github.io\/2018\/06\/seccomp\/';
           
-            this.page.identifier = '\/2018\/05\/readme\/'
+            this.page.identifier = '\/2018\/06\/seccomp\/'
           
         };
         (function() {
