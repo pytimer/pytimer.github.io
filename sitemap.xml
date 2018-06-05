@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://pytimer.github.io/2018/06/suid-sgid%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E/</loc>
+    <lastmod>2018-06-05T19:44:06+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://pytimer.github.io/2018/06/cloud-native/</loc>
     <lastmod>2018-06-01T14:38:01+08:00</lastmod>
   </url>
@@ -33,25 +38,44 @@
   </url>
   
   <url>
+    <loc>https://pytimer.github.io/tags/egid/</loc>
+    <lastmod>2018-06-05T19:44:06+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/euid/</loc>
+    <lastmod>2018-06-05T19:44:06+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://pytimer.github.io/categories/linux/</loc>
-    <lastmod>2018-06-01T14:17:19+08:00</lastmod>
+    <lastmod>2018-06-05T19:44:06+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://pytimer.github.io/post/</loc>
-    <lastmod>2018-06-01T14:38:01+08:00</lastmod>
+    <lastmod>2018-06-05T19:44:06+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://pytimer.github.io/tags/</loc>
+    <lastmod>2018-06-05T19:44:06+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://pytimer.github.io/</loc>
-    <lastmod>2018-06-01T14:38:01+08:00</lastmod>
+    <lastmod>2018-06-05T19:44:06+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/%E6%9D%83%E9%99%90/</loc>
+    <lastmod>2018-06-05T19:44:06+08:00</lastmod>
     <priority>0</priority>
   </url>
   
