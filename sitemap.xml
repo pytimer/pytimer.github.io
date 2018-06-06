@@ -3,6 +3,21 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://pytimer.github.io/2018/06/flag%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%A7%A3%E6%9E%90/</loc>
+    <lastmod>2018-06-06T09:47:21+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/2018/06/godoc%E4%BB%8B%E7%BB%8D/</loc>
+    <lastmod>2018-06-06T09:47:06+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/2018/06/go%E8%B0%83%E7%94%A8windows-dll/</loc>
+    <lastmod>2018-06-06T09:45:10+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://pytimer.github.io/2018/06/suid-sgid%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E/</loc>
     <lastmod>2018-06-05T19:44:06+08:00</lastmod>
   </url>
@@ -18,7 +33,7 @@
   </url>
   
   <url>
-    <loc>https://pytimer.github.io/2018/05/golang-contribution/</loc>
+    <loc>https://pytimer.github.io/2018/05/golang/go%E6%A0%87%E5%87%86%E5%BA%93%E8%B4%A1%E7%8C%AE%E6%96%B9%E5%BC%8F/</loc>
     <lastmod>2018-05-24T10:48:15+08:00</lastmod>
   </url>
   
@@ -50,6 +65,30 @@
   </url>
   
   <url>
+    <loc>https://pytimer.github.io/tags/gerrit/</loc>
+    <lastmod>2018-05-24T10:48:15+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/git/</loc>
+    <lastmod>2018-05-24T10:48:15+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/categories/go/</loc>
+    <lastmod>2018-06-06T09:47:06+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/godoc/</loc>
+    <lastmod>2018-06-06T09:47:06+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://pytimer.github.io/categories/linux/</loc>
     <lastmod>2018-06-05T19:44:06+08:00</lastmod>
     <priority>0</priority>
@@ -57,7 +96,7 @@
   
   <url>
     <loc>https://pytimer.github.io/post/</loc>
-    <lastmod>2018-06-05T19:44:06+08:00</lastmod>
+    <lastmod>2018-06-06T09:47:21+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -69,7 +108,7 @@
   
   <url>
     <loc>https://pytimer.github.io/</loc>
-    <lastmod>2018-06-05T19:44:06+08:00</lastmod>
+    <lastmod>2018-06-06T09:47:21+08:00</lastmod>
     <priority>0</priority>
   </url>
   

@@ -1,5 +1,9 @@
 
 
+  
+    
+  
+
 
   
 
@@ -16,25 +20,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.40.3 with theme Tranquilpeak 0.4.3-BETA">
-    <title>权限</title>
+    <title>flag命令行解析</title>
     <meta name="author" content="Pytimer">
     <meta name="keywords" content="">
 
     <link rel="icon" href="https://pytimer.github.io/favicon.png">
     
-      <link rel="alternate" type="application/rss+xml" title="RSS" href="https://pytimer.github.io/tags/%E6%9D%83%E9%99%90/index.xml">
-    
 
     
-    <meta name="description" content="Hugo tranquilpeak theme pytimer">
-    <meta property="og:description" content="Hugo tranquilpeak theme pytimer">
+    <meta name="description" content="flag用于解析命令行参数
+语法 -flag //只支持bool -flag=x //都支持 -flag x //支持非bool
+bool类型可以为：1,0,t,f,T,F,true,false,True,False,TRUE,FALSE
+flag定义参数  flag.String()等flag.Xxx()方法，flag该方式返回一个指针 flag.XxxVar()方法将flag参数绑定到一个变量 flag.Var()方法绑定自定义类型，自定义类型需要实现Value()接口  flag.Parse() 解析命令行参数到定义的flag
+获取非flag参数 flag.Args() flag.Arg(i)
+绑定自定义的flag参数 绑定自定义的flag参数需要实现标准库里的Value接口。
+// Value is the interface to the dynamic value stored in a flag. // (The default value is represented as a string.) // // If a Value has an IsBoolFlag() bool method returning true, // the command-line parser makes -name equivalent to -name=true // rather than using the next command-line argument.">
+    <meta property="og:description" content="flag用于解析命令行参数
+语法 -flag //只支持bool -flag=x //都支持 -flag x //支持非bool
+bool类型可以为：1,0,t,f,T,F,true,false,True,False,TRUE,FALSE
+flag定义参数  flag.String()等flag.Xxx()方法，flag该方式返回一个指针 flag.XxxVar()方法将flag参数绑定到一个变量 flag.Var()方法绑定自定义类型，自定义类型需要实现Value()接口  flag.Parse() 解析命令行参数到定义的flag
+获取非flag参数 flag.Args() flag.Arg(i)
+绑定自定义的flag参数 绑定自定义的flag参数需要实现标准库里的Value接口。
+// Value is the interface to the dynamic value stored in a flag. // (The default value is represented as a string.) // // If a Value has an IsBoolFlag() bool method returning true, // the command-line parser makes -name equivalent to -name=true // rather than using the next command-line argument.">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="权限">
-    <meta property="og:url" content="/tags/%E6%9D%83%E9%99%90/">
+    <meta property="og:title" content="flag命令行解析">
+    <meta property="og:url" content="/2018/06/flag%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%A7%A3%E6%9E%90/">
     <meta property="og:site_name" content="pytimer">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="pytimer">
-    <meta name="twitter:description" content="Hugo tranquilpeak theme pytimer">
+    <meta name="twitter:description" content="flag用于解析命令行参数
+语法 -flag //只支持bool -flag=x //都支持 -flag x //支持非bool
+bool类型可以为：1,0,t,f,T,F,true,false,True,False,TRUE,FALSE
+flag定义参数  flag.String()等flag.Xxx()方法，flag该方式返回一个指针 flag.XxxVar()方法将flag参数绑定到一个变量 flag.Var()方法绑定自定义类型，自定义类型需要实现Value()接口  flag.Parse() 解析命令行参数到定义的flag
+获取非flag参数 flag.Args() flag.Arg(i)
+绑定自定义的flag参数 绑定自定义的flag参数需要实现标准库里的Value接口。
+// Value is the interface to the dynamic value stored in a flag. // (The default value is represented as a string.) // // If a Value has an IsBoolFlag() bool method returning true, // the command-line parser makes -name equivalent to -name=true // rather than using the next command-line argument.">
     
     
 
@@ -69,7 +89,7 @@
 
   <body>
     <div id="blog">
-      <header id="header" data-behavior="1">
+      <header id="header" data-behavior="4">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
     <a class="header-title-link" href="https://pytimer.github.io/">pytimer</a>
@@ -77,7 +97,7 @@
   
 </header>
 
-      <nav id="sidebar" data-behavior="1">
+      <nav id="sidebar" data-behavior="4">
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
@@ -156,77 +176,214 @@
 </nav>
 
       
-        
 
-      
-      <div id="main" data-behavior="1"
+      <div id="main" data-behavior="4"
         class="
                hasCoverMetaIn
                ">
-        
-          <section class="postShorten-group main-content-wrap">
-            
-            
-              
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
   
-    
-      
-        
-      
-    
+    <h1 class="post-title" itemprop="headline">
+      flag命令行解析
+    </h1>
   
-
-
   
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://pytimer.github.io/2018/06/suid-sgid%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E/">
-          SUID SGID详细说明
-        </a>
-      </h1>
-      
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2018-06-05T19:44:06&#43;08:00">
+      <time itemprop="datePublished" datetime="2018-06-06T09:47:21&#43;08:00">
         
-  June 5, 2018
+  June 6, 2018
 
       </time>
     
     
-  
-  
-    <span>in</span>
-    
-      <a class="category-link" href="https://pytimer.github.io/categories/linux">linux</a>
-    
-  
-
   </div>
 
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      Unix下关于文件权限的说明 9 8 7 6 5 4 3 2 1 0 - r w x r - x r - x  第9位表示文件类型，类型说明：
-   文件类型 说明     p 管道文件   d 目录文件   l 符号连接文件   - 普通文件   s socket文件   c 字符设备文件   b 块设备文件    第8-6位 文件所有者权限 第5-3位 同组用户权限 第2-0位 其他用户权限
-r表示可读 w表示可写 x表示可执行
-      <p>
-        <a href="https://pytimer.github.io/2018/06/suid-sgid%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E/" class="postShorten-excerpt_link link">Continue reading</a>
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              
+
+<p>flag用于解析命令行参数</p>
+
+<h2 id="语法">语法</h2>
+
+<p>-flag //只支持bool
+-flag=x //都支持
+-flag x //支持非bool</p>
+
+<p>bool类型可以为：1,0,t,f,T,F,true,false,True,False,TRUE,FALSE</p>
+
+<h2 id="flag定义参数">flag定义参数</h2>
+
+<ul>
+<li>flag.String()等flag.Xxx()方法，flag该方式返回一个指针</li>
+<li>flag.XxxVar()方法将flag参数绑定到一个变量</li>
+<li>flag.Var()方法绑定自定义类型，自定义类型需要实现Value()接口</li>
+</ul>
+
+<h2 id="flag-parse">flag.Parse()</h2>
+
+<p>解析命令行参数到定义的flag</p>
+
+<h2 id="获取非flag参数">获取非flag参数</h2>
+
+<p>flag.Args() flag.Arg(i)</p>
+
+<h2 id="绑定自定义的flag参数">绑定自定义的flag参数</h2>
+
+<p>绑定自定义的flag参数需要实现标准库里的Value接口。</p>
+
+<pre><code class="language-go">// Value is the interface to the dynamic value stored in a flag.
+// (The default value is represented as a string.)
+//
+// If a Value has an IsBoolFlag() bool method returning true,
+// the command-line parser makes -name equivalent to -name=true
+// rather than using the next command-line argument.
+//
+// Set is called once, in command line order, for each flag present.
+// The flag package may call the String method with a zero-valued receiver,
+// such as a nil pointer.
+type Value interface {
+	String() string
+	Set(string) error
+}
+
+// Getter is an interface that allows the contents of a Value to be retrieved.
+// It wraps the Value interface, rather than being part of it, because it
+// appeared after Go 1 and its compatibility rules. All Value types provided
+// by this package satisfy the Getter interface.
+type Getter interface {
+	Value
+	Get() interface{}
+}
+</code></pre>
+
+<h3 id="示例">示例</h3>
+
+<pre><code class="language-go">package main
+
+import (
+	&quot;flag&quot;
+	&quot;fmt&quot;
+)
+
+type human struct {
+	Name string
+}
+
+func (h *human) String() string {
+	return h.Name
+}
+
+func (h *human) Set(val string) error {
+	h.Name = val
+	return nil
+}
+
+var people human
+
+func main() {
+	flag.Var(&amp;people, &quot;h&quot;, &quot;xxxxxxxxxxxxxxxxx&quot;)
+	flag.Parse()
+
+	fmt.Println(people)
+}
+
+// output
+// $ go run main.go -h pytimer
+// {pytimer}
+</code></pre>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/06/godoc%E4%BB%8B%E7%BB%8D/" data-tooltip="godoc介绍">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
         
-      </p>
-    </div>
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2018/06/flag%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%A7%A3%E6%9E%90/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2018/06/flag%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%A7%A3%E6%9E%90/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2018/06/flag%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%A7%A3%E6%9E%90/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
   </div>
-  
-</article>
+
 
             
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
             
-
-          </section>
-        
+          </div>
+        </article>
         <footer id="footer" class="main-content-wrap">
   <span class="copyrights">
     &copy; 2018 <a href="https://github.com/pytimer">pytimer</a>. All Rights Reserved
@@ -234,6 +391,102 @@ r表示可读 w表示可写 x表示可执行
 </footer>
 
       </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">NEXT</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/06/godoc%E4%BB%8B%E7%BB%8D/" data-tooltip="godoc介绍">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">PREVIOUS</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2018/06/flag%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%A7%A3%E6%9E%90/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2018/06/flag%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%A7%A3%E6%9E%90/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2018/06/flag%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%A7%A3%E6%9E%90/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fpytimer.github.io%2F2018%2F06%2Fflag%25E5%2591%25BD%25E4%25BB%25A4%25E8%25A1%258C%25E8%25A7%25A3%25E6%259E%2590%2F">
+          <i class="fa fa-facebook-official"></i><span>Share on Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fpytimer.github.io%2F2018%2F06%2Fflag%25E5%2591%25BD%25E4%25BB%25A4%25E8%25A1%258C%25E8%25A7%25A3%25E6%259E%2590%2F">
+          <i class="fa fa-twitter"></i><span>Share on Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fpytimer.github.io%2F2018%2F06%2Fflag%25E5%2591%25BD%25E4%25BB%25A4%25E8%25A1%258C%25E8%25A7%25A3%25E6%259E%2590%2F">
+          <i class="fa fa-google-plus"></i><span>Share on Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
     </div>
     
     <div id="about">
@@ -494,6 +747,32 @@ $(document).ready(function() {
 });
 </script>
 
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/pytimer.github.io\/2018\/06\/flag%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%A7%A3%E6%9E%90\/';
+          
+            this.page.identifier = '\/2018\/06\/flag%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%A7%A3%E6%9E%90\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
 
 
 

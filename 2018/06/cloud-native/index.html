@@ -438,6 +438,69 @@ Kubernetes与云原生2017年年终总结与2018年展望">
           <div class="media">
             
             <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/06/flag%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%A7%A3%E6%9E%90/">
+                <h3 class="media-heading">flag命令行解析</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">flag用于解析命令行参数
+语法 -flag //只支持bool -flag=x //都支持 -flag x //支持非bool
+bool类型可以为：1,0,t,f,T,F,true,false,True,False,TRUE,FALSE
+flag定义参数  flag.String()等flag.Xxx()方法，flag该方式返回一个指针 flag.XxxVar()方法将flag参数绑定到一个变量 flag.Var()方法绑定自定义类型，自定义类型需要实现Value()接口  flag.Parse() 解析命令行参数到定义的flag
+获取非flag参数 flag.Args() flag.Arg(i)
+绑定自定义的flag参数 绑定自定义的flag参数需要实现标准库里的Value接口。
+// Value is the interface to the dynamic value stored in a flag. // (The default value is represented as a string.) // // If a Value has an IsBoolFlag() bool method returning true, // the command-line parser makes -name equivalent to -name=true // rather than using the next command-line argument.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/06/godoc%E4%BB%8B%E7%BB%8D/">
+                <h3 class="media-heading">godoc介绍</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">godoc为go语言提供文档生成的工具
+godoc有两种使用的方法 命令行使用 godoc fmt Println // 输出fmt.Println的用法文档 godoc -src fmt Println //fmt.Println的实现  启动server godoc -http=&quot;:6060&quot;  搜索 godoc -q Reader  编写godoc文档 规则：
+ 类型、变量、函数、常量编写注释的时候，直接在声明前编写注释，中间不留空行。  // Fprint formats using the default formats for its operands and writes to w. // Spaces are added between operands when neither is a string. // It returns the number of bytes written and any write error encountered. func Fprint(w io.Writer, a .</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/06/go%E8%B0%83%E7%94%A8windows-dll/">
+                <h3 class="media-heading">Go调用Windows DLL</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">动态加载DLL 在编译之前不知道将要调用什么函数，在运行过程中根据需要决定调用哪些函数。
+调用方法 LoadLibrary 加载动态链接库到内存，用GetProcAddress动态获得DLL函数入口地址
+使用完后，调用FreeLibrary从内存中把它卸载
+参考地址：
+动态载入DLL所需要的三个函数详解（LoadLibrary,GetProcAddress,FreeLibrary） - westsoft - 博客园</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
               <a class="link-unstyled" href="https://pytimer.github.io/2018/06/suid-sgid%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E/">
                 <h3 class="media-heading">SUID SGID详细说明</h3>
               </a>
@@ -495,15 +558,15 @@ Kubernetes与云原生2017年年终总结与2018年展望</div>
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="https://pytimer.github.io/2018/05/golang-contribution/">
-                <h3 class="media-heading">Golang Contribution</h3>
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/05/golang/go%E6%A0%87%E5%87%86%E5%BA%93%E8%B4%A1%E7%8C%AE%E6%96%B9%E5%BC%8F/">
+                <h3 class="media-heading">golang/go标准库贡献方式</h3>
               </a>
               <span class="media-meta">
                 <span class="media-date text-small">
                   May 5, 2018
                 </span>
               </span>
-              <div class="media-content hide-xs font-merryweather">golang/go标准库贡献方式 阅读contribute内容 https://golang.org/doc/contribute.html
+              <div class="media-content hide-xs font-merryweather">阅读contribute内容 https://golang.org/doc/contribute.html
 准备工作 安装配置go-contrib-init工具 $ go get -v -u golang.org/x/tools/cmd/go-contrib-init $ cd /code/to/edit $ go-contrib-init  安装git 配置git使用Gerrit  申请Google Account。
  登录googlesource并生成密码
   进入go.googlesourc.com，单击右上角的&rdquo;Generate Password&rdquo;
@@ -546,7 +609,7 @@ Language Golang python</div>
          data-message-zero="no post found"
          data-message-one="1 post found"
          data-message-other="{n} posts found">
-         5 posts found
+         8 posts found
       </p>
     </div>
   </div>

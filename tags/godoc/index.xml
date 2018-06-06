@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Godoc on pytimer</title>
+    <link>https://pytimer.github.io/tags/godoc/</link>
+    <description>Recent content in Godoc on pytimer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 06 Jun 2018 09:47:06 +0800</lastBuildDate>
+    
+	<atom:link href="https://pytimer.github.io/tags/godoc/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>godoc介绍</title>
+      <link>https://pytimer.github.io/2018/06/godoc%E4%BB%8B%E7%BB%8D/</link>
+      <pubDate>Wed, 06 Jun 2018 09:47:06 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/2018/06/godoc%E4%BB%8B%E7%BB%8D/</guid>
+      <description>godoc为go语言提供文档生成的工具
+godoc有两种使用的方法 命令行使用 godoc fmt Println // 输出fmt.Println的用法文档 godoc -src fmt Println //fmt.Println的实现  启动server godoc -http=&amp;quot;:6060&amp;quot;  搜索 godoc -q Reader  编写godoc文档 规则：
+ 类型、变量、函数、常量编写注释的时候，直接在声明前编写注释，中间不留空行。  // Fprint formats using the default formats for its operands and writes to w. // Spaces are added between operands when neither is a string. // It returns the number of bytes written and any write error encountered. func Fprint(w io.Writer, a .</description>
+    </item>
+    
+  </channel>
+</rss>
