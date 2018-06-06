@@ -181,6 +181,72 @@
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://pytimer.github.io/2018/05/golang/go%E6%A0%87%E5%87%86%E5%BA%93%E8%B4%A1%E7%8C%AE%E6%96%B9%E5%BC%8F/">
+          golang/go标准库贡献方式
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2018-05-24T10:48:15&#43;08:00">
+        
+  May 24, 2018
+
+      </time>
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://pytimer.github.io/categories/go">Go</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      阅读contribute内容 https://golang.org/doc/contribute.html
+准备工作 安装配置go-contrib-init工具 $ go get -v -u golang.org/x/tools/cmd/go-contrib-init $ cd /code/to/edit $ go-contrib-init  安装git 配置git使用Gerrit  申请Google Account。
+ 登录googlesource并生成密码
+  进入go.googlesourc.com，单击右上角的&rdquo;Generate Password&rdquo;
+ 执行完第2步后，会看到&rdquo;Configure Git&rdquo;页面，该页面说明如何配置git使用你的认证token，按说明执行后，在~/.gitcookies文件中可以看到你的token
+ 注册Gerrit
+  用你的Google Account登录go-review.googlesource.com/login/
+Contributor License  登录Gerrit
+ 点击右上角头像的settings，再点击&rdquo;Agreements&rdquo;，如果没有任何的agreements，点击&rdquo;New Contributor Agreement&rdquo;，按提示进行操作。
+  设置开发环境 安装git-codereview工具 $ go get -u golang.org/x/review/git-codereview  安装完后git-codereview会在$GOPATH/bin下，把$GOPATH/bin添加到PATH。 (Windows的话执行git --exec-path查看git的执行路径，把git-codereview拷贝到该目录下)
+执行以下命令查看是否安装完成
+$ git codereview help  设置git aliases 把以下内容写入到~/.gitconfig文件
+[alias] change = codereview change gofmt = codereview gofmt mail = codereview mail pending = codereview pending submit = codereview submit sync = codereview sync  代码贡献 讨论设计 在提交代码之前，先去github仓库上提交issue，说明自己的意图，经过讨论后再进行代码的提交
+      <p>
+        <a href="https://pytimer.github.io/2018/05/golang/go%E6%A0%87%E5%87%86%E5%BA%93%E8%B4%A1%E7%8C%AE%E6%96%B9%E5%BC%8F/" class="postShorten-excerpt_link link">Continue reading</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://pytimer.github.io/2018/05/readme/">
           Readme
         </a>
@@ -287,6 +353,35 @@ Language Golang python
       <div class="no-result text-color-light text-center">no post found</div>
       <div class="results">
         
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/06/go%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7delve/">
+                <h3 class="media-heading">Go调试工具Delve</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">安装 delve/Documentation/installation · derekparker/delve · GitHub提供了所有操作系统平台上安装Delve的说明，
+用法 可以使用Delve调试Go程序
+Delve支持远程调试、命令行调试、集成环境调试  远程调试  如果程序运行在服务器，我们又没有办法查看到程序的源码，我们可以通过远程调试的方式进行
+ 在服务器上查看到程序的pid  ps -ef|grep &lt;program&gt;
+ 执行attach命令  dlv attach &lt;PID&gt; --headless --api-version=2 --log --listen=:8081
+ 在本机执行connect命令  dlv connect &lt;server_ip&gt;:8081
+如果本机dlv退出，远程的dlv也会退出
+本机dlv没有启动，远程dlv直接关闭，会导致进程退出
+本机dlv退出的时候，会询问是否关闭调试进程的pid
+ 命令行调试  dlv debug
+具体可以查看Getting started with Delve该文档，有比较详细的说明
+ 集成环境调试  [Chinese]delve · nebulasio/wiki Wiki · GitHub
+常用命令说明    命令 描述     args 打印函数参数   break (alias: b) 设置一个断点   breakpoints (alias: bp) 打印活动断点信息   clear 删除断点   clearall 删除所有的断点   condition (alias: cond) 设置断点条件   config 改变配置参数   continue (alias: c) 运行到断点或程序终止   exit (alias: quit q)   funcs 打印函数列表   goroutine 显示或更改当前goroutine   goroutines 列出程序的全部goroutines   help (alias: h) 打印出帮助信息   list (alias: ls l)   locals 打印局部变量   next (alias: n) 跳到下一行   on 在遇到断点时执行一个命令   print (alias: p) 表达式   regs 打印CPU寄存器的内容   restart (alias: r) 重启进程   set 更改变量的值   source 执行包含delve命令列表的文件   sources 打印源文件列表   stack (alias: bt) 打印堆栈跟踪信息   step (alias: s) 单步执行程序   step-instruction (alias: si) 单步单个执行cpu指令   stepout 退出当前函数   thread (alias: tr) 切换到指定的线程   threads 打印每一个跟踪线程的信息   trace (alias: t) 设置跟踪点   types 打印类型列表   vars 打印某个包内的(全局)变量   whatis 打印表达式的类型    完整的命令说明：delve/Documentation/cli · derekparker/delve · GitHub</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
         
           <div class="media">
             
@@ -462,7 +557,7 @@ Language Golang python</div>
          data-message-zero="no post found"
          data-message-one="1 post found"
          data-message-other="{n} posts found">
-         8 posts found
+         9 posts found
       </p>
     </div>
   </div>

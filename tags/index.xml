@@ -6,10 +6,46 @@
     <description>Recent content in Tags on pytimer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 05 Jun 2018 19:44:06 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 01 Jun 2018 14:38:01 +0800</lastBuildDate>
     
 	<atom:link href="https://pytimer.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Cloudnative</title>
+      <link>https://pytimer.github.io/tags/cloudnative/</link>
+      <pubDate>Fri, 01 Jun 2018 14:38:01 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/cloudnative/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Command</title>
+      <link>https://pytimer.github.io/tags/command/</link>
+      <pubDate>Wed, 06 Jun 2018 09:47:21 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/command/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Debug</title>
+      <link>https://pytimer.github.io/tags/debug/</link>
+      <pubDate>Wed, 06 Jun 2018 10:42:03 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/debug/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Dlv</title>
+      <link>https://pytimer.github.io/tags/dlv/</link>
+      <pubDate>Wed, 06 Jun 2018 10:42:03 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/dlv/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Egid</title>
@@ -53,6 +89,15 @@
       <pubDate>Wed, 06 Jun 2018 09:47:06 +0800</pubDate>
       
       <guid>https://pytimer.github.io/tags/godoc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Kubernetes</title>
+      <link>https://pytimer.github.io/tags/kubernetes/</link>
+      <pubDate>Fri, 01 Jun 2018 14:38:01 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/kubernetes/</guid>
       <description></description>
     </item>
     

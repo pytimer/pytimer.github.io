@@ -6,10 +6,31 @@
     <description>Recent content in Posts on pytimer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 06 Jun 2018 09:47:21 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 06 Jun 2018 10:42:03 +0800</lastBuildDate>
     
 	<atom:link href="https://pytimer.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Go调试工具Delve</title>
+      <link>https://pytimer.github.io/2018/06/go%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7delve/</link>
+      <pubDate>Wed, 06 Jun 2018 10:42:03 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/2018/06/go%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7delve/</guid>
+      <description>安装 delve/Documentation/installation · derekparker/delve · GitHub提供了所有操作系统平台上安装Delve的说明，
+用法 可以使用Delve调试Go程序
+Delve支持远程调试、命令行调试、集成环境调试  远程调试  如果程序运行在服务器，我们又没有办法查看到程序的源码，我们可以通过远程调试的方式进行
+ 在服务器上查看到程序的pid  ps -ef|grep &amp;lt;program&amp;gt;
+ 执行attach命令  dlv attach &amp;lt;PID&amp;gt; --headless --api-version=2 --log --listen=:8081
+ 在本机执行connect命令  dlv connect &amp;lt;server_ip&amp;gt;:8081
+如果本机dlv退出，远程的dlv也会退出
+本机dlv没有启动，远程dlv直接关闭，会导致进程退出
+本机dlv退出的时候，会询问是否关闭调试进程的pid
+ 命令行调试  dlv debug
+具体可以查看Getting started with Delve该文档，有比较详细的说明
+ 集成环境调试  [Chinese]delve · nebulasio/wiki Wiki · GitHub
+常用命令说明    命令 描述     args 打印函数参数   break (alias: b) 设置一个断点   breakpoints (alias: bp) 打印活动断点信息   clear 删除断点   clearall 删除所有的断点   condition (alias: cond) 设置断点条件   config 改变配置参数   continue (alias: c) 运行到断点或程序终止   exit (alias: quit q)   funcs 打印函数列表   goroutine 显示或更改当前goroutine   goroutines 列出程序的全部goroutines   help (alias: h) 打印出帮助信息   list (alias: ls l)   locals 打印局部变量   next (alias: n) 跳到下一行   on 在遇到断点时执行一个命令   print (alias: p) 表达式   regs 打印CPU寄存器的内容   restart (alias: r) 重启进程   set 更改变量的值   source 执行包含delve命令列表的文件   sources 打印源文件列表   stack (alias: bt) 打印堆栈跟踪信息   step (alias: s) 单步执行程序   step-instruction (alias: si) 单步单个执行cpu指令   stepout 退出当前函数   thread (alias: tr) 切换到指定的线程   threads 打印每一个跟踪线程的信息   trace (alias: t) 设置跟踪点   types 打印类型列表   vars 打印某个包内的(全局)变量   whatis 打印表达式的类型    完整的命令说明：delve/Documentation/cli · derekparker/delve · GitHub</description>
+    </item>
     
     <item>
       <title>flag命令行解析</title>

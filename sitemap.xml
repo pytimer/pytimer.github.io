@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://pytimer.github.io/2018/06/go%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7delve/</loc>
+    <lastmod>2018-06-06T10:42:03+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://pytimer.github.io/2018/06/flag%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%A7%A3%E6%9E%90/</loc>
     <lastmod>2018-06-06T09:47:21+08:00</lastmod>
   </url>
@@ -53,6 +58,36 @@
   </url>
   
   <url>
+    <loc>https://pytimer.github.io/categories/cloud/</loc>
+    <lastmod>2018-06-01T14:38:01+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/cloudnative/</loc>
+    <lastmod>2018-06-01T14:38:01+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/command/</loc>
+    <lastmod>2018-06-06T09:47:21+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/debug/</loc>
+    <lastmod>2018-06-06T10:42:03+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/dlv/</loc>
+    <lastmod>2018-06-06T10:42:03+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://pytimer.github.io/tags/egid/</loc>
     <lastmod>2018-06-05T19:44:06+08:00</lastmod>
     <priority>0</priority>
@@ -78,13 +113,19 @@
   
   <url>
     <loc>https://pytimer.github.io/categories/go/</loc>
-    <lastmod>2018-06-06T09:47:06+08:00</lastmod>
+    <lastmod>2018-06-06T10:42:03+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://pytimer.github.io/tags/godoc/</loc>
     <lastmod>2018-06-06T09:47:06+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/kubernetes/</loc>
+    <lastmod>2018-06-01T14:38:01+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -96,19 +137,19 @@
   
   <url>
     <loc>https://pytimer.github.io/post/</loc>
-    <lastmod>2018-06-06T09:47:21+08:00</lastmod>
+    <lastmod>2018-06-06T10:42:03+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://pytimer.github.io/tags/</loc>
-    <lastmod>2018-06-05T19:44:06+08:00</lastmod>
+    <lastmod>2018-06-01T14:38:01+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://pytimer.github.io/</loc>
-    <lastmod>2018-06-06T09:47:21+08:00</lastmod>
+    <lastmod>2018-06-06T10:42:03+08:00</lastmod>
     <priority>0</priority>
   </url>
   

@@ -184,6 +184,132 @@
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://pytimer.github.io/2018/06/go%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7delve/">
+          Go调试工具Delve
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2018-06-06T10:42:03&#43;08:00">
+        
+  June 6, 2018
+
+      </time>
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://pytimer.github.io/categories/go">Go</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      安装 delve/Documentation/installation · derekparker/delve · GitHub提供了所有操作系统平台上安装Delve的说明，
+用法 可以使用Delve调试Go程序
+Delve支持远程调试、命令行调试、集成环境调试  远程调试  如果程序运行在服务器，我们又没有办法查看到程序的源码，我们可以通过远程调试的方式进行
+ 在服务器上查看到程序的pid  ps -ef|grep &lt;program&gt;
+ 执行attach命令  dlv attach &lt;PID&gt; --headless --api-version=2 --log --listen=:8081
+ 在本机执行connect命令  dlv connect &lt;server_ip&gt;:8081
+如果本机dlv退出，远程的dlv也会退出
+本机dlv没有启动，远程dlv直接关闭，会导致进程退出
+本机dlv退出的时候，会询问是否关闭调试进程的pid
+ 命令行调试  dlv debug
+具体可以查看Getting started with Delve该文档，有比较详细的说明
+ 集成环境调试  [Chinese]delve · nebulasio/wiki Wiki · GitHub
+常用命令说明    命令 描述     args 打印函数参数   break (alias: b) 设置一个断点   breakpoints (alias: bp) 打印活动断点信息   clear 删除断点   clearall 删除所有的断点   condition (alias: cond) 设置断点条件   config 改变配置参数   continue (alias: c) 运行到断点或程序终止   exit (alias: quit q)   funcs 打印函数列表   goroutine 显示或更改当前goroutine   goroutines 列出程序的全部goroutines   help (alias: h) 打印出帮助信息   list (alias: ls l)   locals 打印局部变量   next (alias: n) 跳到下一行   on 在遇到断点时执行一个命令   print (alias: p) 表达式   regs 打印CPU寄存器的内容   restart (alias: r) 重启进程   set 更改变量的值   source 执行包含delve命令列表的文件   sources 打印源文件列表   stack (alias: bt) 打印堆栈跟踪信息   step (alias: s) 单步执行程序   step-instruction (alias: si) 单步单个执行cpu指令   stepout 退出当前函数   thread (alias: tr) 切换到指定的线程   threads 打印每一个跟踪线程的信息   trace (alias: t) 设置跟踪点   types 打印类型列表   vars 打印某个包内的(全局)变量   whatis 打印表达式的类型    完整的命令说明：delve/Documentation/cli · derekparker/delve · GitHub
+      <p>
+        <a href="https://pytimer.github.io/2018/06/go%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7delve/" class="postShorten-excerpt_link link">Continue reading</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+            
+              
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://pytimer.github.io/2018/06/flag%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%A7%A3%E6%9E%90/">
+          flag命令行解析
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2018-06-06T09:47:21&#43;08:00">
+        
+  June 6, 2018
+
+      </time>
+    
+    
+  
+  
+    <span>in</span>
+    
+      <a class="category-link" href="https://pytimer.github.io/categories/go">Go</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      flag用于解析命令行参数
+语法 -flag //只支持bool -flag=x //都支持 -flag x //支持非bool
+bool类型可以为：1,0,t,f,T,F,true,false,True,False,TRUE,FALSE
+flag定义参数  flag.String()等flag.Xxx()方法，flag该方式返回一个指针 flag.XxxVar()方法将flag参数绑定到一个变量 flag.Var()方法绑定自定义类型，自定义类型需要实现Value()接口  flag.Parse() 解析命令行参数到定义的flag
+获取非flag参数 flag.Args() flag.Arg(i)
+绑定自定义的flag参数 绑定自定义的flag参数需要实现标准库里的Value接口。
+// Value is the interface to the dynamic value stored in a flag. // (The default value is represented as a string.) // // If a Value has an IsBoolFlag() bool method returning true, // the command-line parser makes -name equivalent to -name=true // rather than using the next command-line argument.
+      <p>
+        <a href="https://pytimer.github.io/2018/06/flag%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%A7%A3%E6%9E%90/" class="postShorten-excerpt_link link">Continue reading</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+            
+              
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://pytimer.github.io/2018/06/godoc%E4%BB%8B%E7%BB%8D/">
           godoc介绍
         </a>
@@ -349,6 +475,35 @@ $ git codereview help  设置git aliases 把以下内容写入到~/.gitconfig文
       <div class="no-result text-color-light text-center">no post found</div>
       <div class="results">
         
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/06/go%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7delve/">
+                <h3 class="media-heading">Go调试工具Delve</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">安装 delve/Documentation/installation · derekparker/delve · GitHub提供了所有操作系统平台上安装Delve的说明，
+用法 可以使用Delve调试Go程序
+Delve支持远程调试、命令行调试、集成环境调试  远程调试  如果程序运行在服务器，我们又没有办法查看到程序的源码，我们可以通过远程调试的方式进行
+ 在服务器上查看到程序的pid  ps -ef|grep &lt;program&gt;
+ 执行attach命令  dlv attach &lt;PID&gt; --headless --api-version=2 --log --listen=:8081
+ 在本机执行connect命令  dlv connect &lt;server_ip&gt;:8081
+如果本机dlv退出，远程的dlv也会退出
+本机dlv没有启动，远程dlv直接关闭，会导致进程退出
+本机dlv退出的时候，会询问是否关闭调试进程的pid
+ 命令行调试  dlv debug
+具体可以查看Getting started with Delve该文档，有比较详细的说明
+ 集成环境调试  [Chinese]delve · nebulasio/wiki Wiki · GitHub
+常用命令说明    命令 描述     args 打印函数参数   break (alias: b) 设置一个断点   breakpoints (alias: bp) 打印活动断点信息   clear 删除断点   clearall 删除所有的断点   condition (alias: cond) 设置断点条件   config 改变配置参数   continue (alias: c) 运行到断点或程序终止   exit (alias: quit q)   funcs 打印函数列表   goroutine 显示或更改当前goroutine   goroutines 列出程序的全部goroutines   help (alias: h) 打印出帮助信息   list (alias: ls l)   locals 打印局部变量   next (alias: n) 跳到下一行   on 在遇到断点时执行一个命令   print (alias: p) 表达式   regs 打印CPU寄存器的内容   restart (alias: r) 重启进程   set 更改变量的值   source 执行包含delve命令列表的文件   sources 打印源文件列表   stack (alias: bt) 打印堆栈跟踪信息   step (alias: s) 单步执行程序   step-instruction (alias: si) 单步单个执行cpu指令   stepout 退出当前函数   thread (alias: tr) 切换到指定的线程   threads 打印每一个跟踪线程的信息   trace (alias: t) 设置跟踪点   types 打印类型列表   vars 打印某个包内的(全局)变量   whatis 打印表达式的类型    完整的命令说明：delve/Documentation/cli · derekparker/delve · GitHub</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
         
           <div class="media">
             
@@ -524,7 +679,7 @@ Language Golang python</div>
          data-message-zero="no post found"
          data-message-one="1 post found"
          data-message-other="{n} posts found">
-         8 posts found
+         9 posts found
       </p>
     </div>
   </div>
