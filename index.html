@@ -15,7 +15,7 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.40.3 with theme Tranquilpeak 0.4.3-BETA">
+    <meta name="generator" content="Hugo 0.41 with theme Tranquilpeak 0.4.3-BETA">
     <title>pytimer</title>
     <meta name="author" content="Pytimer">
     <meta name="keywords" content="">
@@ -75,6 +75,16 @@
     <a class="header-title-link" href="https://pytimer.github.io/">pytimer</a>
   </div>
   
+    
+      <a class="header-right-icon open-algolia-search"
+         href="https://pytimer.github.io/#search">
+    
+    
+      <i class="fa fa-lg fa-search"></i>
+    
+    
+    </a>
+  
 </header>
 
       <nav id="sidebar" data-behavior="1">
@@ -82,11 +92,11 @@
     
       <div class="sidebar-profile">
         <a href="https://pytimer.github.io/#about">
-          <img class="sidebar-profile-picture" src="https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/gopher.png" alt="Author&#39;s picture" />
+          <img class="sidebar-profile-picture" src="https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/gopher.png" alt="作者的图片" />
         </a>
         <h4 class="sidebar-profile-name">Pytimer</h4>
         
-          <h5 class="sidebar-profile-bio"><strong>Golang</strong></h5>
+          <h5 class="sidebar-profile-bio"><strong>Like Golang and Cloud</strong></h5>
         
       </div>
     
@@ -98,7 +108,7 @@
     
       <i class="sidebar-button-icon fa fa-lg fa-home"></i>
       
-      <span class="sidebar-button-desc">Home</span>
+      <span class="sidebar-button-desc">首页</span>
     </a>
   </li>
 
@@ -108,7 +118,7 @@
     
       <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
       
-      <span class="sidebar-button-desc">Categories</span>
+      <span class="sidebar-button-desc">分类</span>
     </a>
   </li>
 
@@ -118,7 +128,7 @@
     
       <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
       
-      <span class="sidebar-button-desc">Tags</span>
+      <span class="sidebar-button-desc">标签</span>
     </a>
   </li>
 
@@ -128,7 +138,7 @@
     
       <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
       
-      <span class="sidebar-button-desc">Archives</span>
+      <span class="sidebar-button-desc">归档</span>
     </a>
   </li>
 
@@ -190,14 +200,19 @@
     
       <time itemprop="datePublished" datetime="2018-06-06T14:34:02&#43;08:00">
         
-  June 6, 2018
+  
+  
+  
+  
+    6 六月 2018
+  
 
       </time>
     
     
   
   
-    <span>in</span>
+    <span>发布在</span>
     
       <a class="category-link" href="https://pytimer.github.io/categories/container">Container</a>
     
@@ -218,7 +233,7 @@ b /root/workspace/src/github.com/opencontainers/runc/utils_linux.go:288
 4.返回specs.Spec
 启动容器，需要specs.Spec和CT_ACT_RUN这个参数(查看这个参数在linux的含义) func startContainer(context *cli.Context, spec *specs.Spec, action CtAct, criuOpts *libcontainer.CriuOpts) (int, error) { id := context.Args().First() if id == &quot;&quot; { return -1, errEmptyID } notifySocket := newNotifySocket(context, os.Getenv(&quot;NOTIFY_SOCKET&quot;), id) if notifySocket != nil { notifySocket.setupSpec(context, spec) } container, err := createContainer(context, id, spec) if err != nil { return -1, err } if notifySocket !
       <p>
-        <a href="https://pytimer.github.io/2018/06/runc%E8%A7%A3%E8%AF%BB%E4%BA%8C/" class="postShorten-excerpt_link link">Continue reading</a>
+        <a href="https://pytimer.github.io/2018/06/runc%E8%A7%A3%E8%AF%BB%E4%BA%8C/" class="postShorten-excerpt_link link">阅读全文</a>
         
       </p>
     </div>
@@ -253,14 +268,19 @@ b /root/workspace/src/github.com/opencontainers/runc/utils_linux.go:288
     
       <time itemprop="datePublished" datetime="2018-06-06T13:46:13&#43;08:00">
         
-  June 6, 2018
+  
+  
+  
+  
+    6 六月 2018
+  
 
       </time>
     
     
   
   
-    <span>in</span>
+    <span>发布在</span>
     
       <a class="category-link" href="https://pytimer.github.io/categories/container">Container</a>
     
@@ -284,7 +304,7 @@ list 该命令可以查看目前启动的容器，该命令就是根据state.jso
 list.go只是对state.json的数据处理，没有过多关于底层实现。
  getContainers() 调用utils_linux/loadFactory()，根据--root参数生成实现libcontainer.Factory接口的结构体，linux的Factory对应的就是libcontainer/factory_linux.go中的LinuxFactory 遍历--root指定路径下的目录 调用factory.Load(目录名)，根据state.json来生成对应的容器结构体libcontainer/container_linux.go中linuxContainer annotations就是对应的state.Config.Labels的字段 后面只是对于format的显示处理  
       <p>
-        <a href="https://pytimer.github.io/2018/06/runc%E8%A7%A3%E8%AF%BB%E4%B8%80/" class="postShorten-excerpt_link link">Continue reading</a>
+        <a href="https://pytimer.github.io/2018/06/runc%E8%A7%A3%E8%AF%BB%E4%B8%80/" class="postShorten-excerpt_link link">阅读全文</a>
         
       </p>
     </div>
@@ -319,14 +339,19 @@ list.go只是对state.json的数据处理，没有过多关于底层实现。
     
       <time itemprop="datePublished" datetime="2018-06-06T10:42:03&#43;08:00">
         
-  June 6, 2018
+  
+  
+  
+  
+    6 六月 2018
+  
 
       </time>
     
     
   
   
-    <span>in</span>
+    <span>发布在</span>
     
       <a class="category-link" href="https://pytimer.github.io/categories/go">Go</a>
     
@@ -350,7 +375,7 @@ Delve支持远程调试、命令行调试、集成环境调试  远程调试  �
  集成环境调试  [Chinese]delve · nebulasio/wiki Wiki · GitHub
 常用命令说明    命令 描述     args 打印函数参数   break (alias: b) 设置一个断点   breakpoints (alias: bp) 打印活动断点信息   clear 删除断点   clearall 删除所有的断点   condition (alias: cond) 设置断点条件   config 改变配置参数   continue (alias: c) 运行到断点或程序终止   exit `(alias: quit q)`   funcs 打印函数列表   goroutine 显示或更改当前goroutine   goroutines 列出程序的全部goroutines   help (alias: h) 打印出帮助信息   list `(alias: ls l)`   locals 打印局部变量   next (alias: n) 跳到下一行   on 在遇到断点时执行一个命令   print (alias: p) 表达式   regs 打印CPU寄存器的内容   restart (alias: r) 重启进程   set 更改变量的值   source 执行包含delve命令列表的文件   sources 打印源文件列表   stack (alias: bt) 打印堆栈跟踪信息   step (alias: s) 单步执行程序   step-instruction (alias: si) 单步单个执行cpu指令   stepout 退出当前函数   thread (alias: tr) 切换到指定的线程   threads 打印每一个跟踪线程的信息   trace (alias: t) 设置跟踪点   types 打印类型列表   vars 打印某个包内的(全局)变量   whatis 打印表达式的类型    完整的命令说明：delve/Documentation/cli · derekparker/delve · GitHub
       <p>
-        <a href="https://pytimer.github.io/2018/06/go%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7delve/" class="postShorten-excerpt_link link">Continue reading</a>
+        <a href="https://pytimer.github.io/2018/06/go%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7delve/" class="postShorten-excerpt_link link">阅读全文</a>
         
       </p>
     </div>
@@ -385,14 +410,19 @@ Delve支持远程调试、命令行调试、集成环境调试  远程调试  �
     
       <time itemprop="datePublished" datetime="2018-06-06T09:47:21&#43;08:00">
         
-  June 6, 2018
+  
+  
+  
+  
+    6 六月 2018
+  
 
       </time>
     
     
   
   
-    <span>in</span>
+    <span>发布在</span>
     
       <a class="category-link" href="https://pytimer.github.io/categories/go">Go</a>
     
@@ -403,14 +433,14 @@ Delve支持远程调试、命令行调试、集成环境调试  远程调试  �
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
       flag用于解析命令行参数
-语法 -flag //只支持bool -flag=x //都支持 -flag x //支持非bool
+ 语法 -flag //只支持bool -flag=x //都支持 -flag x //支持非bool
 bool类型可以为：1,0,t,f,T,F,true,false,True,False,TRUE,FALSE
 flag定义参数  flag.String()等flag.Xxx()方法，flag该方式返回一个指针 flag.XxxVar()方法将flag参数绑定到一个变量 flag.Var()方法绑定自定义类型，自定义类型需要实现Value()接口  flag.Parse() 解析命令行参数到定义的flag
 获取非flag参数 flag.Args() flag.Arg(i)
 绑定自定义的flag参数 绑定自定义的flag参数需要实现标准库里的Value接口。
 // Value is the interface to the dynamic value stored in a flag. // (The default value is represented as a string.) // // If a Value has an IsBoolFlag() bool method returning true, // the command-line parser makes -name equivalent to -name=true // rather than using the next command-line argument.
       <p>
-        <a href="https://pytimer.github.io/2018/06/flag%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%A7%A3%E6%9E%90/" class="postShorten-excerpt_link link">Continue reading</a>
+        <a href="https://pytimer.github.io/2018/06/flag%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%A7%A3%E6%9E%90/" class="postShorten-excerpt_link link">阅读全文</a>
         
       </p>
     </div>
@@ -445,14 +475,19 @@ flag定义参数  flag.String()等flag.Xxx()方法，flag该方式返回一个�
     
       <time itemprop="datePublished" datetime="2018-06-06T09:47:06&#43;08:00">
         
-  June 6, 2018
+  
+  
+  
+  
+    6 六月 2018
+  
 
       </time>
     
     
   
   
-    <span>in</span>
+    <span>发布在</span>
     
       <a class="category-link" href="https://pytimer.github.io/categories/go">Go</a>
     
@@ -466,7 +501,7 @@ flag定义参数  flag.String()等flag.Xxx()方法，flag该方式返回一个�
 godoc有两种使用的方法 命令行使用 godoc fmt Println // 输出fmt.Println的用法文档 godoc -src fmt Println //fmt.Println的实现  启动server godoc -http=&quot;:6060&quot;  搜索 godoc -q Reader  编写godoc文档 规则：
  类型、变量、函数、常量编写注释的时候，直接在声明前编写注释，中间不留空行。  // Fprint formats using the default formats for its operands and writes to w. // Spaces are added between operands when neither is a string. // It returns the number of bytes written and any write error encountered. func Fprint(w io.Writer, a .
       <p>
-        <a href="https://pytimer.github.io/2018/06/godoc%E4%BB%8B%E7%BB%8D/" class="postShorten-excerpt_link link">Continue reading</a>
+        <a href="https://pytimer.github.io/2018/06/godoc%E4%BB%8B%E7%BB%8D/" class="postShorten-excerpt_link link">阅读全文</a>
         
       </p>
     </div>
@@ -501,7 +536,12 @@ godoc有两种使用的方法 命令行使用 godoc fmt Println // 输出fmt.Pri
     
       <time itemprop="datePublished" datetime="2018-06-06T09:45:10&#43;08:00">
         
-  June 6, 2018
+  
+  
+  
+  
+    6 六月 2018
+  
 
       </time>
     
@@ -516,7 +556,7 @@ godoc有两种使用的方法 命令行使用 godoc fmt Println // 输出fmt.Pri
 参考地址：
 动态载入DLL所需要的三个函数详解（LoadLibrary,GetProcAddress,FreeLibrary） - westsoft - 博客园
       <p>
-        <a href="https://pytimer.github.io/2018/06/go%E8%B0%83%E7%94%A8windows-dll/" class="postShorten-excerpt_link link">Continue reading</a>
+        <a href="https://pytimer.github.io/2018/06/go%E8%B0%83%E7%94%A8windows-dll/" class="postShorten-excerpt_link link">阅读全文</a>
         
       </p>
     </div>
@@ -551,14 +591,19 @@ godoc有两种使用的方法 命令行使用 godoc fmt Println // 输出fmt.Pri
     
       <time itemprop="datePublished" datetime="2018-06-05T19:44:06&#43;08:00">
         
-  June 5, 2018
+  
+  
+  
+  
+    5 六月 2018
+  
 
       </time>
     
     
   
   
-    <span>in</span>
+    <span>发布在</span>
     
       <a class="category-link" href="https://pytimer.github.io/categories/linux">linux</a>
     
@@ -572,7 +617,7 @@ godoc有两种使用的方法 命令行使用 godoc fmt Println // 输出fmt.Pri
    文件类型 说明     p 管道文件   d 目录文件   l 符号连接文件   - 普通文件   s socket文件   c 字符设备文件   b 块设备文件    第8-6位 文件所有者权限 第5-3位 同组用户权限 第2-0位 其他用户权限
 r表示可读 w表示可写 x表示可执行
       <p>
-        <a href="https://pytimer.github.io/2018/06/suid-sgid%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E/" class="postShorten-excerpt_link link">Continue reading</a>
+        <a href="https://pytimer.github.io/2018/06/suid-sgid%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E/" class="postShorten-excerpt_link link">阅读全文</a>
         
       </p>
     </div>
@@ -589,13 +634,13 @@ r表示可读 w表示可写 x表示可执行
         
           <li class="pagination-next">
             <a class="btn btn--default btn--small" href="https://pytimer.github.io/page/2/">
-              <span>OLDER POSTS</span>
+              <span>下一页</span>
               <i class="fa fa-angle-right text-base icon-ml"></i>
             </a>
           </li>
         
       
-      <li class="pagination-number">page 1 of 2</li>
+      <li class="pagination-number">第 1 页 共 2 页</li>
     </ul>
   </div>
 
@@ -616,11 +661,11 @@ r表示可读 w表示可写 x表示可执行
       <i class="fa fa-remove"></i>
     </div>
     
-      <img id="about-card-picture" src="https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/gopher.png" alt="Author&#39;s picture" />
+      <img id="about-card-picture" src="https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/gopher.png" alt="作者的图片" />
     
     <h4 id="about-card-name">Pytimer</h4>
     
-      <div id="about-card-bio"><strong>Golang</strong></div>
+      <div id="about-card-bio"><strong>Like Golang and Cloud</strong></div>
     
     
       <div id="about-card-job">
@@ -650,11 +695,11 @@ r表示可读 w表示可写 x表示可执行
       <i class="search-icon fa fa-search"></i>
       <form id="algolia-search-form">
         <input type="text" id="algolia-search-input" name="search"
-          class="form-control input--large search-input" placeholder="Search" />
+          class="form-control input--large search-input" placeholder="搜索" />
       </form>
     </div>
     <div class="modal-body">
-      <div class="no-result text-color-light text-center">no post found</div>
+      <div class="no-result text-color-light text-center"></div>
       <div class="results">
         
         
@@ -754,7 +799,7 @@ Delve支持远程调试、命令行调试、集成环境调试  远程调试  �
                 </span>
               </span>
               <div class="media-content hide-xs font-merryweather">flag用于解析命令行参数
-语法 -flag //只支持bool -flag=x //都支持 -flag x //支持非bool
+ 语法 -flag //只支持bool -flag=x //都支持 -flag x //支持非bool
 bool类型可以为：1,0,t,f,T,F,true,false,True,False,TRUE,FALSE
 flag定义参数  flag.String()等flag.Xxx()方法，flag该方式返回一个指针 flag.XxxVar()方法将flag参数绑定到一个变量 flag.Var()方法绑定自定义类型，自定义类型需要实现Value()接口  flag.Parse() 解析命令行参数到定义的flag
 获取非flag参数 flag.Args() flag.Arg(i)
@@ -895,9 +940,9 @@ $ git codereview help  设置git aliases 把以下内容写入到~/.gitconfig文
     </div>
     <div class="modal-footer">
       <p class="results-count text-medium"
-         data-message-zero="no post found"
-         data-message-one="1 post found"
-         data-message-other="{n} posts found">
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
          11 posts found
       </p>
     </div>

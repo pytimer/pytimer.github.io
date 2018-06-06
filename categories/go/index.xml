@@ -39,7 +39,7 @@ Delve支持远程调试、命令行调试、集成环境调试  远程调试  �
       
       <guid>https://pytimer.github.io/2018/06/flag%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%A7%A3%E6%9E%90/</guid>
       <description>flag用于解析命令行参数
-语法 -flag //只支持bool -flag=x //都支持 -flag x //支持非bool
+ 语法 -flag //只支持bool -flag=x //都支持 -flag x //支持非bool
 bool类型可以为：1,0,t,f,T,F,true,false,True,False,TRUE,FALSE
 flag定义参数  flag.String()等flag.Xxx()方法，flag该方式返回一个指针 flag.XxxVar()方法将flag参数绑定到一个变量 flag.Var()方法绑定自定义类型，自定义类型需要实现Value()接口  flag.Parse() 解析命令行参数到定义的flag
 获取非flag参数 flag.Args() flag.Arg(i)

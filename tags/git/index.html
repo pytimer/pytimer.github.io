@@ -15,7 +15,7 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.40.3 with theme Tranquilpeak 0.4.3-BETA">
+    <meta name="generator" content="Hugo 0.41 with theme Tranquilpeak 0.4.3-BETA">
     <title>Git</title>
     <meta name="author" content="Pytimer">
     <meta name="keywords" content="">
@@ -75,6 +75,16 @@
     <a class="header-title-link" href="https://pytimer.github.io/">pytimer</a>
   </div>
   
+    
+      <a class="header-right-icon open-algolia-search"
+         href="https://pytimer.github.io/#search">
+    
+    
+      <i class="fa fa-lg fa-search"></i>
+    
+    
+    </a>
+  
 </header>
 
       <nav id="sidebar" data-behavior="1">
@@ -82,11 +92,11 @@
     
       <div class="sidebar-profile">
         <a href="https://pytimer.github.io/#about">
-          <img class="sidebar-profile-picture" src="https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/gopher.png" alt="Author&#39;s picture" />
+          <img class="sidebar-profile-picture" src="https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/gopher.png" alt="作者的图片" />
         </a>
         <h4 class="sidebar-profile-name">Pytimer</h4>
         
-          <h5 class="sidebar-profile-bio"><strong>Golang</strong></h5>
+          <h5 class="sidebar-profile-bio"><strong>Like Golang and Cloud</strong></h5>
         
       </div>
     
@@ -98,7 +108,7 @@
     
       <i class="sidebar-button-icon fa fa-lg fa-home"></i>
       
-      <span class="sidebar-button-desc">Home</span>
+      <span class="sidebar-button-desc">首页</span>
     </a>
   </li>
 
@@ -108,7 +118,7 @@
     
       <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
       
-      <span class="sidebar-button-desc">Categories</span>
+      <span class="sidebar-button-desc">分类</span>
     </a>
   </li>
 
@@ -118,7 +128,7 @@
     
       <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
       
-      <span class="sidebar-button-desc">Tags</span>
+      <span class="sidebar-button-desc">标签</span>
     </a>
   </li>
 
@@ -128,7 +138,7 @@
     
       <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
       
-      <span class="sidebar-button-desc">Archives</span>
+      <span class="sidebar-button-desc">归档</span>
     </a>
   </li>
 
@@ -193,14 +203,19 @@
     
       <time itemprop="datePublished" datetime="2018-05-24T10:48:15&#43;08:00">
         
-  May 24, 2018
+  
+  
+  
+  
+    24 五月 2018
+  
 
       </time>
     
     
   
   
-    <span>in</span>
+    <span>发布在</span>
     
       <a class="category-link" href="https://pytimer.github.io/categories/go">Go</a>
     
@@ -224,7 +239,7 @@ Contributor License  登录Gerrit
 $ git codereview help  设置git aliases 把以下内容写入到~/.gitconfig文件
 [alias] change = codereview change gofmt = codereview gofmt mail = codereview mail pending = codereview pending submit = codereview submit sync = codereview sync  代码贡献 讨论设计 在提交代码之前，先去github仓库上提交issue，说明自己的意图，经过讨论后再进行代码的提交
       <p>
-        <a href="https://pytimer.github.io/2018/05/golang/go%E6%A0%87%E5%87%86%E5%BA%93%E8%B4%A1%E7%8C%AE%E6%96%B9%E5%BC%8F/" class="postShorten-excerpt_link link">Continue reading</a>
+        <a href="https://pytimer.github.io/2018/05/golang/go%E6%A0%87%E5%87%86%E5%BA%93%E8%B4%A1%E7%8C%AE%E6%96%B9%E5%BC%8F/" class="postShorten-excerpt_link link">阅读全文</a>
         
       </p>
     </div>
@@ -252,11 +267,11 @@ $ git codereview help  设置git aliases 把以下内容写入到~/.gitconfig文
       <i class="fa fa-remove"></i>
     </div>
     
-      <img id="about-card-picture" src="https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/gopher.png" alt="Author&#39;s picture" />
+      <img id="about-card-picture" src="https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/gopher.png" alt="作者的图片" />
     
     <h4 id="about-card-name">Pytimer</h4>
     
-      <div id="about-card-bio"><strong>Golang</strong></div>
+      <div id="about-card-bio"><strong>Like Golang and Cloud</strong></div>
     
     
       <div id="about-card-job">
@@ -286,11 +301,11 @@ $ git codereview help  设置git aliases 把以下内容写入到~/.gitconfig文
       <i class="search-icon fa fa-search"></i>
       <form id="algolia-search-form">
         <input type="text" id="algolia-search-input" name="search"
-          class="form-control input--large search-input" placeholder="Search" />
+          class="form-control input--large search-input" placeholder="搜索" />
       </form>
     </div>
     <div class="modal-body">
-      <div class="no-result text-color-light text-center">no post found</div>
+      <div class="no-result text-color-light text-center"></div>
       <div class="results">
         
         
@@ -390,7 +405,7 @@ Delve支持远程调试、命令行调试、集成环境调试  远程调试  �
                 </span>
               </span>
               <div class="media-content hide-xs font-merryweather">flag用于解析命令行参数
-语法 -flag //只支持bool -flag=x //都支持 -flag x //支持非bool
+ 语法 -flag //只支持bool -flag=x //都支持 -flag x //支持非bool
 bool类型可以为：1,0,t,f,T,F,true,false,True,False,TRUE,FALSE
 flag定义参数  flag.String()等flag.Xxx()方法，flag该方式返回一个指针 flag.XxxVar()方法将flag参数绑定到一个变量 flag.Var()方法绑定自定义类型，自定义类型需要实现Value()接口  flag.Parse() 解析命令行参数到定义的flag
 获取非flag参数 flag.Args() flag.Arg(i)
@@ -531,9 +546,9 @@ $ git codereview help  设置git aliases 把以下内容写入到~/.gitconfig文
     </div>
     <div class="modal-footer">
       <p class="results-count text-medium"
-         data-message-zero="no post found"
-         data-message-one="1 post found"
-         data-message-other="{n} posts found">
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
          11 posts found
       </p>
     </div>
