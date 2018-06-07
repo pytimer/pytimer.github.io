@@ -19,7 +19,7 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.41 with theme Tranquilpeak 0.4.3-BETA">
+    <meta name="generator" content="Hugo 0.40.3 with theme Tranquilpeak 0.4.3-BETA">
     <title>Go调试工具Delve</title>
     <meta name="author" content="Pytimer">
     <meta name="keywords" content="">
@@ -755,6 +755,27 @@ Delve支持远程调试、命令行调试、集成环境调试  远程调试  �
           <div class="media">
             
             <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/06/runc-spec%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">
+                <h3 class="media-heading">runc spec源码解读</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">runc spec 命令的使用说明
+该命令，主要是用来生成容器启动的config.json文件，所有的容器config.json初始相同，根据--rootless再覆盖配置，重新生成config.json
+--bundle 工作目录
+--rootless 非root用户权限的容器
+$ runc spec --help NAME: runc spec - create a new specification file USAGE: runc spec [command options] [arguments...] DESCRIPTION: The spec command creates the new specification file named &quot;config.json&quot; for the bundle. The spec generated is just a starter file. Editing of the spec is required to achieve desired results. For example, the newly generated spec includes an args parameter that is initially set to call the &quot;sh&quot; command when the container is started.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
               <a class="link-unstyled" href="https://pytimer.github.io/2018/06/runc%E8%A7%A3%E8%AF%BB%E4%BA%8C/">
                 <h3 class="media-heading">runc解读(二)</h3>
               </a>
@@ -956,35 +977,6 @@ Kubernetes与云原生2017年年终总结与2018年展望</div>
             <hr>
           </div>
         
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://pytimer.github.io/2018/05/golang/go%E6%A0%87%E5%87%86%E5%BA%93%E8%B4%A1%E7%8C%AE%E6%96%B9%E5%BC%8F/">
-                <h3 class="media-heading">golang/go标准库贡献方式</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  May 5, 2018
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">阅读contribute内容 https://golang.org/doc/contribute.html
-准备工作 安装配置go-contrib-init工具 $ go get -v -u golang.org/x/tools/cmd/go-contrib-init $ cd /code/to/edit $ go-contrib-init  安装git 配置git使用Gerrit  申请Google Account。
- 登录googlesource并生成密码
-  进入go.googlesourc.com，单击右上角的&rdquo;Generate Password&rdquo;
- 执行完第2步后，会看到&rdquo;Configure Git&rdquo;页面，该页面说明如何配置git使用你的认证token，按说明执行后，在~/.gitcookies文件中可以看到你的token
- 注册Gerrit
-  用你的Google Account登录go-review.googlesource.com/login/
-Contributor License  登录Gerrit
- 点击右上角头像的settings，再点击&rdquo;Agreements&rdquo;，如果没有任何的agreements，点击&rdquo;New Contributor Agreement&rdquo;，按提示进行操作。
-  设置开发环境 安装git-codereview工具 $ go get -u golang.org/x/review/git-codereview  安装完后git-codereview会在$GOPATH/bin下，把$GOPATH/bin添加到PATH。 (Windows的话执行git --exec-path查看git的执行路径，把git-codereview拷贝到该目录下)
-执行以下命令查看是否安装完成
-$ git codereview help  设置git aliases 把以下内容写入到~/.gitconfig文件
-[alias] change = codereview change gofmt = codereview gofmt mail = codereview mail pending = codereview pending submit = codereview submit sync = codereview sync  代码贡献 讨论设计 在提交代码之前，先去github仓库上提交issue，说明自己的意图，经过讨论后再进行代码的提交</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
       </div>
     </div>
     <div class="modal-footer">
@@ -992,7 +984,7 @@ $ git codereview help  设置git aliases 把以下内容写入到~/.gitconfig文
          data-message-zero=""
          data-message-one=""
          data-message-other="">
-         11 posts found
+         12 posts found
       </p>
     </div>
   </div>
