@@ -183,6 +183,10 @@
         <ul class="archive-posts archive-month" data-date="201806">
           <h5 class="archive-title" style="text-decoration: none;">六月</h5>
           
+            <li class="archive-post archive-day" data-date="20180608">
+              <a class="archive-post-title" href="https://pytimer.github.io/2018/06/%E6%8F%90%E9%97%AE%E7%9A%84%E6%99%BA%E6%85%A7/">提问的智慧</a>
+            </li>
+          
             <li class="archive-post archive-day" data-date="20180607">
               <a class="archive-post-title" href="https://pytimer.github.io/2018/06/runc-spec%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">runc spec源码解读</a>
             </li>
@@ -292,6 +296,32 @@
       <div class="no-result text-color-light text-center"></div>
       <div class="results">
         
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/06/%E6%8F%90%E9%97%AE%E7%9A%84%E6%99%BA%E6%85%A7/">
+                <h3 class="media-heading">提问的智慧</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">比较好的一篇教人如何在互联网上提出自己问题，让其他人更愿意回答你的提问，而不是排斥。
+不只是技术问题，其他的问题也可以参考该提问方式。
+ 善用搜索引擎(Google、百度)
+ 请先阅读官方文档
+ 提问的时候最好提出自己曾尝试过的方法，或者让别人知道你有尽力尝试过解决该问题。
+ 提问的时候相关背景尽可能详细的说明清楚，并直接提出自己的目标而不仅仅是过程。
+ 提问的时候尽量不要加&rdquo;紧急&rdquo;之类的标题，哪怕你是付费用户。
+ 请态度和善提出你的任何问题，并善良对待任何人任何问题，不论谁都不喜欢自以为是的人。
+ 多用&rdquo;请&rdquo;、&rdquo;谢谢&rdquo;之类的词语，同时对回复者保持尊重和感谢。
+  链接地址：提问的智慧</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
         
           <div class="media">
             
@@ -498,26 +528,6 @@ Kubernetes与云原生2017年年终总结与2018年展望</div>
             <hr>
           </div>
         
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://pytimer.github.io/2018/06/seccomp/">
-                <h3 class="media-heading">Seccomp</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jun 6, 2018
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather"> 什么是Seccomp？ 全称：secure computing mode， 是linux kernel2.6.23版本以后支持的一种安全机制。
-在Linux中，系统调用会直接暴露给用户态程序，因此不安全的代码滥用调用就会对系统安全造成威胁。通过seccomp可以限制程序对于系统调用的使用，减少系统的暴露面。
-查看内核是否支持和使用seccomp  利用/proc/&lt;pid&gt;/status中的Seccomp查看，如果有该字段，说明支持Seccomp。  cat /proc/1/status | grep Seccomp
- 利用prctl(2)的PR_GET_SECCOMP的参数获取当前进程的seccomp状态。返回值0表示没有使用seccomp;返回值2表示使用了seccomp并处于SECCOMP_MODE_FILTER模式；其他情况进程会被SIGKILL信号杀死  </div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
       </div>
     </div>
     <div class="modal-footer">
@@ -525,7 +535,7 @@ Kubernetes与云原生2017年年终总结与2018年展望</div>
          data-message-zero=""
          data-message-one=""
          data-message-other="">
-         12 posts found
+         13 posts found
       </p>
     </div>
   </div>

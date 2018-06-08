@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://pytimer.github.io/2018/06/%E6%8F%90%E9%97%AE%E7%9A%84%E6%99%BA%E6%85%A7/</loc>
+    <lastmod>2018-06-08T14:52:20+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://pytimer.github.io/2018/06/runc-spec%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/</loc>
     <lastmod>2018-06-07T13:53:15+08:00</lastmod>
   </url>
@@ -64,6 +69,12 @@
   
   <url>
     <loc>https://pytimer.github.io/archives/</loc>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/ask/</loc>
+    <lastmod>2018-06-08T14:52:20+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -163,6 +174,12 @@
   </url>
   
   <url>
+    <loc>https://pytimer.github.io/categories/other/</loc>
+    <lastmod>2018-06-08T14:52:20+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://pytimer.github.io/tags/permission/</loc>
     <lastmod>2018-06-05T19:44:06+08:00</lastmod>
     <priority>0</priority>
@@ -170,7 +187,7 @@
   
   <url>
     <loc>https://pytimer.github.io/post/</loc>
-    <lastmod>2018-06-07T13:53:15+08:00</lastmod>
+    <lastmod>2018-06-08T14:52:20+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -188,13 +205,13 @@
   
   <url>
     <loc>https://pytimer.github.io/tags/</loc>
-    <lastmod>2018-06-01T14:38:01+08:00</lastmod>
+    <lastmod>2018-06-08T14:52:20+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://pytimer.github.io/</loc>
-    <lastmod>2018-06-07T13:53:15+08:00</lastmod>
+    <lastmod>2018-06-08T14:52:20+08:00</lastmod>
     <priority>0</priority>
   </url>
   
