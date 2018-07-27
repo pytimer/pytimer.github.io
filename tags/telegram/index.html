@@ -16,21 +16,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.40.3 with theme Tranquilpeak 0.4.3-BETA">
-    <title>Godoc</title>
+    <title>Telegram</title>
     <meta name="author" content="Pytimer">
     <meta name="keywords" content="">
 
     <link rel="icon" href="https://pytimer.github.io/favicon.png">
     
-      <link rel="alternate" type="application/rss+xml" title="RSS" href="https://pytimer.github.io/tags/godoc/index.xml">
+      <link rel="alternate" type="application/rss+xml" title="RSS" href="https://pytimer.github.io/tags/telegram/index.xml">
     
 
     
     <meta name="description" content="Hugo tranquilpeak theme pytimer">
     <meta property="og:description" content="Hugo tranquilpeak theme pytimer">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="Godoc">
-    <meta property="og:url" content="/tags/godoc/">
+    <meta property="og:title" content="Telegram">
+    <meta property="og:url" content="/tags/telegram/">
     <meta property="og:site_name" content="pytimer">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="pytimer">
@@ -194,20 +194,20 @@
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://pytimer.github.io/2018/06/godoc%E4%BB%8B%E7%BB%8D/">
-          godoc介绍
+        <a class="link-unstyled" href="https://pytimer.github.io/2018/07/telegram-dev/">
+          Telegram Dev
         </a>
       </h1>
       
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2018-06-06T09:47:06&#43;08:00">
+      <time itemprop="datePublished" datetime="2018-07-27T16:21:45&#43;08:00">
         
   
   
   
   
-    6 六月 2018
+    27 七月 2018
   
 
       </time>
@@ -217,7 +217,7 @@
   
     <span>发布在</span>
     
-      <a class="category-link" href="https://pytimer.github.io/categories/go">Go</a>
+      <a class="category-link" href="https://pytimer.github.io/categories/telegram">Telegram</a>
     
   
 
@@ -225,11 +225,13 @@
 
     </div>
     <div class="postShorten-excerpt" itemprop="articleBody">
-      godoc为go语言提供文档生成的工具
-godoc有两种使用的方法 命令行使用 godoc fmt Println // 输出fmt.Println的用法文档 godoc -src fmt Println //fmt.Println的实现  启动server godoc -http=&quot;:6060&quot;  搜索 godoc -q Reader  编写godoc文档 规则：
- 类型、变量、函数、常量编写注释的时候，直接在声明前编写注释，中间不留空行。  // Fprint formats using the default formats for its operands and writes to w. // Spaces are added between operands when neither is a string. // It returns the number of bytes written and any write error encountered. func Fprint(w io.Writer, a .
+      使用 日志设置 在使用tdlib库的时候，需要先设置日志级别
+tdlib.SetLogVerbosityLevel(1)  SetLogVerbosityLevel(int)设置tdlib的日志级别，默认为5
+   级别 说明     0 fatal   1 error   2 warning、debug warning   3 info   4 debug   5 verbose debug   &gt;5 and &lt;=1024 更多的日志    参考网址 官方tdlib
+tdlib methods
+td-log
       <p>
-        <a href="https://pytimer.github.io/2018/06/godoc%E4%BB%8B%E7%BB%8D/" class="postShorten-excerpt_link link">阅读全文</a>
+        <a href="https://pytimer.github.io/2018/07/telegram-dev/" class="postShorten-excerpt_link link">阅读全文</a>
         
       </p>
     </div>

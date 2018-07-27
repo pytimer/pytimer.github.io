@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tdlib on pytimer</title>
+    <link>https://pytimer.github.io/tags/tdlib/</link>
+    <description>Recent content in Tdlib on pytimer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 27 Jul 2018 16:21:45 +0800</lastBuildDate>
+    
+	<atom:link href="https://pytimer.github.io/tags/tdlib/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Telegram Dev</title>
+      <link>https://pytimer.github.io/2018/07/telegram-dev/</link>
+      <pubDate>Fri, 27 Jul 2018 16:21:45 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/2018/07/telegram-dev/</guid>
+      <description>使用 日志设置 在使用tdlib库的时候，需要先设置日志级别
+tdlib.SetLogVerbosityLevel(1)  SetLogVerbosityLevel(int)设置tdlib的日志级别，默认为5
+   级别 说明     0 fatal   1 error   2 warning、debug warning   3 info   4 debug   5 verbose debug   &amp;gt;5 and &amp;lt;=1024 更多的日志    参考网址 官方tdlib
+tdlib methods
+td-log</description>
+    </item>
+    
+  </channel>
+</rss>
