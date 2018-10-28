@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Kubernetes on pytimer</title>
-    <link>https://pytimer.github.io/tags/kubernetes/</link>
-    <description>Recent content in Kubernetes on pytimer</description>
+    <title>Cncf on pytimer</title>
+    <link>https://pytimer.github.io/tags/cncf/</link>
+    <description>Recent content in Cncf on pytimer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 28 Oct 2018 15:40:49 +0800</lastBuildDate>
     
-	<atom:link href="https://pytimer.github.io/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://pytimer.github.io/tags/cncf/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -23,16 +23,6 @@
 - port: http-metrics interval: 15s - port: http-metrics path: /metrics/cadvisor interval: 30s honorLabels: true  参考的网址 https://github.com/coreos/prometheus-operator/issues/1400
 https://github.com/coreos/prometheus-operator/issues/1741
 https://github.com/coreos/prometheus-operator/issues/633</description>
-    </item>
-    
-    <item>
-      <title>Cloud Native</title>
-      <link>https://pytimer.github.io/2018/06/cloud-native/</link>
-      <pubDate>Fri, 01 Jun 2018 14:38:01 +0800</pubDate>
-      
-      <guid>https://pytimer.github.io/2018/06/cloud-native/</guid>
-      <description>参考
-Kubernetes与云原生2017年年终总结与2018年展望</description>
     </item>
     
   </channel>

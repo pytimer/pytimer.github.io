@@ -304,6 +304,28 @@ td-log
           <div class="media">
             
             <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/10/promethues-operator/">
+                <h3 class="media-heading">Promethues Operator</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">pormetheus-operator禁用cadvisor-port的方式 目前kubelet已经默认禁用--cadvisor-port的配置，而且后续该配置也会完全移除，因此需要改变prometheus-operator的serviceMonitor，修改的方式如下：
+原有的配置方式：
+- port: http-metrics interval: 15s - port: cadvisor interval: 30s honorLabels: true  修改后的配置方式：
+- port: http-metrics interval: 15s - port: http-metrics path: /metrics/cadvisor interval: 30s honorLabels: true  参考的网址 https://github.com/coreos/prometheus-operator/issues/1400
+https://github.com/coreos/prometheus-operator/issues/1741
+https://github.com/coreos/prometheus-operator/issues/633</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
               <a class="link-unstyled" href="https://pytimer.github.io/2018/07/telegram-dev/">
                 <h3 class="media-heading">Telegram Dev</h3>
               </a>
@@ -516,25 +538,6 @@ godoc有两种使用的方法 命令行使用 godoc fmt Println // 输出fmt.Pri
             <hr>
           </div>
         
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://pytimer.github.io/2018/06/suid-sgid%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E/">
-                <h3 class="media-heading">SUID SGID详细说明</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jun 6, 2018
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">Unix下关于文件权限的说明 9 8 7 6 5 4 3 2 1 0 - r w x r - x r - x  第9位表示文件类型，类型说明：
-   文件类型 说明     p 管道文件   d 目录文件   l 符号连接文件   - 普通文件   s socket文件   c 字符设备文件   b 块设备文件    第8-6位 文件所有者权限 第5-3位 同组用户权限 第2-0位 其他用户权限
-r表示可读 w表示可写 x表示可执行</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
       </div>
     </div>
     <div class="modal-footer">
@@ -542,7 +545,7 @@ r表示可读 w表示可写 x表示可执行</div>
          data-message-zero=""
          data-message-one=""
          data-message-other="">
-         14 posts found
+         15 posts found
       </p>
     </div>
   </div>

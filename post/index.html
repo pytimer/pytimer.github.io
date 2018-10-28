@@ -191,6 +191,70 @@
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://pytimer.github.io/2018/10/promethues-operator/">
+          Promethues Operator
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2018-10-28T15:40:49&#43;08:00">
+        
+  
+  
+  
+  
+    28 十月 2018
+  
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://pytimer.github.io/categories/prometheus">Prometheus</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      pormetheus-operator禁用cadvisor-port的方式 目前kubelet已经默认禁用--cadvisor-port的配置，而且后续该配置也会完全移除，因此需要改变prometheus-operator的serviceMonitor，修改的方式如下：
+原有的配置方式：
+- port: http-metrics interval: 15s - port: cadvisor interval: 30s honorLabels: true  修改后的配置方式：
+- port: http-metrics interval: 15s - port: http-metrics path: /metrics/cadvisor interval: 30s honorLabels: true  参考的网址 https://github.com/coreos/prometheus-operator/issues/1400
+https://github.com/coreos/prometheus-operator/issues/1741
+https://github.com/coreos/prometheus-operator/issues/633
+      <p>
+        <a href="https://pytimer.github.io/2018/10/promethues-operator/" class="postShorten-excerpt_link link">阅读全文</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://pytimer.github.io/2018/07/telegram-dev/">
           Telegram Dev
         </a>
@@ -584,71 +648,6 @@ Delve支持远程调试、命令行调试、集成环境调试  远程调试  �
 </article>
 
           
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://pytimer.github.io/2018/06/flag%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%A7%A3%E6%9E%90/">
-          flag命令行解析
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2018-06-06T09:47:21&#43;08:00">
-        
-  
-  
-  
-  
-    6 六月 2018
-  
-
-      </time>
-    
-    
-  
-  
-    <span>发布在</span>
-    
-      <a class="category-link" href="https://pytimer.github.io/categories/go">Go</a>
-    
-  
-
-  </div>
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      flag用于解析命令行参数
- 语法 -flag //只支持bool -flag=x //都支持 -flag x //支持非bool
-bool类型可以为：1,0,t,f,T,F,true,false,True,False,TRUE,FALSE
-flag定义参数  flag.String()等flag.Xxx()方法，flag该方式返回一个指针 flag.XxxVar()方法将flag参数绑定到一个变量 flag.Var()方法绑定自定义类型，自定义类型需要实现Value()接口  flag.Parse() 解析命令行参数到定义的flag
-获取非flag参数 flag.Args() flag.Arg(i)
-绑定自定义的flag参数 绑定自定义的flag参数需要实现标准库里的Value接口。
-// Value is the interface to the dynamic value stored in a flag. // (The default value is represented as a string.) // // If a Value has an IsBoolFlag() bool method returning true, // the command-line parser makes -name equivalent to -name=true // rather than using the next command-line argument.
-      <p>
-        <a href="https://pytimer.github.io/2018/06/flag%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%A7%A3%E6%9E%90/" class="postShorten-excerpt_link link">阅读全文</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
           
   <div class="pagination-bar">
     <ul class="pagination">
@@ -663,7 +662,7 @@ flag定义参数  flag.String()等flag.Xxx()方法，flag该方式返回一个�
           </li>
         
       
-      <li class="pagination-number">第 1 页 共 2 页</li>
+      <li class="pagination-number">第 1 页 共 3 页</li>
     </ul>
   </div>
 
@@ -725,6 +724,28 @@ flag定义参数  flag.String()等flag.Xxx()方法，flag该方式返回一个�
       <div class="no-result text-color-light text-center"></div>
       <div class="results">
         
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/10/promethues-operator/">
+                <h3 class="media-heading">Promethues Operator</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">pormetheus-operator禁用cadvisor-port的方式 目前kubelet已经默认禁用--cadvisor-port的配置，而且后续该配置也会完全移除，因此需要改变prometheus-operator的serviceMonitor，修改的方式如下：
+原有的配置方式：
+- port: http-metrics interval: 15s - port: cadvisor interval: 30s honorLabels: true  修改后的配置方式：
+- port: http-metrics interval: 15s - port: http-metrics path: /metrics/cadvisor interval: 30s honorLabels: true  参考的网址 https://github.com/coreos/prometheus-operator/issues/1400
+https://github.com/coreos/prometheus-operator/issues/1741
+https://github.com/coreos/prometheus-operator/issues/633</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
         
           <div class="media">
             
@@ -941,25 +962,6 @@ godoc有两种使用的方法 命令行使用 godoc fmt Println // 输出fmt.Pri
             <hr>
           </div>
         
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://pytimer.github.io/2018/06/suid-sgid%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E/">
-                <h3 class="media-heading">SUID SGID详细说明</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jun 6, 2018
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">Unix下关于文件权限的说明 9 8 7 6 5 4 3 2 1 0 - r w x r - x r - x  第9位表示文件类型，类型说明：
-   文件类型 说明     p 管道文件   d 目录文件   l 符号连接文件   - 普通文件   s socket文件   c 字符设备文件   b 块设备文件    第8-6位 文件所有者权限 第5-3位 同组用户权限 第2-0位 其他用户权限
-r表示可读 w表示可写 x表示可执行</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
       </div>
     </div>
     <div class="modal-footer">
@@ -967,7 +969,7 @@ r表示可读 w表示可写 x表示可执行</div>
          data-message-zero=""
          data-message-one=""
          data-message-other="">
-         14 posts found
+         15 posts found
       </p>
     </div>
   </div>

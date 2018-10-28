@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://pytimer.github.io/2018/10/promethues-operator/</loc>
+    <lastmod>2018-10-28T15:40:49+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://pytimer.github.io/2018/07/telegram-dev/</loc>
     <lastmod>2018-07-27T16:21:45+08:00</lastmod>
   </url>
@@ -101,6 +106,12 @@
   </url>
   
   <url>
+    <loc>https://pytimer.github.io/tags/cncf/</loc>
+    <lastmod>2018-10-28T15:40:49+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://pytimer.github.io/tags/command/</loc>
     <lastmod>2018-06-06T09:47:21+08:00</lastmod>
     <priority>0</priority>
@@ -162,7 +173,7 @@
   
   <url>
     <loc>https://pytimer.github.io/tags/kubernetes/</loc>
-    <lastmod>2018-06-01T14:38:01+08:00</lastmod>
+    <lastmod>2018-10-28T15:40:49+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -192,7 +203,13 @@
   
   <url>
     <loc>https://pytimer.github.io/post/</loc>
-    <lastmod>2018-07-27T16:21:45+08:00</lastmod>
+    <lastmod>2018-10-28T15:40:49+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/categories/prometheus/</loc>
+    <lastmod>2018-10-28T15:40:49+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -221,20 +238,20 @@
   </url>
   
   <url>
-    <loc>https://pytimer.github.io/categories/telegram/</loc>
-    <lastmod>2018-07-27T16:21:45+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://pytimer.github.io/tags/telegram/</loc>
     <lastmod>2018-07-27T16:21:45+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://pytimer.github.io/</loc>
+    <loc>https://pytimer.github.io/categories/telegram/</loc>
     <lastmod>2018-07-27T16:21:45+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/</loc>
+    <lastmod>2018-10-28T15:40:49+08:00</lastmod>
     <priority>0</priority>
   </url>
   
