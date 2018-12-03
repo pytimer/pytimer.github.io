@@ -15,7 +15,7 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.40.3 with theme Tranquilpeak 0.4.3-BETA">
+    <meta name="generator" content="Hugo 0.52 with theme Tranquilpeak 0.4.3-BETA">
     <title>Debug</title>
     <meta name="author" content="Pytimer">
     <meta name="keywords" content="">
@@ -312,6 +312,23 @@ Delve支持远程调试、命令行调试、集成环境调试  远程调试  �
           <div class="media">
             
             <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/12/install-kubernetes-cluster-with-kubeadm/">
+                <h3 class="media-heading">Install Kubernetes cluster with Kubeadm</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Dec 12, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">安装1.13.0-beta.2 安装必要组件 init apiVersion: kubeadm.k8s.io/v1beta1 kind: InitConfiguration bootstrapTokens: - groups: - system:bootstrappers:kubeadm:default-node-token ttl: 24h0m0s usages: - signing - authentication localAPIEndpoint: advertiseAddress: 0.0.0.0 bindPort: 6443 nodeRegistration: criSocket: /var/run/dockershim.sock name: master212 taints: - effect: NoSchedule key: node-role.kubernetes.io/master --- apiServer: timeoutForControlPlane: 4m0s apiVersion: kubeadm.k8s.io/v1beta1 kind: ClusterConfiguration certificatesDir: /etc/kubernetes/pki clusterName: kubernetes controlPlaneEndpoint: &quot;${VIP}&quot; controllerManager: {} dns: type: CoreDNS etcd: local: serverCertSANs: - &quot;${VIP}&quot; extraArgs: cipher-suites: TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 dataDir: /var/lib/etcd imageRepository: k8s.gcr.io kubernetesVersion: v1.13.0-beta.2 networking: dnsDomain: cluster.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
               <a class="link-unstyled" href="https://pytimer.github.io/2018/10/promethues-operator/">
                 <h3 class="media-heading">Promethues Operator</h3>
               </a>
@@ -525,27 +542,6 @@ godoc有两种使用的方法 命令行使用 godoc fmt Println // 输出fmt.Pri
             <hr>
           </div>
         
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://pytimer.github.io/2018/06/go%E8%B0%83%E7%94%A8windows-dll/">
-                <h3 class="media-heading">Go调用Windows DLL</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jun 6, 2018
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">动态加载DLL 在编译之前不知道将要调用什么函数，在运行过程中根据需要决定调用哪些函数。
-调用方法 LoadLibrary 加载动态链接库到内存，用GetProcAddress动态获得DLL函数入口地址
-使用完后，调用FreeLibrary从内存中把它卸载
-参考地址：
-动态载入DLL所需要的三个函数详解（LoadLibrary,GetProcAddress,FreeLibrary） - westsoft - 博客园</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
       </div>
     </div>
     <div class="modal-footer">
@@ -553,7 +549,7 @@ godoc有两种使用的方法 命令行使用 godoc fmt Println // 输出fmt.Pri
          data-message-zero=""
          data-message-one=""
          data-message-other="">
-         15 posts found
+         16 posts found
       </p>
     </div>
   </div>

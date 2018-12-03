@@ -1,0 +1,584 @@
+
+
+
+  
+
+
+
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.52 with theme Tranquilpeak 0.4.3-BETA">
+    <title>Kubeadm</title>
+    <meta name="author" content="Pytimer">
+    <meta name="keywords" content="">
+
+    <link rel="icon" href="https://pytimer.github.io/favicon.png">
+    
+      <link rel="alternate" type="application/rss+xml" title="RSS" href="https://pytimer.github.io/tags/kubeadm/index.xml">
+    
+
+    
+    <meta name="description" content="Hugo tranquilpeak theme pytimer">
+    <meta property="og:description" content="Hugo tranquilpeak theme pytimer">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Kubeadm">
+    <meta property="og:url" content="/tags/kubeadm/">
+    <meta property="og:site_name" content="pytimer">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="pytimer">
+    <meta name="twitter:description" content="Hugo tranquilpeak theme pytimer">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/gopher.png">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://pytimer.github.io/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://pytimer.github.io/">pytimer</a>
+  </div>
+  
+    
+      <a class="header-right-icon open-algolia-search"
+         href="https://pytimer.github.io/#search">
+    
+    
+      <i class="fa fa-lg fa-search"></i>
+    
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="1">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://pytimer.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/gopher.png" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">Pytimer</h4>
+        
+          <h5 class="sidebar-profile-bio"><strong>Like Golang and Cloud</strong></h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://pytimer.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://pytimer.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://pytimer.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://pytimer.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/pytimer" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+        
+
+      
+      <div id="main" data-behavior="1"
+        class="
+               hasCoverMetaIn
+               ">
+        
+          <section class="postShorten-group main-content-wrap">
+            
+            
+              
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://pytimer.github.io/2018/12/install-kubernetes-cluster-with-kubeadm/">
+          Install Kubernetes cluster with Kubeadm
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2018-12-03T16:58:17&#43;08:00">
+        
+  
+  
+  
+  
+    3 十二月 2018
+  
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://pytimer.github.io/categories/cloud">cloud</a>, 
+    
+      <a class="category-link" href="https://pytimer.github.io/categories/kubernetes">Kubernetes</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      安装1.13.0-beta.2 安装必要组件 init apiVersion: kubeadm.k8s.io/v1beta1 kind: InitConfiguration bootstrapTokens: - groups: - system:bootstrappers:kubeadm:default-node-token ttl: 24h0m0s usages: - signing - authentication localAPIEndpoint: advertiseAddress: 0.0.0.0 bindPort: 6443 nodeRegistration: criSocket: /var/run/dockershim.sock name: master212 taints: - effect: NoSchedule key: node-role.kubernetes.io/master --- apiServer: timeoutForControlPlane: 4m0s apiVersion: kubeadm.k8s.io/v1beta1 kind: ClusterConfiguration certificatesDir: /etc/kubernetes/pki clusterName: kubernetes controlPlaneEndpoint: &quot;${VIP}&quot; controllerManager: {} dns: type: CoreDNS etcd: local: serverCertSANs: - &quot;${VIP}&quot; extraArgs: cipher-suites: TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 dataDir: /var/lib/etcd imageRepository: k8s.gcr.io kubernetesVersion: v1.13.0-beta.2 networking: dnsDomain: cluster.
+      <p>
+        <a href="https://pytimer.github.io/2018/12/install-kubernetes-cluster-with-kubeadm/" class="postShorten-excerpt_link link">阅读全文</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+            
+            
+
+          </section>
+        
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2018 <a href="https://github.com/pytimer">pytimer</a>. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/gopher.png" alt="作者的图片" />
+    
+    <h4 id="about-card-name">Pytimer</h4>
+    
+      <div id="about-card-bio"><strong>Like Golang and Cloud</strong></div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Golang developer
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        China
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="搜索" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/12/install-kubernetes-cluster-with-kubeadm/">
+                <h3 class="media-heading">Install Kubernetes cluster with Kubeadm</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Dec 12, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">安装1.13.0-beta.2 安装必要组件 init apiVersion: kubeadm.k8s.io/v1beta1 kind: InitConfiguration bootstrapTokens: - groups: - system:bootstrappers:kubeadm:default-node-token ttl: 24h0m0s usages: - signing - authentication localAPIEndpoint: advertiseAddress: 0.0.0.0 bindPort: 6443 nodeRegistration: criSocket: /var/run/dockershim.sock name: master212 taints: - effect: NoSchedule key: node-role.kubernetes.io/master --- apiServer: timeoutForControlPlane: 4m0s apiVersion: kubeadm.k8s.io/v1beta1 kind: ClusterConfiguration certificatesDir: /etc/kubernetes/pki clusterName: kubernetes controlPlaneEndpoint: &quot;${VIP}&quot; controllerManager: {} dns: type: CoreDNS etcd: local: serverCertSANs: - &quot;${VIP}&quot; extraArgs: cipher-suites: TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 dataDir: /var/lib/etcd imageRepository: k8s.gcr.io kubernetesVersion: v1.13.0-beta.2 networking: dnsDomain: cluster.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/10/promethues-operator/">
+                <h3 class="media-heading">Promethues Operator</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">pormetheus-operator禁用cadvisor-port的方式 目前kubelet已经默认禁用--cadvisor-port的配置，而且后续该配置也会完全移除，因此需要改变prometheus-operator的serviceMonitor，修改的方式如下：
+原有的配置方式：
+- port: http-metrics interval: 15s - port: cadvisor interval: 30s honorLabels: true  修改后的配置方式：
+- port: http-metrics interval: 15s - port: http-metrics path: /metrics/cadvisor interval: 30s honorLabels: true  参考的网址 https://github.com/coreos/prometheus-operator/issues/1400
+https://github.com/coreos/prometheus-operator/issues/1741
+https://github.com/coreos/prometheus-operator/issues/633</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/07/telegram-dev/">
+                <h3 class="media-heading">Telegram Dev</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">使用 日志设置 在使用tdlib库的时候，需要先设置日志级别
+tdlib.SetLogVerbosityLevel(1)  SetLogVerbosityLevel(int)设置tdlib的日志级别，默认为5
+   级别 说明     0 fatal   1 error   2 warning、debug warning   3 info   4 debug   5 verbose debug   &gt;5 and &lt;=1024 更多的日志    参考网址 官方tdlib
+tdlib methods
+td-log</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/06/%E6%8F%90%E9%97%AE%E7%9A%84%E6%99%BA%E6%85%A7/">
+                <h3 class="media-heading">提问的智慧</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">比较好的一篇教人如何在互联网上提出自己问题，让其他人更愿意回答你的提问，而不是排斥。
+不只是技术问题，其他的问题也可以参考该提问方式。
+ 善用搜索引擎(Google、百度)
+ 请先阅读官方文档
+ 提问的时候最好提出自己曾尝试过的方法，或者让别人知道你有尽力尝试过解决该问题。
+ 提问的时候相关背景尽可能详细的说明清楚，并直接提出自己的目标而不仅仅是过程。
+ 提问的时候尽量不要加&rdquo;紧急&rdquo;之类的标题，哪怕你是付费用户。
+ 请态度和善提出你的任何问题，并善良对待任何人任何问题，不论谁都不喜欢自以为是的人。
+ 多用&rdquo;请&rdquo;、&rdquo;谢谢&rdquo;之类的词语，同时对回复者保持尊重和感谢。
+  链接地址：提问的智慧</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/06/runc-spec%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">
+                <h3 class="media-heading">runc spec源码解读</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">runc spec 命令的使用说明
+该命令，主要是用来生成容器启动的config.json文件，所有的容器config.json初始相同，根据--rootless再覆盖配置，重新生成config.json
+--bundle 工作目录
+--rootless 非root用户权限的容器
+$ runc spec --help NAME: runc spec - create a new specification file USAGE: runc spec [command options] [arguments...] DESCRIPTION: The spec command creates the new specification file named &quot;config.json&quot; for the bundle. The spec generated is just a starter file. Editing of the spec is required to achieve desired results. For example, the newly generated spec includes an args parameter that is initially set to call the &quot;sh&quot; command when the container is started.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/06/runc%E8%A7%A3%E8%AF%BB%E4%BA%8C/">
+                <h3 class="media-heading">runc解读(二)</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">runc run命令源码流程解读
+有些地方不是很明白，会继续研究，先初步掌握整体流程
+简单记录，后续整理
+断点设置 b /root/workspace/src/github.com/opencontainers/runc/utils_linux.go:248
+b /root/workspace/src/github.com/opencontainers/runc/utils_linux.go:288
+调用run 命令，会先检查参数是否正确，然后设置pid file 根据命令行参数初始化容器配置 1.更改工作路径到--bundle参数所指定的路径下
+2.读取config.json配置文件 生成specs.Spec
+3.校验process的参数是否正确validateProcessSpec
+4.返回specs.Spec
+启动容器，需要specs.Spec和CT_ACT_RUN这个参数(查看这个参数在linux的含义) func startContainer(context *cli.Context, spec *specs.Spec, action CtAct, criuOpts *libcontainer.CriuOpts) (int, error) { id := context.Args().First() if id == &quot;&quot; { return -1, errEmptyID } notifySocket := newNotifySocket(context, os.Getenv(&quot;NOTIFY_SOCKET&quot;), id) if notifySocket != nil { notifySocket.setupSpec(context, spec) } container, err := createContainer(context, id, spec) if err != nil { return -1, err } if notifySocket !</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/06/runc%E8%A7%A3%E8%AF%BB%E4%B8%80/">
+                <h3 class="media-heading">runc解读(一)</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather"> runc 源码解读
+runc项目只是阅读源码有些地方不是很好理解，因此采用Delve一边调试一边查看源码的方式。
+执行的命令示例：
+dlv debug -- run --bundle /root/mycontainer/basic testcontainer
+通过该方式可以进入debugger模式，可以设置断点，单步查看每个函数调用的效果，同时也方便查看当前操作系统的改变
+runc spec bundle 切换工作目录，执行的是os.Chdir(bundle)
+该命令，主要是用来生成容器启动的config.json文件，所有的容器config.json初始相同，根据--rootless再覆盖配置，重新生成config.json
+run runc run &lt;container&gt; 会生成state.json，该文件默认在/run/runc/&lt;container&gt;下，也可以使用--root /tmp/runc这个命令来改变存储位置。
+后面会单独描述该命令的代码流程。
+state TODO
+list 该命令可以查看目前启动的容器，该命令就是根据state.json来显示，因此如果启动容器的时候，指定了--root，在list查询的时候，也需要加上该命令参数。
+list.go只是对state.json的数据处理，没有过多关于底层实现。
+ getContainers() 调用utils_linux/loadFactory()，根据--root参数生成实现libcontainer.Factory接口的结构体，linux的Factory对应的就是libcontainer/factory_linux.go中的LinuxFactory 遍历--root指定路径下的目录 调用factory.Load(目录名)，根据state.json来生成对应的容器结构体libcontainer/container_linux.go中linuxContainer annotations就是对应的state.Config.Labels的字段 后面只是对于format的显示处理  </div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/06/go%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7delve/">
+                <h3 class="media-heading">Go调试工具Delve</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">安装 delve/Documentation/installation · derekparker/delve · GitHub提供了所有操作系统平台上安装Delve的说明，
+用法 可以使用Delve调试Go程序
+Delve支持远程调试、命令行调试、集成环境调试  远程调试  如果程序运行在服务器，我们又没有办法查看到程序的源码，我们可以通过远程调试的方式进行
+ 在服务器上查看到程序的pid  ps -ef|grep &lt;program&gt;
+ 执行attach命令  dlv attach &lt;PID&gt; --headless --api-version=2 --log --listen=:8081
+ 在本机执行connect命令  dlv connect &lt;server_ip&gt;:8081
+如果本机dlv退出，远程的dlv也会退出
+本机dlv没有启动，远程dlv直接关闭，会导致进程退出
+本机dlv退出的时候，会询问是否关闭调试进程的pid
+ 命令行调试  dlv debug
+具体可以查看Getting started with Delve该文档，有比较详细的说明
+ 集成环境调试  [Chinese]delve · nebulasio/wiki Wiki · GitHub
+常用命令说明    命令 描述     args 打印函数参数   break (alias: b) 设置一个断点   breakpoints (alias: bp) 打印活动断点信息   clear 删除断点   clearall 删除所有的断点   condition (alias: cond) 设置断点条件   config 改变配置参数   continue (alias: c) 运行到断点或程序终止   exit `(alias: quit q)`   funcs 打印函数列表   goroutine 显示或更改当前goroutine   goroutines 列出程序的全部goroutines   help (alias: h) 打印出帮助信息   list `(alias: ls l)`   locals 打印局部变量   next (alias: n) 跳到下一行   on 在遇到断点时执行一个命令   print (alias: p) 表达式   regs 打印CPU寄存器的内容   restart (alias: r) 重启进程   set 更改变量的值   source 执行包含delve命令列表的文件   sources 打印源文件列表   stack (alias: bt) 打印堆栈跟踪信息   step (alias: s) 单步执行程序   step-instruction (alias: si) 单步单个执行cpu指令   stepout 退出当前函数   thread (alias: tr) 切换到指定的线程   threads 打印每一个跟踪线程的信息   trace (alias: t) 设置跟踪点   types 打印类型列表   vars 打印某个包内的(全局)变量   whatis 打印表达式的类型    完整的命令说明：delve/Documentation/cli · derekparker/delve · GitHub</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/06/flag%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%A7%A3%E6%9E%90/">
+                <h3 class="media-heading">flag命令行解析</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">flag用于解析命令行参数
+ 语法 -flag //只支持bool -flag=x //都支持 -flag x //支持非bool
+bool类型可以为：1,0,t,f,T,F,true,false,True,False,TRUE,FALSE
+flag定义参数  flag.String()等flag.Xxx()方法，flag该方式返回一个指针 flag.XxxVar()方法将flag参数绑定到一个变量 flag.Var()方法绑定自定义类型，自定义类型需要实现Value()接口  flag.Parse() 解析命令行参数到定义的flag
+获取非flag参数 flag.Args() flag.Arg(i)
+绑定自定义的flag参数 绑定自定义的flag参数需要实现标准库里的Value接口。
+// Value is the interface to the dynamic value stored in a flag. // (The default value is represented as a string.) // // If a Value has an IsBoolFlag() bool method returning true, // the command-line parser makes -name equivalent to -name=true // rather than using the next command-line argument.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/06/godoc%E4%BB%8B%E7%BB%8D/">
+                <h3 class="media-heading">godoc介绍</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">godoc为go语言提供文档生成的工具
+godoc有两种使用的方法 命令行使用 godoc fmt Println // 输出fmt.Println的用法文档 godoc -src fmt Println //fmt.Println的实现  启动server godoc -http=&quot;:6060&quot;  搜索 godoc -q Reader  编写godoc文档 规则：
+ 类型、变量、函数、常量编写注释的时候，直接在声明前编写注释，中间不留空行。  // Fprint formats using the default formats for its operands and writes to w. // Spaces are added between operands when neither is a string. // It returns the number of bytes written and any write error encountered. func Fprint(w io.Writer, a .</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         16 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('https://pytimer.github.io/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://pytimer.github.io/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+
+
+    
+  </body>
+</html>
+

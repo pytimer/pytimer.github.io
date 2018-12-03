@@ -13,10 +13,10 @@
     
     <item>
       <title>golang/go标准库贡献方式</title>
-      <link>https://pytimer.github.io/2018/05/golang/go%E6%A0%87%E5%87%86%E5%BA%93%E8%B4%A1%E7%8C%AE%E6%96%B9%E5%BC%8F/</link>
+      <link>https://pytimer.github.io/2018/05/golang-go%E6%A0%87%E5%87%86%E5%BA%93%E8%B4%A1%E7%8C%AE%E6%96%B9%E5%BC%8F/</link>
       <pubDate>Thu, 24 May 2018 10:48:15 +0800</pubDate>
       
-      <guid>https://pytimer.github.io/2018/05/golang/go%E6%A0%87%E5%87%86%E5%BA%93%E8%B4%A1%E7%8C%AE%E6%96%B9%E5%BC%8F/</guid>
+      <guid>https://pytimer.github.io/2018/05/golang-go%E6%A0%87%E5%87%86%E5%BA%93%E8%B4%A1%E7%8C%AE%E6%96%B9%E5%BC%8F/</guid>
       <description>阅读contribute内容 https://golang.org/doc/contribute.html
 准备工作 安装配置go-contrib-init工具 $ go get -v -u golang.org/x/tools/cmd/go-contrib-init $ cd /code/to/edit $ go-contrib-init  安装git 配置git使用Gerrit  申请Google Account。
  登录googlesource并生成密码

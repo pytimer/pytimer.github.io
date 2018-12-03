@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://pytimer.github.io/2018/12/install-kubernetes-cluster-with-kubeadm/</loc>
+    <lastmod>2018-12-03T16:58:17+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://pytimer.github.io/2018/10/promethues-operator/</loc>
     <lastmod>2018-10-28T15:40:49+08:00</lastmod>
   </url>
@@ -68,7 +73,7 @@
   </url>
   
   <url>
-    <loc>https://pytimer.github.io/2018/05/golang/go%E6%A0%87%E5%87%86%E5%BA%93%E8%B4%A1%E7%8C%AE%E6%96%B9%E5%BC%8F/</loc>
+    <loc>https://pytimer.github.io/2018/05/golang-go%E6%A0%87%E5%87%86%E5%BA%93%E8%B4%A1%E7%8C%AE%E6%96%B9%E5%BC%8F/</loc>
     <lastmod>2018-05-24T10:48:15+08:00</lastmod>
   </url>
   
@@ -95,7 +100,7 @@
   
   <url>
     <loc>https://pytimer.github.io/categories/cloud/</loc>
-    <lastmod>2018-06-01T14:38:01+08:00</lastmod>
+    <lastmod>2018-12-03T16:58:17+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -107,7 +112,7 @@
   
   <url>
     <loc>https://pytimer.github.io/tags/cncf/</loc>
-    <lastmod>2018-10-28T15:40:49+08:00</lastmod>
+    <lastmod>2018-12-03T16:58:17+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -172,8 +177,20 @@
   </url>
   
   <url>
+    <loc>https://pytimer.github.io/tags/kubeadm/</loc>
+    <lastmod>2018-12-03T16:58:17+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://pytimer.github.io/tags/kubernetes/</loc>
     <lastmod>2018-10-28T15:40:49+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/categories/kubernetes/</loc>
+    <lastmod>2018-12-03T16:58:17+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -203,7 +220,7 @@
   
   <url>
     <loc>https://pytimer.github.io/post/</loc>
-    <lastmod>2018-10-28T15:40:49+08:00</lastmod>
+    <lastmod>2018-12-03T16:58:17+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -251,7 +268,7 @@
   
   <url>
     <loc>https://pytimer.github.io/</loc>
-    <lastmod>2018-10-28T15:40:49+08:00</lastmod>
+    <lastmod>2018-12-03T16:58:17+08:00</lastmod>
     <priority>0</priority>
   </url>
   

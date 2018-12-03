@@ -32,7 +32,7 @@
     <item>
       <title>Cncf</title>
       <link>https://pytimer.github.io/tags/cncf/</link>
-      <pubDate>Sun, 28 Oct 2018 15:40:49 +0800</pubDate>
+      <pubDate>Mon, 03 Dec 2018 16:58:17 +0800</pubDate>
       
       <guid>https://pytimer.github.io/tags/cncf/</guid>
       <description></description>
@@ -107,6 +107,15 @@
       <pubDate>Wed, 06 Jun 2018 09:47:06 +0800</pubDate>
       
       <guid>https://pytimer.github.io/tags/godoc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Kubeadm</title>
+      <link>https://pytimer.github.io/tags/kubeadm/</link>
+      <pubDate>Mon, 03 Dec 2018 16:58:17 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/kubeadm/</guid>
       <description></description>
     </item>
     

@@ -6,10 +6,19 @@
     <description>Recent content in Posts on pytimer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 28 Oct 2018 15:40:49 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 03 Dec 2018 16:58:17 +0800</lastBuildDate>
     
 	<atom:link href="https://pytimer.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Install Kubernetes cluster with Kubeadm</title>
+      <link>https://pytimer.github.io/2018/12/install-kubernetes-cluster-with-kubeadm/</link>
+      <pubDate>Mon, 03 Dec 2018 16:58:17 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/2018/12/install-kubernetes-cluster-with-kubeadm/</guid>
+      <description>安装1.13.0-beta.2 安装必要组件 init apiVersion: kubeadm.k8s.io/v1beta1 kind: InitConfiguration bootstrapTokens: - groups: - system:bootstrappers:kubeadm:default-node-token ttl: 24h0m0s usages: - signing - authentication localAPIEndpoint: advertiseAddress: 0.0.0.0 bindPort: 6443 nodeRegistration: criSocket: /var/run/dockershim.sock name: master212 taints: - effect: NoSchedule key: node-role.kubernetes.io/master --- apiServer: timeoutForControlPlane: 4m0s apiVersion: kubeadm.k8s.io/v1beta1 kind: ClusterConfiguration certificatesDir: /etc/kubernetes/pki clusterName: kubernetes controlPlaneEndpoint: &amp;quot;${VIP}&amp;quot; controllerManager: {} dns: type: CoreDNS etcd: local: serverCertSANs: - &amp;quot;${VIP}&amp;quot; extraArgs: cipher-suites: TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 dataDir: /var/lib/etcd imageRepository: k8s.gcr.io kubernetesVersion: v1.13.0-beta.2 networking: dnsDomain: cluster.</description>
+    </item>
     
     <item>
       <title>Promethues Operator</title>
@@ -203,10 +212,10 @@ Kubernetes与云原生2017年年终总结与2018年展望</description>
     
     <item>
       <title>golang/go标准库贡献方式</title>
-      <link>https://pytimer.github.io/2018/05/golang/go%E6%A0%87%E5%87%86%E5%BA%93%E8%B4%A1%E7%8C%AE%E6%96%B9%E5%BC%8F/</link>
+      <link>https://pytimer.github.io/2018/05/golang-go%E6%A0%87%E5%87%86%E5%BA%93%E8%B4%A1%E7%8C%AE%E6%96%B9%E5%BC%8F/</link>
       <pubDate>Thu, 24 May 2018 10:48:15 +0800</pubDate>
       
-      <guid>https://pytimer.github.io/2018/05/golang/go%E6%A0%87%E5%87%86%E5%BA%93%E8%B4%A1%E7%8C%AE%E6%96%B9%E5%BC%8F/</guid>
+      <guid>https://pytimer.github.io/2018/05/golang-go%E6%A0%87%E5%87%86%E5%BA%93%E8%B4%A1%E7%8C%AE%E6%96%B9%E5%BC%8F/</guid>
       <description>阅读contribute内容 https://golang.org/doc/contribute.html
 准备工作 安装配置go-contrib-init工具 $ go get -v -u golang.org/x/tools/cmd/go-contrib-init $ cd /code/to/edit $ go-contrib-init  安装git 配置git使用Gerrit  申请Google Account。
  登录googlesource并生成密码
