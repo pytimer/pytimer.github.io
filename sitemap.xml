@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://pytimer.github.io/2018/12/kubeadm-%E8%AE%BE%E8%AE%A1/</loc>
+    <lastmod>2018-12-05T11:26:10+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://pytimer.github.io/2018/12/install-kubernetes-cluster-with-kubeadm/</loc>
     <lastmod>2018-12-03T16:58:17+08:00</lastmod>
   </url>
@@ -100,7 +105,7 @@
   
   <url>
     <loc>https://pytimer.github.io/categories/cloud/</loc>
-    <lastmod>2018-12-03T16:58:17+08:00</lastmod>
+    <lastmod>2018-12-05T11:26:10+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -112,7 +117,7 @@
   
   <url>
     <loc>https://pytimer.github.io/tags/cncf/</loc>
-    <lastmod>2018-12-03T16:58:17+08:00</lastmod>
+    <lastmod>2018-12-05T11:26:10+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -178,7 +183,7 @@
   
   <url>
     <loc>https://pytimer.github.io/tags/kubeadm/</loc>
-    <lastmod>2018-12-03T16:58:17+08:00</lastmod>
+    <lastmod>2018-12-05T11:26:10+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -190,7 +195,7 @@
   
   <url>
     <loc>https://pytimer.github.io/categories/kubernetes/</loc>
-    <lastmod>2018-12-03T16:58:17+08:00</lastmod>
+    <lastmod>2018-12-05T11:26:10+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -220,7 +225,7 @@
   
   <url>
     <loc>https://pytimer.github.io/post/</loc>
-    <lastmod>2018-12-03T16:58:17+08:00</lastmod>
+    <lastmod>2018-12-05T11:26:10+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -268,7 +273,7 @@
   
   <url>
     <loc>https://pytimer.github.io/</loc>
-    <lastmod>2018-12-03T16:58:17+08:00</lastmod>
+    <lastmod>2018-12-05T11:26:10+08:00</lastmod>
     <priority>0</priority>
   </url>
   

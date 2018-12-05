@@ -20,38 +20,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.52 with theme Tranquilpeak 0.4.3-BETA">
-    <title>Promethues Operator</title>
+    <title>Kubeadm 设计</title>
     <meta name="author" content="Pytimer">
-    <meta name="keywords" content="">
+    <meta name="keywords" content="tech">
 
     <link rel="icon" href="https://pytimer.github.io/favicon.png">
     
 
     
-    <meta name="description" content="pormetheus-operator禁用cadvisor-port的方式 目前kubelet已经默认禁用--cadvisor-port的配置，而且后续该配置也会完全移除，因此需要改变prometheus-operator的serviceMonitor，修改的方式如下：
-原有的配置方式：
-- port: http-metrics interval: 15s - port: cadvisor interval: 30s honorLabels: true  修改后的配置方式：
-- port: http-metrics interval: 15s - port: http-metrics path: /metrics/cadvisor interval: 30s honorLabels: true  参考的网址 https://github.com/coreos/prometheus-operator/issues/1400
-https://github.com/coreos/prometheus-operator/issues/1741
-https://github.com/coreos/prometheus-operator/issues/633">
-    <meta property="og:description" content="pormetheus-operator禁用cadvisor-port的方式 目前kubelet已经默认禁用--cadvisor-port的配置，而且后续该配置也会完全移除，因此需要改变prometheus-operator的serviceMonitor，修改的方式如下：
-原有的配置方式：
-- port: http-metrics interval: 15s - port: cadvisor interval: 30s honorLabels: true  修改后的配置方式：
-- port: http-metrics interval: 15s - port: http-metrics path: /metrics/cadvisor interval: 30s honorLabels: true  参考的网址 https://github.com/coreos/prometheus-operator/issues/1400
-https://github.com/coreos/prometheus-operator/issues/1741
-https://github.com/coreos/prometheus-operator/issues/633">
+    <meta name="description" content="Master：控制面节点
+Node：工作节点
+目标  构建高可用的Kubernetes集群。
+ 定义一种通用并且可扩展的多个控制面实例部署的流程。kubeadm join --control-plane。 为明确的用户用例提供一种更好的解决方案。  高级工具集成
+  因为要提供给更高级的工具（ansible、saltstack）使用kubeadm来部署集群，因此，kubeadm join --control-plane需要为其提供更好的易操作性：
+ 并发部署节点
+高级工具可以并行的创建节点（包括：控制面节点和工作节点），以减少集群的启动时间。kubeadm join --control-plane应该提供一种更好的实践方式而不是依赖于高级工具进行同步。
+ 支持动态和静态两种形态的部署流程
+ 在用户执行kubeadm init的时候，可能并不清楚集群最终的形态是什么样子，例如， 用户可能只启动了一个控制面节点和n个工作节点，然后在未来可能需要添加更多的控制面节点和工作节点。用户不能提前知道控制面节点的最终状态，这种流程叫做“动态部署”。
+ kubeadm同时也应该支持另外一种“静态部署”流程，即用户在事先就已经规划并知道控制面节点的数量、IP等信息。
+  支持不同的etcd部署场景，具体来说就是，在相同的节点上部署控制面组件和etcd，或者是在专有机器上运行etcd。
+  非核心目标  在一个工作节点上安装控制面组件。该节点在最开始就要决定是作为控制面还是工作节点，并且在后续整个生命周期的过程中，都要保持不变。 该设计提案不包括etcd集群部署的管理。 该设计提案不包括api-server的load balancing。但是不能该提案的任何设计都不能阻止用户使用自己的负载均衡方案 该设计提案不涉及kubeadm的self-hosting方案。但是设计不能阻止未来重新考虑该部分。 该提案不提供对于跨主机传输CA和其他必要证书。 该提案不能阻塞当前已经存在的设计。  实现细节 初始化 Kubernetes 集群 在第一个节点上运行kubeadm init初始化集群，该节点被称为自举控制节点。
+为支持kubeadm join --control-plane，新的Kubernetes集群必须要满足下面条件：
+ 集群必须设置一个controlPlaneEndpoint 集群必须使用外部etcd  执行join之前的准备 在调用kubeadm join --control-plane之前，需要用户或者使用高级工具拷贝自举控制节点的证书到新的节点。
+证书包括：ca, front-proxy-ca certificate 和 service account key pair">
+    <meta property="og:description" content="Master：控制面节点
+Node：工作节点
+目标  构建高可用的Kubernetes集群。
+ 定义一种通用并且可扩展的多个控制面实例部署的流程。kubeadm join --control-plane。 为明确的用户用例提供一种更好的解决方案。  高级工具集成
+  因为要提供给更高级的工具（ansible、saltstack）使用kubeadm来部署集群，因此，kubeadm join --control-plane需要为其提供更好的易操作性：
+ 并发部署节点
+高级工具可以并行的创建节点（包括：控制面节点和工作节点），以减少集群的启动时间。kubeadm join --control-plane应该提供一种更好的实践方式而不是依赖于高级工具进行同步。
+ 支持动态和静态两种形态的部署流程
+ 在用户执行kubeadm init的时候，可能并不清楚集群最终的形态是什么样子，例如， 用户可能只启动了一个控制面节点和n个工作节点，然后在未来可能需要添加更多的控制面节点和工作节点。用户不能提前知道控制面节点的最终状态，这种流程叫做“动态部署”。
+ kubeadm同时也应该支持另外一种“静态部署”流程，即用户在事先就已经规划并知道控制面节点的数量、IP等信息。
+  支持不同的etcd部署场景，具体来说就是，在相同的节点上部署控制面组件和etcd，或者是在专有机器上运行etcd。
+  非核心目标  在一个工作节点上安装控制面组件。该节点在最开始就要决定是作为控制面还是工作节点，并且在后续整个生命周期的过程中，都要保持不变。 该设计提案不包括etcd集群部署的管理。 该设计提案不包括api-server的load balancing。但是不能该提案的任何设计都不能阻止用户使用自己的负载均衡方案 该设计提案不涉及kubeadm的self-hosting方案。但是设计不能阻止未来重新考虑该部分。 该提案不提供对于跨主机传输CA和其他必要证书。 该提案不能阻塞当前已经存在的设计。  实现细节 初始化 Kubernetes 集群 在第一个节点上运行kubeadm init初始化集群，该节点被称为自举控制节点。
+为支持kubeadm join --control-plane，新的Kubernetes集群必须要满足下面条件：
+ 集群必须设置一个controlPlaneEndpoint 集群必须使用外部etcd  执行join之前的准备 在调用kubeadm join --control-plane之前，需要用户或者使用高级工具拷贝自举控制节点的证书到新的节点。
+证书包括：ca, front-proxy-ca certificate 和 service account key pair">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="Promethues Operator">
-    <meta property="og:url" content="/2018/10/promethues-operator/">
+    <meta property="og:title" content="Kubeadm 设计">
+    <meta property="og:url" content="/2018/12/kubeadm-%E8%AE%BE%E8%AE%A1/">
     <meta property="og:site_name" content="pytimer">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="pytimer">
-    <meta name="twitter:description" content="pormetheus-operator禁用cadvisor-port的方式 目前kubelet已经默认禁用--cadvisor-port的配置，而且后续该配置也会完全移除，因此需要改变prometheus-operator的serviceMonitor，修改的方式如下：
-原有的配置方式：
-- port: http-metrics interval: 15s - port: cadvisor interval: 30s honorLabels: true  修改后的配置方式：
-- port: http-metrics interval: 15s - port: http-metrics path: /metrics/cadvisor interval: 30s honorLabels: true  参考的网址 https://github.com/coreos/prometheus-operator/issues/1400
-https://github.com/coreos/prometheus-operator/issues/1741
-https://github.com/coreos/prometheus-operator/issues/633">
+    <meta name="twitter:description" content="Master：控制面节点
+Node：工作节点
+目标  构建高可用的Kubernetes集群。
+ 定义一种通用并且可扩展的多个控制面实例部署的流程。kubeadm join --control-plane。 为明确的用户用例提供一种更好的解决方案。  高级工具集成
+  因为要提供给更高级的工具（ansible、saltstack）使用kubeadm来部署集群，因此，kubeadm join --control-plane需要为其提供更好的易操作性：
+ 并发部署节点
+高级工具可以并行的创建节点（包括：控制面节点和工作节点），以减少集群的启动时间。kubeadm join --control-plane应该提供一种更好的实践方式而不是依赖于高级工具进行同步。
+ 支持动态和静态两种形态的部署流程
+ 在用户执行kubeadm init的时候，可能并不清楚集群最终的形态是什么样子，例如， 用户可能只启动了一个控制面节点和n个工作节点，然后在未来可能需要添加更多的控制面节点和工作节点。用户不能提前知道控制面节点的最终状态，这种流程叫做“动态部署”。
+ kubeadm同时也应该支持另外一种“静态部署”流程，即用户在事先就已经规划并知道控制面节点的数量、IP等信息。
+  支持不同的etcd部署场景，具体来说就是，在相同的节点上部署控制面组件和etcd，或者是在专有机器上运行etcd。
+  非核心目标  在一个工作节点上安装控制面组件。该节点在最开始就要决定是作为控制面还是工作节点，并且在后续整个生命周期的过程中，都要保持不变。 该设计提案不包括etcd集群部署的管理。 该设计提案不包括api-server的load balancing。但是不能该提案的任何设计都不能阻止用户使用自己的负载均衡方案 该设计提案不涉及kubeadm的self-hosting方案。但是设计不能阻止未来重新考虑该部分。 该提案不提供对于跨主机传输CA和其他必要证书。 该提案不能阻塞当前已经存在的设计。  实现细节 初始化 Kubernetes 集群 在第一个节点上运行kubeadm init初始化集群，该节点被称为自举控制节点。
+为支持kubeadm join --control-plane，新的Kubernetes集群必须要满足下面条件：
+ 集群必须设置一个controlPlaneEndpoint 集群必须使用外部etcd  执行join之前的准备 在调用kubeadm join --control-plane之前，需要用户或者使用高级工具拷贝自举控制节点的证书到新的节点。
+证书包括：ca, front-proxy-ca certificate 和 service account key pair">
     
     
 
@@ -194,19 +221,19 @@ https://github.com/coreos/prometheus-operator/issues/633">
             <div class="post-header main-content-wrap text-left">
   
     <h1 class="post-title" itemprop="headline">
-      Promethues Operator
+      Kubeadm 设计
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2018-10-28T15:40:49&#43;08:00">
+      <time itemprop="datePublished" datetime="2018-12-05T11:26:10&#43;08:00">
         
   
   
   
   
-    28 十月 2018
+    5 十二月 2018
   
 
       </time>
@@ -216,7 +243,9 @@ https://github.com/coreos/prometheus-operator/issues/633">
   
     <span>发布在</span>
     
-      <a class="category-link" href="https://pytimer.github.io/categories/prometheus">Prometheus</a>
+      <a class="category-link" href="https://pytimer.github.io/categories/cloud">cloud</a>, 
+    
+      <a class="category-link" href="https://pytimer.github.io/categories/kubernetes">Kubernetes</a>
     
   
 
@@ -228,36 +257,92 @@ https://github.com/coreos/prometheus-operator/issues/633">
             <div class="main-content-wrap">
               
 
-<h2 id="pormetheus-operator禁用cadvisor-port的方式">pormetheus-operator禁用cadvisor-port的方式</h2>
+<h1 id="table-of-contents">目录</h1><nav id="TableOfContents">
+<ul>
+<li>
+<ul>
+<li><a href="#目标">目标</a></li>
+<li><a href="#非核心目标">非核心目标</a></li>
+<li><a href="#实现细节">实现细节</a>
+<ul>
+<li><a href="#初始化-kubernetes-集群">初始化 Kubernetes 集群</a></li>
+<li><a href="#执行join之前的准备">执行join之前的准备</a></li>
+<li><a href="#执行join流程">执行join流程</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
 
-<p>目前kubelet已经默认禁用<code>--cadvisor-port</code>的配置，而且后续该配置也会完全移除，因此需要改变prometheus-operator的<code>serviceMonitor</code>，修改的方式如下：</p>
+<p>Master：控制面节点</p>
 
-<p>原有的配置方式：</p>
+<p>Node：工作节点</p>
 
-<pre><code class="language-yaml">- port: http-metrics
-    interval: 15s
-- port: cadvisor
-interval: 30s
-honorLabels: true
-</code></pre>
+<h2 id="目标">目标</h2>
 
-<p>修改后的配置方式：</p>
+<ul>
+<li><p>构建高可用的Kubernetes集群。</p>
 
-<pre><code class="language-yaml">- port: http-metrics
-    interval: 15s
-- port: http-metrics
-path: /metrics/cadvisor
-interval: 30s
-honorLabels: true
-</code></pre>
+<ul>
+<li>定义一种通用并且可扩展的多个控制面实例部署的流程。<code>kubeadm join --control-plane</code>。</li>
+<li>为明确的用户用例提供一种更好的解决方案。</li>
+</ul></li>
 
-<h2 id="参考的网址">参考的网址</h2>
+<li><p>高级工具集成</p></li>
+</ul>
 
-<p><a href="https://github.com/coreos/prometheus-operator/issues/1400">https://github.com/coreos/prometheus-operator/issues/1400</a></p>
+<p>因为要提供给更高级的工具（ansible、saltstack）使用kubeadm来部署集群，因此，<code>kubeadm join --control-plane</code>需要为其提供更好的易操作性：</p>
 
-<p><a href="https://github.com/coreos/prometheus-operator/issues/1741">https://github.com/coreos/prometheus-operator/issues/1741</a></p>
+<ul>
+<li><p>并发部署节点</p>
 
-<p><a href="https://github.com/coreos/prometheus-operator/issues/633">https://github.com/coreos/prometheus-operator/issues/633</a></p>
+<p>高级工具可以并行的创建节点（包括：控制面节点和工作节点），以减少集群的启动时间。<code>kubeadm join --control-plane</code>应该提供一种更好的实践方式而不是依赖于高级工具进行同步。</p></li>
+
+<li><p>支持动态和静态两种形态的部署流程</p>
+
+<ul>
+<li><p>在用户执行<code>kubeadm init</code>的时候，可能并不清楚集群最终的形态是什么样子，例如， 用户可能只启动了一个控制面节点和n个工作节点，然后在未来可能需要添加更多的控制面节点和工作节点。用户不能提前知道控制面节点的最终状态，这种流程叫做“动态部署”。</p></li>
+
+<li><p>kubeadm同时也应该支持另外一种“静态部署”流程，即用户在事先就已经规划并知道控制面节点的数量、IP等信息。</p></li>
+</ul></li>
+
+<li><p>支持不同的etcd部署场景，具体来说就是，在相同的节点上部署控制面组件和etcd，或者是在专有机器上运行etcd。</p></li>
+</ul>
+
+<h2 id="非核心目标">非核心目标</h2>
+
+<ul>
+<li>在一个工作节点上安装控制面组件。该节点在最开始就要决定是作为控制面还是工作节点，并且在后续整个生命周期的过程中，都要保持不变。</li>
+<li>该设计提案不包括etcd集群部署的管理。</li>
+<li>该设计提案不包括api-server的load balancing。但是不能该提案的任何设计都不能阻止用户使用自己的负载均衡方案</li>
+<li>该设计提案不涉及kubeadm的self-hosting方案。但是设计不能阻止未来重新考虑该部分。</li>
+<li>该提案不提供对于跨主机传输CA和其他必要证书。</li>
+<li>该提案不能阻塞当前已经存在的设计。</li>
+</ul>
+
+<h2 id="实现细节">实现细节</h2>
+
+<h3 id="初始化-kubernetes-集群">初始化 Kubernetes 集群</h3>
+
+<p>在第一个节点上运行<code>kubeadm init</code>初始化集群，该节点被称为自举控制节点。</p>
+
+<p>为支持<code>kubeadm join --control-plane</code>，新的Kubernetes集群必须要满足下面条件：</p>
+
+<ul>
+<li>集群必须设置一个controlPlaneEndpoint</li>
+<li>集群必须使用外部etcd</li>
+</ul>
+
+<h3 id="执行join之前的准备">执行join之前的准备</h3>
+
+<p>在调用<code>kubeadm join --control-plane</code>之前，需要用户或者使用高级工具拷贝自举控制节点的证书到新的节点。</p>
+
+<p>证书包括：ca, front-proxy-ca certificate 和 service account key pair</p>
+
+<h3 id="执行join流程">执行join流程</h3>
+
+<p><code>kubeadm join --control-plane</code> 复用 <code>kubeadm join</code> 的流程。</p>
+
+<p>接受一个额外的参数，<code>--apiserver-advertise-address</code> 表示添加的节点apiserver监听地址。</p>
 
               
             </div>
@@ -270,7 +355,7 @@ honorLabels: true
                   <div class="post-footer-tags">
                     <span class="text-color-light text-small">标签</span><br/>
                     
-  <a class="tag tag--primary tag--small" href="https://pytimer.github.io/tags/kubernetes/">Kubernetes</a>
+  <a class="tag tag--primary tag--small" href="https://pytimer.github.io/tags/kubeadm/">kubeadm</a>
 
   <a class="tag tag--primary tag--small" href="https://pytimer.github.io/tags/cncf/">CNCF</a>
 
@@ -285,7 +370,7 @@ honorLabels: true
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/12/install-kubernetes-cluster-with-kubeadm/" data-tooltip="Install Kubernetes cluster with Kubeadm">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -293,7 +378,7 @@ honorLabels: true
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/07/telegram-dev/" data-tooltip="Telegram Dev">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/12/install-kubernetes-cluster-with-kubeadm/" data-tooltip="Install Kubernetes cluster with Kubeadm">
               
                   <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -311,19 +396,19 @@ honorLabels: true
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2018/10/promethues-operator/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2018/12/kubeadm-%E8%AE%BE%E8%AE%A1/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2018/10/promethues-operator/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2018/12/kubeadm-%E8%AE%BE%E8%AE%A1/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2018/10/promethues-operator/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2018/12/kubeadm-%E8%AE%BE%E8%AE%A1/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -338,7 +423,7 @@ honorLabels: true
       
       <li class="post-action">
         
-          <a class="post-action-btn btn btn--default" href="#">
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
         
           <i class="fa fa-list"></i>
         </a>
@@ -371,7 +456,7 @@ honorLabels: true
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/12/install-kubernetes-cluster-with-kubeadm/" data-tooltip="Install Kubernetes cluster with Kubeadm">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -379,7 +464,7 @@ honorLabels: true
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/07/telegram-dev/" data-tooltip="Telegram Dev">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/12/install-kubernetes-cluster-with-kubeadm/" data-tooltip="Install Kubernetes cluster with Kubeadm">
               
                   <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -397,19 +482,19 @@ honorLabels: true
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2018/10/promethues-operator/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2018/12/kubeadm-%E8%AE%BE%E8%AE%A1/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2018/10/promethues-operator/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2018/12/kubeadm-%E8%AE%BE%E8%AE%A1/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2018/10/promethues-operator/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2018/12/kubeadm-%E8%AE%BE%E8%AE%A1/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -424,7 +509,7 @@ honorLabels: true
       
       <li class="post-action">
         
-          <a class="post-action-btn btn btn--default" href="#">
+          <a class="post-action-btn btn btn--default" href="#table-of-contents">
         
           <i class="fa fa-list"></i>
         </a>
@@ -439,19 +524,19 @@ honorLabels: true
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fpytimer.github.io%2F2018%2F10%2Fpromethues-operator%2F">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fpytimer.github.io%2F2018%2F12%2Fkubeadm-%25E8%25AE%25BE%25E8%25AE%25A1%2F">
           <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fpytimer.github.io%2F2018%2F10%2Fpromethues-operator%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fpytimer.github.io%2F2018%2F12%2Fkubeadm-%25E8%25AE%25BE%25E8%25AE%25A1%2F">
           <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fpytimer.github.io%2F2018%2F10%2Fpromethues-operator%2F">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fpytimer.github.io%2F2018%2F12%2Fkubeadm-%25E8%25AE%25BE%25E8%25AE%25A1%2F">
           <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
         </a>
       </li>
@@ -802,9 +887,9 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'https:\/\/pytimer.github.io\/2018\/10\/promethues-operator\/';
+          this.page.url = 'https:\/\/pytimer.github.io\/2018\/12\/kubeadm-%E8%AE%BE%E8%AE%A1\/';
           
-            this.page.identifier = '\/2018\/10\/promethues-operator\/'
+            this.page.identifier = '\/2018\/12\/kubeadm-%E8%AE%BE%E8%AE%A1\/'
           
         };
         (function() {
