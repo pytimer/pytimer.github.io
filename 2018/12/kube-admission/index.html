@@ -33,17 +33,13 @@
 在1.10之后的版本，上述配置已经废弃，建议使用--enable-admission-plugins=MutatingAdmissionWebhook,ValidatingAdmissionWebhook，并且用户指定的顺序并不会影响实际运行顺序，更加友好。
 官方的Using Admission Controllers - Kubernetes有关于这方面的详细说明。
 流程 kube-apiserver &ndash;&gt; 认证鉴权 &ndash;&gt; Admission Controller &ndash;&gt; webhook
-使用 Kubernetes 准入控制 Admission Controller 介绍 | Coder·码农网
-深度剖析Kubernetes动态准入控制之Admission Webhooks - WaltonWang&rsquo;s Blog - 开源中国
-Dynamic Admission Control - Kubernetes">
+使用 创建admission服务，以供kube-apiserver调用 package main import ( &quot;crypto/tls&quot; &quot;encoding/json&quot; &quot;flag&quot; &quot;io/ioutil&quot; &quot;net/http&quot; admissionv1beta1 &quot;k8s.io/api/admission/v1beta1&quot; admissionregistrationv1beta1 &quot;k8s.io/api/admissionregistration/v1beta1&quot; corev1 &quot;k8s.io/api/core/v1&quot; metav1 &quot;k8s.io/apimachinery/pkg/apis/meta/v1&quot; &quot;k8s.io/apimachinery/pkg/runtime&quot; &quot;k8s.io/apimachinery/pkg/runtime/serializer&quot; utilruntime &quot;k8s.io/apimachinery/pkg/util/runtime&quot; &quot;k8s.io/klog&quot; ) type patchOperation struct { Op string `json:&quot;op&quot;` Path string `json:&quot;path&quot;` Value interface{} `json:&quot;value,omitempty&quot;` } var scheme = runtime.">
     <meta property="og:description" content="External Admission Webhooks 作用及使用场景 当需要对某些api请求或者所有请求进行校验或者修改object的时候，可以考虑使用ValidatingAdmissionWebhook或者MutatingAdmissionWebhook，两者的区别：
  ValidatingAdmissionWebhook不允许在webhook中对Object进行修改，只是返回结果是true或false MutatingAdmissionWebhook运行在webhook中对Object进行修改  启用 在1.10之前的版本，需要使用 --admission-control 启用相关配置，并且是按配置的顺序来决定运行顺序，因此需要用户对于Admission Controllers 完全了解。
 在1.10之后的版本，上述配置已经废弃，建议使用--enable-admission-plugins=MutatingAdmissionWebhook,ValidatingAdmissionWebhook，并且用户指定的顺序并不会影响实际运行顺序，更加友好。
 官方的Using Admission Controllers - Kubernetes有关于这方面的详细说明。
 流程 kube-apiserver &ndash;&gt; 认证鉴权 &ndash;&gt; Admission Controller &ndash;&gt; webhook
-使用 Kubernetes 准入控制 Admission Controller 介绍 | Coder·码农网
-深度剖析Kubernetes动态准入控制之Admission Webhooks - WaltonWang&rsquo;s Blog - 开源中国
-Dynamic Admission Control - Kubernetes">
+使用 创建admission服务，以供kube-apiserver调用 package main import ( &quot;crypto/tls&quot; &quot;encoding/json&quot; &quot;flag&quot; &quot;io/ioutil&quot; &quot;net/http&quot; admissionv1beta1 &quot;k8s.io/api/admission/v1beta1&quot; admissionregistrationv1beta1 &quot;k8s.io/api/admissionregistration/v1beta1&quot; corev1 &quot;k8s.io/api/core/v1&quot; metav1 &quot;k8s.io/apimachinery/pkg/apis/meta/v1&quot; &quot;k8s.io/apimachinery/pkg/runtime&quot; &quot;k8s.io/apimachinery/pkg/runtime/serializer&quot; utilruntime &quot;k8s.io/apimachinery/pkg/util/runtime&quot; &quot;k8s.io/klog&quot; ) type patchOperation struct { Op string `json:&quot;op&quot;` Path string `json:&quot;path&quot;` Value interface{} `json:&quot;value,omitempty&quot;` } var scheme = runtime.">
     <meta property="og:type" content="blog">
     <meta property="og:title" content="Kube Admission">
     <meta property="og:url" content="/2018/12/kube-admission/">
@@ -55,9 +51,7 @@ Dynamic Admission Control - Kubernetes">
 在1.10之后的版本，上述配置已经废弃，建议使用--enable-admission-plugins=MutatingAdmissionWebhook,ValidatingAdmissionWebhook，并且用户指定的顺序并不会影响实际运行顺序，更加友好。
 官方的Using Admission Controllers - Kubernetes有关于这方面的详细说明。
 流程 kube-apiserver &ndash;&gt; 认证鉴权 &ndash;&gt; Admission Controller &ndash;&gt; webhook
-使用 Kubernetes 准入控制 Admission Controller 介绍 | Coder·码农网
-深度剖析Kubernetes动态准入控制之Admission Webhooks - WaltonWang&rsquo;s Blog - 开源中国
-Dynamic Admission Control - Kubernetes">
+使用 创建admission服务，以供kube-apiserver调用 package main import ( &quot;crypto/tls&quot; &quot;encoding/json&quot; &quot;flag&quot; &quot;io/ioutil&quot; &quot;net/http&quot; admissionv1beta1 &quot;k8s.io/api/admission/v1beta1&quot; admissionregistrationv1beta1 &quot;k8s.io/api/admissionregistration/v1beta1&quot; corev1 &quot;k8s.io/api/core/v1&quot; metav1 &quot;k8s.io/apimachinery/pkg/apis/meta/v1&quot; &quot;k8s.io/apimachinery/pkg/runtime&quot; &quot;k8s.io/apimachinery/pkg/runtime/serializer&quot; utilruntime &quot;k8s.io/apimachinery/pkg/util/runtime&quot; &quot;k8s.io/klog&quot; ) type patchOperation struct { Op string `json:&quot;op&quot;` Path string `json:&quot;path&quot;` Value interface{} `json:&quot;value,omitempty&quot;` } var scheme = runtime.">
     
     
 
@@ -260,6 +254,356 @@ Dynamic Admission Control - Kubernetes">
 <p>kube-apiserver &ndash;&gt; 认证鉴权 &ndash;&gt; Admission Controller &ndash;&gt; webhook</p>
 
 <h3 id="使用">使用</h3>
+
+<h4 id="创建admission服务-以供kube-apiserver调用">创建admission服务，以供kube-apiserver调用</h4>
+
+<pre><code class="language-go">package main
+
+import (
+	&quot;crypto/tls&quot;
+	&quot;encoding/json&quot;
+	&quot;flag&quot;
+	&quot;io/ioutil&quot;
+	&quot;net/http&quot;
+
+	admissionv1beta1 &quot;k8s.io/api/admission/v1beta1&quot;
+	admissionregistrationv1beta1 &quot;k8s.io/api/admissionregistration/v1beta1&quot;
+	corev1 &quot;k8s.io/api/core/v1&quot;
+	metav1 &quot;k8s.io/apimachinery/pkg/apis/meta/v1&quot;
+	&quot;k8s.io/apimachinery/pkg/runtime&quot;
+	&quot;k8s.io/apimachinery/pkg/runtime/serializer&quot;
+	utilruntime &quot;k8s.io/apimachinery/pkg/util/runtime&quot;
+	&quot;k8s.io/klog&quot;
+)
+
+type patchOperation struct {
+	Op    string      `json:&quot;op&quot;`
+	Path  string      `json:&quot;path&quot;`
+	Value interface{} `json:&quot;value,omitempty&quot;`
+}
+
+var scheme = runtime.NewScheme()
+var codecs = serializer.NewCodecFactory(scheme)
+
+func init() {
+	addToScheme(scheme)
+}
+
+func addToScheme(scheme *runtime.Scheme) {
+	utilruntime.Must(corev1.AddToScheme(scheme))
+	utilruntime.Must(admissionv1beta1.AddToScheme(scheme))
+	utilruntime.Must(admissionregistrationv1beta1.AddToScheme(scheme))
+}
+
+func toAdmissionResponse(err error) *admissionv1beta1.AdmissionResponse {
+	return &amp;admissionv1beta1.AdmissionResponse{
+		Result: &amp;metav1.Status{
+			Message: err.Error(),
+		},
+	}
+}
+
+func updateAnnotation(target map[string]string, added map[string]string) (patch []patchOperation) {
+	if target == nil {
+		klog.Info(target)
+		target = map[string]string{}
+	}
+	for key, value := range added {
+		if target[key] == &quot;&quot; {
+			patch = append(patch, patchOperation{
+				Op:    &quot;add&quot;,
+				Path:  &quot;/metadata/annotations/&quot; + key,
+				Value: value,
+			})
+		} else {
+			patch = append(patch, patchOperation{
+				Op:    &quot;replace&quot;,
+				Path:  &quot;/metadata/annotations/&quot; + key,
+				Value: value,
+			})
+		}
+	}
+	return patch
+}
+
+func mutatePods(ar admissionv1beta1.AdmissionReview) *admissionv1beta1.AdmissionResponse {
+	klog.V(2).Info(&quot;Inject pods.&quot;)
+
+	podResource := metav1.GroupVersionResource{Group: &quot;&quot;, Version: &quot;v1&quot;, Resource: &quot;pods&quot;}
+	if ar.Request.Resource != podResource {
+		klog.Error(&quot;expect resource to be %s&quot;, podResource)
+		return nil
+	}
+
+	raw := ar.Request.Object.Raw
+	pod := corev1.Pod{}
+	if _, _, err := codecs.UniversalDeserializer().Decode(raw, nil, &amp;pod); err != nil {
+		klog.Error(err)
+		return toAdmissionResponse(err)
+	}
+
+	reviewResponse := admissionv1beta1.AdmissionResponse{}
+	reviewResponse.Allowed = true
+
+	klog.V(3).Infof(&quot;Pod %s annotations: %v&quot;, pod.Name, pod.Annotations)
+
+	if pod.Annotations[&quot;injector.test.io/inject&quot;] != &quot;true&quot; {
+		return &amp;reviewResponse
+	}
+
+	var patch []patchOperation
+
+	// patch = append(patch, patchOperation{Op: &quot;add&quot;, Path: &quot;/metadata/annotations&quot;, Value: map[string]string{&quot;injector.test.io/status&quot;: &quot;success&quot;}})
+	added := map[string]string{&quot;injector.test.io.status&quot;: &quot;success&quot;}
+	patch = append(patch, updateAnnotation(pod.Annotations, added)...)
+	if b, err := json.Marshal(patch); err == nil {
+		pt := admissionv1beta1.PatchTypeJSONPatch
+		reviewResponse.PatchType = &amp;pt
+		reviewResponse.Patch = b
+	}
+
+	return &amp;reviewResponse
+}
+
+func injectHandler(w http.ResponseWriter, r *http.Request) {
+	var body []byte
+	if r.Body != nil {
+		if data, err := ioutil.ReadAll(r.Body); err == nil {
+			body = data
+		}
+	}
+
+	// verify the content type is accurate
+	contentType := r.Header.Get(&quot;Content-Type&quot;)
+	if contentType != &quot;application/json&quot; {
+		klog.Errorf(&quot;contentType=%s, expect application/json&quot;, contentType)
+		return
+	}
+
+	requestedAdmissionReview := admissionv1beta1.AdmissionReview{}
+	responseAdmissionReview := admissionv1beta1.AdmissionReview{}
+
+	deserializer := codecs.UniversalDeserializer()
+	if _, _, err := deserializer.Decode(body, nil, &amp;requestedAdmissionReview); err != nil {
+		klog.Error(err)
+		responseAdmissionReview.Response = toAdmissionResponse(err)
+	} else {
+		responseAdmissionReview.Response = mutatePods(requestedAdmissionReview)
+	}
+
+	responseAdmissionReview.Response.UID = requestedAdmissionReview.Request.UID
+	klog.V(1).Infof(&quot;sending response: %v&quot;, responseAdmissionReview.Response)
+
+	respBytes, err := json.Marshal(responseAdmissionReview)
+	if err != nil {
+		klog.Error(err)
+	}
+	if _, err := w.Write(respBytes); err != nil {
+		klog.Error(err)
+	}
+}
+
+func configTLS(certFile, keyFile string) (*tls.Config, error) {
+	cert, err := tls.LoadX509KeyPair(certFile, keyFile)
+	if err != nil {
+		return nil, err
+	}
+
+	tlsConfig := &amp;tls.Config{
+		Certificates:       []tls.Certificate{cert},
+		InsecureSkipVerify: true,
+	}
+	return tlsConfig, nil
+}
+
+var (
+	certFile string
+	keyFile  string
+)
+
+func main() {
+	klog.InitFlags(nil)
+	flag.Set(&quot;logtostderr&quot;, &quot;true&quot;)
+
+	flag.StringVar(&amp;certFile, &quot;tls-cert-file&quot;, &quot;&quot;, &quot;File containing the default x509 Certificate for HTTPS.&quot;)
+	flag.StringVar(&amp;keyFile, &quot;tls-key-file&quot;, &quot;&quot;, &quot;File containing the default x509 private key matching --tls-cert-file.&quot;)
+
+	flag.Parse()
+	defer klog.Flush()
+	// cfg, err := configTLS(certFile, keyFile)
+	// if err != nil {
+	// 	klog.Fatalf(&quot;failed to tls config with %v&quot;, err)
+	// }
+
+	http.HandleFunc(&quot;/pods/inject&quot;, injectHandler)
+
+	srv := &amp;http.Server{
+		Addr: &quot;:9443&quot;,
+		TLSConfig: &amp;tls.Config{
+			InsecureSkipVerify: true,
+		},
+	}
+	klog.Info(&quot;Admission server starting...&quot;)
+	srv.ListenAndServeTLS(certFile, keyFile)
+
+}
+</code></pre>
+
+<h4 id="创建上述服务所使用的证书">创建上述服务所使用的证书</h4>
+
+<ul>
+<li>CA</li>
+</ul>
+
+<pre><code class="language-sh">[root@k8s-1 ~]$ cat ca-config.json
+{
+    &quot;signing&quot;: {
+        &quot;default&quot;: {
+            &quot;expiry&quot;: &quot;43800h&quot;
+        },
+        &quot;profiles&quot;: {
+            &quot;server&quot;: {
+                &quot;expiry&quot;: &quot;43800h&quot;,
+                &quot;usages&quot;: [
+                    &quot;signing&quot;,
+                    &quot;key encipherment&quot;,
+                    &quot;server auth&quot;
+                ]
+            },
+            &quot;client&quot;: {
+                &quot;expiry&quot;: &quot;43800h&quot;,
+                &quot;usages&quot;: [
+                    &quot;signing&quot;,
+                    &quot;key encipherment&quot;,
+                    &quot;client auth&quot;
+                ]
+            }
+        }
+    }
+}
+</code></pre>
+
+<pre><code class="language-sh">[root@k8s-1 ~]$ cat ca-csr.json
+{
+  &quot;CN&quot;: &quot;cloud.kubernetes&quot;,
+  &quot;key&quot;: {
+    &quot;algo&quot;: &quot;rsa&quot;,
+    &quot;size&quot;: 2048
+  },
+  &quot;names&quot;: [
+    {
+      &quot;C&quot;: &quot;CN&quot;,
+      &quot;ST&quot;: &quot;ZheJiang&quot;,
+      &quot;L&quot;: &quot;HangZhou&quot;,
+      &quot;O&quot;: &quot;k8s&quot;,
+      &quot;OU&quot;: &quot;cloud&quot;
+    }
+  ]
+}
+</code></pre>
+
+<p><code>cfssl gencert -initca ca-config.json | cfssljson -bare ca</code></p>
+
+<ul>
+<li>Server</li>
+</ul>
+
+<pre><code class="language-sh">[root@k8s-1 ~]$ cat server.json
+{
+    &quot;CN&quot;: &quot;cloud.server&quot;,
+    &quot;hosts&quot;: [
+        &quot;127.0.0.1&quot;,
+        &quot;${IP}&quot;,
+        &quot;*.cloud&quot;
+    ],
+    &quot;key&quot;: {
+        &quot;algo&quot;: &quot;rsa&quot;,
+        &quot;size&quot;: 2048
+    },
+    &quot;names&quot;: [
+        {
+            &quot;C&quot;: &quot;China&quot;,
+            &quot;L&quot;: &quot;HangZhou&quot;,
+            &quot;ST&quot;: &quot;ZheJiang&quot;
+        }
+    ]
+}
+</code></pre>
+
+<p><code>cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=server server.json | cfssljson -bare server</code></p>
+
+<ul>
+<li>Client</li>
+</ul>
+
+<pre><code class="language-sh">[root@k8s-1 ~]$ cat client.json
+{
+    &quot;CN&quot;: &quot;cloud.client&quot;,
+    &quot;key&quot;: {
+        &quot;algo&quot;: &quot;rsa&quot;,
+        &quot;size&quot;: 2048
+    },
+    &quot;names&quot;: [
+        {
+            &quot;C&quot;: &quot;China&quot;,
+            &quot;L&quot;: &quot;HangZhou&quot;,
+            &quot;ST&quot;: &quot;ZheJiang&quot;
+        }
+    ]
+}
+</code></pre>
+
+<p><code>cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=ca-config.json -profile=client cient.json | cfssljson -bare client</code></p>
+
+<h4 id="创建admission文件">创建admission文件</h4>
+
+<pre><code class="language-yaml">apiVersion: admissionregistration.k8s.io/v1beta1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: test-webhook
+  namespace: kube-system
+  labels:
+    app: admission-webhook-injector
+webhooks:
+- name: sidecar-injector.test.io
+  rules:
+  - apiGroups: [&quot;&quot;]
+    apiVersions: [&quot;v1&quot;]
+    operations: [&quot;CREATE&quot;]
+    resources: [&quot;pods&quot;]
+  clientConfig:
+    url: &quot;https://${IP}:9443/pods/inject&quot;
+    caBundle: &lt;pem encoded ca cert that signs the server cert used by the webhook&gt;
+</code></pre>
+
+<p>命令： <code>cat ca.pem | base64 | tr -d '\n'</code></p>
+
+<h3 id="testing">Testing</h3>
+
+<h4 id="启动admission服务">启动admission服务</h4>
+
+<p><code>./admission -tls-cert-file certs/server.pem -tls-key-file certs/server-key.pem -v 3</code></p>
+
+<h4 id="创建测试pod的yaml文件">创建测试pod的yaml文件</h4>
+
+<pre><code class="language-yaml">apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    injector.test.io/inject: &quot;true&quot;
+  labels:
+    app: testpod
+  name: testpod
+spec:
+  containers:
+  - image: k8s.gcr.io/etcd
+    imagePullPolicy: IfNotPresent
+    name: etcd
+</code></pre>
+
+<p><code>kubectl apply -f pod.yaml</code></p>
+
+<h4 id="查看新生成的pod-发现annotations有-injector-test-io-status-success-说明admission生效">查看新生成的pod，发现annotations有<code>&quot;injector.test.io.status&quot;: &quot;success&quot;</code>，说明admission生效</h4>
 
 <p><a href="https://www.codercto.com/a/27364.html">Kubernetes 准入控制 Admission Controller 介绍 | Coder·码农网</a></p>
 
@@ -533,9 +877,7 @@ Dynamic Admission Control - Kubernetes">
 在1.10之后的版本，上述配置已经废弃，建议使用--enable-admission-plugins=MutatingAdmissionWebhook,ValidatingAdmissionWebhook，并且用户指定的顺序并不会影响实际运行顺序，更加友好。
 官方的Using Admission Controllers - Kubernetes有关于这方面的详细说明。
 流程 kube-apiserver &ndash;&gt; 认证鉴权 &ndash;&gt; Admission Controller &ndash;&gt; webhook
-使用 Kubernetes 准入控制 Admission Controller 介绍 | Coder·码农网
-深度剖析Kubernetes动态准入控制之Admission Webhooks - WaltonWang&rsquo;s Blog - 开源中国
-Dynamic Admission Control - Kubernetes</div>
+使用 创建admission服务，以供kube-apiserver调用 package main import ( &quot;crypto/tls&quot; &quot;encoding/json&quot; &quot;flag&quot; &quot;io/ioutil&quot; &quot;net/http&quot; admissionv1beta1 &quot;k8s.io/api/admission/v1beta1&quot; admissionregistrationv1beta1 &quot;k8s.io/api/admissionregistration/v1beta1&quot; corev1 &quot;k8s.io/api/core/v1&quot; metav1 &quot;k8s.io/apimachinery/pkg/apis/meta/v1&quot; &quot;k8s.io/apimachinery/pkg/runtime&quot; &quot;k8s.io/apimachinery/pkg/runtime/serializer&quot; utilruntime &quot;k8s.io/apimachinery/pkg/util/runtime&quot; &quot;k8s.io/klog&quot; ) type patchOperation struct { Op string `json:&quot;op&quot;` Path string `json:&quot;path&quot;` Value interface{} `json:&quot;value,omitempty&quot;` } var scheme = runtime.</div>
             </div>
             <div style="clear:both;"></div>
             <hr>

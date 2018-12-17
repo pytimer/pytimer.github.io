@@ -22,9 +22,7 @@
 在1.10之后的版本，上述配置已经废弃，建议使用--enable-admission-plugins=MutatingAdmissionWebhook,ValidatingAdmissionWebhook，并且用户指定的顺序并不会影响实际运行顺序，更加友好。
 官方的Using Admission Controllers - Kubernetes有关于这方面的详细说明。
 流程 kube-apiserver &amp;ndash;&amp;gt; 认证鉴权 &amp;ndash;&amp;gt; Admission Controller &amp;ndash;&amp;gt; webhook
-使用 Kubernetes 准入控制 Admission Controller 介绍 | Coder·码农网
-深度剖析Kubernetes动态准入控制之Admission Webhooks - WaltonWang&amp;rsquo;s Blog - 开源中国
-Dynamic Admission Control - Kubernetes</description>
+使用 创建admission服务，以供kube-apiserver调用 package main import ( &amp;quot;crypto/tls&amp;quot; &amp;quot;encoding/json&amp;quot; &amp;quot;flag&amp;quot; &amp;quot;io/ioutil&amp;quot; &amp;quot;net/http&amp;quot; admissionv1beta1 &amp;quot;k8s.io/api/admission/v1beta1&amp;quot; admissionregistrationv1beta1 &amp;quot;k8s.io/api/admissionregistration/v1beta1&amp;quot; corev1 &amp;quot;k8s.io/api/core/v1&amp;quot; metav1 &amp;quot;k8s.io/apimachinery/pkg/apis/meta/v1&amp;quot; &amp;quot;k8s.io/apimachinery/pkg/runtime&amp;quot; &amp;quot;k8s.io/apimachinery/pkg/runtime/serializer&amp;quot; utilruntime &amp;quot;k8s.io/apimachinery/pkg/util/runtime&amp;quot; &amp;quot;k8s.io/klog&amp;quot; ) type patchOperation struct { Op string `json:&amp;quot;op&amp;quot;` Path string `json:&amp;quot;path&amp;quot;` Value interface{} `json:&amp;quot;value,omitempty&amp;quot;` } var scheme = runtime.</description>
     </item>
     
     <item>

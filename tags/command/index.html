@@ -319,9 +319,7 @@ flag定义参数  flag.String()等flag.Xxx()方法，flag该方式返回一个�
 在1.10之后的版本，上述配置已经废弃，建议使用--enable-admission-plugins=MutatingAdmissionWebhook,ValidatingAdmissionWebhook，并且用户指定的顺序并不会影响实际运行顺序，更加友好。
 官方的Using Admission Controllers - Kubernetes有关于这方面的详细说明。
 流程 kube-apiserver &ndash;&gt; 认证鉴权 &ndash;&gt; Admission Controller &ndash;&gt; webhook
-使用 Kubernetes 准入控制 Admission Controller 介绍 | Coder·码农网
-深度剖析Kubernetes动态准入控制之Admission Webhooks - WaltonWang&rsquo;s Blog - 开源中国
-Dynamic Admission Control - Kubernetes</div>
+使用 创建admission服务，以供kube-apiserver调用 package main import ( &quot;crypto/tls&quot; &quot;encoding/json&quot; &quot;flag&quot; &quot;io/ioutil&quot; &quot;net/http&quot; admissionv1beta1 &quot;k8s.io/api/admission/v1beta1&quot; admissionregistrationv1beta1 &quot;k8s.io/api/admissionregistration/v1beta1&quot; corev1 &quot;k8s.io/api/core/v1&quot; metav1 &quot;k8s.io/apimachinery/pkg/apis/meta/v1&quot; &quot;k8s.io/apimachinery/pkg/runtime&quot; &quot;k8s.io/apimachinery/pkg/runtime/serializer&quot; utilruntime &quot;k8s.io/apimachinery/pkg/util/runtime&quot; &quot;k8s.io/klog&quot; ) type patchOperation struct { Op string `json:&quot;op&quot;` Path string `json:&quot;path&quot;` Value interface{} `json:&quot;value,omitempty&quot;` } var scheme = runtime.</div>
             </div>
             <div style="clear:both;"></div>
             <hr>
