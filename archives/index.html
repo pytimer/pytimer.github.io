@@ -183,6 +183,10 @@
         <ul class="archive-posts archive-month" data-date="201812">
           <h5 class="archive-title" style="text-decoration: none;">十二月</h5>
           
+            <li class="archive-post archive-day" data-date="20181217">
+              <a class="archive-post-title" href="https://pytimer.github.io/2018/12/kube-admission/">Kube Admission</a>
+            </li>
+          
             <li class="archive-post archive-day" data-date="20181205">
               <a class="archive-post-title" href="https://pytimer.github.io/2018/12/kubeadm-%E8%AE%BE%E8%AE%A1/">Kubeadm 设计</a>
             </li>
@@ -327,6 +331,30 @@
       <div class="no-result text-color-light text-center"></div>
       <div class="results">
         
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/12/kube-admission/">
+                <h3 class="media-heading">Kube Admission</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Dec 12, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">External Admission Webhooks 作用及使用场景 当需要对某些api请求或者所有请求进行校验或者修改object的时候，可以考虑使用ValidatingAdmissionWebhook或者MutatingAdmissionWebhook，两者的区别：
+ ValidatingAdmissionWebhook不允许在webhook中对Object进行修改，只是返回结果是true或false MutatingAdmissionWebhook运行在webhook中对Object进行修改  启用 在1.10之前的版本，需要使用 --admission-control 启用相关配置，并且是按配置的顺序来决定运行顺序，因此需要用户对于Admission Controllers 完全了解。
+在1.10之后的版本，上述配置已经废弃，建议使用--enable-admission-plugins=MutatingAdmissionWebhook,ValidatingAdmissionWebhook，并且用户指定的顺序并不会影响实际运行顺序，更加友好。
+官方的Using Admission Controllers - Kubernetes有关于这方面的详细说明。
+流程 kube-apiserver &ndash;&gt; 认证鉴权 &ndash;&gt; Admission Controller &ndash;&gt; webhook
+使用 Kubernetes 准入控制 Admission Controller 介绍 | Coder·码农网
+深度剖析Kubernetes动态准入控制之Admission Webhooks - WaltonWang&rsquo;s Blog - 开源中国
+Dynamic Admission Control - Kubernetes</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
         
           <div class="media">
             
@@ -550,29 +578,6 @@ Delve支持远程调试、命令行调试、集成环境调试  远程调试  �
             <hr>
           </div>
         
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://pytimer.github.io/2018/06/flag%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%A7%A3%E6%9E%90/">
-                <h3 class="media-heading">flag命令行解析</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jun 6, 2018
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">flag用于解析命令行参数
- 语法 -flag //只支持bool -flag=x //都支持 -flag x //支持非bool
-bool类型可以为：1,0,t,f,T,F,true,false,True,False,TRUE,FALSE
-flag定义参数  flag.String()等flag.Xxx()方法，flag该方式返回一个指针 flag.XxxVar()方法将flag参数绑定到一个变量 flag.Var()方法绑定自定义类型，自定义类型需要实现Value()接口  flag.Parse() 解析命令行参数到定义的flag
-获取非flag参数 flag.Args() flag.Arg(i)
-绑定自定义的flag参数 绑定自定义的flag参数需要实现标准库里的Value接口。
-// Value is the interface to the dynamic value stored in a flag. // (The default value is represented as a string.) // // If a Value has an IsBoolFlag() bool method returning true, // the command-line parser makes -name equivalent to -name=true // rather than using the next command-line argument.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
       </div>
     </div>
     <div class="modal-footer">
@@ -580,7 +585,7 @@ flag定义参数  flag.String()等flag.Xxx()方法，flag该方式返回一个�
          data-message-zero=""
          data-message-one=""
          data-message-other="">
-         17 posts found
+         18 posts found
       </p>
     </div>
   </div>

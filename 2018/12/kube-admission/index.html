@@ -20,59 +20,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.52 with theme Tranquilpeak 0.4.3-BETA">
-    <title>runc解读(一)</title>
+    <title>Kube Admission</title>
     <meta name="author" content="Pytimer">
-    <meta name="keywords" content="">
+    <meta name="keywords" content="tech">
 
     <link rel="icon" href="https://pytimer.github.io/favicon.png">
     
 
     
-    <meta name="description" content=" runc 源码解读
-runc项目只是阅读源码有些地方不是很好理解，因此采用Delve一边调试一边查看源码的方式。
-执行的命令示例：
-dlv debug -- run --bundle /root/mycontainer/basic testcontainer
-通过该方式可以进入debugger模式，可以设置断点，单步查看每个函数调用的效果，同时也方便查看当前操作系统的改变
-runc spec bundle 切换工作目录，执行的是os.Chdir(bundle)
-该命令，主要是用来生成容器启动的config.json文件，所有的容器config.json初始相同，根据--rootless再覆盖配置，重新生成config.json
-run runc run &lt;container&gt; 会生成state.json，该文件默认在/run/runc/&lt;container&gt;下，也可以使用--root /tmp/runc这个命令来改变存储位置。
-后面会单独描述该命令的代码流程。
-state TODO
-list 该命令可以查看目前启动的容器，该命令就是根据state.json来显示，因此如果启动容器的时候，指定了--root，在list查询的时候，也需要加上该命令参数。
-list.go只是对state.json的数据处理，没有过多关于底层实现。
- getContainers() 调用utils_linux/loadFactory()，根据--root参数生成实现libcontainer.Factory接口的结构体，linux的Factory对应的就是libcontainer/factory_linux.go中的LinuxFactory 遍历--root指定路径下的目录 调用factory.Load(目录名)，根据state.json来生成对应的容器结构体libcontainer/container_linux.go中linuxContainer annotations就是对应的state.Config.Labels的字段 后面只是对于format的显示处理  ">
-    <meta property="og:description" content=" runc 源码解读
-runc项目只是阅读源码有些地方不是很好理解，因此采用Delve一边调试一边查看源码的方式。
-执行的命令示例：
-dlv debug -- run --bundle /root/mycontainer/basic testcontainer
-通过该方式可以进入debugger模式，可以设置断点，单步查看每个函数调用的效果，同时也方便查看当前操作系统的改变
-runc spec bundle 切换工作目录，执行的是os.Chdir(bundle)
-该命令，主要是用来生成容器启动的config.json文件，所有的容器config.json初始相同，根据--rootless再覆盖配置，重新生成config.json
-run runc run &lt;container&gt; 会生成state.json，该文件默认在/run/runc/&lt;container&gt;下，也可以使用--root /tmp/runc这个命令来改变存储位置。
-后面会单独描述该命令的代码流程。
-state TODO
-list 该命令可以查看目前启动的容器，该命令就是根据state.json来显示，因此如果启动容器的时候，指定了--root，在list查询的时候，也需要加上该命令参数。
-list.go只是对state.json的数据处理，没有过多关于底层实现。
- getContainers() 调用utils_linux/loadFactory()，根据--root参数生成实现libcontainer.Factory接口的结构体，linux的Factory对应的就是libcontainer/factory_linux.go中的LinuxFactory 遍历--root指定路径下的目录 调用factory.Load(目录名)，根据state.json来生成对应的容器结构体libcontainer/container_linux.go中linuxContainer annotations就是对应的state.Config.Labels的字段 后面只是对于format的显示处理  ">
+    <meta name="description" content="External Admission Webhooks 作用及使用场景 当需要对某些api请求或者所有请求进行校验或者修改object的时候，可以考虑使用ValidatingAdmissionWebhook或者MutatingAdmissionWebhook，两者的区别：
+ ValidatingAdmissionWebhook不允许在webhook中对Object进行修改，只是返回结果是true或false MutatingAdmissionWebhook运行在webhook中对Object进行修改  启用 在1.10之前的版本，需要使用 --admission-control 启用相关配置，并且是按配置的顺序来决定运行顺序，因此需要用户对于Admission Controllers 完全了解。
+在1.10之后的版本，上述配置已经废弃，建议使用--enable-admission-plugins=MutatingAdmissionWebhook,ValidatingAdmissionWebhook，并且用户指定的顺序并不会影响实际运行顺序，更加友好。
+官方的Using Admission Controllers - Kubernetes有关于这方面的详细说明。
+流程 kube-apiserver &ndash;&gt; 认证鉴权 &ndash;&gt; Admission Controller &ndash;&gt; webhook
+使用 Kubernetes 准入控制 Admission Controller 介绍 | Coder·码农网
+深度剖析Kubernetes动态准入控制之Admission Webhooks - WaltonWang&rsquo;s Blog - 开源中国
+Dynamic Admission Control - Kubernetes">
+    <meta property="og:description" content="External Admission Webhooks 作用及使用场景 当需要对某些api请求或者所有请求进行校验或者修改object的时候，可以考虑使用ValidatingAdmissionWebhook或者MutatingAdmissionWebhook，两者的区别：
+ ValidatingAdmissionWebhook不允许在webhook中对Object进行修改，只是返回结果是true或false MutatingAdmissionWebhook运行在webhook中对Object进行修改  启用 在1.10之前的版本，需要使用 --admission-control 启用相关配置，并且是按配置的顺序来决定运行顺序，因此需要用户对于Admission Controllers 完全了解。
+在1.10之后的版本，上述配置已经废弃，建议使用--enable-admission-plugins=MutatingAdmissionWebhook,ValidatingAdmissionWebhook，并且用户指定的顺序并不会影响实际运行顺序，更加友好。
+官方的Using Admission Controllers - Kubernetes有关于这方面的详细说明。
+流程 kube-apiserver &ndash;&gt; 认证鉴权 &ndash;&gt; Admission Controller &ndash;&gt; webhook
+使用 Kubernetes 准入控制 Admission Controller 介绍 | Coder·码农网
+深度剖析Kubernetes动态准入控制之Admission Webhooks - WaltonWang&rsquo;s Blog - 开源中国
+Dynamic Admission Control - Kubernetes">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="runc解读(一)">
-    <meta property="og:url" content="/2018/06/runc%E8%A7%A3%E8%AF%BB%E4%B8%80/">
+    <meta property="og:title" content="Kube Admission">
+    <meta property="og:url" content="/2018/12/kube-admission/">
     <meta property="og:site_name" content="pytimer">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="pytimer">
-    <meta name="twitter:description" content=" runc 源码解读
-runc项目只是阅读源码有些地方不是很好理解，因此采用Delve一边调试一边查看源码的方式。
-执行的命令示例：
-dlv debug -- run --bundle /root/mycontainer/basic testcontainer
-通过该方式可以进入debugger模式，可以设置断点，单步查看每个函数调用的效果，同时也方便查看当前操作系统的改变
-runc spec bundle 切换工作目录，执行的是os.Chdir(bundle)
-该命令，主要是用来生成容器启动的config.json文件，所有的容器config.json初始相同，根据--rootless再覆盖配置，重新生成config.json
-run runc run &lt;container&gt; 会生成state.json，该文件默认在/run/runc/&lt;container&gt;下，也可以使用--root /tmp/runc这个命令来改变存储位置。
-后面会单独描述该命令的代码流程。
-state TODO
-list 该命令可以查看目前启动的容器，该命令就是根据state.json来显示，因此如果启动容器的时候，指定了--root，在list查询的时候，也需要加上该命令参数。
-list.go只是对state.json的数据处理，没有过多关于底层实现。
- getContainers() 调用utils_linux/loadFactory()，根据--root参数生成实现libcontainer.Factory接口的结构体，linux的Factory对应的就是libcontainer/factory_linux.go中的LinuxFactory 遍历--root指定路径下的目录 调用factory.Load(目录名)，根据state.json来生成对应的容器结构体libcontainer/container_linux.go中linuxContainer annotations就是对应的state.Config.Labels的字段 后面只是对于format的显示处理  ">
+    <meta name="twitter:description" content="External Admission Webhooks 作用及使用场景 当需要对某些api请求或者所有请求进行校验或者修改object的时候，可以考虑使用ValidatingAdmissionWebhook或者MutatingAdmissionWebhook，两者的区别：
+ ValidatingAdmissionWebhook不允许在webhook中对Object进行修改，只是返回结果是true或false MutatingAdmissionWebhook运行在webhook中对Object进行修改  启用 在1.10之前的版本，需要使用 --admission-control 启用相关配置，并且是按配置的顺序来决定运行顺序，因此需要用户对于Admission Controllers 完全了解。
+在1.10之后的版本，上述配置已经废弃，建议使用--enable-admission-plugins=MutatingAdmissionWebhook,ValidatingAdmissionWebhook，并且用户指定的顺序并不会影响实际运行顺序，更加友好。
+官方的Using Admission Controllers - Kubernetes有关于这方面的详细说明。
+流程 kube-apiserver &ndash;&gt; 认证鉴权 &ndash;&gt; Admission Controller &ndash;&gt; webhook
+使用 Kubernetes 准入控制 Admission Controller 介绍 | Coder·码农网
+深度剖析Kubernetes动态准入控制之Admission Webhooks - WaltonWang&rsquo;s Blog - 开源中国
+Dynamic Admission Control - Kubernetes">
     
     
 
@@ -215,19 +200,19 @@ list.go只是对state.json的数据处理，没有过多关于底层实现。
             <div class="post-header main-content-wrap text-left">
   
     <h1 class="post-title" itemprop="headline">
-      runc解读(一)
+      Kube Admission
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2018-06-06T13:46:13&#43;08:00">
+      <time itemprop="datePublished" datetime="2018-12-17T09:51:57&#43;08:00">
         
   
   
   
   
-    6 六月 2018
+    17 十二月 2018
   
 
       </time>
@@ -237,9 +222,9 @@ list.go只是对state.json的数据处理，没有过多关于底层实现。
   
     <span>发布在</span>
     
-      <a class="category-link" href="https://pytimer.github.io/categories/container">Container</a>, 
+      <a class="category-link" href="https://pytimer.github.io/categories/cloud">cloud</a>, 
     
-      <a class="category-link" href="https://pytimer.github.io/categories/runtime">Runtime</a>
+      <a class="category-link" href="https://pytimer.github.io/categories/kubernetes">Kubernetes</a>
     
   
 
@@ -251,46 +236,36 @@ list.go只是对state.json的数据处理，没有过多关于底层实现。
             <div class="main-content-wrap">
               
 
-<p><code>runc</code> 源码解读</p>
+<h2 id="external-admission-webhooks">External Admission Webhooks</h2>
 
-<p>runc项目只是阅读源码有些地方不是很好理解，因此采用Delve一边调试一边查看源码的方式。</p>
+<h3 id="作用及使用场景">作用及使用场景</h3>
 
-<p>执行的命令示例：</p>
-
-<p><code>dlv debug -- run --bundle /root/mycontainer/basic testcontainer</code></p>
-
-<p>通过该方式可以进入debugger模式，可以设置断点，单步查看每个函数调用的效果，同时也方便查看当前操作系统的改变</p>
-
-<h2 id="runc-spec"><code>runc spec</code></h2>
-
-<p><code>bundle</code> 切换工作目录，执行的是<code>os.Chdir(bundle)</code></p>
-
-<p>该命令，主要是用来生成容器启动的config.json文件，所有的容器config.json初始相同，根据<code>--rootless</code>再覆盖配置，重新生成config.json</p>
-
-<h2 id="run">run</h2>
-
-<p><code>runc run &lt;container&gt;</code> 会生成state.json，该文件默认在<code>/run/runc/&lt;container&gt;</code>下，也可以使用<code>--root /tmp/runc</code>这个命令来改变存储位置。</p>
-
-<p>后面会单独描述该命令的代码流程。</p>
-
-<h2 id="state">state</h2>
-
-<p>TODO</p>
-
-<h2 id="list">list</h2>
-
-<p>该命令可以查看目前启动的容器，该命令就是根据state.json来显示，因此如果启动容器的时候，指定了<code>--root</code>，在list查询的时候，也需要加上该命令参数。</p>
-
-<p>list.go只是对state.json的数据处理，没有过多关于底层实现。</p>
+<p>当需要对某些api请求或者所有请求进行校验或者修改object的时候，可以考虑使用ValidatingAdmissionWebhook或者MutatingAdmissionWebhook，两者的区别：</p>
 
 <ul>
-<li>getContainers()</li>
-<li>调用utils_linux/loadFactory()，根据<code>--root</code>参数生成实现libcontainer.Factory接口的结构体，linux的Factory对应的就是libcontainer/factory_linux.go中的LinuxFactory</li>
-<li>遍历<code>--root</code>指定路径下的目录</li>
-<li>调用factory.Load(目录名)，根据state.json来生成对应的容器结构体libcontainer/container_linux.go中linuxContainer</li>
-<li>annotations就是对应的state.Config.Labels的字段</li>
-<li>后面只是对于format的显示处理</li>
+<li>ValidatingAdmissionWebhook不允许在webhook中对Object进行修改，只是返回结果是true或false</li>
+<li>MutatingAdmissionWebhook运行在webhook中对Object进行修改</li>
 </ul>
+
+<h3 id="启用">启用</h3>
+
+<p>在1.10之前的版本，需要使用 <code>--admission-control</code> 启用相关配置，并且是按配置的顺序来决定运行顺序，因此需要用户对于Admission Controllers 完全了解。</p>
+
+<p>在1.10之后的版本，上述配置已经废弃，建议使用<code>--enable-admission-plugins=MutatingAdmissionWebhook,ValidatingAdmissionWebhook</code>，并且用户指定的顺序并不会影响实际运行顺序，更加友好。</p>
+
+<p>官方的<a href="https://kubernetes.io/docs/reference/access-authn-authz/admission-controllers/">Using Admission Controllers - Kubernetes</a>有关于这方面的详细说明。</p>
+
+<h3 id="流程">流程</h3>
+
+<p>kube-apiserver &ndash;&gt; 认证鉴权 &ndash;&gt; Admission Controller &ndash;&gt; webhook</p>
+
+<h3 id="使用">使用</h3>
+
+<p><a href="https://www.codercto.com/a/27364.html">Kubernetes 准入控制 Admission Controller 介绍 | Coder·码农网</a></p>
+
+<p><a href="https://my.oschina.net/jxcdwangtao/blog/1591681">深度剖析Kubernetes动态准入控制之Admission Webhooks - WaltonWang&rsquo;s Blog - 开源中国</a></p>
+
+<p><a href="https://kubernetes.io/docs/reference/access-authn-authz/extensible-admission-controllers/">Dynamic Admission Control - Kubernetes</a></p>
 
               
             </div>
@@ -303,9 +278,9 @@ list.go只是对state.json的数据处理，没有过多关于底层实现。
                   <div class="post-footer-tags">
                     <span class="text-color-light text-small">标签</span><br/>
                     
-  <a class="tag tag--primary tag--small" href="https://pytimer.github.io/tags/runc/">runc</a>
+  <a class="tag tag--primary tag--small" href="https://pytimer.github.io/tags/kubeadm/">kubeadm</a>
 
-  <a class="tag tag--primary tag--small" href="https://pytimer.github.io/tags/oci/">oci</a>
+  <a class="tag tag--primary tag--small" href="https://pytimer.github.io/tags/cncf/">CNCF</a>
 
                   </div>
                 
@@ -318,7 +293,7 @@ list.go只是对state.json的数据处理，没有过多关于底层实现。
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/06/runc%E8%A7%A3%E8%AF%BB%E4%BA%8C/" data-tooltip="runc解读(二)">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -326,7 +301,7 @@ list.go只是对state.json的数据处理，没有过多关于底层实现。
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/06/go%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7delve/" data-tooltip="Go调试工具Delve">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/12/kubeadm-%E8%AE%BE%E8%AE%A1/" data-tooltip="Kubeadm 设计">
               
                   <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -344,19 +319,19 @@ list.go只是对state.json的数据处理，没有过多关于底层实现。
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2018/06/runc%E8%A7%A3%E8%AF%BB%E4%B8%80/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2018/12/kube-admission/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2018/06/runc%E8%A7%A3%E8%AF%BB%E4%B8%80/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2018/12/kube-admission/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2018/06/runc%E8%A7%A3%E8%AF%BB%E4%B8%80/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2018/12/kube-admission/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -404,7 +379,7 @@ list.go只是对state.json的数据处理，没有过多关于底层实现。
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/06/runc%E8%A7%A3%E8%AF%BB%E4%BA%8C/" data-tooltip="runc解读(二)">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -412,7 +387,7 @@ list.go只是对state.json的数据处理，没有过多关于底层实现。
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/06/go%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7delve/" data-tooltip="Go调试工具Delve">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/12/kubeadm-%E8%AE%BE%E8%AE%A1/" data-tooltip="Kubeadm 设计">
               
                   <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -430,19 +405,19 @@ list.go只是对state.json的数据处理，没有过多关于底层实现。
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2018/06/runc%E8%A7%A3%E8%AF%BB%E4%B8%80/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2018/12/kube-admission/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2018/06/runc%E8%A7%A3%E8%AF%BB%E4%B8%80/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2018/12/kube-admission/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2018/06/runc%E8%A7%A3%E8%AF%BB%E4%B8%80/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2018/12/kube-admission/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -472,19 +447,19 @@ list.go只是对state.json的数据处理，没有过多关于底层实现。
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fpytimer.github.io%2F2018%2F06%2Frunc%25E8%25A7%25A3%25E8%25AF%25BB%25E4%25B8%2580%2F">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fpytimer.github.io%2F2018%2F12%2Fkube-admission%2F">
           <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fpytimer.github.io%2F2018%2F06%2Frunc%25E8%25A7%25A3%25E8%25AF%25BB%25E4%25B8%2580%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fpytimer.github.io%2F2018%2F12%2Fkube-admission%2F">
           <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fpytimer.github.io%2F2018%2F06%2Frunc%25E8%25A7%25A3%25E8%25AF%25BB%25E4%25B8%2580%2F">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fpytimer.github.io%2F2018%2F12%2Fkube-admission%2F">
           <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
         </a>
       </li>
@@ -836,9 +811,9 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'https:\/\/pytimer.github.io\/2018\/06\/runc%E8%A7%A3%E8%AF%BB%E4%B8%80\/';
+          this.page.url = 'https:\/\/pytimer.github.io\/2018\/12\/kube-admission\/';
           
-            this.page.identifier = '\/2018\/06\/runc%E8%A7%A3%E8%AF%BB%E4%B8%80\/'
+            this.page.identifier = '\/2018\/12\/kube-admission\/'
           
         };
         (function() {
