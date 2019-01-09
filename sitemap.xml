@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://pytimer.github.io/2019/01/deploy-helm-private-charts-repository-on-the-kubernetes/</loc>
+    <lastmod>2019-01-08T19:21:56+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://pytimer.github.io/2018/12/kube-admission/</loc>
     <lastmod>2018-12-17T09:51:57+08:00</lastmod>
   </url>
@@ -110,7 +115,7 @@
   
   <url>
     <loc>https://pytimer.github.io/categories/cloud/</loc>
-    <lastmod>2018-12-17T09:51:57+08:00</lastmod>
+    <lastmod>2019-01-08T19:21:56+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -122,7 +127,7 @@
   
   <url>
     <loc>https://pytimer.github.io/tags/cncf/</loc>
-    <lastmod>2018-12-17T09:51:57+08:00</lastmod>
+    <lastmod>2019-01-08T19:21:56+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -187,13 +192,13 @@
   </url>
   
   <url>
-    <loc>https://pytimer.github.io/tags/kubeadm/</loc>
-    <lastmod>2018-12-17T09:51:57+08:00</lastmod>
+    <loc>https://pytimer.github.io/tags/helm/</loc>
+    <lastmod>2019-01-08T19:21:56+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://pytimer.github.io/categories/kubernetes/</loc>
+    <loc>https://pytimer.github.io/tags/kubeadm/</loc>
     <lastmod>2018-12-17T09:51:57+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -201,6 +206,12 @@
   <url>
     <loc>https://pytimer.github.io/tags/kubernetes/</loc>
     <lastmod>2018-10-28T15:40:49+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/categories/kubernetes/</loc>
+    <lastmod>2019-01-08T19:21:56+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -230,7 +241,7 @@
   
   <url>
     <loc>https://pytimer.github.io/post/</loc>
-    <lastmod>2018-12-17T09:51:57+08:00</lastmod>
+    <lastmod>2019-01-08T19:21:56+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -265,20 +276,20 @@
   </url>
   
   <url>
-    <loc>https://pytimer.github.io/categories/telegram/</loc>
-    <lastmod>2018-07-27T16:21:45+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://pytimer.github.io/tags/telegram/</loc>
     <lastmod>2018-07-27T16:21:45+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
+    <loc>https://pytimer.github.io/categories/telegram/</loc>
+    <lastmod>2018-07-27T16:21:45+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://pytimer.github.io/</loc>
-    <lastmod>2018-12-17T09:51:57+08:00</lastmod>
+    <lastmod>2019-01-08T19:21:56+08:00</lastmod>
     <priority>0</priority>
   </url>
   

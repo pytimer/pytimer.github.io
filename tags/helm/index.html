@@ -1,9 +1,5 @@
 
 
-  
-    
-  
-
 
   
 
@@ -20,35 +16,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.52 with theme Tranquilpeak 0.4.3-BETA">
-    <title>Go调用Windows DLL</title>
+    <title>Helm</title>
     <meta name="author" content="Pytimer">
     <meta name="keywords" content="">
 
     <link rel="icon" href="https://pytimer.github.io/favicon.png">
     
+      <link rel="alternate" type="application/rss+xml" title="RSS" href="https://pytimer.github.io/tags/helm/index.xml">
+    
 
     
-    <meta name="description" content="动态加载DLL 在编译之前不知道将要调用什么函数，在运行过程中根据需要决定调用哪些函数。
-调用方法 LoadLibrary 加载动态链接库到内存，用GetProcAddress动态获得DLL函数入口地址
-使用完后，调用FreeLibrary从内存中把它卸载
-参考地址：
-动态载入DLL所需要的三个函数详解（LoadLibrary,GetProcAddress,FreeLibrary） - westsoft - 博客园">
-    <meta property="og:description" content="动态加载DLL 在编译之前不知道将要调用什么函数，在运行过程中根据需要决定调用哪些函数。
-调用方法 LoadLibrary 加载动态链接库到内存，用GetProcAddress动态获得DLL函数入口地址
-使用完后，调用FreeLibrary从内存中把它卸载
-参考地址：
-动态载入DLL所需要的三个函数详解（LoadLibrary,GetProcAddress,FreeLibrary） - westsoft - 博客园">
+    <meta name="description" content="Hugo tranquilpeak theme pytimer">
+    <meta property="og:description" content="Hugo tranquilpeak theme pytimer">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="Go调用Windows DLL">
-    <meta property="og:url" content="/2018/06/go%E8%B0%83%E7%94%A8windows-dll/">
+    <meta property="og:title" content="Helm">
+    <meta property="og:url" content="/tags/helm/">
     <meta property="og:site_name" content="pytimer">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="pytimer">
-    <meta name="twitter:description" content="动态加载DLL 在编译之前不知道将要调用什么函数，在运行过程中根据需要决定调用哪些函数。
-调用方法 LoadLibrary 加载动态链接库到内存，用GetProcAddress动态获得DLL函数入口地址
-使用完后，调用FreeLibrary从内存中把它卸载
-参考地址：
-动态载入DLL所需要的三个函数详解（LoadLibrary,GetProcAddress,FreeLibrary） - westsoft - 博客园">
+    <meta name="twitter:description" content="Hugo tranquilpeak theme pytimer">
     
     
 
@@ -83,7 +69,7 @@
 
   <body>
     <div id="blog">
-      <header id="header" data-behavior="4">
+      <header id="header" data-behavior="1">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
     <a class="header-title-link" href="https://pytimer.github.io/">pytimer</a>
@@ -101,7 +87,7 @@
   
 </header>
 
-      <nav id="sidebar" data-behavior="4">
+      <nav id="sidebar" data-behavior="1">
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
@@ -180,142 +166,86 @@
 </nav>
 
       
+        
 
-      <div id="main" data-behavior="4"
+      
+      <div id="main" data-behavior="1"
         class="
                hasCoverMetaIn
                ">
-        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
-          
-          
-            <div class="post-header main-content-wrap text-left">
+        
+          <section class="postShorten-group main-content-wrap">
+            
+            
+              
   
-    <h1 class="post-title" itemprop="headline">
-      Go调用Windows DLL
-    </h1>
+    
+      
+        
+      
+    
   
+
+
   
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://pytimer.github.io/2019/01/deploy-helm-private-charts-repository-on-the-kubernetes/">
+          Deploy Helm private charts repository on the Kubernetes
+        </a>
+      </h1>
+      
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2018-06-06T09:45:10&#43;08:00">
+      <time itemprop="datePublished" datetime="2019-01-08T19:21:56&#43;08:00">
         
   
   
   
   
-    6 六月 2018
+    8 一月 2019
   
 
       </time>
     
     
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://pytimer.github.io/categories/cloud">cloud</a>, 
+    
+      <a class="category-link" href="https://pytimer.github.io/categories/kubernetes">Kubernetes</a>
+    
+  
+
   </div>
 
-</div>
-          
-          <div class="post-content markdown" itemprop="articleBody">
-            <div class="main-content-wrap">
-              
-
-<h3 id="动态加载dll">动态加载DLL</h3>
-
-<p>在编译之前不知道将要调用什么函数，在运行过程中根据需要决定调用哪些函数。</p>
-
-<h4 id="调用方法">调用方法</h4>
-
-<p>LoadLibrary 加载动态链接库到内存，用GetProcAddress动态获得DLL函数入口地址</p>
-
-<p>使用完后，调用FreeLibrary从内存中把它卸载</p>
-
-<p>参考地址：</p>
-
-<p><a href="https://www.cnblogs.com/westsoft/p/5936092.html">动态载入DLL所需要的三个函数详解（LoadLibrary,GetProcAddress,FreeLibrary） - westsoft - 博客园</a></p>
-
-              
-            </div>
-          </div>
-          <div id="post-footer" class="post-footer main-content-wrap">
-            
-              
-            
-            
-  <div class="post-actions-wrap">
-      <nav >
-        <ul class="post-actions post-action-nav">
-          
-            <li class="post-action">
-              
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/06/godoc%E4%BB%8B%E7%BB%8D/" data-tooltip="godoc介绍">
-              
-                  <i class="fa fa-angle-left"></i>
-                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
-                </a>
-            </li>
-            <li class="post-action">
-              
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/06/suid-sgid%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E/" data-tooltip="SUID SGID详细说明">
-              
-                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
-                  <i class="fa fa-angle-right"></i>
-                </a>
-            </li>
-          
-        </ul>
-      </nav>
-    <ul class="post-actions post-action-share" >
-      
-        <li class="post-action hide-lg hide-md hide-sm">
-          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
-            <i class="fa fa-share-alt"></i>
-          </a>
-        </li>
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      Helm是一个管理Kubernetes上charts的工具，通过Helm你可以比较方便的部署、卸载组件等操作。
+在大多数时候，我们都可以直接使用官方的charts仓库来安装我们想要的组件，但是我们有时候会在内网的情况下使用Helm，这个时候我们可能需要一个自己私有的charts仓库。该文档将介绍如何搭建一个私有的charts仓库。
+我们使用minio作为charts仓库的后端存储，结合chartmuseum来提供charts仓库的服务，以方便我们操作charts仓库。
+术语  minio: minio是一个类似Amazon S3的分布式存储服务，该服务提供API、SDK、Client来让我们操作。 chartmuseum: chartmuseum是一个Web服务，该服务提供API来让我们比较轻松的操作charts仓库，而且该服务还可以满足多租户场景。  组件 部署完成后，全部的组件。
+$ kubectl get pod -n kube-system -l &quot;name=tiller&quot; NAME READY STATUS RESTARTS AGE tiller-deploy-&lt;xxx&gt; 1/1 Running 0 5h $ kubectl get pod -n kube-system -l &quot;app=chartmuseum&quot; NAME READY STATUS RESTARTS AGE &lt;release-name&gt;-chartmuseum-&lt;xxx&gt; 1/1 Running 0 47m $ kubectl get pod -n storage NAME READY STATUS RESTARTS AGE minio-client-deployment-&lt;xxx&gt; 1/1 Running 0 7h minio-deployment-&lt;xxx&gt; 1/1 Running 0 9h  部署 部署私有charts仓库，需要先部署minio服务，初始化helm init，部署tiller服务，这样一个初始的私有charts仓库就部署好了。在部署好初始私有charts仓库后，上传chartmuseum的charts，通过helm install安装该组件，启动服务。等待服务启动成功，使用helm添加新的charts仓库即可使用。
+      <p>
+        <a href="https://pytimer.github.io/2019/01/deploy-helm-private-charts-repository-on-the-kubernetes/" class="postShorten-excerpt_link link">阅读全文</a>
         
-          <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2018/06/go%E8%B0%83%E7%94%A8windows-dll/">
-              <i class="fa fa-facebook-official"></i>
-            </a>
-          </li>
-        
-          <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2018/06/go%E8%B0%83%E7%94%A8windows-dll/">
-              <i class="fa fa-twitter"></i>
-            </a>
-          </li>
-        
-          <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2018/06/go%E8%B0%83%E7%94%A8windows-dll/">
-              <i class="fa fa-google-plus"></i>
-            </a>
-          </li>
-        
-      
-      
-        <li class="post-action">
-          <a class="post-action-btn btn btn--default" href="#disqus_thread">
-            <i class="fa fa-comment-o"></i>
-          </a>
-        </li>
-      
-      <li class="post-action">
-        
-          <a class="post-action-btn btn btn--default" href="#">
-        
-          <i class="fa fa-list"></i>
-        </a>
-      </li>
-    </ul>
+      </p>
+    </div>
   </div>
-
+  
+</article>
 
             
-              
-                <div id="disqus_thread">
-  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-              
             
-          </div>
-        </article>
+
+          </section>
+        
         <footer id="footer" class="main-content-wrap">
   <span class="copyrights">
     &copy; 2019 <a href="https://github.com/pytimer">pytimer</a>. All Rights Reserved
@@ -323,102 +253,6 @@
 </footer>
 
       </div>
-      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
-        
-  <div class="post-actions-wrap">
-      <nav >
-        <ul class="post-actions post-action-nav">
-          
-            <li class="post-action">
-              
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/06/godoc%E4%BB%8B%E7%BB%8D/" data-tooltip="godoc介绍">
-              
-                  <i class="fa fa-angle-left"></i>
-                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
-                </a>
-            </li>
-            <li class="post-action">
-              
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/06/suid-sgid%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E/" data-tooltip="SUID SGID详细说明">
-              
-                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
-                  <i class="fa fa-angle-right"></i>
-                </a>
-            </li>
-          
-        </ul>
-      </nav>
-    <ul class="post-actions post-action-share" >
-      
-        <li class="post-action hide-lg hide-md hide-sm">
-          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
-            <i class="fa fa-share-alt"></i>
-          </a>
-        </li>
-        
-          <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2018/06/go%E8%B0%83%E7%94%A8windows-dll/">
-              <i class="fa fa-facebook-official"></i>
-            </a>
-          </li>
-        
-          <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2018/06/go%E8%B0%83%E7%94%A8windows-dll/">
-              <i class="fa fa-twitter"></i>
-            </a>
-          </li>
-        
-          <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2018/06/go%E8%B0%83%E7%94%A8windows-dll/">
-              <i class="fa fa-google-plus"></i>
-            </a>
-          </li>
-        
-      
-      
-        <li class="post-action">
-          <a class="post-action-btn btn btn--default" href="#disqus_thread">
-            <i class="fa fa-comment-o"></i>
-          </a>
-        </li>
-      
-      <li class="post-action">
-        
-          <a class="post-action-btn btn btn--default" href="#">
-        
-          <i class="fa fa-list"></i>
-        </a>
-      </li>
-    </ul>
-  </div>
-
-
-      </div>
-      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
-  <i id="btn-close-shareoptions" class="fa fa-close"></i>
-  <ul class="share-options">
-    
-      <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fpytimer.github.io%2F2018%2F06%2Fgo%25E8%25B0%2583%25E7%2594%25A8windows-dll%2F">
-          <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
-        </a>
-      </li>
-    
-      <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fpytimer.github.io%2F2018%2F06%2Fgo%25E8%25B0%2583%25E7%2594%25A8windows-dll%2F">
-          <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
-        </a>
-      </li>
-    
-      <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fpytimer.github.io%2F2018%2F06%2Fgo%25E8%25B0%2583%25E7%2594%25A8windows-dll%2F">
-          <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
-        </a>
-      </li>
-    
-  </ul>
-</div>
-<div id="share-options-mask" class="share-options-mask"></div>
     </div>
     
     <div id="about">
@@ -748,32 +582,6 @@ $(document).ready(function() {
 });
 </script>
 
-
-  
-    
-      <script>
-        var disqus_config = function () {
-          this.page.url = 'https:\/\/pytimer.github.io\/2018\/06\/go%E8%B0%83%E7%94%A8windows-dll\/';
-          
-            this.page.identifier = '\/2018\/06\/go%E8%B0%83%E7%94%A8windows-dll\/'
-          
-        };
-        (function() {
-          
-          
-          if (window.location.hostname == "localhost") {
-            return;
-          }
-          var d = document, s = d.createElement('script');
-          var disqus_shortname = 'hugo-tranquilpeak-theme';
-          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-
-          s.setAttribute('data-timestamp', +new Date());
-          (d.head || d.body).appendChild(s);
-        })();
-      </script>
-    
-  
 
 
 
