@@ -32,12 +32,12 @@
 在大多数时候，我们都可以直接使用官方的charts仓库来安装我们想要的组件，但是我们有时候会在内网的情况下使用Helm，这个时候我们可能需要一个自己私有的charts仓库。该文档将介绍如何搭建一个私有的charts仓库。
 我们使用minio作为charts仓库的后端存储，结合chartmuseum来提供charts仓库的服务，以方便我们操作charts仓库。
 术语  minio: minio是一个类似Amazon S3的分布式存储服务，该服务提供API、SDK、Client来让我们操作。 chartmuseum: chartmuseum是一个Web服务，该服务提供API来让我们比较轻松的操作charts仓库，而且该服务还可以满足多租户场景。  组件 部署完成后，全部的组件。
-$ kubectl get pod -n kube-system -l &quot;name=tiller&quot; NAME READY STATUS RESTARTS AGE tiller-deploy-&lt;xxx&gt; 1/1 Running 0 5h $ kubectl get pod -n kube-system -l &quot;app=chartmuseum&quot; NAME READY STATUS RESTARTS AGE &lt;release-name&gt;-chartmuseum-&lt;xxx&gt; 1/1 Running 0 47m $ kubectl get pod -n storage NAME READY STATUS RESTARTS AGE minio-client-deployment-&lt;xxx&gt; 1/1 Running 0 7h minio-deployment-&lt;xxx&gt; 1/1 Running 0 9h  部署 部署私有charts仓库，需要先部署minio服务，初始化helm init，部署tiller服务，这样一个初始的私有charts仓库就部署好了。在部署好初始私有charts仓库后，上传chartmuseum的charts，通过helm install安装该组件，启动服务。等待服务启动成功，使用helm添加新的charts仓库即可使用。">
+$ kubectl get pod -n kube-system -l &quot;name=tiller&quot; NAME READY STATUS RESTARTS AGE tiller-deploy-&lt;xxx&gt; 1/1 Running 0 5h $ kubectl get pod -n kube-system -l &quot;app=chartmuseum&quot; NAME READY STATUS RESTARTS AGE &lt;release-name&gt;-chartmuseum-&lt;xxx&gt; 1/1 Running 0 47m $ kubectl get pod -n storage NAME READY STATUS RESTARTS AGE minio-client-deployment-&lt;xxx&gt; 1/1 Running 0 7h minio-deployment-&lt;xxx&gt; 1/1 Running 0 9h  部署 部署私有charts仓库，初始化helm init，部署tiller服务，部署好minio服务，部署chartmuseum，通过helm install安装上述两个组件，启动服务。等待服务启动成功，使用helm添加新的charts仓库即可使用。">
     <meta property="og:description" content="Helm是一个管理Kubernetes上charts的工具，通过Helm你可以比较方便的部署、卸载组件等操作。
 在大多数时候，我们都可以直接使用官方的charts仓库来安装我们想要的组件，但是我们有时候会在内网的情况下使用Helm，这个时候我们可能需要一个自己私有的charts仓库。该文档将介绍如何搭建一个私有的charts仓库。
 我们使用minio作为charts仓库的后端存储，结合chartmuseum来提供charts仓库的服务，以方便我们操作charts仓库。
 术语  minio: minio是一个类似Amazon S3的分布式存储服务，该服务提供API、SDK、Client来让我们操作。 chartmuseum: chartmuseum是一个Web服务，该服务提供API来让我们比较轻松的操作charts仓库，而且该服务还可以满足多租户场景。  组件 部署完成后，全部的组件。
-$ kubectl get pod -n kube-system -l &quot;name=tiller&quot; NAME READY STATUS RESTARTS AGE tiller-deploy-&lt;xxx&gt; 1/1 Running 0 5h $ kubectl get pod -n kube-system -l &quot;app=chartmuseum&quot; NAME READY STATUS RESTARTS AGE &lt;release-name&gt;-chartmuseum-&lt;xxx&gt; 1/1 Running 0 47m $ kubectl get pod -n storage NAME READY STATUS RESTARTS AGE minio-client-deployment-&lt;xxx&gt; 1/1 Running 0 7h minio-deployment-&lt;xxx&gt; 1/1 Running 0 9h  部署 部署私有charts仓库，需要先部署minio服务，初始化helm init，部署tiller服务，这样一个初始的私有charts仓库就部署好了。在部署好初始私有charts仓库后，上传chartmuseum的charts，通过helm install安装该组件，启动服务。等待服务启动成功，使用helm添加新的charts仓库即可使用。">
+$ kubectl get pod -n kube-system -l &quot;name=tiller&quot; NAME READY STATUS RESTARTS AGE tiller-deploy-&lt;xxx&gt; 1/1 Running 0 5h $ kubectl get pod -n kube-system -l &quot;app=chartmuseum&quot; NAME READY STATUS RESTARTS AGE &lt;release-name&gt;-chartmuseum-&lt;xxx&gt; 1/1 Running 0 47m $ kubectl get pod -n storage NAME READY STATUS RESTARTS AGE minio-client-deployment-&lt;xxx&gt; 1/1 Running 0 7h minio-deployment-&lt;xxx&gt; 1/1 Running 0 9h  部署 部署私有charts仓库，初始化helm init，部署tiller服务，部署好minio服务，部署chartmuseum，通过helm install安装上述两个组件，启动服务。等待服务启动成功，使用helm添加新的charts仓库即可使用。">
     <meta property="og:type" content="blog">
     <meta property="og:title" content="Deploy Helm private charts repository on the Kubernetes">
     <meta property="og:url" content="/2019/01/deploy-helm-private-charts-repository-on-the-kubernetes/">
@@ -48,7 +48,7 @@ $ kubectl get pod -n kube-system -l &quot;name=tiller&quot; NAME READY STATUS RE
 在大多数时候，我们都可以直接使用官方的charts仓库来安装我们想要的组件，但是我们有时候会在内网的情况下使用Helm，这个时候我们可能需要一个自己私有的charts仓库。该文档将介绍如何搭建一个私有的charts仓库。
 我们使用minio作为charts仓库的后端存储，结合chartmuseum来提供charts仓库的服务，以方便我们操作charts仓库。
 术语  minio: minio是一个类似Amazon S3的分布式存储服务，该服务提供API、SDK、Client来让我们操作。 chartmuseum: chartmuseum是一个Web服务，该服务提供API来让我们比较轻松的操作charts仓库，而且该服务还可以满足多租户场景。  组件 部署完成后，全部的组件。
-$ kubectl get pod -n kube-system -l &quot;name=tiller&quot; NAME READY STATUS RESTARTS AGE tiller-deploy-&lt;xxx&gt; 1/1 Running 0 5h $ kubectl get pod -n kube-system -l &quot;app=chartmuseum&quot; NAME READY STATUS RESTARTS AGE &lt;release-name&gt;-chartmuseum-&lt;xxx&gt; 1/1 Running 0 47m $ kubectl get pod -n storage NAME READY STATUS RESTARTS AGE minio-client-deployment-&lt;xxx&gt; 1/1 Running 0 7h minio-deployment-&lt;xxx&gt; 1/1 Running 0 9h  部署 部署私有charts仓库，需要先部署minio服务，初始化helm init，部署tiller服务，这样一个初始的私有charts仓库就部署好了。在部署好初始私有charts仓库后，上传chartmuseum的charts，通过helm install安装该组件，启动服务。等待服务启动成功，使用helm添加新的charts仓库即可使用。">
+$ kubectl get pod -n kube-system -l &quot;name=tiller&quot; NAME READY STATUS RESTARTS AGE tiller-deploy-&lt;xxx&gt; 1/1 Running 0 5h $ kubectl get pod -n kube-system -l &quot;app=chartmuseum&quot; NAME READY STATUS RESTARTS AGE &lt;release-name&gt;-chartmuseum-&lt;xxx&gt; 1/1 Running 0 47m $ kubectl get pod -n storage NAME READY STATUS RESTARTS AGE minio-client-deployment-&lt;xxx&gt; 1/1 Running 0 7h minio-deployment-&lt;xxx&gt; 1/1 Running 0 9h  部署 部署私有charts仓库，初始化helm init，部署tiller服务，部署好minio服务，部署chartmuseum，通过helm install安装上述两个组件，启动服务。等待服务启动成功，使用helm添加新的charts仓库即可使用。">
     
     
 
@@ -260,13 +260,41 @@ minio-deployment-&lt;xxx&gt;                     1/1       Running   0          
 
 <h2 id="部署">部署</h2>
 
-<p>部署私有charts仓库，需要先部署<code>minio</code>服务，初始化<code>helm init</code>，部署<code>tiller</code>服务，这样一个初始的私有charts仓库就部署好了。在部署好初始私有charts仓库后，上传<code>chartmuseum</code>的charts，通过<code>helm install</code>安装该组件，启动服务。等待服务启动成功，使用<code>helm</code>添加新的charts仓库即可使用。</p>
+<p>部署私有charts仓库，初始化<code>helm init</code>，部署<code>tiller</code>服务，部署好<code>minio</code>服务，部署<code>chartmuseum</code>，通过<code>helm install</code>安装上述两个组件，启动服务。等待服务启动成功，使用<code>helm</code>添加新的charts仓库即可使用。</p>
+
+<h4 id="初始化helm">初始化helm</h4>
+
+<p>对于charts仓库的初始化，需要使用到<code>helm</code>命令行工具，因此需要先安装该工具到本机。</p>
+
+<p>关于<code>helm</code>工具的安装，这里不进行描述，可以参考官方文档<a href="https://github.com/helm/helm/blob/master/docs/install.md#installing-the-helm-client">Installing the Helm Client</a>。</p>
+
+<p>使用<code>helm --help</code>来确认该工具是否安装成功。</p>
+
+<p>初始化helm，会安装<a href="https://docs.helm.sh/install/#installing-tiller">Tiller</a>，该组件是<code>helm</code>的服务端组件，安装方式比较简单。</p>
+
+<p>具体的安装可以参考<a href="https://github.com/pytimer/kubernetes-addons/tree/master/helm/tiller">Securing Helm installation</a>。</p>
+
+<p>因为我们在内网环境中，无法连接<code>https://kubernetes-charts.storage.googleapis.com</code>, 因此在初始化的时候，需要跳过更新本地仓库缓存的步骤，即:</p>
+
+<p><code>helm init --service-account tiller --skip-refresh</code></p>
+
+<p>初始化helm成功后，可以通过<code>helm repo list</code>看到我们有两个仓库，分别是<code>stable</code>和<code>local</code>。</p>
+
+<pre><code class="language-sh">$  helm repo list
+NAME            URL
+stable          https://kubernetes-charts.storage.googleapis.com
+local           http://127.0.0.1:8879/charts
+</code></pre>
+
+<p>到这里，我们就完成了helm的初始化。</p>
 
 <h3 id="部署minio服务">部署minio服务</h3>
 
 <p>当前我们部署单节点minio服务，使用本地存储。关于minio分布式部署方式详见官方文档。</p>
 
 <p>关于单节点minio服务的部署，可以根据<a href="https://github.com/pytimer/kubernetes-addons/tree/master/minio">deploy minio on the Kubernetes</a>来操作。</p>
+
+<p>这里我们使用<a href="https://github.com/pytimer/kubernetes-addons/tree/master/minio#use-helm-to-install-minio">Use helm install minio</a>来部署单节点minio。</p>
 
 <p>查看minio服务是否正常启动。</p>
 
@@ -278,9 +306,11 @@ minio-deployment-&lt;xxx&gt;                     1/1       Running   0          
 
 <p>等待minio服务启动成功后，通过浏览器访问<code>http://&lt;节点IP&gt;:30002</code>，如果访问成功说明服务正常。同时我们也可以通过操作<code>mc</code>(minio的cli工具)来查看服务是否正常。</p>
 
-<h3 id="创建初始charts仓库">创建初始charts仓库</h3>
+<h3 id="创建charts仓库">创建charts仓库</h3>
 
-<p>想要创建charts仓库，需要先在minio上创建一个bucket，我们这里取名叫<code>charts</code>。</p>
+<p>想要创建charts仓库，需要在minio上创建bucket，我们这里使用一个<code>chartmuseum</code>管理多个charts仓库的方式，因此需要创建多个bucket。</p>
+
+<p>首先创建父级bucket，这里取名叫<code>charts</code>。</p>
 
 <p><code>kubectl exec -it -n storage minio-client-deployment-&lt;xxx&gt; mc -- mb kminio/charts</code></p>
 
@@ -290,9 +320,9 @@ minio-deployment-&lt;xxx&gt;                     1/1       Running   0          
 [2019-01-08 06:35:45 UTC]     0B charts/
 </code></pre>
 
-<p>因为我们想要采用多仓库的形式，因此需要在上面bucket中，再创建子bucket，取名叫<code>kubernetes</code>。使用下面命令进行子bucket的创建:</p>
+<p>因为采用多仓库的形式，因此需要在上面bucket中，再创建子bucket，取名叫<code>kubernetes</code>。使用下面命令进行子bucket的创建:</p>
 
-<pre><code class="language-sh">kubectl exec -it -n storage minio-client-deployment-&lt;xxx&gt; mc -- mb kminio/charts/kubernetes
+<pre><code class="language-sh">kubectl exec -it -n storage minio-client-deployment-&lt;xxx&gt; mc -- mb kminio/charts/kubernetes/
 </code></pre>
 
 <p>设置bucket的权限</p>
@@ -305,75 +335,18 @@ minio-deployment-&lt;xxx&gt;                     1/1       Running   0          
 charts/kubernetes* =&gt; readonly
 </code></pre>
 
-<h3 id="配置初始charts仓库">配置初始charts仓库</h3>
-
-<p>对于初始charts仓库的初始化，需要使用到<code>helm</code>命令行工具，因此需要先安装该工具到本机。</p>
-
-<p>关于<code>helm</code>工具的安装，这里不进行描述，可以参考官方文档<a href="https://github.com/helm/helm/blob/master/docs/install.md#installing-the-helm-client">Installing the Helm Client</a>。</p>
-
-<p>使用<code>helm --help</code>来确认该工具是否安装成功。</p>
-
-<h4 id="创建-index-yaml">创建<code>index.yaml</code></h4>
-
-<p>charts仓库使用<code>index.yaml</code>文件来对该仓库中的charts进行管理。因此我们需要为初始charts仓库创建该文件。</p>
-
-<pre><code class="language-sh"># 在当前目录下会创建一个空的`index.yaml`文件
-$ helm repo index .
-$ cat index.yaml
-# `index.yaml` content
-apiVersion: v1
-entries: {}
-generated: 2019-01-02T18:38:26.929522888+08:00
-</code></pre>
-
-<h4 id="上传-index-yaml">上传<code>index.yaml</code></h4>
-
-<p>在创建好<code>index.yaml</code>文件后，需要上传该文件到minio服务的bucket中，我们可以通过minio的界面，<code>mc</code>，或者直接拷贝到该minio服务的volumes下。选择一种对你来说简便的方式即可。</p>
-
-<p>上传成功后，我们就可以使用初始charts仓库。</p>
-
-<h4 id="初始化helm">初始化helm</h4>
-
-<p>初始化helm，会安装<a href="https://docs.helm.sh/install/#installing-tiller">Tiller</a>，该组件是<code>helm</code>的服务端组件，安装方式比较简单。</p>
-
-<p>具体的安装可以参考<a href="https://github.com/pytimer/kubernetes-addons/tree/master/helm/tiller">Securing Helm installation</a>。</p>
-
-<p>因为我们使用的不是单一charts仓库的方式，因此在初始化的时候，<code>--stable-repo-url</code>需要设置为子bucket的地址，即:</p>
-
-<p><code>helm init --stable-repo-url http://&lt;MINIO-SERVER-IP&gt;:30002/charts/kubernetes --service-account tiller</code></p>
-
-<p>初始化helm成功后，可以通过<code>helm repo list</code>看到我们新增了一个<code>stable</code>的仓库</p>
-
-<pre><code class="language-sh">$  helm repo list
-NAME            URL
-stable          http://&lt;MINIO-SERVER-IP&gt;:30002/charts/kubernetes
-local           http://127.0.0.1:8879/charts
-</code></pre>
-
-<p>到这里，我们就创建好了初始的charts仓库。</p>
-
 <h3 id="安装chartmuseum">安装chartmuseum</h3>
 
 <p>我们使用<code>chartmuseum</code>来管理多个charts仓库，使用该服务，不需要客户端直接连接minio，只需要通过API即可管理和操作charts仓库。</p>
 
 <h4 id="添加chartmuseum">添加chartmuseum</h4>
 
-<p>首先需要下载官方的chart包到本地，打包其chart为tgz后缀的压缩包</p>
+<p>首先需要下载官方的chart包到本地。</p>
 
 <pre><code class="language-sh">$ git clone https://github.com/helm/charts
-$ cd stable
-$ helm package chartmuseum/
 </code></pre>
 
-<p>通过上述命令，会在当前目录下生成<code>chartmuseum-1.8.2.tgz</code>的包</p>
-
-<p>更新<code>index.yaml</code>。</p>
-
-<pre><code class="language-sh">$ wget http://&lt;MINIO-SERVER-IP&gt;:30002/charts/kubernetes/index.yaml -o chartmuseum/index.yaml
-$ helm repo index --merge chartmuseum/index.yaml --url http://&lt;MINIO-SERVER-IP&gt;:30002/charts/kubernetes chartmuseum/
-</code></pre>
-
-<p>更新好后，上传到前面创建的子bucket上。上传后，更新<code>stable</code>的repo，执行<code>helm search stable</code>可以看到chartmuseum的已经存在仓库中。</p>
+<p>拷贝<code>charts/stable/chartmuseum</code>到安装好<code>helm</code>的主机上。</p>
 
 <h4 id="安装chartmuseum-1">安装chartmuseum</h4>
 
@@ -390,7 +363,7 @@ env:
   open:
     STORAGE: amazon
     STORAGE_AMAZON_BUCKET: &quot;charts&quot;
-    STORAGE_AMAZON_ENDPOINT: &quot;http://minio-service.storage.svc:9000&quot;
+    STORAGE_AMAZON_ENDPOINT: &quot;http://&lt;minio-service&gt;.storage.svc:9000&quot;
     DEPTH: 1
     DEBUG: true
     DISABLE_API: false
@@ -425,7 +398,7 @@ env:
 
 <tr>
 <td align="left"><code>env.open.STORAGE_AMAZON_ENDPOINT</code></td>
-<td align="left">如果使用上面所说的方式部署minio，因为chartmuseum和minio不在同一个namespace中，因此需要填写为示例的minio服务地址</td>
+<td align="left">如果使用上面所说的方式部署minio，因为chartmuseum和minio不在同一个namespace中，因此需要填写为minio服务地址</td>
 </tr>
 
 <tr>
@@ -449,7 +422,7 @@ env:
 
 <p>创建<code>custom.yaml</code>来配置自定义的参数，执行以下命令安装<code>chartsumeum</code>:</p>
 
-<p><code>helm install -f custom.yaml stable/chartmuseum --namespace kube-system</code></p>
+<p><code>helm install -f custom.yaml ./chartmuseum --namespace kube-system</code></p>
 
 <pre><code class="language-sh">$ kubectl get pod -n kube-system -l &quot;app=chartmuseum&quot;
 NAME                                      READY     STATUS    RESTARTS   AGE
@@ -460,16 +433,41 @@ NAME                                      READY     STATUS    RESTARTS   AGE
 
 <p><code>helm repo add chartk8s http://&lt;CHARTMUSEUM-CLUSTER-IP&gt;:8080/kubernetes</code></p>
 
-<p>我们采用的三chartmuseum管理多个charts仓库的方式，因此这里添加的repo的url并不是minio的子bucket，而是去掉父级bucket后的地址。</p>
+<p>我们采用的是chartmuseum管理多个charts仓库的方式，因此这里添加的repo的url并不是minio的子bucket，而是去掉父级bucket后的地址。</p>
 
-<p>通过<code>helm search</code>可以看到该repo下面有我们之前在初始charts仓库时保存的chartmuseum的chart。</p>
+<p>通过<code>helm repo</code>可以看到该repo。</p>
 
-<pre><code class="language-sh">$ helm search chartk8s
-NAME                    CHART VERSION   APP VERSION     DESCRIPTION
-chartk8s/chartmuseum    1.8.2           0.8.0           Host your own Helm Chart Repository
+<pre><code class="language-sh">$ helm repo list
+NAME            URL
+local           http://127.0.0.1:8879/charts
+chartk8s        http://&lt;CHARTMUSEUM-CLUSTER-IP&gt;:8080/kubernetes
 </code></pre>
 
-<p>到这里，整个charts私仓部署就完成了，如果我们需要提供给集群外面使用，可以开发chartmuseum的<code>NodePort</code>。后续会更新如何开放对外服务。</p>
+<p>到这里，整个charts私仓部署就完成了，如果我们需要提供给集群外面使用，可以开放chartmuseum的<code>NodePort</code>。后续会更新如何开放对外服务。</p>
+
+<h3 id="如何使用chartmuseum">如何使用chartmuseum</h3>
+
+<p>我们可以使用API来操作chart仓库，具体的用法可以参考<a href="https://github.com/helm/chartmuseum#api">官方文档</a>。</p>
+
+<pre><code class="language-sh">$ git clone https://github.com/chartmuseum/helm-push
+</code></pre>
+
+<p>拷贝<code>helm-push</code>到<code>helm</code>的主机，如果<code>helm-push_${version}_linux_amd64.tar.gz</code>包在自定义的文件服务器上，我们可以修改<code>helm-push/scripts/install_plugin.sh</code>中Linux平台的<code>url</code>包路径。</p>
+
+<pre><code class="language-sh">$ helm plugin install ./helm-push
+Downloading and installing helm-push v0.7.1 ...
+https://github.com/chartmuseum/helm-push/releases/download/v0.7.1/helm-push_0.7.1_darwin_amd64.tar.gz
+Installed plugin: push
+</code></pre>
+
+<p>安装完成后，使用<code>helm --help</code>可以看到多了<code>helm push</code>的命令，通过该命令可以推送chart到chartmuseum管理的repo上。</p>
+
+<pre><code class="language-sh">$ helm push minio-2.3.1.tgz chartk8s
+Pushing minio-2.3.1.tgz to chartk8s...
+Done.
+</code></pre>
+
+<p>上传成功后，使用<code>helm repo update</code>更新，可以看到上传的minio的chart。</p>
 
               
             </div>
@@ -736,7 +734,7 @@ chartk8s/chartmuseum    1.8.2           0.8.0           Host your own Helm Chart
 在大多数时候，我们都可以直接使用官方的charts仓库来安装我们想要的组件，但是我们有时候会在内网的情况下使用Helm，这个时候我们可能需要一个自己私有的charts仓库。该文档将介绍如何搭建一个私有的charts仓库。
 我们使用minio作为charts仓库的后端存储，结合chartmuseum来提供charts仓库的服务，以方便我们操作charts仓库。
 术语  minio: minio是一个类似Amazon S3的分布式存储服务，该服务提供API、SDK、Client来让我们操作。 chartmuseum: chartmuseum是一个Web服务，该服务提供API来让我们比较轻松的操作charts仓库，而且该服务还可以满足多租户场景。  组件 部署完成后，全部的组件。
-$ kubectl get pod -n kube-system -l &quot;name=tiller&quot; NAME READY STATUS RESTARTS AGE tiller-deploy-&lt;xxx&gt; 1/1 Running 0 5h $ kubectl get pod -n kube-system -l &quot;app=chartmuseum&quot; NAME READY STATUS RESTARTS AGE &lt;release-name&gt;-chartmuseum-&lt;xxx&gt; 1/1 Running 0 47m $ kubectl get pod -n storage NAME READY STATUS RESTARTS AGE minio-client-deployment-&lt;xxx&gt; 1/1 Running 0 7h minio-deployment-&lt;xxx&gt; 1/1 Running 0 9h  部署 部署私有charts仓库，需要先部署minio服务，初始化helm init，部署tiller服务，这样一个初始的私有charts仓库就部署好了。在部署好初始私有charts仓库后，上传chartmuseum的charts，通过helm install安装该组件，启动服务。等待服务启动成功，使用helm添加新的charts仓库即可使用。</div>
+$ kubectl get pod -n kube-system -l &quot;name=tiller&quot; NAME READY STATUS RESTARTS AGE tiller-deploy-&lt;xxx&gt; 1/1 Running 0 5h $ kubectl get pod -n kube-system -l &quot;app=chartmuseum&quot; NAME READY STATUS RESTARTS AGE &lt;release-name&gt;-chartmuseum-&lt;xxx&gt; 1/1 Running 0 47m $ kubectl get pod -n storage NAME READY STATUS RESTARTS AGE minio-client-deployment-&lt;xxx&gt; 1/1 Running 0 7h minio-deployment-&lt;xxx&gt; 1/1 Running 0 9h  部署 部署私有charts仓库，初始化helm init，部署tiller服务，部署好minio服务，部署chartmuseum，通过helm install安装上述两个组件，启动服务。等待服务启动成功，使用helm添加新的charts仓库即可使用。</div>
             </div>
             <div style="clear:both;"></div>
             <hr>
