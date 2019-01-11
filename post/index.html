@@ -31,9 +31,9 @@
     <meta property="og:type" content="blog">
     <meta property="og:title" content="Posts">
     <meta property="og:url" content="/post/">
-    <meta property="og:site_name" content="pytimer">
+    <meta property="og:site_name" content="Pytimer Blog">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="pytimer">
+    <meta name="twitter:title" content="Pytimer Blog">
     <meta name="twitter:description" content="Hugo tranquilpeak theme pytimer">
     
     
@@ -72,7 +72,7 @@
       <header id="header" data-behavior="1">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
-    <a class="header-title-link" href="https://pytimer.github.io/">pytimer</a>
+    <a class="header-title-link" href="https://pytimer.github.io/">Pytimer Blog</a>
   </div>
   
     
@@ -96,7 +96,7 @@
         </a>
         <h4 class="sidebar-profile-name">Pytimer</h4>
         
-          <h5 class="sidebar-profile-bio"><strong>Like Golang and Cloud</strong></h5>
+          <h5 class="sidebar-profile-bio">Software Develper, <strong>Like Go and Cloud</strong></h5>
         
       </div>
     
@@ -636,6 +636,214 @@ td-log
 </article>
 
           
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://pytimer.github.io/2018/06/runc-spec%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">
+          runc spec源码解读
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2018-06-07T13:53:15&#43;08:00">
+        
+  
+  
+  
+  
+    7 六月 2018
+  
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://pytimer.github.io/categories/container">Container</a>, 
+    
+      <a class="category-link" href="https://pytimer.github.io/categories/runtime">Runtime</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      runc spec 命令的使用说明
+该命令，主要是用来生成容器启动的config.json文件，所有的容器config.json初始相同，根据--rootless再覆盖配置，重新生成config.json
+--bundle 工作目录
+--rootless 非root用户权限的容器
+$ runc spec --help NAME: runc spec - create a new specification file USAGE: runc spec [command options] [arguments...] DESCRIPTION: The spec command creates the new specification file named &quot;config.json&quot; for the bundle. The spec generated is just a starter file. Editing of the spec is required to achieve desired results. For example, the newly generated spec includes an args parameter that is initially set to call the &quot;sh&quot; command when the container is started.
+      <p>
+        <a href="https://pytimer.github.io/2018/06/runc-spec%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/" class="postShorten-excerpt_link link">阅读全文</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://pytimer.github.io/2018/06/runc%E8%A7%A3%E8%AF%BB%E4%BA%8C/">
+          runc解读(二)
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2018-06-06T14:34:02&#43;08:00">
+        
+  
+  
+  
+  
+    6 六月 2018
+  
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://pytimer.github.io/categories/container">Container</a>, 
+    
+      <a class="category-link" href="https://pytimer.github.io/categories/runtime">Runtime</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      runc run命令源码流程解读
+有些地方不是很明白，会继续研究，先初步掌握整体流程
+简单记录，后续整理
+断点设置 b /root/workspace/src/github.com/opencontainers/runc/utils_linux.go:248
+b /root/workspace/src/github.com/opencontainers/runc/utils_linux.go:288
+调用run 命令，会先检查参数是否正确，然后设置pid file 根据命令行参数初始化容器配置 1.更改工作路径到--bundle参数所指定的路径下
+2.读取config.json配置文件 生成specs.Spec
+3.校验process的参数是否正确validateProcessSpec
+4.返回specs.Spec
+启动容器，需要specs.Spec和CT_ACT_RUN这个参数(查看这个参数在linux的含义) func startContainer(context *cli.Context, spec *specs.Spec, action CtAct, criuOpts *libcontainer.CriuOpts) (int, error) { id := context.Args().First() if id == &quot;&quot; { return -1, errEmptyID } notifySocket := newNotifySocket(context, os.Getenv(&quot;NOTIFY_SOCKET&quot;), id) if notifySocket != nil { notifySocket.setupSpec(context, spec) } container, err := createContainer(context, id, spec) if err != nil { return -1, err } if notifySocket !
+      <p>
+        <a href="https://pytimer.github.io/2018/06/runc%E8%A7%A3%E8%AF%BB%E4%BA%8C/" class="postShorten-excerpt_link link">阅读全文</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://pytimer.github.io/2018/06/runc%E8%A7%A3%E8%AF%BB%E4%B8%80/">
+          runc解读(一)
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2018-06-06T13:46:13&#43;08:00">
+        
+  
+  
+  
+  
+    6 六月 2018
+  
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://pytimer.github.io/categories/container">Container</a>, 
+    
+      <a class="category-link" href="https://pytimer.github.io/categories/runtime">Runtime</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+       runc 源码解读
+runc项目只是阅读源码有些地方不是很好理解，因此采用Delve一边调试一边查看源码的方式。
+执行的命令示例：
+dlv debug -- run --bundle /root/mycontainer/basic testcontainer
+通过该方式可以进入debugger模式，可以设置断点，单步查看每个函数调用的效果，同时也方便查看当前操作系统的改变
+runc spec bundle 切换工作目录，执行的是os.Chdir(bundle)
+该命令，主要是用来生成容器启动的config.json文件，所有的容器config.json初始相同，根据--rootless再覆盖配置，重新生成config.json
+run runc run &lt;container&gt; 会生成state.json，该文件默认在/run/runc/&lt;container&gt;下，也可以使用--root /tmp/runc这个命令来改变存储位置。
+后面会单独描述该命令的代码流程。
+state TODO
+list 该命令可以查看目前启动的容器，该命令就是根据state.json来显示，因此如果启动容器的时候，指定了--root，在list查询的时候，也需要加上该命令参数。
+list.go只是对state.json的数据处理，没有过多关于底层实现。
+ getContainers() 调用utils_linux/loadFactory()，根据--root参数生成实现libcontainer.Factory接口的结构体，linux的Factory对应的就是libcontainer/factory_linux.go中的LinuxFactory 遍历--root指定路径下的目录 调用factory.Load(目录名)，根据state.json来生成对应的容器结构体libcontainer/container_linux.go中linuxContainer annotations就是对应的state.Config.Labels的字段 后面只是对于format的显示处理  
+      <p>
+        <a href="https://pytimer.github.io/2018/06/runc%E8%A7%A3%E8%AF%BB%E4%B8%80/" class="postShorten-excerpt_link link">阅读全文</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
           
   <div class="pagination-bar">
     <ul class="pagination">
@@ -650,7 +858,7 @@ td-log
           </li>
         
       
-      <li class="pagination-number">第 1 页 共 3 页</li>
+      <li class="pagination-number">第 1 页 共 2 页</li>
     </ul>
   </div>
 
@@ -675,7 +883,7 @@ td-log
     
     <h4 id="about-card-name">Pytimer</h4>
     
-      <div id="about-card-bio"><strong>Like Golang and Cloud</strong></div>
+      <div id="about-card-bio">Software Develper, <strong>Like Go and Cloud</strong></div>
     
     
       <div id="about-card-job">

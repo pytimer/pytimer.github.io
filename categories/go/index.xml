@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Go on pytimer</title>
+    <title>Go on Pytimer Blog</title>
     <link>https://pytimer.github.io/categories/go/</link>
-    <description>Recent content in Go on pytimer</description>
+    <description>Recent content in Go on Pytimer Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 06 Jun 2018 10:42:03 +0800</lastBuildDate>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tdlib on pytimer</title>
+    <title>Tdlib on Pytimer Blog</title>
     <link>https://pytimer.github.io/tags/tdlib/</link>
-    <description>Recent content in Tdlib on pytimer</description>
+    <description>Recent content in Tdlib on Pytimer Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 27 Jul 2018 16:21:45 +0800</lastBuildDate>

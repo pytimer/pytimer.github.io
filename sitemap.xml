@@ -252,6 +252,12 @@
   </url>
   
   <url>
+    <loc>https://pytimer.github.io/</loc>
+    <lastmod>2019-01-08T19:21:56+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://pytimer.github.io/tags/runc/</loc>
     <lastmod>2018-06-07T13:53:15+08:00</lastmod>
     <priority>0</priority>
@@ -284,12 +290,6 @@
   <url>
     <loc>https://pytimer.github.io/categories/telegram/</loc>
     <lastmod>2018-07-27T16:21:45+08:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://pytimer.github.io/</loc>
-    <lastmod>2019-01-08T19:21:56+08:00</lastmod>
     <priority>0</priority>
   </url>
   

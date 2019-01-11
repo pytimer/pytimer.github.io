@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Prometheus on pytimer</title>
+    <title>Prometheus on Pytimer Blog</title>
     <link>https://pytimer.github.io/categories/prometheus/</link>
-    <description>Recent content in Prometheus on pytimer</description>
+    <description>Recent content in Prometheus on Pytimer Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 28 Oct 2018 15:40:49 +0800</lastBuildDate>

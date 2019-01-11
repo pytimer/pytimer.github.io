@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Ask on pytimer</title>
+    <title>Ask on Pytimer Blog</title>
     <link>https://pytimer.github.io/tags/ask/</link>
-    <description>Recent content in Ask on pytimer</description>
+    <description>Recent content in Ask on Pytimer Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 08 Jun 2018 14:52:20 +0800</lastBuildDate>
