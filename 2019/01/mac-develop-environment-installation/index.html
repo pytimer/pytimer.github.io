@@ -1,0 +1,792 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.53 with theme Tranquilpeak 0.4.3-BETA">
+    <title>Mac Develop Environment Installation</title>
+    <meta name="author" content="Pytimer">
+    <meta name="keywords" content="tech">
+
+    <link rel="icon" href="https://pytimer.github.io/favicon.png">
+    
+
+    
+    <meta name="description" content="Mac开发环境配置
+安装iTerm2 官网下载：https://www.iterm2.com/
+安装oh-my-zsh oh-my-zsh 是一个开源的，负责管理你的zsh配置。
+ 通过curl来安装  sh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;
+ 通过wget来安装  sh -c &quot;$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)&quot;">
+    <meta property="og:description" content="Mac开发环境配置
+安装iTerm2 官网下载：https://www.iterm2.com/
+安装oh-my-zsh oh-my-zsh 是一个开源的，负责管理你的zsh配置。
+ 通过curl来安装  sh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;
+ 通过wget来安装  sh -c &quot;$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)&quot;">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Mac Develop Environment Installation">
+    <meta property="og:url" content="/2019/01/mac-develop-environment-installation/">
+    <meta property="og:site_name" content="Pytimer Blog">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Pytimer Blog">
+    <meta name="twitter:description" content="Mac开发环境配置
+安装iTerm2 官网下载：https://www.iterm2.com/
+安装oh-my-zsh oh-my-zsh 是一个开源的，负责管理你的zsh配置。
+ 通过curl来安装  sh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;
+ 通过wget来安装  sh -c &quot;$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)&quot;">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/gopher.png">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://pytimer.github.io/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://pytimer.github.io/">Pytimer Blog</a>
+  </div>
+  
+    
+      <a class="header-right-icon open-algolia-search"
+         href="https://pytimer.github.io/#search">
+    
+    
+      <i class="fa fa-lg fa-search"></i>
+    
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://pytimer.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/gopher.png" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">Pytimer</h4>
+        
+          <h5 class="sidebar-profile-bio">Software Develper, <strong>Like Go and Cloud</strong></h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://pytimer.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://pytimer.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://pytimer.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://pytimer.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/pytimer" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Mac Develop Environment Installation
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-01-12T18:34:29&#43;08:00">
+        
+  
+  
+  
+  
+    12 一月 2019
+  
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://pytimer.github.io/categories/mac">mac</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              <p>Mac开发环境配置</p>
+
+<h2 id="安装iterm2">安装iTerm2</h2>
+
+<p>官网下载：<a href="https://www.iterm2.com/">https://www.iterm2.com/</a></p>
+
+<h2 id="安装oh-my-zsh">安装oh-my-zsh</h2>
+
+<p>oh-my-zsh 是一个开源的，负责管理你的<code>zsh</code>配置。</p>
+
+<ul>
+<li>通过<code>curl</code>来安装</li>
+</ul>
+
+<p><code>sh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;</code></p>
+
+<ul>
+<li>通过<code>wget</code>来安装</li>
+</ul>
+
+<p><code>sh -c &quot;$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)&quot;</code></p>
+
+<h2 id="安装powerline">安装PowerLine</h2>
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://pytimer.github.io/tags/develop/">develop</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2019/03/coredns/" data-tooltip="Coredns">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2019/01/deploy-helm-private-charts-repository-on-the-kubernetes/" data-tooltip="Deploy Helm private charts repository on the Kubernetes">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2019/01/mac-develop-environment-installation/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2019/01/mac-develop-environment-installation/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2019/01/mac-develop-environment-installation/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 <a href="https://github.com/pytimer">pytimer</a>. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2019/03/coredns/" data-tooltip="Coredns">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2019/01/deploy-helm-private-charts-repository-on-the-kubernetes/" data-tooltip="Deploy Helm private charts repository on the Kubernetes">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2019/01/mac-develop-environment-installation/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2019/01/mac-develop-environment-installation/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2019/01/mac-develop-environment-installation/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fpytimer.github.io%2F2019%2F01%2Fmac-develop-environment-installation%2F">
+          <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fpytimer.github.io%2F2019%2F01%2Fmac-develop-environment-installation%2F">
+          <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fpytimer.github.io%2F2019%2F01%2Fmac-develop-environment-installation%2F">
+          <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/gopher.png" alt="作者的图片" />
+    
+    <h4 id="about-card-name">Pytimer</h4>
+    
+      <div id="about-card-bio">Software Develper, <strong>Like Go and Cloud</strong></div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Golang developer
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        China
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="搜索" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2019/03/coredns/">
+                <h3 class="media-heading">Coredns</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Mar 3, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">coredns pod status is CrashLoopBackOff $ kubectl get pod -n kube-system NAME READY STATUS RESTARTS AGE coredns-fb8b8dccf-cl9rp 0/1 CrashLoopBackOff 6 10m coredns-fb8b8dccf-v4lsv 0/1 CrashLoopBackOff 6 10m etcd-pytimer 1/1 Running 0 9m24s kube-apiserver-pytimer 1/1 Running 0 9m21s kube-controller-manager-pytimer 1/1 Running 0 9m24s kube-flannel-ds-amd64-84vxg 1/1 Running 0 8m14s kube-proxy-cgqpn 1/1 Running 0 10m kube-scheduler-pytimer 1/1 Running 0 9m15s  查看coredns pod的日志，发现如下错误：
+$ kubectl logs -n kube-system coredns-fb8b8dccf-cl9rp .:53 2019-03-26T13:58:34.693Z [INFO] CoreDNS-1.3.1 2019-03-26T13:58:34.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2019/01/mac-develop-environment-installation/">
+                <h3 class="media-heading">Mac Develop Environment Installation</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Mac开发环境配置
+安装iTerm2 官网下载：https://www.iterm2.com/
+安装oh-my-zsh oh-my-zsh 是一个开源的，负责管理你的zsh配置。
+ 通过curl来安装  sh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;
+ 通过wget来安装  sh -c &quot;$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)&quot;</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2019/01/deploy-helm-private-charts-repository-on-the-kubernetes/">
+                <h3 class="media-heading">Deploy Helm private charts repository on the Kubernetes</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Helm是一个管理Kubernetes上charts的工具，通过Helm你可以比较方便的部署、卸载组件等操作。
+在大多数时候，我们都可以直接使用官方的charts仓库来安装我们想要的组件，但是我们有时候会在内网的情况下使用Helm，这个时候我们可能需要一个自己私有的charts仓库。该文档将介绍如何搭建一个私有的charts仓库。
+我们使用minio作为charts仓库的后端存储，结合chartmuseum来提供charts仓库的服务，以方便我们操作charts仓库。
+术语  minio: minio是一个类似Amazon S3的分布式存储服务，该服务提供API、SDK、Client来让我们操作。 chartmuseum: chartmuseum是一个Web服务，该服务提供API来让我们比较轻松的操作charts仓库，而且该服务还可以满足多租户场景。  组件 部署完成后，全部的组件。
+$ kubectl get pod -n kube-system -l &quot;name=tiller&quot; NAME READY STATUS RESTARTS AGE tiller-deploy-&lt;xxx&gt; 1/1 Running 0 5h $ kubectl get pod -n kube-system -l &quot;app=chartmuseum&quot; NAME READY STATUS RESTARTS AGE &lt;release-name&gt;-chartmuseum-&lt;xxx&gt; 1/1 Running 0 47m $ kubectl get pod -n storage NAME READY STATUS RESTARTS AGE minio-client-deployment-&lt;xxx&gt; 1/1 Running 0 7h minio-deployment-&lt;xxx&gt; 1/1 Running 0 9h  部署 部署私有charts仓库，初始化helm init，部署tiller服务，部署好minio服务，部署chartmuseum，通过helm install安装上述两个组件，启动服务。等待服务启动成功，使用helm添加新的charts仓库即可使用。</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/12/kube-admission/">
+                <h3 class="media-heading">Kube Admission</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Dec 12, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">External Admission Webhooks 作用及使用场景 当需要对某些api请求或者所有请求进行校验或者修改object的时候，可以考虑使用ValidatingAdmissionWebhook或者MutatingAdmissionWebhook，两者的区别：
+ ValidatingAdmissionWebhook不允许在webhook中对Object进行修改，只是返回结果是true或false MutatingAdmissionWebhook运行在webhook中对Object进行修改  启用 在1.10之前的版本，需要使用 --admission-control 启用相关配置，并且是按配置的顺序来决定运行顺序，因此需要用户对于Admission Controllers 完全了解。
+在1.10之后的版本，上述配置已经废弃，建议使用--enable-admission-plugins=MutatingAdmissionWebhook,ValidatingAdmissionWebhook，并且用户指定的顺序并不会影响实际运行顺序，更加友好。
+官方的Using Admission Controllers - Kubernetes有关于这方面的详细说明。
+流程 kube-apiserver &ndash;&gt; 认证鉴权 &ndash;&gt; Admission Controller &ndash;&gt; webhook
+使用 创建admission服务，以供kube-apiserver调用 package main import ( &quot;crypto/tls&quot; &quot;encoding/json&quot; &quot;flag&quot; &quot;io/ioutil&quot; &quot;net/http&quot; admissionv1beta1 &quot;k8s.io/api/admission/v1beta1&quot; admissionregistrationv1beta1 &quot;k8s.io/api/admissionregistration/v1beta1&quot; corev1 &quot;k8s.io/api/core/v1&quot; metav1 &quot;k8s.io/apimachinery/pkg/apis/meta/v1&quot; &quot;k8s.io/apimachinery/pkg/runtime&quot; &quot;k8s.io/apimachinery/pkg/runtime/serializer&quot; utilruntime &quot;k8s.io/apimachinery/pkg/util/runtime&quot; &quot;k8s.io/klog&quot; ) type patchOperation struct { Op string `json:&quot;op&quot;` Path string `json:&quot;path&quot;` Value interface{} `json:&quot;value,omitempty&quot;` } var scheme = runtime.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/12/kubeadm-%E8%AE%BE%E8%AE%A1/">
+                <h3 class="media-heading">Kubeadm 设计</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Dec 12, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Master：控制面节点
+Node：工作节点
+目标  构建高可用的Kubernetes集群。
+ 定义一种通用并且可扩展的多个控制面实例部署的流程。kubeadm join --control-plane。 为明确的用户用例提供一种更好的解决方案。  高级工具集成
+  因为要提供给更高级的工具（ansible、saltstack）使用kubeadm来部署集群，因此，kubeadm join --control-plane需要为其提供更好的易操作性：
+ 并发部署节点
+高级工具可以并行的创建节点（包括：控制面节点和工作节点），以减少集群的启动时间。kubeadm join --control-plane应该提供一种更好的实践方式而不是依赖于高级工具进行同步。
+ 支持动态和静态两种形态的部署流程
+ 在用户执行kubeadm init的时候，可能并不清楚集群最终的形态是什么样子，例如， 用户可能只启动了一个控制面节点和n个工作节点，然后在未来可能需要添加更多的控制面节点和工作节点。用户不能提前知道控制面节点的最终状态，这种流程叫做“动态部署”。
+ kubeadm同时也应该支持另外一种“静态部署”流程，即用户在事先就已经规划并知道控制面节点的数量、IP等信息。
+  支持不同的etcd部署场景，具体来说就是，在相同的节点上部署控制面组件和etcd，或者是在专有机器上运行etcd。
+  非核心目标  在一个工作节点上安装控制面组件。该节点在最开始就要决定是作为控制面还是工作节点，并且在后续整个生命周期的过程中，都要保持不变。 该设计提案不包括etcd集群部署的管理。 该设计提案不包括api-server的load balancing。但是不能该提案的任何设计都不能阻止用户使用自己的负载均衡方案 该设计提案不涉及kubeadm的self-hosting方案。但是设计不能阻止未来重新考虑该部分。 该提案不提供对于跨主机传输CA和其他必要证书。 该提案不能阻塞当前已经存在的设计。  实现细节 初始化 Kubernetes 集群 在第一个节点上运行kubeadm init初始化集群，该节点被称为自举控制节点。
+为支持kubeadm join --control-plane，新的Kubernetes集群必须要满足下面条件：
+ 集群必须设置一个controlPlaneEndpoint 集群必须使用外部etcd  执行join之前的准备 在调用kubeadm join --control-plane之前，需要用户或者使用高级工具拷贝自举控制节点的证书到新的节点。
+证书包括：ca, front-proxy-ca certificate 和 service account key pair</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/12/install-kubernetes-cluster-with-kubeadm/">
+                <h3 class="media-heading">Install Kubernetes cluster with Kubeadm</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Dec 12, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">安装1.13.0-beta.2 安装必要组件 init apiVersion: kubeadm.k8s.io/v1beta1 kind: InitConfiguration bootstrapTokens: - groups: - system:bootstrappers:kubeadm:default-node-token ttl: 24h0m0s usages: - signing - authentication localAPIEndpoint: advertiseAddress: 0.0.0.0 bindPort: 6443 nodeRegistration: criSocket: /var/run/dockershim.sock name: master212 taints: - effect: NoSchedule key: node-role.kubernetes.io/master --- apiServer: timeoutForControlPlane: 4m0s apiVersion: kubeadm.k8s.io/v1beta1 kind: ClusterConfiguration certificatesDir: /etc/kubernetes/pki clusterName: kubernetes controlPlaneEndpoint: &quot;${VIP}&quot; controllerManager: {} dns: type: CoreDNS etcd: local: serverCertSANs: - &quot;${VIP}&quot; extraArgs: cipher-suites: TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 dataDir: /var/lib/etcd imageRepository: k8s.gcr.io kubernetesVersion: v1.13.0-beta.2 networking: dnsDomain: cluster.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/10/promethues-operator/">
+                <h3 class="media-heading">Promethues Operator</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">pormetheus-operator禁用cadvisor-port的方式 目前kubelet已经默认禁用--cadvisor-port的配置，而且后续该配置也会完全移除，因此需要改变prometheus-operator的serviceMonitor，修改的方式如下：
+原有的配置方式：
+- port: http-metrics interval: 15s - port: cadvisor interval: 30s honorLabels: true  修改后的配置方式：
+- port: http-metrics interval: 15s - port: http-metrics path: /metrics/cadvisor interval: 30s honorLabels: true  参考的网址 https://github.com/coreos/prometheus-operator/issues/1400
+https://github.com/coreos/prometheus-operator/issues/1741
+https://github.com/coreos/prometheus-operator/issues/633</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/07/telegram-dev/">
+                <h3 class="media-heading">Telegram Dev</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">使用 日志设置 在使用tdlib库的时候，需要先设置日志级别
+tdlib.SetLogVerbosityLevel(1)  SetLogVerbosityLevel(int)设置tdlib的日志级别，默认为5
+   级别 说明     0 fatal   1 error   2 warning、debug warning   3 info   4 debug   5 verbose debug   &gt;5 and &lt;=1024 更多的日志    参考网址 官方tdlib
+tdlib methods
+td-log</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/06/%E6%8F%90%E9%97%AE%E7%9A%84%E6%99%BA%E6%85%A7/">
+                <h3 class="media-heading">提问的智慧</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">比较好的一篇教人如何在互联网上提出自己问题，让其他人更愿意回答你的提问，而不是排斥。
+不只是技术问题，其他的问题也可以参考该提问方式。
+ 善用搜索引擎(Google、百度)
+ 请先阅读官方文档
+ 提问的时候最好提出自己曾尝试过的方法，或者让别人知道你有尽力尝试过解决该问题。
+ 提问的时候相关背景尽可能详细的说明清楚，并直接提出自己的目标而不仅仅是过程。
+ 提问的时候尽量不要加&rdquo;紧急&rdquo;之类的标题，哪怕你是付费用户。
+ 请态度和善提出你的任何问题，并善良对待任何人任何问题，不论谁都不喜欢自以为是的人。
+ 多用&rdquo;请&rdquo;、&rdquo;谢谢&rdquo;之类的词语，同时对回复者保持尊重和感谢。
+  链接地址：提问的智慧</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/06/runc-spec%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">
+                <h3 class="media-heading">runc spec源码解读</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">runc spec 命令的使用说明
+该命令，主要是用来生成容器启动的config.json文件，所有的容器config.json初始相同，根据--rootless再覆盖配置，重新生成config.json
+--bundle 工作目录
+--rootless 非root用户权限的容器
+$ runc spec --help NAME: runc spec - create a new specification file USAGE: runc spec [command options] [arguments...] DESCRIPTION: The spec command creates the new specification file named &quot;config.json&quot; for the bundle. The spec generated is just a starter file. Editing of the spec is required to achieve desired results. For example, the newly generated spec includes an args parameter that is initially set to call the &quot;sh&quot; command when the container is started.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         21 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('https://pytimer.github.io/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://pytimer.github.io/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/pytimer.github.io\/2019\/01\/mac-develop-environment-installation\/';
+          
+            this.page.identifier = '\/2019\/01\/mac-develop-environment-installation\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

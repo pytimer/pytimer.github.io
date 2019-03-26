@@ -15,7 +15,7 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.52 with theme Tranquilpeak 0.4.3-BETA">
+    <meta name="generator" content="Hugo 0.53 with theme Tranquilpeak 0.4.3-BETA">
     <title>Helm</title>
     <meta name="author" content="Pytimer">
     <meta name="keywords" content="">
@@ -306,6 +306,45 @@ $ kubectl get pod -n kube-system -l &quot;name=tiller&quot; NAME READY STATUS RE
           <div class="media">
             
             <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2019/03/coredns/">
+                <h3 class="media-heading">Coredns</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Mar 3, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">coredns pod status is CrashLoopBackOff $ kubectl get pod -n kube-system NAME READY STATUS RESTARTS AGE coredns-fb8b8dccf-cl9rp 0/1 CrashLoopBackOff 6 10m coredns-fb8b8dccf-v4lsv 0/1 CrashLoopBackOff 6 10m etcd-pytimer 1/1 Running 0 9m24s kube-apiserver-pytimer 1/1 Running 0 9m21s kube-controller-manager-pytimer 1/1 Running 0 9m24s kube-flannel-ds-amd64-84vxg 1/1 Running 0 8m14s kube-proxy-cgqpn 1/1 Running 0 10m kube-scheduler-pytimer 1/1 Running 0 9m15s  查看coredns pod的日志，发现如下错误：
+$ kubectl logs -n kube-system coredns-fb8b8dccf-cl9rp .:53 2019-03-26T13:58:34.693Z [INFO] CoreDNS-1.3.1 2019-03-26T13:58:34.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2019/01/mac-develop-environment-installation/">
+                <h3 class="media-heading">Mac Develop Environment Installation</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Mac开发环境配置
+安装iTerm2 官网下载：https://www.iterm2.com/
+安装oh-my-zsh oh-my-zsh 是一个开源的，负责管理你的zsh配置。
+ 通过curl来安装  sh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;
+ 通过wget来安装  sh -c &quot;$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)&quot;</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
               <a class="link-unstyled" href="https://pytimer.github.io/2019/01/deploy-helm-private-charts-repository-on-the-kubernetes/">
                 <h3 class="media-heading">Deploy Helm private charts repository on the Kubernetes</h3>
               </a>
@@ -484,61 +523,6 @@ $ runc spec --help NAME: runc spec - create a new specification file USAGE: runc
             <hr>
           </div>
         
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://pytimer.github.io/2018/06/runc%E8%A7%A3%E8%AF%BB%E4%BA%8C/">
-                <h3 class="media-heading">runc解读(二)</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jun 6, 2018
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">runc run命令源码流程解读
-有些地方不是很明白，会继续研究，先初步掌握整体流程
-简单记录，后续整理
-断点设置 b /root/workspace/src/github.com/opencontainers/runc/utils_linux.go:248
-b /root/workspace/src/github.com/opencontainers/runc/utils_linux.go:288
-调用run 命令，会先检查参数是否正确，然后设置pid file 根据命令行参数初始化容器配置 1.更改工作路径到--bundle参数所指定的路径下
-2.读取config.json配置文件 生成specs.Spec
-3.校验process的参数是否正确validateProcessSpec
-4.返回specs.Spec
-启动容器，需要specs.Spec和CT_ACT_RUN这个参数(查看这个参数在linux的含义) func startContainer(context *cli.Context, spec *specs.Spec, action CtAct, criuOpts *libcontainer.CriuOpts) (int, error) { id := context.Args().First() if id == &quot;&quot; { return -1, errEmptyID } notifySocket := newNotifySocket(context, os.Getenv(&quot;NOTIFY_SOCKET&quot;), id) if notifySocket != nil { notifySocket.setupSpec(context, spec) } container, err := createContainer(context, id, spec) if err != nil { return -1, err } if notifySocket !</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://pytimer.github.io/2018/06/runc%E8%A7%A3%E8%AF%BB%E4%B8%80/">
-                <h3 class="media-heading">runc解读(一)</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jun 6, 2018
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather"> runc 源码解读
-runc项目只是阅读源码有些地方不是很好理解，因此采用Delve一边调试一边查看源码的方式。
-执行的命令示例：
-dlv debug -- run --bundle /root/mycontainer/basic testcontainer
-通过该方式可以进入debugger模式，可以设置断点，单步查看每个函数调用的效果，同时也方便查看当前操作系统的改变
-runc spec bundle 切换工作目录，执行的是os.Chdir(bundle)
-该命令，主要是用来生成容器启动的config.json文件，所有的容器config.json初始相同，根据--rootless再覆盖配置，重新生成config.json
-run runc run &lt;container&gt; 会生成state.json，该文件默认在/run/runc/&lt;container&gt;下，也可以使用--root /tmp/runc这个命令来改变存储位置。
-后面会单独描述该命令的代码流程。
-state TODO
-list 该命令可以查看目前启动的容器，该命令就是根据state.json来显示，因此如果启动容器的时候，指定了--root，在list查询的时候，也需要加上该命令参数。
-list.go只是对state.json的数据处理，没有过多关于底层实现。
- getContainers() 调用utils_linux/loadFactory()，根据--root参数生成实现libcontainer.Factory接口的结构体，linux的Factory对应的就是libcontainer/factory_linux.go中的LinuxFactory 遍历--root指定路径下的目录 调用factory.Load(目录名)，根据state.json来生成对应的容器结构体libcontainer/container_linux.go中linuxContainer annotations就是对应的state.Config.Labels的字段 后面只是对于format的显示处理  </div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
       </div>
     </div>
     <div class="modal-footer">
@@ -546,7 +530,7 @@ list.go只是对state.json的数据处理，没有过多关于底层实现。
          data-message-zero=""
          data-message-one=""
          data-message-other="">
-         19 posts found
+         21 posts found
       </p>
     </div>
   </div>

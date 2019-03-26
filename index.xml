@@ -6,10 +6,33 @@
     <description>Recent content on Pytimer Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 08 Jan 2019 19:21:56 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 26 Mar 2019 22:09:07 +0800</lastBuildDate>
     
 	<atom:link href="https://pytimer.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Coredns</title>
+      <link>https://pytimer.github.io/2019/03/coredns/</link>
+      <pubDate>Tue, 26 Mar 2019 22:09:07 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/2019/03/coredns/</guid>
+      <description>coredns pod status is CrashLoopBackOff $ kubectl get pod -n kube-system NAME READY STATUS RESTARTS AGE coredns-fb8b8dccf-cl9rp 0/1 CrashLoopBackOff 6 10m coredns-fb8b8dccf-v4lsv 0/1 CrashLoopBackOff 6 10m etcd-pytimer 1/1 Running 0 9m24s kube-apiserver-pytimer 1/1 Running 0 9m21s kube-controller-manager-pytimer 1/1 Running 0 9m24s kube-flannel-ds-amd64-84vxg 1/1 Running 0 8m14s kube-proxy-cgqpn 1/1 Running 0 10m kube-scheduler-pytimer 1/1 Running 0 9m15s  查看coredns pod的日志，发现如下错误：
+$ kubectl logs -n kube-system coredns-fb8b8dccf-cl9rp .:53 2019-03-26T13:58:34.693Z [INFO] CoreDNS-1.3.1 2019-03-26T13:58:34.</description>
+    </item>
+    
+    <item>
+      <title>Mac Develop Environment Installation</title>
+      <link>https://pytimer.github.io/2019/01/mac-develop-environment-installation/</link>
+      <pubDate>Sat, 12 Jan 2019 18:34:29 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/2019/01/mac-develop-environment-installation/</guid>
+      <description>Mac开发环境配置
+安装iTerm2 官网下载：https://www.iterm2.com/
+安装oh-my-zsh oh-my-zsh 是一个开源的，负责管理你的zsh配置。
+ 通过curl来安装  sh -c &amp;quot;$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&amp;quot;
+ 通过wget来安装  sh -c &amp;quot;$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)&amp;quot;</description>
+    </item>
     
     <item>
       <title>Deploy Helm private charts repository on the Kubernetes</title>

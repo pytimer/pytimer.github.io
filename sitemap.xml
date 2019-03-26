@@ -3,6 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://pytimer.github.io/2019/03/coredns/</loc>
+    <lastmod>2019-03-26T22:09:07+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/2019/01/mac-develop-environment-installation/</loc>
+    <lastmod>2019-01-12T18:34:29+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://pytimer.github.io/2019/01/deploy-helm-private-charts-repository-on-the-kubernetes/</loc>
     <lastmod>2019-01-08T19:21:56+08:00</lastmod>
   </url>
@@ -115,7 +125,7 @@
   
   <url>
     <loc>https://pytimer.github.io/categories/cloud/</loc>
-    <lastmod>2019-01-08T19:21:56+08:00</lastmod>
+    <lastmod>2019-03-26T22:09:07+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -127,7 +137,7 @@
   
   <url>
     <loc>https://pytimer.github.io/tags/cncf/</loc>
-    <lastmod>2019-01-08T19:21:56+08:00</lastmod>
+    <lastmod>2019-03-26T22:09:07+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -146,6 +156,12 @@
   <url>
     <loc>https://pytimer.github.io/tags/debug/</loc>
     <lastmod>2018-06-06T10:42:03+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/develop/</loc>
+    <lastmod>2019-01-12T18:34:29+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -199,7 +215,13 @@
   
   <url>
     <loc>https://pytimer.github.io/tags/kubeadm/</loc>
-    <lastmod>2018-12-17T09:51:57+08:00</lastmod>
+    <lastmod>2019-03-26T22:09:07+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/categories/kubernetes/</loc>
+    <lastmod>2019-03-26T22:09:07+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -210,14 +232,14 @@
   </url>
   
   <url>
-    <loc>https://pytimer.github.io/categories/kubernetes/</loc>
-    <lastmod>2019-01-08T19:21:56+08:00</lastmod>
+    <loc>https://pytimer.github.io/categories/linux/</loc>
+    <lastmod>2018-06-05T19:44:06+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://pytimer.github.io/categories/linux/</loc>
-    <lastmod>2018-06-05T19:44:06+08:00</lastmod>
+    <loc>https://pytimer.github.io/categories/mac/</loc>
+    <lastmod>2019-01-12T18:34:29+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -241,7 +263,7 @@
   
   <url>
     <loc>https://pytimer.github.io/post/</loc>
-    <lastmod>2019-01-08T19:21:56+08:00</lastmod>
+    <lastmod>2019-03-26T22:09:07+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -253,7 +275,7 @@
   
   <url>
     <loc>https://pytimer.github.io/</loc>
-    <lastmod>2019-01-08T19:21:56+08:00</lastmod>
+    <lastmod>2019-03-26T22:09:07+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -282,13 +304,13 @@
   </url>
   
   <url>
-    <loc>https://pytimer.github.io/tags/telegram/</loc>
+    <loc>https://pytimer.github.io/categories/telegram/</loc>
     <lastmod>2018-07-27T16:21:45+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://pytimer.github.io/categories/telegram/</loc>
+    <loc>https://pytimer.github.io/tags/telegram/</loc>
     <lastmod>2018-07-27T16:21:45+08:00</lastmod>
     <priority>0</priority>
   </url>

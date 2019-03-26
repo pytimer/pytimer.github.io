@@ -32,7 +32,7 @@
     <item>
       <title>Cncf</title>
       <link>https://pytimer.github.io/tags/cncf/</link>
-      <pubDate>Tue, 08 Jan 2019 19:21:56 +0800</pubDate>
+      <pubDate>Tue, 26 Mar 2019 22:09:07 +0800</pubDate>
       
       <guid>https://pytimer.github.io/tags/cncf/</guid>
       <description></description>
@@ -53,6 +53,15 @@
       <pubDate>Wed, 06 Jun 2018 10:42:03 +0800</pubDate>
       
       <guid>https://pytimer.github.io/tags/debug/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Develop</title>
+      <link>https://pytimer.github.io/tags/develop/</link>
+      <pubDate>Sat, 12 Jan 2019 18:34:29 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/develop/</guid>
       <description></description>
     </item>
     
@@ -122,7 +131,7 @@
     <item>
       <title>Kubeadm</title>
       <link>https://pytimer.github.io/tags/kubeadm/</link>
-      <pubDate>Mon, 17 Dec 2018 09:51:57 +0800</pubDate>
+      <pubDate>Tue, 26 Mar 2019 22:09:07 +0800</pubDate>
       
       <guid>https://pytimer.github.io/tags/kubeadm/</guid>
       <description></description>
