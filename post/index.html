@@ -191,6 +191,76 @@
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://pytimer.github.io/2019/04/%E5%9C%A8gcp%E4%B8%8A%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%9E%E4%BE%8B/">
+          在GCP上创建虚拟机实例
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-04-20T19:33:35&#43;08:00">
+        
+  
+  
+  
+  
+    20 四月 2019
+  
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://pytimer.github.io/categories/gcp">gcp</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      想要在GCP上使用kubeadm搭建Kubernetes集群，用来平时使用，因此需要事先在GCP上创建几个虚拟机实例，用来部署集群。
+创建虚拟机实例 首先登录GCP的控制台页面，如果没有项目，需要新建一个项目，这里项目示例为kubernetes-pytimer。
+新建项目后，选择该项目，进入信息中心，在左侧的导航菜单中，选择Compute Engine -&gt; VM实例，刚进入页面的时候，如果是新注册的用户，需要等待初始化Compute Engine，这个时候页面的创建按钮是不可用的，等待初始化结束，按钮变亮后，即可创建虚拟机实例。
+点击创建按钮或者上方工具栏的创建实例按钮。如图：因为是要创建Kubernetes集群使用，而kubeadm在部署集群之前是对机器有要求的，需要至少2核CPU和2GB内存，具体的要求可以参考官方文档说明，因此需要在创建虚拟机实例的时候选择合适规格。
+选择虚拟机实例规格的操作比较简单，不进行描述，因为第一台机器需要作为集群的control plane节点，后续也会部署自己的组件，因此磁盘空间选择稍微大些。
+这里创建了两台虚拟机实例，等待一会，可以看到两台虚拟机创建完成，并且已经有了内部IP和临时外部IP。如图：本地Mac或者Linux连接虚拟机实例 自己开发电脑如果想要连接远程虚拟机，我们知道都是使用ssh进行连接，默认GCP不允许直接使用root进行远程连接，我们需要使用登录的GCP账号作为虚拟机的用户名进行登录才可以。关于如何登录虚拟机实例，官方有相关的文档，不过稍微有些麻烦，因此在这里进行简单的描述。
+我们在本地使用ssh-keygen生成ssh所需要的公钥和密钥，相关的操作，可以查阅[]()。
+ssh-keygen -t rsa -f ~/.ssh/k8smaster1 -C &lt;USERNAME&gt;， USERNAME是我们后面使用ssh登录机器的用户名，这样会生成两个文件，可以在~/.ssh看到如下：
+$ ll ~/.ssh total 24 -rw------- 1 pytimer staff 1.8K 4 20 15:28 k8smaster1 -rw-r--r-- 1 pytimer staff 395B 4 20 15:28 k8smaster1.pub -rw-r--r-- 1 pytimer staff 2.8K 4 20 13:19 known_hosts  查看k8smaster1.pub文件内容格式为: ssh-rsa &lt;content&gt; &lt;USERNAME&gt;，因为我们后面需要自己使用，因此当前制作密钥不设置过期时间。
+接下来我们需要把ssh公钥在虚拟机实例上进行设置。具体的操作可以参考文档添加ssh-key到虚拟机实例。
+设置完成后，使用ssh -i ~/.ssh/k8smaster1 &lt;USERNAME&gt;@&lt;IP&gt;即可登录到虚拟机。
+&lt;IP&gt;是虚拟机的外部IP。
+      <p>
+        <a href="https://pytimer.github.io/2019/04/%E5%9C%A8gcp%E4%B8%8A%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%9E%E4%BE%8B/" class="postShorten-excerpt_link link">阅读全文</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://pytimer.github.io/2019/03/coredns/">
           Coredns
         </a>
@@ -761,71 +831,6 @@ td-log
 </article>
 
           
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://pytimer.github.io/2018/06/runc-spec%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">
-          runc spec源码解读
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2018-06-07T13:53:15&#43;08:00">
-        
-  
-  
-  
-  
-    7 六月 2018
-  
-
-      </time>
-    
-    
-  
-  
-    <span>发布在</span>
-    
-      <a class="category-link" href="https://pytimer.github.io/categories/container">Container</a>, 
-    
-      <a class="category-link" href="https://pytimer.github.io/categories/runtime">Runtime</a>
-    
-  
-
-  </div>
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      runc spec 命令的使用说明
-该命令，主要是用来生成容器启动的config.json文件，所有的容器config.json初始相同，根据--rootless再覆盖配置，重新生成config.json
---bundle 工作目录
---rootless 非root用户权限的容器
-$ runc spec --help NAME: runc spec - create a new specification file USAGE: runc spec [command options] [arguments...] DESCRIPTION: The spec command creates the new specification file named &quot;config.json&quot; for the bundle. The spec generated is just a starter file. Editing of the spec is required to achieve desired results. For example, the newly generated spec includes an args parameter that is initially set to call the &quot;sh&quot; command when the container is started.
-      <p>
-        <a href="https://pytimer.github.io/2018/06/runc-spec%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/" class="postShorten-excerpt_link link">阅读全文</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
           
   <div class="pagination-bar">
     <ul class="pagination">
@@ -902,6 +907,34 @@ $ runc spec --help NAME: runc spec - create a new specification file USAGE: runc
       <div class="no-result text-color-light text-center"></div>
       <div class="results">
         
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2019/04/%E5%9C%A8gcp%E4%B8%8A%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%9E%E4%BE%8B/">
+                <h3 class="media-heading">在GCP上创建虚拟机实例</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Apr 4, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">想要在GCP上使用kubeadm搭建Kubernetes集群，用来平时使用，因此需要事先在GCP上创建几个虚拟机实例，用来部署集群。
+创建虚拟机实例 首先登录GCP的控制台页面，如果没有项目，需要新建一个项目，这里项目示例为kubernetes-pytimer。
+新建项目后，选择该项目，进入信息中心，在左侧的导航菜单中，选择Compute Engine -&gt; VM实例，刚进入页面的时候，如果是新注册的用户，需要等待初始化Compute Engine，这个时候页面的创建按钮是不可用的，等待初始化结束，按钮变亮后，即可创建虚拟机实例。
+点击创建按钮或者上方工具栏的创建实例按钮。如图：因为是要创建Kubernetes集群使用，而kubeadm在部署集群之前是对机器有要求的，需要至少2核CPU和2GB内存，具体的要求可以参考官方文档说明，因此需要在创建虚拟机实例的时候选择合适规格。
+选择虚拟机实例规格的操作比较简单，不进行描述，因为第一台机器需要作为集群的control plane节点，后续也会部署自己的组件，因此磁盘空间选择稍微大些。
+这里创建了两台虚拟机实例，等待一会，可以看到两台虚拟机创建完成，并且已经有了内部IP和临时外部IP。如图：本地Mac或者Linux连接虚拟机实例 自己开发电脑如果想要连接远程虚拟机，我们知道都是使用ssh进行连接，默认GCP不允许直接使用root进行远程连接，我们需要使用登录的GCP账号作为虚拟机的用户名进行登录才可以。关于如何登录虚拟机实例，官方有相关的文档，不过稍微有些麻烦，因此在这里进行简单的描述。
+我们在本地使用ssh-keygen生成ssh所需要的公钥和密钥，相关的操作，可以查阅[]()。
+ssh-keygen -t rsa -f ~/.ssh/k8smaster1 -C &lt;USERNAME&gt;， USERNAME是我们后面使用ssh登录机器的用户名，这样会生成两个文件，可以在~/.ssh看到如下：
+$ ll ~/.ssh total 24 -rw------- 1 pytimer staff 1.8K 4 20 15:28 k8smaster1 -rw-r--r-- 1 pytimer staff 395B 4 20 15:28 k8smaster1.pub -rw-r--r-- 1 pytimer staff 2.8K 4 20 13:19 known_hosts  查看k8smaster1.pub文件内容格式为: ssh-rsa &lt;content&gt; &lt;USERNAME&gt;，因为我们后面需要自己使用，因此当前制作密钥不设置过期时间。
+接下来我们需要把ssh公钥在虚拟机实例上进行设置。具体的操作可以参考文档添加ssh-key到虚拟机实例。
+设置完成后，使用ssh -i ~/.ssh/k8smaster1 &lt;USERNAME&gt;@&lt;IP&gt;即可登录到虚拟机。
+&lt;IP&gt;是虚拟机的外部IP。</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
         
           <div class="media">
             
@@ -1102,27 +1135,6 @@ td-log</div>
             <hr>
           </div>
         
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://pytimer.github.io/2018/06/runc-spec%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/">
-                <h3 class="media-heading">runc spec源码解读</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jun 6, 2018
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">runc spec 命令的使用说明
-该命令，主要是用来生成容器启动的config.json文件，所有的容器config.json初始相同，根据--rootless再覆盖配置，重新生成config.json
---bundle 工作目录
---rootless 非root用户权限的容器
-$ runc spec --help NAME: runc spec - create a new specification file USAGE: runc spec [command options] [arguments...] DESCRIPTION: The spec command creates the new specification file named &quot;config.json&quot; for the bundle. The spec generated is just a starter file. Editing of the spec is required to achieve desired results. For example, the newly generated spec includes an args parameter that is initially set to call the &quot;sh&quot; command when the container is started.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
       </div>
     </div>
     <div class="modal-footer">
@@ -1130,7 +1142,7 @@ $ runc spec --help NAME: runc spec - create a new specification file USAGE: runc
          data-message-zero=""
          data-message-one=""
          data-message-other="">
-         21 posts found
+         22 posts found
       </p>
     </div>
   </div>
