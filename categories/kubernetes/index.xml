@@ -6,10 +6,36 @@
     <description>Recent content in Kubernetes on Pytimer Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 26 Mar 2019 22:09:07 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 28 May 2019 13:35:48 +0800</lastBuildDate>
     
 	<atom:link href="https://pytimer.github.io/categories/kubernetes/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Change Etcd cluster member ip</title>
+      <link>https://pytimer.github.io/2019/05/change-etcd-cluster-member-ip/</link>
+      <pubDate>Tue, 28 May 2019 13:35:48 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/2019/05/change-etcd-cluster-member-ip/</guid>
+      <description>背景 Etcd是用于共享配置和服务发现的分布式、满足一致性的KV系统，受到Zookeeper启发，该项目是由CoreOS公司发起。目前在各种云环境中应用广泛，几个比较流行的云项目都采用了Etcd，如CloudFoundry、Kubernetes、Docker。Etcd采用Raft协议进行主节点的选举，并把相应的成员信息存储在各成员的db中。更多关于Etcd的详细介绍，可以在网上或者官方看到，这里不进行相关描述。
+由于Kubernetes采用Etcd作为后端数据存储，如果Etcd出现问题，会导致整个Kubernetes集群的数据不一致，严重的甚至会导致集群不可用，因此需要掌握Etcd集群的常见问题解决方式，以便在该组件出现故障的时候，可以及时修复，从而保证Kubernetes集群的正常可用，不影响用户的使用。
+如果Kubernetes集群部署完成后，更新整个集群所有节点的IP地址，当前Kubernetes的控制节点和Etcd成员节点在同一主机上运行，这也意味着如果修改Kubernetes控制节点的IP地址，需要对Etcd集群进行操作，以便Etcd集群可以使用新的IP地址进行通信。因此本文档重点介绍Etcd集群成员变更的两种方式。
+成员变更解决方式 Etcd集群本身满足(n/2)+1的成员容忍性。下面为集群大小对应的可容忍的异常成员数量。
+   集群大小 Majority 容忍数量     1 1 0   2 2 0   3 2 1   4 3 1   5 3 2   6 4 2   7 4 3   8 5 3   9 5 4    目前我们的Kubernetes集群采用大多数是3节点的Etcd集群，因此允许一个节点失联。
+下面详细描述下如何进行集群成员IP变更，因为我们的Etcd集群运行在容器中，采用Static Pod的方式由Kubelet进行管理，所以如果Etcd集群部署形态并非容器的话，请根据实际情况进行相应调整，关于etcdctl的操作是一致的，没有区别。
+我们仍然使用下面的三节点集群，所有节点IP地址如下：
+   成员名称 旧IP 新IP     master1 192.</description>
+    </item>
+    
+    <item>
+      <title>预留计算资源</title>
+      <link>https://pytimer.github.io/2019/05/%E9%A2%84%E7%95%99%E8%AE%A1%E7%AE%97%E8%B5%84%E6%BA%90/</link>
+      <pubDate>Mon, 13 May 2019 15:46:02 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/2019/05/%E9%A2%84%E7%95%99%E8%AE%A1%E7%AE%97%E8%B5%84%E6%BA%90/</guid>
+      <description>Kubernetes Node Allocatable 表示整个集群当前节点pod可用的计算资源量，该配置可以保证调度器不会超额申请计算资源，目前支持CPU,memory,storage这几个参数。
+Node Capacity --------------------------- | kube-reserved | |-------------------------| | system-reserved | |-------------------------| | eviction-threshold | |-------------------------| | | | allocatable | | (available for pods) | | | | | ---------------------------  https://k8smeetup.github.io/docs/tasks/administer-cluster/out-of-resource/#eviction-policy https://yq.aliyun.com/articles/604524 https://github.com/rootsongjc/qa/issues/3 https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/#general-guidelines https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/ https://github.com/kubernetes/community/blob/master/contributors/design-proposals/node/node-allocatable.md#recommended-cgroups-setup https://github.com/rancher/rancher/issues/17177 https://github.com/kubernetes/kubernetes/blob/v1.11.6/pkg/kubelet/cm/cgroup_manager_linux.go#L259 http://www.kbase101.com/question/18764.html https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/7/html/resource_management_guide/chap-using_control_groups#sec-Creating_Cgroups https://k8smeetup.github.io/docs/tasks/administer-cluster/reserve-compute-resources/ https://godoc.org/k8s.io/kubernetes/pkg/kubelet/apis/config#KubeletConfiguration</description>
+    </item>
     
     <item>
       <title>Coredns</title>

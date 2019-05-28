@@ -15,7 +15,7 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.53 with theme Tranquilpeak 0.4.3-BETA">
+    <meta name="generator" content="Hugo 0.52 with theme Tranquilpeak 0.4.3-BETA">
     <title>Debug</title>
     <meta name="author" content="Pytimer">
     <meta name="keywords" content="">
@@ -312,6 +312,65 @@ Delve支持远程调试、命令行调试、集成环境调试  远程调试  �
           <div class="media">
             
             <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2019/05/change-etcd-cluster-member-ip/">
+                <h3 class="media-heading">Change Etcd cluster member ip</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">背景 Etcd是用于共享配置和服务发现的分布式、满足一致性的KV系统，受到Zookeeper启发，该项目是由CoreOS公司发起。目前在各种云环境中应用广泛，几个比较流行的云项目都采用了Etcd，如CloudFoundry、Kubernetes、Docker。Etcd采用Raft协议进行主节点的选举，并把相应的成员信息存储在各成员的db中。更多关于Etcd的详细介绍，可以在网上或者官方看到，这里不进行相关描述。
+由于Kubernetes采用Etcd作为后端数据存储，如果Etcd出现问题，会导致整个Kubernetes集群的数据不一致，严重的甚至会导致集群不可用，因此需要掌握Etcd集群的常见问题解决方式，以便在该组件出现故障的时候，可以及时修复，从而保证Kubernetes集群的正常可用，不影响用户的使用。
+如果Kubernetes集群部署完成后，更新整个集群所有节点的IP地址，当前Kubernetes的控制节点和Etcd成员节点在同一主机上运行，这也意味着如果修改Kubernetes控制节点的IP地址，需要对Etcd集群进行操作，以便Etcd集群可以使用新的IP地址进行通信。因此本文档重点介绍Etcd集群成员变更的两种方式。
+成员变更解决方式 Etcd集群本身满足(n/2)+1的成员容忍性。下面为集群大小对应的可容忍的异常成员数量。
+   集群大小 Majority 容忍数量     1 1 0   2 2 0   3 2 1   4 3 1   5 3 2   6 4 2   7 4 3   8 5 3   9 5 4    目前我们的Kubernetes集群采用大多数是3节点的Etcd集群，因此允许一个节点失联。
+下面详细描述下如何进行集群成员IP变更，因为我们的Etcd集群运行在容器中，采用Static Pod的方式由Kubelet进行管理，所以如果Etcd集群部署形态并非容器的话，请根据实际情况进行相应调整，关于etcdctl的操作是一致的，没有区别。
+我们仍然使用下面的三节点集群，所有节点IP地址如下：
+   成员名称 旧IP 新IP     master1 192.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2019/05/%E9%A2%84%E7%95%99%E8%AE%A1%E7%AE%97%E8%B5%84%E6%BA%90/">
+                <h3 class="media-heading">预留计算资源</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Kubernetes Node Allocatable 表示整个集群当前节点pod可用的计算资源量，该配置可以保证调度器不会超额申请计算资源，目前支持CPU,memory,storage这几个参数。
+Node Capacity --------------------------- | kube-reserved | |-------------------------| | system-reserved | |-------------------------| | eviction-threshold | |-------------------------| | | | allocatable | | (available for pods) | | | | | ---------------------------  https://k8smeetup.github.io/docs/tasks/administer-cluster/out-of-resource/#eviction-policy https://yq.aliyun.com/articles/604524 https://github.com/rootsongjc/qa/issues/3 https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/#general-guidelines https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/ https://github.com/kubernetes/community/blob/master/contributors/design-proposals/node/node-allocatable.md#recommended-cgroups-setup https://github.com/rancher/rancher/issues/17177 https://github.com/kubernetes/kubernetes/blob/v1.11.6/pkg/kubelet/cm/cgroup_manager_linux.go#L259 http://www.kbase101.com/question/18764.html https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/7/html/resource_management_guide/chap-using_control_groups#sec-Creating_Cgroups https://k8smeetup.github.io/docs/tasks/administer-cluster/reserve-compute-resources/ https://godoc.org/k8s.io/kubernetes/pkg/kubelet/apis/config#KubeletConfiguration</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2019/04/interface/">
+                <h3 class="media-heading">Interface</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Apr 4, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">检测struct类型是否实现了某个接口 package main import &quot;fmt&quot; type Resource interface { GetName() string Restart() } type Pod struct { Name string RestartNumber int } func (p Pod) GetName() string { return p.Name } func (p *Pod) Restart() { p.RestartNumber += 1 } func main() { // 会出现如下的错误: cannot use Pod literal (type Pod) as type Resource in assignment: Pod does not implement Resource (Restart method has pointer receiver) var _ Resource = Pod{} }  因此如果我们想要检测一个类型是否实现了指定的接口，可以通过var _ io.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
               <a class="link-unstyled" href="https://pytimer.github.io/2019/04/%E5%9C%A8gcp%E4%B8%8A%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%9E%E4%BE%8B/">
                 <h3 class="media-heading">在GCP上创建虚拟机实例</h3>
               </a>
@@ -467,75 +526,6 @@ Node：工作节点
             <hr>
           </div>
         
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://pytimer.github.io/2018/10/promethues-operator/">
-                <h3 class="media-heading">Promethues Operator</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Oct 10, 2018
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">pormetheus-operator禁用cadvisor-port的方式 目前kubelet已经默认禁用--cadvisor-port的配置，而且后续该配置也会完全移除，因此需要改变prometheus-operator的serviceMonitor，修改的方式如下：
-原有的配置方式：
-- port: http-metrics interval: 15s - port: cadvisor interval: 30s honorLabels: true  修改后的配置方式：
-- port: http-metrics interval: 15s - port: http-metrics path: /metrics/cadvisor interval: 30s honorLabels: true  参考的网址 https://github.com/coreos/prometheus-operator/issues/1400
-https://github.com/coreos/prometheus-operator/issues/1741
-https://github.com/coreos/prometheus-operator/issues/633</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://pytimer.github.io/2018/07/telegram-dev/">
-                <h3 class="media-heading">Telegram Dev</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jul 7, 2018
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">使用 日志设置 在使用tdlib库的时候，需要先设置日志级别
-tdlib.SetLogVerbosityLevel(1)  SetLogVerbosityLevel(int)设置tdlib的日志级别，默认为5
-   级别 说明     0 fatal   1 error   2 warning、debug warning   3 info   4 debug   5 verbose debug   &gt;5 and &lt;=1024 更多的日志    参考网址 官方tdlib
-tdlib methods
-td-log</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://pytimer.github.io/2018/06/%E6%8F%90%E9%97%AE%E7%9A%84%E6%99%BA%E6%85%A7/">
-                <h3 class="media-heading">提问的智慧</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jun 6, 2018
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">比较好的一篇教人如何在互联网上提出自己问题，让其他人更愿意回答你的提问，而不是排斥。
-不只是技术问题，其他的问题也可以参考该提问方式。
- 善用搜索引擎(Google、百度)
- 请先阅读官方文档
- 提问的时候最好提出自己曾尝试过的方法，或者让别人知道你有尽力尝试过解决该问题。
- 提问的时候相关背景尽可能详细的说明清楚，并直接提出自己的目标而不仅仅是过程。
- 提问的时候尽量不要加&rdquo;紧急&rdquo;之类的标题，哪怕你是付费用户。
- 请态度和善提出你的任何问题，并善良对待任何人任何问题，不论谁都不喜欢自以为是的人。
- 多用&rdquo;请&rdquo;、&rdquo;谢谢&rdquo;之类的词语，同时对回复者保持尊重和感谢。
-  链接地址：提问的智慧</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
       </div>
     </div>
     <div class="modal-footer">
@@ -543,7 +533,7 @@ td-log</div>
          data-message-zero=""
          data-message-one=""
          data-message-other="">
-         22 posts found
+         25 posts found
       </p>
     </div>
   </div>

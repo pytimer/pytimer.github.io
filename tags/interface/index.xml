@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Interface on Pytimer Blog</title>
+    <link>https://pytimer.github.io/tags/interface/</link>
+    <description>Recent content in Interface on Pytimer Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 30 Apr 2019 16:33:54 +0800</lastBuildDate>
+    
+	<atom:link href="https://pytimer.github.io/tags/interface/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Interface</title>
+      <link>https://pytimer.github.io/2019/04/interface/</link>
+      <pubDate>Tue, 30 Apr 2019 16:33:54 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/2019/04/interface/</guid>
+      <description>检测struct类型是否实现了某个接口 package main import &amp;quot;fmt&amp;quot; type Resource interface { GetName() string Restart() } type Pod struct { Name string RestartNumber int } func (p Pod) GetName() string { return p.Name } func (p *Pod) Restart() { p.RestartNumber += 1 } func main() { // 会出现如下的错误: cannot use Pod literal (type Pod) as type Resource in assignment: Pod does not implement Resource (Restart method has pointer receiver) var _ Resource = Pod{} }  因此如果我们想要检测一个类型是否实现了指定的接口，可以通过var _ io.</description>
+    </item>
+    
+  </channel>
+</rss>

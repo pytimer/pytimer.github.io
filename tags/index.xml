@@ -32,7 +32,7 @@
     <item>
       <title>Cncf</title>
       <link>https://pytimer.github.io/tags/cncf/</link>
-      <pubDate>Tue, 26 Mar 2019 22:09:07 +0800</pubDate>
+      <pubDate>Tue, 28 May 2019 13:35:48 +0800</pubDate>
       
       <guid>https://pytimer.github.io/tags/cncf/</guid>
       <description></description>
@@ -80,6 +80,15 @@
       <pubDate>Tue, 05 Jun 2018 19:44:06 +0800</pubDate>
       
       <guid>https://pytimer.github.io/tags/egid/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Etcd</title>
+      <link>https://pytimer.github.io/tags/etcd/</link>
+      <pubDate>Tue, 28 May 2019 13:35:48 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/etcd/</guid>
       <description></description>
     </item>
     
@@ -138,6 +147,15 @@
     </item>
     
     <item>
+      <title>Interface</title>
+      <link>https://pytimer.github.io/tags/interface/</link>
+      <pubDate>Tue, 30 Apr 2019 16:33:54 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/interface/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Kubeadm</title>
       <link>https://pytimer.github.io/tags/kubeadm/</link>
       <pubDate>Tue, 26 Mar 2019 22:09:07 +0800</pubDate>
@@ -170,6 +188,15 @@
       <pubDate>Tue, 05 Jun 2018 19:44:06 +0800</pubDate>
       
       <guid>https://pytimer.github.io/tags/permission/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Reserve Resources</title>
+      <link>https://pytimer.github.io/tags/reserve-resources/</link>
+      <pubDate>Mon, 13 May 2019 15:46:02 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/reserve-resources/</guid>
       <description></description>
     </item>
     
