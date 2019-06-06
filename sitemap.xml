@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://pytimer.github.io/2019/06/coredns/</loc>
+    <lastmod>2019-06-06T18:06:42+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://pytimer.github.io/2019/05/change-etcd-cluster-member-ip/</loc>
     <lastmod>2019-05-28T13:35:48+08:00</lastmod>
   </url>
@@ -145,7 +150,7 @@
   
   <url>
     <loc>https://pytimer.github.io/categories/cloud/</loc>
-    <lastmod>2019-05-28T13:35:48+08:00</lastmod>
+    <lastmod>2019-06-06T18:06:42+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -157,7 +162,7 @@
   
   <url>
     <loc>https://pytimer.github.io/tags/cncf/</loc>
-    <lastmod>2019-05-28T13:35:48+08:00</lastmod>
+    <lastmod>2019-06-06T18:06:42+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -199,7 +204,7 @@
   
   <url>
     <loc>https://pytimer.github.io/tags/etcd/</loc>
-    <lastmod>2019-05-28T13:35:48+08:00</lastmod>
+    <lastmod>2019-06-06T18:06:42+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -210,13 +215,13 @@
   </url>
   
   <url>
-    <loc>https://pytimer.github.io/categories/gcp/</loc>
+    <loc>https://pytimer.github.io/tags/gcp/</loc>
     <lastmod>2019-04-20T19:33:35+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://pytimer.github.io/tags/gcp/</loc>
+    <loc>https://pytimer.github.io/categories/gcp/</loc>
     <lastmod>2019-04-20T19:33:35+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -264,14 +269,14 @@
   </url>
   
   <url>
-    <loc>https://pytimer.github.io/categories/kubernetes/</loc>
-    <lastmod>2019-05-28T13:35:48+08:00</lastmod>
+    <loc>https://pytimer.github.io/tags/kubernetes/</loc>
+    <lastmod>2018-10-28T15:40:49+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://pytimer.github.io/tags/kubernetes/</loc>
-    <lastmod>2018-10-28T15:40:49+08:00</lastmod>
+    <loc>https://pytimer.github.io/categories/kubernetes/</loc>
+    <lastmod>2019-06-06T18:06:42+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -307,7 +312,7 @@
   
   <url>
     <loc>https://pytimer.github.io/post/</loc>
-    <lastmod>2019-05-28T13:35:48+08:00</lastmod>
+    <lastmod>2019-06-06T18:06:42+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -319,7 +324,7 @@
   
   <url>
     <loc>https://pytimer.github.io/</loc>
-    <lastmod>2019-05-28T13:35:48+08:00</lastmod>
+    <lastmod>2019-06-06T18:06:42+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -354,13 +359,13 @@
   </url>
   
   <url>
-    <loc>https://pytimer.github.io/categories/telegram/</loc>
+    <loc>https://pytimer.github.io/tags/telegram/</loc>
     <lastmod>2018-07-27T16:21:45+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://pytimer.github.io/tags/telegram/</loc>
+    <loc>https://pytimer.github.io/categories/telegram/</loc>
     <lastmod>2018-07-27T16:21:45+08:00</lastmod>
     <priority>0</priority>
   </url>

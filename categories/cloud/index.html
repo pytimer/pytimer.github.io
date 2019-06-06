@@ -194,6 +194,74 @@
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://pytimer.github.io/2019/06/coredns/">
+          Coredns
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-06-06T18:06:42&#43;08:00">
+        
+  
+  
+  
+  
+    6 六月 2019
+  
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://pytimer.github.io/categories/cloud">cloud</a>, 
+    
+      <a class="category-link" href="https://pytimer.github.io/categories/kubernetes">Kubernetes</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      DNS Linux上通过/etc/resolv.conf文件可以配置DNS相关信息，该文件是resovler类库所使用的配置文件，每当通过域名访问其他主机时，该类库会将域名转换为对应的IP，然后才可以进行访问。
+resolv.conf 配置 nameserver 该选项用来配置DNS服务器地址，可以指定多个DNS
+domain 该选项用来指定本地的域名，没有配置search的情况下，search默认使用的为domain的值
+search 用来指定多个域名，用空格分隔。当访问的域名无法被DNS服务器解析时，resolver会将该域名后加上search指定的值，重新请求DNS，直到被正确解析或者列表循环结束。
+nslookup 默认的超时时间为15s左右。
+没有配置nameserver 在没有配置任何DNS的情况下，解析域名失败，返回如下错误：
+$ nslookup baidu.com ;; connection timed out; no servers could be reached  配置nameserver $ cat /etc/resolv.conf nameserver 8.8.8.8  $ nslookup baidu.com Server: 8.8.8.8 Address: 8.8.8.8#53 Non-authoritative answer: Name: baidu.com Address: x.x.x.x Name: baidu.com Address: y.y.y.y  如果没有解析域名成功会有如下信息：
+$ nslookup aaa.bbb.ccc Server: 8.8.8.8 Address: 8.8.8.8#53 ** server can't find aaa.bbb.ccc: NXDOMAIN  DNS常见记录类型  A：指定域名对应的IP地址
+      <p>
+        <a href="https://pytimer.github.io/2019/06/coredns/" class="postShorten-excerpt_link link">阅读全文</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+            
+              
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://pytimer.github.io/2019/05/change-etcd-cluster-member-ip/">
           Change Etcd cluster member ip
         </a>
@@ -760,6 +828,30 @@ Kubernetes与云原生2017年年终总结与2018年展望
           <div class="media">
             
             <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2019/06/coredns/">
+                <h3 class="media-heading">Coredns</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">DNS Linux上通过/etc/resolv.conf文件可以配置DNS相关信息，该文件是resovler类库所使用的配置文件，每当通过域名访问其他主机时，该类库会将域名转换为对应的IP，然后才可以进行访问。
+resolv.conf 配置 nameserver 该选项用来配置DNS服务器地址，可以指定多个DNS
+domain 该选项用来指定本地的域名，没有配置search的情况下，search默认使用的为domain的值
+search 用来指定多个域名，用空格分隔。当访问的域名无法被DNS服务器解析时，resolver会将该域名后加上search指定的值，重新请求DNS，直到被正确解析或者列表循环结束。
+nslookup 默认的超时时间为15s左右。
+没有配置nameserver 在没有配置任何DNS的情况下，解析域名失败，返回如下错误：
+$ nslookup baidu.com ;; connection timed out; no servers could be reached  配置nameserver $ cat /etc/resolv.conf nameserver 8.8.8.8  $ nslookup baidu.com Server: 8.8.8.8 Address: 8.8.8.8#53 Non-authoritative answer: Name: baidu.com Address: x.x.x.x Name: baidu.com Address: y.y.y.y  如果没有解析域名成功会有如下信息：
+$ nslookup aaa.bbb.ccc Server: 8.8.8.8 Address: 8.8.8.8#53 ** server can't find aaa.bbb.ccc: NXDOMAIN  DNS常见记录类型  A：指定域名对应的IP地址</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
               <a class="link-unstyled" href="https://pytimer.github.io/2019/05/change-etcd-cluster-member-ip/">
                 <h3 class="media-heading">Change Etcd cluster member ip</h3>
               </a>
@@ -957,23 +1049,6 @@ Node：工作节点
             <hr>
           </div>
         
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://pytimer.github.io/2018/12/install-kubernetes-cluster-with-kubeadm/">
-                <h3 class="media-heading">Install Kubernetes cluster with Kubeadm</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Dec 12, 2018
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">安装1.13.0-beta.2 安装必要组件 init apiVersion: kubeadm.k8s.io/v1beta1 kind: InitConfiguration bootstrapTokens: - groups: - system:bootstrappers:kubeadm:default-node-token ttl: 24h0m0s usages: - signing - authentication localAPIEndpoint: advertiseAddress: 0.0.0.0 bindPort: 6443 nodeRegistration: criSocket: /var/run/dockershim.sock name: master212 taints: - effect: NoSchedule key: node-role.kubernetes.io/master --- apiServer: timeoutForControlPlane: 4m0s apiVersion: kubeadm.k8s.io/v1beta1 kind: ClusterConfiguration certificatesDir: /etc/kubernetes/pki clusterName: kubernetes controlPlaneEndpoint: &quot;${VIP}&quot; controllerManager: {} dns: type: CoreDNS etcd: local: serverCertSANs: - &quot;${VIP}&quot; extraArgs: cipher-suites: TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 dataDir: /var/lib/etcd imageRepository: k8s.gcr.io kubernetesVersion: v1.13.0-beta.2 networking: dnsDomain: cluster.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
       </div>
     </div>
     <div class="modal-footer">
@@ -981,7 +1056,7 @@ Node：工作节点
          data-message-zero=""
          data-message-one=""
          data-message-other="">
-         25 posts found
+         26 posts found
       </p>
     </div>
   </div>

@@ -1,5 +1,9 @@
 
 
+  
+    
+  
+
 
   
 
@@ -16,25 +20,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.52 with theme Tranquilpeak 0.4.3-BETA">
-    <title>Linux</title>
+    <title>Coredns</title>
     <meta name="author" content="Pytimer">
-    <meta name="keywords" content="">
+    <meta name="keywords" content="tech">
 
     <link rel="icon" href="https://pytimer.github.io/favicon.png">
     
-      <link rel="alternate" type="application/rss+xml" title="RSS" href="https://pytimer.github.io/categories/linux/index.xml">
-    
 
     
-    <meta name="description" content="Hugo tranquilpeak theme pytimer">
-    <meta property="og:description" content="Hugo tranquilpeak theme pytimer">
+    <meta name="description" content="DNS Linux上通过/etc/resolv.conf文件可以配置DNS相关信息，该文件是resovler类库所使用的配置文件，每当通过域名访问其他主机时，该类库会将域名转换为对应的IP，然后才可以进行访问。
+resolv.conf 配置 nameserver 该选项用来配置DNS服务器地址，可以指定多个DNS
+domain 该选项用来指定本地的域名，没有配置search的情况下，search默认使用的为domain的值
+search 用来指定多个域名，用空格分隔。当访问的域名无法被DNS服务器解析时，resolver会将该域名后加上search指定的值，重新请求DNS，直到被正确解析或者列表循环结束。
+nslookup 默认的超时时间为15s左右。
+没有配置nameserver 在没有配置任何DNS的情况下，解析域名失败，返回如下错误：
+$ nslookup baidu.com ;; connection timed out; no servers could be reached  配置nameserver $ cat /etc/resolv.conf nameserver 8.8.8.8  $ nslookup baidu.com Server: 8.8.8.8 Address: 8.8.8.8#53 Non-authoritative answer: Name: baidu.com Address: x.x.x.x Name: baidu.com Address: y.y.y.y  如果没有解析域名成功会有如下信息：
+$ nslookup aaa.bbb.ccc Server: 8.8.8.8 Address: 8.8.8.8#53 ** server can&#39;t find aaa.bbb.ccc: NXDOMAIN  DNS常见记录类型  A：指定域名对应的IP地址">
+    <meta property="og:description" content="DNS Linux上通过/etc/resolv.conf文件可以配置DNS相关信息，该文件是resovler类库所使用的配置文件，每当通过域名访问其他主机时，该类库会将域名转换为对应的IP，然后才可以进行访问。
+resolv.conf 配置 nameserver 该选项用来配置DNS服务器地址，可以指定多个DNS
+domain 该选项用来指定本地的域名，没有配置search的情况下，search默认使用的为domain的值
+search 用来指定多个域名，用空格分隔。当访问的域名无法被DNS服务器解析时，resolver会将该域名后加上search指定的值，重新请求DNS，直到被正确解析或者列表循环结束。
+nslookup 默认的超时时间为15s左右。
+没有配置nameserver 在没有配置任何DNS的情况下，解析域名失败，返回如下错误：
+$ nslookup baidu.com ;; connection timed out; no servers could be reached  配置nameserver $ cat /etc/resolv.conf nameserver 8.8.8.8  $ nslookup baidu.com Server: 8.8.8.8 Address: 8.8.8.8#53 Non-authoritative answer: Name: baidu.com Address: x.x.x.x Name: baidu.com Address: y.y.y.y  如果没有解析域名成功会有如下信息：
+$ nslookup aaa.bbb.ccc Server: 8.8.8.8 Address: 8.8.8.8#53 ** server can&#39;t find aaa.bbb.ccc: NXDOMAIN  DNS常见记录类型  A：指定域名对应的IP地址">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="Linux">
-    <meta property="og:url" content="/categories/linux/">
+    <meta property="og:title" content="Coredns">
+    <meta property="og:url" content="/2019/06/coredns/">
     <meta property="og:site_name" content="Pytimer Blog">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Pytimer Blog">
-    <meta name="twitter:description" content="Hugo tranquilpeak theme pytimer">
+    <meta name="twitter:description" content="DNS Linux上通过/etc/resolv.conf文件可以配置DNS相关信息，该文件是resovler类库所使用的配置文件，每当通过域名访问其他主机时，该类库会将域名转换为对应的IP，然后才可以进行访问。
+resolv.conf 配置 nameserver 该选项用来配置DNS服务器地址，可以指定多个DNS
+domain 该选项用来指定本地的域名，没有配置search的情况下，search默认使用的为domain的值
+search 用来指定多个域名，用空格分隔。当访问的域名无法被DNS服务器解析时，resolver会将该域名后加上search指定的值，重新请求DNS，直到被正确解析或者列表循环结束。
+nslookup 默认的超时时间为15s左右。
+没有配置nameserver 在没有配置任何DNS的情况下，解析域名失败，返回如下错误：
+$ nslookup baidu.com ;; connection timed out; no servers could be reached  配置nameserver $ cat /etc/resolv.conf nameserver 8.8.8.8  $ nslookup baidu.com Server: 8.8.8.8 Address: 8.8.8.8#53 Non-authoritative answer: Name: baidu.com Address: x.x.x.x Name: baidu.com Address: y.y.y.y  如果没有解析域名成功会有如下信息：
+$ nslookup aaa.bbb.ccc Server: 8.8.8.8 Address: 8.8.8.8#53 ** server can&#39;t find aaa.bbb.ccc: NXDOMAIN  DNS常见记录类型  A：指定域名对应的IP地址">
     
     
 
@@ -69,7 +92,7 @@
 
   <body>
     <div id="blog">
-      <header id="header" data-behavior="1">
+      <header id="header" data-behavior="4">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
     <a class="header-title-link" href="https://pytimer.github.io/">Pytimer Blog</a>
@@ -87,7 +110,7 @@
   
 </header>
 
-      <nav id="sidebar" data-behavior="1">
+      <nav id="sidebar" data-behavior="4">
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
@@ -166,48 +189,30 @@
 </nav>
 
       
-        
 
-      
-      <div id="main" data-behavior="1"
+      <div id="main" data-behavior="4"
         class="
                hasCoverMetaIn
                ">
-        
-          <section class="postShorten-group main-content-wrap">
-            
-            
-              
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
   
-    
-      
-        
-      
-    
+    <h1 class="post-title" itemprop="headline">
+      Coredns
+    </h1>
   
-
-
   
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://pytimer.github.io/2018/06/suid-sgid%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E/">
-          SUID SGID详细说明
-        </a>
-      </h1>
-      
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2018-06-05T19:44:06&#43;08:00">
+      <time itemprop="datePublished" datetime="2019-06-06T18:06:42&#43;08:00">
         
   
   
   
   
-    5 六月 2018
+    6 六月 2019
   
 
       </time>
@@ -217,93 +222,326 @@
   
     <span>发布在</span>
     
-      <a class="category-link" href="https://pytimer.github.io/categories/linux">linux</a>
+      <a class="category-link" href="https://pytimer.github.io/categories/cloud">cloud</a>, 
+    
+      <a class="category-link" href="https://pytimer.github.io/categories/kubernetes">Kubernetes</a>
     
   
 
   </div>
 
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      Unix下关于文件权限的说明 9 8 7 6 5 4 3 2 1 0 - r w x r - x r - x  第9位表示文件类型，类型说明：
-   文件类型 说明     p 管道文件   d 目录文件   l 符号连接文件   - 普通文件   s socket文件   c 字符设备文件   b 块设备文件    第8-6位 文件所有者权限 第5-3位 同组用户权限 第2-0位 其他用户权限
-r表示可读 w表示可写 x表示可执行
-      <p>
-        <a href="https://pytimer.github.io/2018/06/suid-sgid%E8%AF%A6%E7%BB%86%E8%AF%B4%E6%98%8E/" class="postShorten-excerpt_link link">阅读全文</a>
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              
+
+<h2 id="dns">DNS</h2>
+
+<p>Linux上通过<code>/etc/resolv.conf</code>文件可以配置DNS相关信息，该文件是resovler类库所使用的配置文件，每当通过域名访问其他主机时，该类库会将域名转换为对应的IP，然后才可以进行访问。</p>
+
+<h3 id="resolv-conf-配置">resolv.conf 配置</h3>
+
+<p><strong>nameserver</strong> 该选项用来配置DNS服务器地址，可以指定多个DNS</p>
+
+<p><strong>domain</strong> 该选项用来指定本地的域名，没有配置search的情况下，search默认使用的为domain的值</p>
+
+<p><strong>search</strong> 用来指定多个域名，用空格分隔。当访问的域名无法被DNS服务器解析时，resolver会将该域名后加上search指定的值，重新请求DNS，直到被正确解析或者列表循环结束。</p>
+
+<h3 id="nslookup">nslookup</h3>
+
+<p>默认的超时时间为15s左右。</p>
+
+<h4 id="没有配置nameserver">没有配置nameserver</h4>
+
+<p>在没有配置任何DNS的情况下，解析域名失败，返回如下错误：</p>
+
+<pre><code class="language-sh">$ nslookup baidu.com
+;; connection timed out; no servers could be reached
+</code></pre>
+
+<h4 id="配置nameserver">配置nameserver</h4>
+
+<pre><code class="language-sh">$ cat /etc/resolv.conf
+nameserver 8.8.8.8
+</code></pre>
+
+<pre><code class="language-sh">$ nslookup baidu.com
+Server:         8.8.8.8
+Address:        8.8.8.8#53
+
+Non-authoritative answer:
+Name:   baidu.com
+Address: x.x.x.x
+Name:   baidu.com
+Address: y.y.y.y
+</code></pre>
+
+<p>如果没有解析域名成功会有如下信息：</p>
+
+<pre><code class="language-sh">$ nslookup aaa.bbb.ccc
+Server:         8.8.8.8
+Address:        8.8.8.8#53
+
+** server can't find aaa.bbb.ccc: NXDOMAIN
+</code></pre>
+
+<h3 id="dns常见记录类型">DNS常见记录类型</h3>
+
+<ul>
+<li><p><code>A</code>：指定域名对应的IP地址</p></li>
+
+<li><p><code>AAAA</code>：将域名解析到指定的IPv6的IP地址上</p></li>
+
+<li><p><code>CNAME</code>：别名解析。将注册的不同域名转到同一个域名记录上，由这个域名进行统一解析管理。</p></li>
+
+<li><p><code>NS</code>：域名服务器记录，用来指定该域名由哪个DNS服务器进行解析。</p></li>
+
+<li><p><code>PTR</code>：反向DNS，用于将IP地址映射到对应主机名。即通过IP查询对应的域名。</p></li>
+</ul>
+
+<h3 id="工作原理">工作原理</h3>
+
+<p><img src="http://dockone.io/uploads/article/20181111/15dfe73de4f1a60a4494272e0ec8dc00.png" alt="dns工作原理" /></p>
+
+<ol>
+<li>本地的DNS客户端向resolver发送域名(example.me)解析请求；</li>
+<li>resolver向根DNS服务器请求顶级域名DNS服务的地址；</li>
+<li>拿到顶级域名<code>me.</code>的DNS服务地址后，向顶级DNS服务请求<code>example.me</code>域名解析的服务；</li>
+<li>得到该域名的服务后，可以拿到该域名对应的IP地址，之后可以进行通信。</li>
+</ol>
+
+<p>DNS resolver有两种DNS查询方式：</p>
+
+<ul>
+<li><p>迭代查询：每个DNS服务返回另外一台DNS服务的位置，客户端依次询问不同级别的DNS服务，直到查询到了想要的结果。</p></li>
+
+<li><p>递归查询：DNS服务收到客户端的请求之后，会直接返回准确的结果，如果当前DNS服务没有存储该结果，会自己访问其他的DNS服务，并将结果返回给客户端。</p></li>
+</ul>
+
+<h3 id="域名层级关系">域名层级关系</h3>
+
+<p><img src="http://dockone.io/uploads/article/20181111/e72bf8290395de64c786dea4966e49f9.png" alt="域名层级" /></p>
+
+<h2 id="coredns">CoreDNS</h2>
+
+<h3 id="corefile">Corefile</h3>
+
+<pre><code class="language-yaml">apiVersion: v1
+data:
+  Corefile: |
+    .:53 {
+        errors
+        health
+        kubernetes cluster.local in-addr.arpa ip6.arpa {
+           pods insecure
+           upstream
+           fallthrough in-addr.arpa ip6.arpa
+        }
+        prometheus :9153
+        proxy . /etc/resolv.conf
+        cache 30
+        reload
+    }
+kind: ConfigMap
+metadata:
+  name: coredns
+  namespace: kube-system
+</code></pre>
+
+<p>集群内部pod通过service来进行访问的时候，采用的是域名方式，会根据容器里的<code>/etc/reslov.conf</code>文件内容进行DNS解析。</p>
+
+<h4 id="alpine的容器进行dns解析">alpine的容器进行DNS解析</h4>
+
+<p>设置CoreDNS所在宿主机的DNS <strong>nameserver</strong>为一个无法ping通的地址（192.168.100.200）。</p>
+
+<p>使用下面的yaml创建一个用于测试的Pod，访问我们自己的一个在<code>kube-system</code>的命名空间下的服务<code>k8s-keystone-auth</code></p>
+
+<pre><code class="language-yaml">apiVersion: v1
+kind: Pod
+metadata:
+  name: alpine
+spec:
+  containers:
+  - name: alpine
+    image: alpine:3.6
+    command:
+      - sleep
+      - &quot;3600&quot;
+    imagePullPolicy: IfNotPresent
+  restartPolicy: Always
+</code></pre>
+
+<pre><code class="language-sh">$ kubectl get pod
+NAME              READY     STATUS    RESTARTS   AGE
+alpine            1/1       Running   0          54m
+</code></pre>
+
+<p>查看该Pod的<code>/etc/resolv.conf</code>内容如下：</p>
+
+<pre><code class="language-sh"> $ kubectl exec alpine -- cat /etc/resolv.conf
+nameserver 10.96.0.10
+search default.svc.cluster.local svc.cluster.local cluster.local
+options ndots:5
+</code></pre>
+
+<p>在直接访问<code>k8s-keystone-auth</code>这个服务的时候，因为该服务和当前Pod不在同一个命名空间，因此会导致DNS解析失败，而且出现超时的情况。</p>
+
+<pre><code class="language-sh">$ kubectl exec busybox -- nslookup k8s-keystone-auth
+nslookup: can't resolve 'k8s-keystone-auth': Try again
+</code></pre>
+
+<p>CoreDNS的日志信息：</p>
+
+<pre><code class="language-sh">2019/06/06 17:53:29 [ERROR] 2 k8s-keystone-auth. AAAA: unreachable backend: read udp 10.120.25.14:58391-&gt;192.168.100.200:53: i/o timeout
+2019/06/06 17:53:29 [ERROR] 2 k8s-keystone-auth. A: unreachable backend: read udp 10.120.25.14:46773-&gt;192.168.100.200:53: i/o timeout
+2019/06/06 17:53:31 [ERROR] 2 k8s-keystone-auth. A: unreachable backend: read udp 10.120.25.14:56768-&gt;192.168.100.200:53: i/o timeout
+2019/06/06 17:53:31 [ERROR] 2 k8s-keystone-auth. AAAA: unreachable backend: read udp 10.120.25.14:33867-&gt;192.168.100.200:53: i/o timeout
+</code></pre>
+
+<p>在访问<code>k8s-keystone-auth.kube-system</code>的时候，因为指定了命名空间，因此会导致DNS解析成功，CoreDNS的日志无超时或错误信息。</p>
+
+<pre><code class="language-sh">$ kubectl exec busybox -- nslookup k8s-keystone-auth.kube-system
+Name:      k8s-keystone-auth.kube-system
+Address 1: 10.99.215.79 k8s-keystone-auth.kube-system.svc.cluster.local
+</code></pre>
+
+<h3 id="nameserver不通-访问集群内部服务">nameserver不通，访问集群内部服务</h3>
+
+<p>如果在<code>/etc/resolv.conf</code>文件中配置了nameserver，并且nameserver无法连通，会导致集群内部所有域名解析超时，超时时间为15s。</p>
+
+<pre><code class="language-sh">$ kubectl exec -it busybox -- nslookup kubernetes.default
+;; connection timed out; no servers could be reached
+</code></pre>
+
+<pre><code class="language-sh">2019/06/06 09:34:56 [ERROR] 2 kubernetes.default. AAAA: unreachable backend: read udp 10.120.25.5:55430-&gt;&lt;nameserver&gt;:53: i/o timeout
+</code></pre>
+
+<p>如果nameserver不通，此时访问集群内部服务使用<code>&lt;my-svc&gt;.&lt;namespace&gt;.svc.cluster.local</code>的方式可以解析成功。如下示例：</p>
+
+<pre><code class="language-sh">$ kubectl exec -it busybox -- nslookup k8s-keystone-auth-service.kube-system.svc.cluster.local
+Server:    10.96.0.10
+Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local
+
+Name:      k8s-keystone-auth-service.kube-system.svc.cluster.local
+Address 1: 10.99.215.79 k8s-keystone-auth-service.kube-system.svc.cluster.local
+</code></pre>
+
+<h3 id="注意事项">注意事项</h3>
+
+<ul>
+<li><p>Linux限制DNS <strong>nameserver</strong>为3条记录，DNS <strong>search</strong>为6条记录，因为Kubernetes要使用1个<strong>nameserver</strong>和3个<strong>search</strong>记录，因此本地设置DNS的话需要注意</p></li>
+
+<li><p>Alpine镜像小于3.3版本，对于DNS解析可能存在问题，因此建议使用更高级的版本</p></li>
+</ul>
+
+<h2 id="参考文档">参考文档</h2>
+
+<p><a href="https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/">https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/</a></p>
+
+<p><a href="https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/#coredns">https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/#coredns</a></p>
+
+<p><a href="https://blog.csdn.net/luanpeng825485697/article/details/84108166">https://blog.csdn.net/luanpeng825485697/article/details/84108166</a></p>
+
+<p><a href="https://github.com/coredns/coredns/issues/2287">https://github.com/coredns/coredns/issues/2287</a></p>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://pytimer.github.io/tags/etcd/">etcd</a>
+
+  <a class="tag tag--primary tag--small" href="https://pytimer.github.io/tags/cncf/">CNCF</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2019/05/change-etcd-cluster-member-ip/" data-tooltip="Change Etcd cluster member ip">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
         
-      </p>
-    </div>
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2019/06/coredns/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2019/06/coredns/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2019/06/coredns/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
   </div>
-  
-</article>
+
 
             
               
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://pytimer.github.io/2018/06/seccomp/">
-          Seccomp
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2018-06-01T14:17:19&#43;08:00">
-        
-  
-  
-  
-  
-    1 六月 2018
-  
-
-      </time>
-    
-    
-  
-  
-    <span>发布在</span>
-    
-      <a class="category-link" href="https://pytimer.github.io/categories/linux">linux</a>
-    
-  
-
-  </div>
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-       什么是Seccomp？ 全称：secure computing mode， 是linux kernel2.6.23版本以后支持的一种安全机制。
-在Linux中，系统调用会直接暴露给用户态程序，因此不安全的代码滥用调用就会对系统安全造成威胁。通过seccomp可以限制程序对于系统调用的使用，减少系统的暴露面。
-查看内核是否支持和使用seccomp  利用/proc/&lt;pid&gt;/status中的Seccomp查看，如果有该字段，说明支持Seccomp。  cat /proc/1/status | grep Seccomp
- 利用prctl(2)的PR_GET_SECCOMP的参数获取当前进程的seccomp状态。返回值0表示没有使用seccomp;返回值2表示使用了seccomp并处于SECCOMP_MODE_FILTER模式；其他情况进程会被SIGKILL信号杀死  
-      <p>
-        <a href="https://pytimer.github.io/2018/06/seccomp/" class="postShorten-excerpt_link link">阅读全文</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
             
-            
-
-          </section>
-        
+          </div>
+        </article>
         <footer id="footer" class="main-content-wrap">
   <span class="copyrights">
     &copy; 2019 <a href="https://github.com/pytimer">pytimer</a>. All Rights Reserved
@@ -311,6 +549,102 @@ r表示可读 w表示可写 x表示可执行
 </footer>
 
       </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2019/05/change-etcd-cluster-member-ip/" data-tooltip="Change Etcd cluster member ip">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2019/06/coredns/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2019/06/coredns/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2019/06/coredns/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fpytimer.github.io%2F2019%2F06%2Fcoredns%2F">
+          <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fpytimer.github.io%2F2019%2F06%2Fcoredns%2F">
+          <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fpytimer.github.io%2F2019%2F06%2Fcoredns%2F">
+          <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
     </div>
     
     <div id="about">
@@ -628,6 +962,32 @@ $(document).ready(function() {
 });
 </script>
 
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/pytimer.github.io\/2019\/06\/coredns\/';
+          
+            this.page.identifier = '\/2019\/06\/coredns\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
 
 
 
