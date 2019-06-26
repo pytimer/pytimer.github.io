@@ -6,10 +6,24 @@
     <description>Recent content in Posts on Pytimer Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 06 Jun 2019 18:06:42 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 26 Jun 2019 19:35:13 +0800</lastBuildDate>
     
 	<atom:link href="https://pytimer.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Mac安装使用Docker</title>
+      <link>https://pytimer.github.io/2019/06/mac%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8docker/</link>
+      <pubDate>Wed, 26 Jun 2019 19:35:13 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/2019/06/mac%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8docker/</guid>
+      <description>Docker是目前最常用的容器引擎，在Mac上安装Docker。
+安装、配置Docker Install Docker Desktop for Mac
+按照官方文档直接下载Docker.img并双击安装即可，安装的过程中，需要输入当前用户的登录密码。
+配置Docker 在Mac上，我们需要先注册Docker ID，进行登录才可以使用。因此我们需要先去https://cloud.docker.com注册自己的账号。
+Dockerhub关联Github上的项目 关联Github账号 进入https://cloud.docker.com，登录自己的账号，然后点击账号的倒三角，看到Account Settings，点击进入设置页面，查看Linked Accounts选项卡，可以关联Github账号，关联好后会显示关联成功。
+创建Repository 创建好Repository后，点击Builds，设置自动制作镜像的操作。</description>
+    </item>
     
     <item>
       <title>Coredns</title>

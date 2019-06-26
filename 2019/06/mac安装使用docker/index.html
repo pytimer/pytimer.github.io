@@ -1,0 +1,791 @@
+
+
+  
+    
+  
+
+
+  
+
+
+
+
+
+  
+
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="generator" content="Hugo 0.53 with theme Tranquilpeak 0.4.3-BETA">
+    <title>Mac安装使用Docker</title>
+    <meta name="author" content="Pytimer">
+    <meta name="keywords" content="mac">
+
+    <link rel="icon" href="https://pytimer.github.io/favicon.png">
+    
+
+    
+    <meta name="description" content="Docker是目前最常用的容器引擎，在Mac上安装Docker。
+安装、配置Docker Install Docker Desktop for Mac
+按照官方文档直接下载Docker.img并双击安装即可，安装的过程中，需要输入当前用户的登录密码。
+配置Docker 在Mac上，我们需要先注册Docker ID，进行登录才可以使用。因此我们需要先去https://cloud.docker.com注册自己的账号。
+Dockerhub关联Github上的项目 关联Github账号 进入https://cloud.docker.com，登录自己的账号，然后点击账号的倒三角，看到Account Settings，点击进入设置页面，查看Linked Accounts选项卡，可以关联Github账号，关联好后会显示关联成功。
+创建Repository 创建好Repository后，点击Builds，设置自动制作镜像的操作。">
+    <meta property="og:description" content="Docker是目前最常用的容器引擎，在Mac上安装Docker。
+安装、配置Docker Install Docker Desktop for Mac
+按照官方文档直接下载Docker.img并双击安装即可，安装的过程中，需要输入当前用户的登录密码。
+配置Docker 在Mac上，我们需要先注册Docker ID，进行登录才可以使用。因此我们需要先去https://cloud.docker.com注册自己的账号。
+Dockerhub关联Github上的项目 关联Github账号 进入https://cloud.docker.com，登录自己的账号，然后点击账号的倒三角，看到Account Settings，点击进入设置页面，查看Linked Accounts选项卡，可以关联Github账号，关联好后会显示关联成功。
+创建Repository 创建好Repository后，点击Builds，设置自动制作镜像的操作。">
+    <meta property="og:type" content="blog">
+    <meta property="og:title" content="Mac安装使用Docker">
+    <meta property="og:url" content="/2019/06/mac%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8docker/">
+    <meta property="og:site_name" content="Pytimer Blog">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Pytimer Blog">
+    <meta name="twitter:description" content="Docker是目前最常用的容器引擎，在Mac上安装Docker。
+安装、配置Docker Install Docker Desktop for Mac
+按照官方文档直接下载Docker.img并双击安装即可，安装的过程中，需要输入当前用户的登录密码。
+配置Docker 在Mac上，我们需要先注册Docker ID，进行登录才可以使用。因此我们需要先去https://cloud.docker.com注册自己的账号。
+Dockerhub关联Github上的项目 关联Github账号 进入https://cloud.docker.com，登录自己的账号，然后点击账号的倒三角，看到Account Settings，点击进入设置页面，查看Linked Accounts选项卡，可以关联Github账号，关联好后会显示关联成功。
+创建Repository 创建好Repository后，点击Builds，设置自动制作镜像的操作。">
+    
+    
+
+    
+    
+
+    
+      <meta property="og:image" content="https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/gopher.png">
+    
+
+    
+    
+    
+
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/jquery.fancybox.min.css" integrity="sha256-vuXZ9LGmmwtjqFX1F+EKin1ThZMub58gKULUyf0qECk=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.4/helpers/jquery.fancybox-thumbs.min.css" integrity="sha256-SEa4XYAHihTcEP1f5gARTB2K26Uk8PsndQYHQC1f4jU=" crossorigin="anonymous" />
+    
+    
+    <link rel="stylesheet" href="https://pytimer.github.io/css/style-jsjn0006wyhpyzivf6yceb31gvpjatbcs3qzjvlumobfnugccvobqwxnnaj8.min.css" />
+    
+    
+
+    
+      
+    
+    
+  </head>
+
+  <body>
+    <div id="blog">
+      <header id="header" data-behavior="4">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="https://pytimer.github.io/">Pytimer Blog</a>
+  </div>
+  
+    
+      <a class="header-right-icon open-algolia-search"
+         href="https://pytimer.github.io/#search">
+    
+    
+      <i class="fa fa-lg fa-search"></i>
+    
+    
+    </a>
+  
+</header>
+
+      <nav id="sidebar" data-behavior="4">
+  <div class="sidebar-container">
+    
+      <div class="sidebar-profile">
+        <a href="https://pytimer.github.io/#about">
+          <img class="sidebar-profile-picture" src="https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/gopher.png" alt="作者的图片" />
+        </a>
+        <h4 class="sidebar-profile-name">Pytimer</h4>
+        
+          <h5 class="sidebar-profile-bio">Software Develper, <strong>Like Go and Cloud</strong></h5>
+        
+      </div>
+    
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://pytimer.github.io/">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+      
+      <span class="sidebar-button-desc">首页</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://pytimer.github.io/categories">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+      
+      <span class="sidebar-button-desc">分类</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://pytimer.github.io/tags">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+      
+      <span class="sidebar-button-desc">标签</span>
+    </a>
+  </li>
+
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://pytimer.github.io/archives">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+      
+      <span class="sidebar-button-desc">归档</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+  <li class="sidebar-button">
+    
+      <a class="sidebar-button-link " href="https://github.com/pytimer" target="_blank" rel="noopener">
+    
+      <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+      
+      <span class="sidebar-button-desc">GitHub</span>
+    </a>
+  </li>
+
+
+    </ul>
+    <ul class="sidebar-buttons">
+      
+
+    </ul>
+  </div>
+</nav>
+
+      
+
+      <div id="main" data-behavior="4"
+        class="
+               hasCoverMetaIn
+               ">
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
+  
+    <h1 class="post-title" itemprop="headline">
+      Mac安装使用Docker
+    </h1>
+  
+  
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-06-26T19:35:13&#43;08:00">
+        
+  
+  
+  
+  
+    26 六月 2019
+  
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://pytimer.github.io/categories/docker">Docker</a>
+    
+  
+
+  </div>
+
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              
+
+<p>Docker是目前最常用的容器引擎，在Mac上安装Docker。</p>
+
+<h2 id="安装-配置docker">安装、配置Docker</h2>
+
+<p><a href="https://docs.docker.com/docker-for-mac/install/">Install Docker Desktop for Mac</a></p>
+
+<p>按照官方文档直接下载<code>Docker.img</code>并双击安装即可，安装的过程中，需要输入当前用户的登录密码。</p>
+
+<h3 id="配置docker">配置Docker</h3>
+
+<p>在Mac上，我们需要先注册Docker ID，进行登录才可以使用。因此我们需要先去<code>https://cloud.docker.com</code>注册自己的账号。</p>
+
+<h2 id="dockerhub关联github上的项目">Dockerhub关联Github上的项目</h2>
+
+<h3 id="关联github账号">关联Github账号</h3>
+
+<p>进入<code>https://cloud.docker.com</code>，登录自己的账号，然后点击账号的倒三角，看到<code>Account Settings</code>，点击进入设置页面，查看<code>Linked Accounts</code>选项卡，可以关联Github账号，关联好后会显示关联成功。</p>
+
+<h3 id="创建repository">创建Repository</h3>
+
+<p>创建好Repository后，点击<code>Builds</code>，设置自动制作镜像的操作。</p>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://pytimer.github.io/tags/docker-mac/">docker-mac</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2019/06/coredns/" data-tooltip="Coredns">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2019/06/mac%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8docker/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2019/06/mac%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8docker/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2019/06/mac%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8docker/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+            
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
+            
+          </div>
+        </article>
+        <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+    &copy; 2019 <a href="https://github.com/pytimer">pytimer</a>. All Rights Reserved
+  </span>
+</footer>
+
+      </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2019/06/coredns/" data-tooltip="Coredns">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2019/06/mac%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8docker/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2019/06/mac%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8docker/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2019/06/mac%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8docker/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fpytimer.github.io%2F2019%2F06%2Fmac%25E5%25AE%2589%25E8%25A3%2585%25E4%25BD%25BF%25E7%2594%25A8docker%2F">
+          <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fpytimer.github.io%2F2019%2F06%2Fmac%25E5%25AE%2589%25E8%25A3%2585%25E4%25BD%25BF%25E7%2594%25A8docker%2F">
+          <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fpytimer.github.io%2F2019%2F06%2Fmac%25E5%25AE%2589%25E8%25A3%2585%25E4%25BD%25BF%25E7%2594%25A8docker%2F">
+          <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
+    </div>
+    
+    <div id="about">
+  <div id="about-card">
+    <div id="about-btn-close">
+      <i class="fa fa-remove"></i>
+    </div>
+    
+      <img id="about-card-picture" src="https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/gopher.png" alt="作者的图片" />
+    
+    <h4 id="about-card-name">Pytimer</h4>
+    
+      <div id="about-card-bio">Software Develper, <strong>Like Go and Cloud</strong></div>
+    
+    
+      <div id="about-card-job">
+        <i class="fa fa-briefcase"></i>
+        <br/>
+        Golang developer
+      </div>
+    
+    
+      <div id="about-card-location">
+        <i class="fa fa-map-marker"></i>
+        <br/>
+        China
+      </div>
+    
+  </div>
+</div>
+
+    <div id="algolia-search-modal" class="modal-container">
+  <div class="modal">
+    <div class="modal-header">
+      <span class="close-button"><i class="fa fa-close"></i></span>
+      <a href="https://algolia.com" target="_blank" rel="noopener" class="searchby-algolia text-color-light link-unstyled">
+        <span class="searchby-algolia-text text-color-light text-small">by</span>
+        <img class="searchby-algolia-logo" src="https://www.algolia.com/static_assets/images/press/downloads/algolia-light.svg">
+      </a>
+      <i class="search-icon fa fa-search"></i>
+      <form id="algolia-search-form">
+        <input type="text" id="algolia-search-input" name="search"
+          class="form-control input--large search-input" placeholder="搜索" />
+      </form>
+    </div>
+    <div class="modal-body">
+      <div class="no-result text-color-light text-center"></div>
+      <div class="results">
+        
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2019/06/mac%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8docker/">
+                <h3 class="media-heading">Mac安装使用Docker</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Docker是目前最常用的容器引擎，在Mac上安装Docker。
+安装、配置Docker Install Docker Desktop for Mac
+按照官方文档直接下载Docker.img并双击安装即可，安装的过程中，需要输入当前用户的登录密码。
+配置Docker 在Mac上，我们需要先注册Docker ID，进行登录才可以使用。因此我们需要先去https://cloud.docker.com注册自己的账号。
+Dockerhub关联Github上的项目 关联Github账号 进入https://cloud.docker.com，登录自己的账号，然后点击账号的倒三角，看到Account Settings，点击进入设置页面，查看Linked Accounts选项卡，可以关联Github账号，关联好后会显示关联成功。
+创建Repository 创建好Repository后，点击Builds，设置自动制作镜像的操作。</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2019/06/coredns/">
+                <h3 class="media-heading">Coredns</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jun 6, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">DNS Linux上通过/etc/resolv.conf文件可以配置DNS相关信息，该文件是resovler类库所使用的配置文件，每当通过域名访问其他主机时，该类库会将域名转换为对应的IP，然后才可以进行访问。
+resolv.conf 配置 nameserver 该选项用来配置DNS服务器地址，可以指定多个DNS
+domain 该选项用来指定本地的域名，没有配置search的情况下，search默认使用的为domain的值
+search 用来指定多个域名，用空格分隔。当访问的域名无法被DNS服务器解析时，resolver会将该域名后加上search指定的值，重新请求DNS，直到被正确解析或者列表循环结束。
+nslookup 默认的超时时间为15s左右。
+没有配置nameserver 在没有配置任何DNS的情况下，解析域名失败，返回如下错误：
+$ nslookup baidu.com ;; connection timed out; no servers could be reached  配置nameserver $ cat /etc/resolv.conf nameserver 8.8.8.8  $ nslookup baidu.com Server: 8.8.8.8 Address: 8.8.8.8#53 Non-authoritative answer: Name: baidu.com Address: x.x.x.x Name: baidu.com Address: y.y.y.y  如果没有解析域名成功会有如下信息：
+$ nslookup aaa.bbb.ccc Server: 8.8.8.8 Address: 8.8.8.8#53 ** server can't find aaa.bbb.ccc: NXDOMAIN  DNS常见记录类型  A：指定域名对应的IP地址</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2019/05/change-etcd-cluster-member-ip/">
+                <h3 class="media-heading">Change Etcd cluster member ip</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">背景 Etcd是用于共享配置和服务发现的分布式、满足一致性的KV系统，受到Zookeeper启发，该项目是由CoreOS公司发起。目前在各种云环境中应用广泛，几个比较流行的云项目都采用了Etcd，如CloudFoundry、Kubernetes、Docker。Etcd采用Raft协议进行主节点的选举，并把相应的成员信息存储在各成员的db中。更多关于Etcd的详细介绍，可以在网上或者官方看到，这里不进行相关描述。
+由于Kubernetes采用Etcd作为后端数据存储，如果Etcd出现问题，会导致整个Kubernetes集群的数据不一致，严重的甚至会导致集群不可用，因此需要掌握Etcd集群的常见问题解决方式，以便在该组件出现故障的时候，可以及时修复，从而保证Kubernetes集群的正常可用，不影响用户的使用。
+如果Kubernetes集群部署完成后，更新整个集群所有节点的IP地址，当前Kubernetes的控制节点和Etcd成员节点在同一主机上运行，这也意味着如果修改Kubernetes控制节点的IP地址，需要对Etcd集群进行操作，以便Etcd集群可以使用新的IP地址进行通信。因此本文档重点介绍Etcd集群成员变更的两种方式。
+成员变更解决方式 Etcd集群本身满足(n/2)+1的成员容忍性。下面为集群大小对应的可容忍的异常成员数量。
+   集群大小 Majority 容忍数量     1 1 0   2 2 0   3 2 1   4 3 1   5 3 2   6 4 2   7 4 3   8 5 3   9 5 4    目前我们的Kubernetes集群采用大多数是3节点的Etcd集群，因此允许一个节点失联。
+下面详细描述下如何进行集群成员IP变更，因为我们的Etcd集群运行在容器中，采用Static Pod的方式由Kubelet进行管理，所以如果Etcd集群部署形态并非容器的话，请根据实际情况进行相应调整，关于etcdctl的操作是一致的，没有区别。
+我们仍然使用下面的三节点集群，所有节点IP地址如下：
+   成员名称 旧IP 新IP     master1 192.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2019/05/%E9%A2%84%E7%95%99%E8%AE%A1%E7%AE%97%E8%B5%84%E6%BA%90/">
+                <h3 class="media-heading">预留计算资源</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  May 5, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Kubernetes Node Allocatable 表示整个集群当前节点pod可用的计算资源量，该配置可以保证调度器不会超额申请计算资源，目前支持CPU,memory,storage这几个参数。
+Node Capacity --------------------------- | kube-reserved | |-------------------------| | system-reserved | |-------------------------| | eviction-threshold | |-------------------------| | | | allocatable | | (available for pods) | | | | | ---------------------------  https://k8smeetup.github.io/docs/tasks/administer-cluster/out-of-resource/#eviction-policy https://yq.aliyun.com/articles/604524 https://github.com/rootsongjc/qa/issues/3 https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/#general-guidelines https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/ https://github.com/kubernetes/community/blob/master/contributors/design-proposals/node/node-allocatable.md#recommended-cgroups-setup https://github.com/rancher/rancher/issues/17177 https://github.com/kubernetes/kubernetes/blob/v1.11.6/pkg/kubelet/cm/cgroup_manager_linux.go#L259 http://www.kbase101.com/question/18764.html https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/7/html/resource_management_guide/chap-using_control_groups#sec-Creating_Cgroups https://k8smeetup.github.io/docs/tasks/administer-cluster/reserve-compute-resources/ https://godoc.org/k8s.io/kubernetes/pkg/kubelet/apis/config#KubeletConfiguration</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2019/04/interface/">
+                <h3 class="media-heading">Interface</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Apr 4, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">检测struct类型是否实现了某个接口 package main import &quot;fmt&quot; type Resource interface { GetName() string Restart() } type Pod struct { Name string RestartNumber int } func (p Pod) GetName() string { return p.Name } func (p *Pod) Restart() { p.RestartNumber += 1 } func main() { // 会出现如下的错误: cannot use Pod literal (type Pod) as type Resource in assignment: Pod does not implement Resource (Restart method has pointer receiver) var _ Resource = Pod{} }  因此如果我们想要检测一个类型是否实现了指定的接口，可以通过var _ io.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2019/04/%E5%9C%A8gcp%E4%B8%8A%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%9E%E4%BE%8B/">
+                <h3 class="media-heading">在GCP上创建虚拟机实例</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Apr 4, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">想要在GCP上使用kubeadm搭建Kubernetes集群，用来平时使用，因此需要事先在GCP上创建几个虚拟机实例，用来部署集群。
+创建虚拟机实例 首先登录GCP的控制台页面，如果没有项目，需要新建一个项目，这里项目示例为kubernetes-pytimer。
+新建项目后，选择该项目，进入信息中心，在左侧的导航菜单中，选择Compute Engine -&gt; VM实例，刚进入页面的时候，如果是新注册的用户，需要等待初始化Compute Engine，这个时候页面的创建按钮是不可用的，等待初始化结束，按钮变亮后，即可创建虚拟机实例。
+点击创建按钮或者上方工具栏的创建实例按钮。如图：因为是要创建Kubernetes集群使用，而kubeadm在部署集群之前是对机器有要求的，需要至少2核CPU和2GB内存，具体的要求可以参考官方文档说明，因此需要在创建虚拟机实例的时候选择合适规格。
+选择虚拟机实例规格的操作比较简单，不进行描述，因为第一台机器需要作为集群的control plane节点，后续也会部署自己的组件，因此磁盘空间选择稍微大些。
+这里创建了两台虚拟机实例，等待一会，可以看到两台虚拟机创建完成，并且已经有了内部IP和临时外部IP。如图：本地Mac或者Linux连接虚拟机实例 自己开发电脑如果想要连接远程虚拟机，我们知道都是使用ssh进行连接，默认GCP不允许直接使用root进行远程连接，我们需要使用登录的GCP账号作为虚拟机的用户名进行登录才可以。关于如何登录虚拟机实例，官方有相关的文档，不过稍微有些麻烦，因此在这里进行简单的描述。
+我们在本地使用ssh-keygen生成ssh所需要的公钥和密钥，相关的操作，可以查阅[]()。
+ssh-keygen -t rsa -f ~/.ssh/k8smaster1 -C &lt;USERNAME&gt;， USERNAME是我们后面使用ssh登录机器的用户名，这样会生成两个文件，可以在~/.ssh看到如下：
+$ ll ~/.ssh total 24 -rw------- 1 pytimer staff 1.8K 4 20 15:28 k8smaster1 -rw-r--r-- 1 pytimer staff 395B 4 20 15:28 k8smaster1.pub -rw-r--r-- 1 pytimer staff 2.8K 4 20 13:19 known_hosts  查看k8smaster1.pub文件内容格式为: ssh-rsa &lt;content&gt; &lt;USERNAME&gt;，因为我们后面需要自己使用，因此当前制作密钥不设置过期时间。
+接下来我们需要把ssh公钥在虚拟机实例上进行设置。具体的操作可以参考文档添加ssh-key到虚拟机实例。
+设置完成后，使用ssh -i ~/.ssh/k8smaster1 &lt;USERNAME&gt;@&lt;IP&gt;即可登录到虚拟机。
+&lt;IP&gt;是虚拟机的外部IP。</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2019/03/coredns/">
+                <h3 class="media-heading">Coredns</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Mar 3, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">coredns pod status is CrashLoopBackOff $ kubectl get pod -n kube-system NAME READY STATUS RESTARTS AGE coredns-fb8b8dccf-cl9rp 0/1 CrashLoopBackOff 6 10m coredns-fb8b8dccf-v4lsv 0/1 CrashLoopBackOff 6 10m etcd-pytimer 1/1 Running 0 9m24s kube-apiserver-pytimer 1/1 Running 0 9m21s kube-controller-manager-pytimer 1/1 Running 0 9m24s kube-flannel-ds-amd64-84vxg 1/1 Running 0 8m14s kube-proxy-cgqpn 1/1 Running 0 10m kube-scheduler-pytimer 1/1 Running 0 9m15s  查看coredns pod的日志，发现如下错误：
+$ kubectl logs -n kube-system coredns-fb8b8dccf-cl9rp .:53 2019-03-26T13:58:34.693Z [INFO] CoreDNS-1.3.1 2019-03-26T13:58:34.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2019/01/mac-develop-environment-installation/">
+                <h3 class="media-heading">Mac Develop Environment Installation</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Mac开发环境配置
+安装iTerm2 官网下载：https://www.iterm2.com/
+安装oh-my-zsh oh-my-zsh 是一个开源的，负责管理你的zsh配置。
+ 通过curl来安装  sh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;
+ 通过wget来安装  sh -c &quot;$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)&quot;</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2019/01/deploy-helm-private-charts-repository-on-the-kubernetes/">
+                <h3 class="media-heading">Deploy Helm private charts repository on the Kubernetes</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Helm是一个管理Kubernetes上charts的工具，通过Helm你可以比较方便的部署、卸载组件等操作。
+在大多数时候，我们都可以直接使用官方的charts仓库来安装我们想要的组件，但是我们有时候会在内网的情况下使用Helm，这个时候我们可能需要一个自己私有的charts仓库。该文档将介绍如何搭建一个私有的charts仓库。
+我们使用minio作为charts仓库的后端存储，结合chartmuseum来提供charts仓库的服务，以方便我们操作charts仓库。
+术语  minio: minio是一个类似Amazon S3的分布式存储服务，该服务提供API、SDK、Client来让我们操作。 chartmuseum: chartmuseum是一个Web服务，该服务提供API来让我们比较轻松的操作charts仓库，而且该服务还可以满足多租户场景。  组件 部署完成后，全部的组件。
+$ kubectl get pod -n kube-system -l &quot;name=tiller&quot; NAME READY STATUS RESTARTS AGE tiller-deploy-&lt;xxx&gt; 1/1 Running 0 5h $ kubectl get pod -n kube-system -l &quot;app=chartmuseum&quot; NAME READY STATUS RESTARTS AGE &lt;release-name&gt;-chartmuseum-&lt;xxx&gt; 1/1 Running 0 47m $ kubectl get pod -n storage NAME READY STATUS RESTARTS AGE minio-client-deployment-&lt;xxx&gt; 1/1 Running 0 7h minio-deployment-&lt;xxx&gt; 1/1 Running 0 9h  部署 部署私有charts仓库，初始化helm init，部署tiller服务，部署好minio服务，部署chartmuseum，通过helm install安装上述两个组件，启动服务。等待服务启动成功，使用helm添加新的charts仓库即可使用。</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/12/kube-admission/">
+                <h3 class="media-heading">Kube Admission</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Dec 12, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">External Admission Webhooks 作用及使用场景 当需要对某些api请求或者所有请求进行校验或者修改object的时候，可以考虑使用ValidatingAdmissionWebhook或者MutatingAdmissionWebhook，两者的区别：
+ ValidatingAdmissionWebhook不允许在webhook中对Object进行修改，只是返回结果是true或false MutatingAdmissionWebhook运行在webhook中对Object进行修改  启用 在1.10之前的版本，需要使用 --admission-control 启用相关配置，并且是按配置的顺序来决定运行顺序，因此需要用户对于Admission Controllers 完全了解。
+在1.10之后的版本，上述配置已经废弃，建议使用--enable-admission-plugins=MutatingAdmissionWebhook,ValidatingAdmissionWebhook，并且用户指定的顺序并不会影响实际运行顺序，更加友好。
+官方的Using Admission Controllers - Kubernetes有关于这方面的详细说明。
+流程 kube-apiserver &ndash;&gt; 认证鉴权 &ndash;&gt; Admission Controller &ndash;&gt; webhook
+使用 创建admission服务，以供kube-apiserver调用 package main import ( &quot;crypto/tls&quot; &quot;encoding/json&quot; &quot;flag&quot; &quot;io/ioutil&quot; &quot;net/http&quot; admissionv1beta1 &quot;k8s.io/api/admission/v1beta1&quot; admissionregistrationv1beta1 &quot;k8s.io/api/admissionregistration/v1beta1&quot; corev1 &quot;k8s.io/api/core/v1&quot; metav1 &quot;k8s.io/apimachinery/pkg/apis/meta/v1&quot; &quot;k8s.io/apimachinery/pkg/runtime&quot; &quot;k8s.io/apimachinery/pkg/runtime/serializer&quot; utilruntime &quot;k8s.io/apimachinery/pkg/util/runtime&quot; &quot;k8s.io/klog&quot; ) type patchOperation struct { Op string `json:&quot;op&quot;` Path string `json:&quot;path&quot;` Value interface{} `json:&quot;value,omitempty&quot;` } var scheme = runtime.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <p class="results-count text-medium"
+         data-message-zero=""
+         data-message-one=""
+         data-message-other="">
+         27 posts found
+      </p>
+    </div>
+  </div>
+</div>
+    
+  
+    
+    <div id="cover" style="background-image:url('https://pytimer.github.io/images/cover.jpg');"></div>
+  
+
+
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.7/js/jquery.fancybox.min.js" integrity="sha256-GEAnjcTqVP+vBp3SSc8bEDQqvWAZMiHyUSIorrWwH50=" crossorigin="anonymous"></script>
+
+
+<script src="https://pytimer.github.io/js/script-qi9wbxp2ya2j6p7wx1i6tgavftewndznf4v0hy2gvivk1rxgc3lm7njqb6bz.min.js"></script>
+
+
+
+<script>
+$(document).ready(function() {
+  hljs.configure({ classPrefix: '', useBR: false });
+  $('pre.code-highlight > code, pre > code').each(function(i, block) {
+    if (!$(this).hasClass('codeblock')) {
+      $(this).addClass('codeblock');
+    }
+    hljs.highlightBlock(block);
+  });
+});
+</script>
+
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/pytimer.github.io\/2019\/06\/mac%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8docker\/';
+          
+            this.page.identifier = '\/2019\/06\/mac%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8docker\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
+
+
+
+    
+  </body>
+</html>
+

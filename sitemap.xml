@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://pytimer.github.io/2019/06/mac%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8docker/</loc>
+    <lastmod>2019-06-26T19:35:13+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://pytimer.github.io/2019/06/coredns/</loc>
     <lastmod>2019-06-06T18:06:42+08:00</lastmod>
   </url>
@@ -197,6 +202,18 @@
   </url>
   
   <url>
+    <loc>https://pytimer.github.io/categories/docker/</loc>
+    <lastmod>2019-06-26T19:35:13+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/docker-mac/</loc>
+    <lastmod>2019-06-26T19:35:13+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://pytimer.github.io/tags/egid/</loc>
     <lastmod>2018-06-05T19:44:06+08:00</lastmod>
     <priority>0</priority>
@@ -312,7 +329,7 @@
   
   <url>
     <loc>https://pytimer.github.io/post/</loc>
-    <lastmod>2019-06-06T18:06:42+08:00</lastmod>
+    <lastmod>2019-06-26T19:35:13+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -324,7 +341,7 @@
   
   <url>
     <loc>https://pytimer.github.io/</loc>
-    <lastmod>2019-06-06T18:06:42+08:00</lastmod>
+    <lastmod>2019-06-26T19:35:13+08:00</lastmod>
     <priority>0</priority>
   </url>
   
