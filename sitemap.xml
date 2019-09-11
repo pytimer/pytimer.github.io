@@ -8,7 +8,7 @@
   </url>
   
   <url>
-    <loc>https://pytimer.github.io/2019/06/coredns/</loc>
+    <loc>https://pytimer.github.io/2019/06/coredns%E7%AE%80%E4%BB%8B/</loc>
     <lastmod>2019-06-06T18:06:42+08:00</lastmod>
   </url>
   
@@ -33,7 +33,7 @@
   </url>
   
   <url>
-    <loc>https://pytimer.github.io/2019/03/coredns/</loc>
+    <loc>https://pytimer.github.io/2019/03/faq-coredns%E5%90%AF%E5%8A%A8%E5%A4%B1%E8%B4%A5/</loc>
     <lastmod>2019-03-26T22:09:07+08:00</lastmod>
   </url>
   
@@ -138,6 +138,12 @@
   </url>
   
   <url>
+    <loc>https://pytimer.github.io/tags/admissionwebhook/</loc>
+    <lastmod>2018-12-17T09:51:57+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://pytimer.github.io/archives/</loc>
     <priority>0</priority>
   </url>
@@ -149,13 +155,13 @@
   </url>
   
   <url>
-    <loc>https://pytimer.github.io/categories/</loc>
+    <loc>https://pytimer.github.io/tags/cadvisor/</loc>
+    <lastmod>2018-10-28T15:40:49+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://pytimer.github.io/categories/cloud/</loc>
-    <lastmod>2019-06-06T18:06:42+08:00</lastmod>
+    <loc>https://pytimer.github.io/categories/</loc>
     <priority>0</priority>
   </url>
   
@@ -166,7 +172,7 @@
   </url>
   
   <url>
-    <loc>https://pytimer.github.io/tags/cncf/</loc>
+    <loc>https://pytimer.github.io/categories/cncf/</loc>
     <lastmod>2019-06-06T18:06:42+08:00</lastmod>
     <priority>0</priority>
   </url>
@@ -180,6 +186,12 @@
   <url>
     <loc>https://pytimer.github.io/categories/container/</loc>
     <lastmod>2018-06-07T13:53:15+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/coredns/</loc>
+    <lastmod>2019-06-06T18:06:42+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -221,7 +233,7 @@
   
   <url>
     <loc>https://pytimer.github.io/tags/etcd/</loc>
-    <lastmod>2019-06-06T18:06:42+08:00</lastmod>
+    <lastmod>2019-05-28T13:35:48+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -281,7 +293,13 @@
   
   <url>
     <loc>https://pytimer.github.io/tags/kubeadm/</loc>
-    <lastmod>2019-03-26T22:09:07+08:00</lastmod>
+    <lastmod>2018-12-05T11:26:10+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/kubelet/</loc>
+    <lastmod>2019-05-13T15:46:02+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -334,6 +352,12 @@
   </url>
   
   <url>
+    <loc>https://pytimer.github.io/tags/prometheus/</loc>
+    <lastmod>2018-10-28T15:40:49+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://pytimer.github.io/categories/prometheus/</loc>
     <lastmod>2018-10-28T15:40:49+08:00</lastmod>
     <priority>0</priority>
@@ -365,7 +389,7 @@
   
   <url>
     <loc>https://pytimer.github.io/tags/</loc>
-    <lastmod>2018-06-08T14:52:20+08:00</lastmod>
+    <lastmod>2018-12-17T09:51:57+08:00</lastmod>
     <priority>0</priority>
   </url>
   

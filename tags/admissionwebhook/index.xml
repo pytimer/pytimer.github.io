@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Admissionwebhook on Pytimer Blog</title>
+    <link>https://pytimer.github.io/tags/admissionwebhook/</link>
+    <description>Recent content in Admissionwebhook on Pytimer Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 17 Dec 2018 09:51:57 +0800</lastBuildDate>
+    
+	<atom:link href="https://pytimer.github.io/tags/admissionwebhook/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Kube Admission</title>
+      <link>https://pytimer.github.io/2018/12/kube-admission/</link>
+      <pubDate>Mon, 17 Dec 2018 09:51:57 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/2018/12/kube-admission/</guid>
+      <description>External Admission Webhooks 作用及使用场景 当需要对某些api请求或者所有请求进行校验或者修改object的时候，可以考虑使用ValidatingAdmissionWebhook或者MutatingAdmissionWebhook，两者的区别：
+ ValidatingAdmissionWebhook不允许在webhook中对Object进行修改，只是返回结果是true或false MutatingAdmissionWebhook运行在webhook中对Object进行修改  启用 在1.10之前的版本，需要使用 --admission-control 启用相关配置，并且是按配置的顺序来决定运行顺序，因此需要用户对于Admission Controllers 完全了解。
+在1.10之后的版本，上述配置已经废弃，建议使用--enable-admission-plugins=MutatingAdmissionWebhook,ValidatingAdmissionWebhook，并且用户指定的顺序并不会影响实际运行顺序，更加友好。
+官方的Using Admission Controllers - Kubernetes有关于这方面的详细说明。
+流程 kube-apiserver &amp;ndash;&amp;gt; 认证鉴权 &amp;ndash;&amp;gt; Admission Controller &amp;ndash;&amp;gt; webhook
+使用 创建admission服务，以供kube-apiserver调用 package main import ( &amp;quot;crypto/tls&amp;quot; &amp;quot;encoding/json&amp;quot; &amp;quot;flag&amp;quot; &amp;quot;io/ioutil&amp;quot; &amp;quot;net/http&amp;quot; admissionv1beta1 &amp;quot;k8s.io/api/admission/v1beta1&amp;quot; admissionregistrationv1beta1 &amp;quot;k8s.io/api/admissionregistration/v1beta1&amp;quot; corev1 &amp;quot;k8s.io/api/core/v1&amp;quot; metav1 &amp;quot;k8s.io/apimachinery/pkg/apis/meta/v1&amp;quot; &amp;quot;k8s.io/apimachinery/pkg/runtime&amp;quot; &amp;quot;k8s.io/apimachinery/pkg/runtime/serializer&amp;quot; utilruntime &amp;quot;k8s.io/apimachinery/pkg/util/runtime&amp;quot; &amp;quot;k8s.io/klog&amp;quot; ) type patchOperation struct { Op string `json:&amp;quot;op&amp;quot;` Path string `json:&amp;quot;path&amp;quot;` Value interface{} `json:&amp;quot;value,omitempty&amp;quot;` } var scheme = runtime.</description>
+    </item>
+    
+  </channel>
+</rss>
