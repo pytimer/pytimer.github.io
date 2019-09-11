@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://pytimer.github.io/2019/09/faq-%E4%BF%AE%E6%94%B9configmap%E5%90%8E%E4%BD%BF%E7%94%A8subpath%E7%9A%84pod%E5%BC%82%E5%B8%B8/</loc>
+    <lastmod>2019-09-11T17:02:11+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://pytimer.github.io/2019/06/mac%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8docker/</loc>
     <lastmod>2019-06-26T19:35:13+08:00</lastmod>
   </url>
@@ -305,13 +310,13 @@
   
   <url>
     <loc>https://pytimer.github.io/tags/kubernetes/</loc>
-    <lastmod>2018-10-28T15:40:49+08:00</lastmod>
+    <lastmod>2019-09-11T17:02:11+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://pytimer.github.io/categories/kubernetes/</loc>
-    <lastmod>2019-06-06T18:06:42+08:00</lastmod>
+    <lastmod>2019-09-11T17:02:11+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -347,7 +352,7 @@
   
   <url>
     <loc>https://pytimer.github.io/post/</loc>
-    <lastmod>2019-06-26T19:35:13+08:00</lastmod>
+    <lastmod>2019-09-11T17:02:11+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -365,7 +370,7 @@
   
   <url>
     <loc>https://pytimer.github.io/</loc>
-    <lastmod>2019-06-26T19:35:13+08:00</lastmod>
+    <lastmod>2019-09-11T17:02:11+08:00</lastmod>
     <priority>0</priority>
   </url>
   

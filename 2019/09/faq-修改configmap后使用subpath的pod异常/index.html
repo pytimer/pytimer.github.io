@@ -1,5 +1,9 @@
 
 
+  
+    
+  
+
 
   
 
@@ -16,25 +20,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.53 with theme Tranquilpeak 0.4.3-BETA">
-    <title>Telegram</title>
+    <title>[FAQ] 修改configmap后，使用subPath的Pod异常</title>
     <meta name="author" content="Pytimer">
-    <meta name="keywords" content="">
+    <meta name="keywords" content="pod, configmap, subPath">
 
     <link rel="icon" href="https://pytimer.github.io/favicon.png">
     
-      <link rel="alternate" type="application/rss+xml" title="RSS" href="https://pytimer.github.io/categories/telegram/index.xml">
-    
 
     
-    <meta name="description" content="Hugo tranquilpeak theme pytimer">
-    <meta property="og:description" content="Hugo tranquilpeak theme pytimer">
+    <meta name="description" content="Pod状态异常，挂载configmap显示no such file or directory $ kubectl get pod -o wide test-7695dc7fb9-rjxlq 0/1 CrashLoopBackOff 13 17h 192.168.100.20 node1 &lt;none&gt;  CrashLoopBackOff状态需要查看pod的日志，通过kubectl logs可以查看到具体的错误信息。
+$ kubectl logs -n test-7695dc7fb9-rjxlq container_linux.go:345: starting container process caused &quot;process_linux.go:430: container init caused \&quot;rootfs_linux.go:58: mounting \\\&quot;/var/lib/kubelet/pods/ed1b799a-d3a5-11e9-add6-0894ef725f6e/volume-subpaths/test-cm/app-conf/1\\\&quot; to rootfs \\\&quot;/var/lib/docker/overlay/23a69e27f79f84a14b50fbee1e4840836487f8c740423291c2f785da1e7a6820/merged\\\&quot; at \\\&quot;/var/lib/docker/overlay/23a69e27f79f84a14b50fbee1e4840836487f8c740423291c2f785da1e7a6820/merged/etc/app/app.conf\\\&quot; caused \\\&quot;no such file or directory\\\&quot;\&quot;&quot;  查看日志发现是挂载的configmap有问题。
+猜测原因：该pod采用subPath的方式挂载configmap，怀疑是configmap修改后，未重建pod导致，因此会出现上述no such file or directory的错误。
+排查问题 查看异常pod的uid，通过下述的命令我们可以看到当前pod在2019-09-10T08:35:21Z的时间创建，并且uid为ed1b799a-d3a5-11e9-add6-0894ef725f6e。
+$ kubectl get pod test-7695dc7fb9-rjxlq -o json | jq .metadata { &quot;creationTimestamp&quot;: &quot;2019-09-10T08:35:21Z&quot;, &quot;generateName&quot;: &quot;test-7695dc7fb9-&quot;, &quot;labels&quot;: { &quot;application&quot;: &quot;test&quot;, &quot;pod-template-hash&quot;: &quot;3251873965&quot; }, &quot;name&quot;: &quot;test-7695dc7fb9-rjxlq&quot;, &quot;namespace&quot;: &quot;openstack&quot;, &quot;ownerReferences&quot;: [ { &quot;apiVersion&quot;: &quot;apps/v1&quot;, &quot;blockOwnerDeletion&quot;: true, &quot;controller&quot;: true, &quot;kind&quot;: &quot;ReplicaSet&quot;, &quot;name&quot;: &quot;test-7695dc7fb9&quot;, &quot;uid&quot;: &quot;ece58508-d3a5-11e9-add6-0894ef725f6e&quot; } ], &quot;resourceVersion&quot;: &quot;1762165&quot;, &quot;selfLink&quot;: &quot;/api/v1/namespaces/default/pods/test-7695dc7fb9-rjxlq&quot;, &quot;uid&quot;: &quot;ed1b799a-d3a5-11e9-add6-0894ef725f6e&quot; }  接下来就需要登录到pod所在的节点进行查看。">
+    <meta property="og:description" content="Pod状态异常，挂载configmap显示no such file or directory $ kubectl get pod -o wide test-7695dc7fb9-rjxlq 0/1 CrashLoopBackOff 13 17h 192.168.100.20 node1 &lt;none&gt;  CrashLoopBackOff状态需要查看pod的日志，通过kubectl logs可以查看到具体的错误信息。
+$ kubectl logs -n test-7695dc7fb9-rjxlq container_linux.go:345: starting container process caused &quot;process_linux.go:430: container init caused \&quot;rootfs_linux.go:58: mounting \\\&quot;/var/lib/kubelet/pods/ed1b799a-d3a5-11e9-add6-0894ef725f6e/volume-subpaths/test-cm/app-conf/1\\\&quot; to rootfs \\\&quot;/var/lib/docker/overlay/23a69e27f79f84a14b50fbee1e4840836487f8c740423291c2f785da1e7a6820/merged\\\&quot; at \\\&quot;/var/lib/docker/overlay/23a69e27f79f84a14b50fbee1e4840836487f8c740423291c2f785da1e7a6820/merged/etc/app/app.conf\\\&quot; caused \\\&quot;no such file or directory\\\&quot;\&quot;&quot;  查看日志发现是挂载的configmap有问题。
+猜测原因：该pod采用subPath的方式挂载configmap，怀疑是configmap修改后，未重建pod导致，因此会出现上述no such file or directory的错误。
+排查问题 查看异常pod的uid，通过下述的命令我们可以看到当前pod在2019-09-10T08:35:21Z的时间创建，并且uid为ed1b799a-d3a5-11e9-add6-0894ef725f6e。
+$ kubectl get pod test-7695dc7fb9-rjxlq -o json | jq .metadata { &quot;creationTimestamp&quot;: &quot;2019-09-10T08:35:21Z&quot;, &quot;generateName&quot;: &quot;test-7695dc7fb9-&quot;, &quot;labels&quot;: { &quot;application&quot;: &quot;test&quot;, &quot;pod-template-hash&quot;: &quot;3251873965&quot; }, &quot;name&quot;: &quot;test-7695dc7fb9-rjxlq&quot;, &quot;namespace&quot;: &quot;openstack&quot;, &quot;ownerReferences&quot;: [ { &quot;apiVersion&quot;: &quot;apps/v1&quot;, &quot;blockOwnerDeletion&quot;: true, &quot;controller&quot;: true, &quot;kind&quot;: &quot;ReplicaSet&quot;, &quot;name&quot;: &quot;test-7695dc7fb9&quot;, &quot;uid&quot;: &quot;ece58508-d3a5-11e9-add6-0894ef725f6e&quot; } ], &quot;resourceVersion&quot;: &quot;1762165&quot;, &quot;selfLink&quot;: &quot;/api/v1/namespaces/default/pods/test-7695dc7fb9-rjxlq&quot;, &quot;uid&quot;: &quot;ed1b799a-d3a5-11e9-add6-0894ef725f6e&quot; }  接下来就需要登录到pod所在的节点进行查看。">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="Telegram">
-    <meta property="og:url" content="/categories/telegram/">
+    <meta property="og:title" content="[FAQ] 修改configmap后，使用subPath的Pod异常">
+    <meta property="og:url" content="/2019/09/faq-%E4%BF%AE%E6%94%B9configmap%E5%90%8E%E4%BD%BF%E7%94%A8subpath%E7%9A%84pod%E5%BC%82%E5%B8%B8/">
     <meta property="og:site_name" content="Pytimer Blog">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Pytimer Blog">
-    <meta name="twitter:description" content="Hugo tranquilpeak theme pytimer">
+    <meta name="twitter:description" content="Pod状态异常，挂载configmap显示no such file or directory $ kubectl get pod -o wide test-7695dc7fb9-rjxlq 0/1 CrashLoopBackOff 13 17h 192.168.100.20 node1 &lt;none&gt;  CrashLoopBackOff状态需要查看pod的日志，通过kubectl logs可以查看到具体的错误信息。
+$ kubectl logs -n test-7695dc7fb9-rjxlq container_linux.go:345: starting container process caused &quot;process_linux.go:430: container init caused \&quot;rootfs_linux.go:58: mounting \\\&quot;/var/lib/kubelet/pods/ed1b799a-d3a5-11e9-add6-0894ef725f6e/volume-subpaths/test-cm/app-conf/1\\\&quot; to rootfs \\\&quot;/var/lib/docker/overlay/23a69e27f79f84a14b50fbee1e4840836487f8c740423291c2f785da1e7a6820/merged\\\&quot; at \\\&quot;/var/lib/docker/overlay/23a69e27f79f84a14b50fbee1e4840836487f8c740423291c2f785da1e7a6820/merged/etc/app/app.conf\\\&quot; caused \\\&quot;no such file or directory\\\&quot;\&quot;&quot;  查看日志发现是挂载的configmap有问题。
+猜测原因：该pod采用subPath的方式挂载configmap，怀疑是configmap修改后，未重建pod导致，因此会出现上述no such file or directory的错误。
+排查问题 查看异常pod的uid，通过下述的命令我们可以看到当前pod在2019-09-10T08:35:21Z的时间创建，并且uid为ed1b799a-d3a5-11e9-add6-0894ef725f6e。
+$ kubectl get pod test-7695dc7fb9-rjxlq -o json | jq .metadata { &quot;creationTimestamp&quot;: &quot;2019-09-10T08:35:21Z&quot;, &quot;generateName&quot;: &quot;test-7695dc7fb9-&quot;, &quot;labels&quot;: { &quot;application&quot;: &quot;test&quot;, &quot;pod-template-hash&quot;: &quot;3251873965&quot; }, &quot;name&quot;: &quot;test-7695dc7fb9-rjxlq&quot;, &quot;namespace&quot;: &quot;openstack&quot;, &quot;ownerReferences&quot;: [ { &quot;apiVersion&quot;: &quot;apps/v1&quot;, &quot;blockOwnerDeletion&quot;: true, &quot;controller&quot;: true, &quot;kind&quot;: &quot;ReplicaSet&quot;, &quot;name&quot;: &quot;test-7695dc7fb9&quot;, &quot;uid&quot;: &quot;ece58508-d3a5-11e9-add6-0894ef725f6e&quot; } ], &quot;resourceVersion&quot;: &quot;1762165&quot;, &quot;selfLink&quot;: &quot;/api/v1/namespaces/default/pods/test-7695dc7fb9-rjxlq&quot;, &quot;uid&quot;: &quot;ed1b799a-d3a5-11e9-add6-0894ef725f6e&quot; }  接下来就需要登录到pod所在的节点进行查看。">
     
     
 
@@ -69,7 +83,7 @@
 
   <body>
     <div id="blog">
-      <header id="header" data-behavior="1">
+      <header id="header" data-behavior="4">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
     <a class="header-title-link" href="https://pytimer.github.io/">Pytimer Blog</a>
@@ -87,7 +101,7 @@
   
 </header>
 
-      <nav id="sidebar" data-behavior="1">
+      <nav id="sidebar" data-behavior="4">
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
@@ -166,48 +180,30 @@
 </nav>
 
       
-        
 
-      
-      <div id="main" data-behavior="1"
+      <div id="main" data-behavior="4"
         class="
                hasCoverMetaIn
                ">
-        
-          <section class="postShorten-group main-content-wrap">
-            
-            
-              
+        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
+          
+          
+            <div class="post-header main-content-wrap text-left">
   
-    
-      
-        
-      
-    
+    <h1 class="post-title" itemprop="headline">
+      [FAQ] 修改configmap后，使用subPath的Pod异常
+    </h1>
   
-
-
   
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://pytimer.github.io/2018/07/telegram-dev/">
-          Telegram Dev
-        </a>
-      </h1>
-      
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2018-07-27T16:21:45&#43;08:00">
+      <time itemprop="datePublished" datetime="2019-09-11T17:02:11&#43;08:00">
         
   
   
   
   
-    27 七月 2018
+    11 九月 2019
   
 
       </time>
@@ -217,33 +213,212 @@
   
     <span>发布在</span>
     
-      <a class="category-link" href="https://pytimer.github.io/categories/telegram">Telegram</a>
+      <a class="category-link" href="https://pytimer.github.io/categories/kubernetes">kubernetes</a>
     
   
 
   </div>
 
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      使用 日志设置 在使用tdlib库的时候，需要先设置日志级别
-tdlib.SetLogVerbosityLevel(1)  SetLogVerbosityLevel(int)设置tdlib的日志级别，默认为5
-   级别 说明     0 fatal   1 error   2 warning、debug warning   3 info   4 debug   5 verbose debug   &gt;5 and &lt;=1024 更多的日志    参考网址 官方tdlib
-tdlib methods
-td-log
-      <p>
-        <a href="https://pytimer.github.io/2018/07/telegram-dev/" class="postShorten-excerpt_link link">阅读全文</a>
+</div>
+          
+          <div class="post-content markdown" itemprop="articleBody">
+            <div class="main-content-wrap">
+              
+
+<h2 id="pod状态异常-挂载configmap显示no-such-file-or-directory">Pod状态异常，挂载configmap显示no such file or directory</h2>
+
+<pre><code class="language-sh">$ kubectl get pod -o wide
+test-7695dc7fb9-rjxlq                0/1       CrashLoopBackOff   13        17h       192.168.100.20   node1   &lt;none&gt;
+</code></pre>
+
+<p><code>CrashLoopBackOff</code>状态需要查看pod的日志，通过<code>kubectl logs</code>可以查看到具体的错误信息。</p>
+
+<pre><code class="language-sh">$ kubectl logs -n test-7695dc7fb9-rjxlq
+container_linux.go:345: starting container process caused &quot;process_linux.go:430: container init caused \&quot;rootfs_linux.go:58: mounting \\\&quot;/var/lib/kubelet/pods/ed1b799a-d3a5-11e9-add6-0894ef725f6e/volume-subpaths/test-cm/app-conf/1\\\&quot; to rootfs \\\&quot;/var/lib/docker/overlay/23a69e27f79f84a14b50fbee1e4840836487f8c740423291c2f785da1e7a6820/merged\\\&quot; at \\\&quot;/var/lib/docker/overlay/23a69e27f79f84a14b50fbee1e4840836487f8c740423291c2f785da1e7a6820/merged/etc/app/app.conf\\\&quot; caused \\\&quot;no such file or directory\\\&quot;\&quot;&quot;
+</code></pre>
+
+<p>查看日志发现是挂载的configmap有问题。</p>
+
+<p><strong>猜测原因：该pod采用subPath的方式挂载configmap，怀疑是configmap修改后，未重建pod导致，因此会出现上述<code>no such file or directory</code>的错误。</strong></p>
+
+<h3 id="排查问题">排查问题</h3>
+
+<p>查看异常pod的uid，通过下述的命令我们可以看到当前pod在<code>2019-09-10T08:35:21Z</code>的时间创建，并且uid为<code>ed1b799a-d3a5-11e9-add6-0894ef725f6e</code>。</p>
+
+<pre><code class="language-sh">$ kubectl get pod test-7695dc7fb9-rjxlq -o json | jq .metadata
+{
+  &quot;creationTimestamp&quot;: &quot;2019-09-10T08:35:21Z&quot;,
+  &quot;generateName&quot;: &quot;test-7695dc7fb9-&quot;,
+  &quot;labels&quot;: {
+    &quot;application&quot;: &quot;test&quot;,
+    &quot;pod-template-hash&quot;: &quot;3251873965&quot;
+  },
+  &quot;name&quot;: &quot;test-7695dc7fb9-rjxlq&quot;,
+  &quot;namespace&quot;: &quot;openstack&quot;,
+  &quot;ownerReferences&quot;: [
+    {
+      &quot;apiVersion&quot;: &quot;apps/v1&quot;,
+      &quot;blockOwnerDeletion&quot;: true,
+      &quot;controller&quot;: true,
+      &quot;kind&quot;: &quot;ReplicaSet&quot;,
+      &quot;name&quot;: &quot;test-7695dc7fb9&quot;,
+      &quot;uid&quot;: &quot;ece58508-d3a5-11e9-add6-0894ef725f6e&quot;
+    }
+  ],
+  &quot;resourceVersion&quot;: &quot;1762165&quot;,
+  &quot;selfLink&quot;: &quot;/api/v1/namespaces/default/pods/test-7695dc7fb9-rjxlq&quot;,
+  &quot;uid&quot;: &quot;ed1b799a-d3a5-11e9-add6-0894ef725f6e&quot;
+}
+</code></pre>
+
+<p>接下来就需要登录到pod所在的节点进行查看。</p>
+
+<p>查看<code>node1</code>节点的kubelet工作目录下该pod的configmap保存路径，路径为<code>/var/lib/kubelet/pods/&lt;uid&gt;/volumes/kubernetes.io~configmap</code>。</p>
+
+<p>针对当前的pod该路径为<code>/var/lib/kubelet/pods/ed1b799a-d3a5-11e9-add6-0894ef725f6e/volumes/kubernetes.io~configmap</code>，在这个目录下我们看到有目录为<code>test-cm</code>，该目录即为需要挂载的configmap的内容。因为日志显示为<code>test-cm</code>挂载有问题，因此我们进入该目录下，并查看该目录下所有文件的最后修改时间。</p>
+
+<pre><code class="language-sh">$ cd test-cm/
+$ ll -at
+total 0
+drwxrwxrwx 3 root root 325 Sep 10 16:37 .
+drwxr-xr-x 2 root root 272 Sep 10 16:37 ..2019_09_10_08_37_48.156264351
+lrwxrwxrwx 1 root root  31 Sep 10 16:37 ..data -&gt; ..2019_09_10_08_37_48.156264351
+drwxr-xr-x 4 root root  38 Sep 10 16:35 ..
+lrwxrwxrwx 1 root root  27 Sep 10 16:35 app.conf -&gt; ..data/app.conf
+</code></pre>
+
+<p>我们可以看到在9.10号16:37分的时候，kubelet更新configmap到该目录下，但是容器挂载的是16:35的文件，因此符合我们的猜想，即configmap修改后，未重建整个pod，在pod里的某个容器重启新建的时候，就会有上述<code>no such file or directory</code>。</p>
+
+<p>但是目前环境上的问题，是pod在最开始新建的时候，状态就为<code>CrashLoopBackOff</code>，因此怀疑在pod里的容器新建之前，有其他操作导致<code>test</code>这个容器创建的时间在configmap更新之后。</p>
+
+<p>正常的pod新建流程，会由kubelet先把configmap更新到该目录下，然后挂载到容器内，而这个时间很短，在pod第一次启动的时候应该是可以正常Running才对，因此需要进一步排查问题。</p>
+
+<p>我们查看下该pod的内容，发现该pod还有initContainer的操作，我们通过下述命令发现该initContainer的处理时间为<code>2019-09-10T08:35:31Z</code>到<code>2019-09-10T08:37:47Z</code>。这个和我们上面看到的configmap时间与猜想是符合的，因为这个说明pod是在第一次configmap创建的时候生成，而<code>test</code>这个容器是在configmap更新之后才创建，而subPath的方式挂载configmap需要在configmap更新后重建整个pod，但是目前环境没有该操作。</p>
+
+<pre><code class="language-sh">$ kubectl get pod test-7695dc7fb9-rjxlq -o json | jq .status.initContainerStatuses
+[
+  {
+    &quot;containerID&quot;: &quot;docker://3aaab80f5a4b5349a1444cfb483b2877416cbe877693d62cbae78434ddd48c6f&quot;,
+    &quot;image&quot;: &quot;docker.cloud/pytimer/kubernetes-entrypoint:v0.3.1&quot;,
+    &quot;imageID&quot;: &quot;docker-pullable://docker.cloud/pytimer/kubernetes-entrypoint@sha256:2cad635d9079ee130f7f288b2ffb9c65c90fc7711364dcf438973ddf579b7fed&quot;,
+    &quot;lastState&quot;: {},
+    &quot;name&quot;: &quot;init&quot;,
+    &quot;ready&quot;: true,
+    &quot;restartCount&quot;: 0,
+    &quot;state&quot;: {
+      &quot;terminated&quot;: {
+        &quot;containerID&quot;: &quot;docker://3aaab80f5a4b5349a1444cfb483b2877416cbe877693d62cbae78434ddd48c6f&quot;,
+        &quot;exitCode&quot;: 0,
+        &quot;finishedAt&quot;: &quot;2019-09-10T08:37:47Z&quot;,
+        &quot;reason&quot;: &quot;Completed&quot;,
+        &quot;startedAt&quot;: &quot;2019-09-10T08:35:31Z&quot;
+      }
+    }
+  }
+]
+</code></pre>
+
+<p>通过操作日志记录，发现在16:35:15这个时间点，创建了test这个pod相关的资源，包括configmap。而在16:36:55的时候更新了configmap。我们上面看到这个异常的pod的创建时间在16:35:21，configmap最后更新的时间为16:37分（kubelet会有10s左右的时间延迟更新），因此从kubelet的相关信息和日志操作时间对比，时间点是吻合的，因此确认了该问题确实是因为更新了configmap未重建pod，而pod里的容器又是在configmap更新后新建的，因此会出现状态为<code>CrashLoopBackOff</code>，并且日志为<code>no such file or directory</code>。</p>
+
+<h3 id="结论">结论</h3>
+
+<p>该现象的发生是由于configmap更新，但是未重建整个pod导致。</p>
+
+              
+            </div>
+          </div>
+          <div id="post-footer" class="post-footer main-content-wrap">
+            
+              
+                
+                
+                  <div class="post-footer-tags">
+                    <span class="text-color-light text-small">标签</span><br/>
+                    
+  <a class="tag tag--primary tag--small" href="https://pytimer.github.io/tags/kubernetes/">kubernetes</a>
+
+                  </div>
+                
+              
+            
+            
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2019/06/mac%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8docker/" data-tooltip="Mac安装使用Docker">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
         
-      </p>
-    </div>
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2019/09/faq-%E4%BF%AE%E6%94%B9configmap%E5%90%8E%E4%BD%BF%E7%94%A8subpath%E7%9A%84pod%E5%BC%82%E5%B8%B8/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2019/09/faq-%E4%BF%AE%E6%94%B9configmap%E5%90%8E%E4%BD%BF%E7%94%A8subpath%E7%9A%84pod%E5%BC%82%E5%B8%B8/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2019/09/faq-%E4%BF%AE%E6%94%B9configmap%E5%90%8E%E4%BD%BF%E7%94%A8subpath%E7%9A%84pod%E5%BC%82%E5%B8%B8/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
   </div>
-  
-</article>
+
 
             
+              
+                <div id="disqus_thread">
+  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+</div>
+              
             
-
-          </section>
-        
+          </div>
+        </article>
         <footer id="footer" class="main-content-wrap">
   <span class="copyrights">
     &copy; 2019 <a href="https://github.com/pytimer">pytimer</a>. All Rights Reserved
@@ -251,6 +426,102 @@ td-log
 </footer>
 
       </div>
+      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
+        
+  <div class="post-actions-wrap">
+      <nav >
+        <ul class="post-actions post-action-nav">
+          
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--disabled">
+              
+                  <i class="fa fa-angle-left"></i>
+                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
+                </a>
+            </li>
+            <li class="post-action">
+              
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2019/06/mac%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8docker/" data-tooltip="Mac安装使用Docker">
+              
+                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
+                  <i class="fa fa-angle-right"></i>
+                </a>
+            </li>
+          
+        </ul>
+      </nav>
+    <ul class="post-actions post-action-share" >
+      
+        <li class="post-action hide-lg hide-md hide-sm">
+          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
+            <i class="fa fa-share-alt"></i>
+          </a>
+        </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2019/09/faq-%E4%BF%AE%E6%94%B9configmap%E5%90%8E%E4%BD%BF%E7%94%A8subpath%E7%9A%84pod%E5%BC%82%E5%B8%B8/">
+              <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2019/09/faq-%E4%BF%AE%E6%94%B9configmap%E5%90%8E%E4%BD%BF%E7%94%A8subpath%E7%9A%84pod%E5%BC%82%E5%B8%B8/">
+              <i class="fa fa-twitter"></i>
+            </a>
+          </li>
+        
+          <li class="post-action hide-xs">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2019/09/faq-%E4%BF%AE%E6%94%B9configmap%E5%90%8E%E4%BD%BF%E7%94%A8subpath%E7%9A%84pod%E5%BC%82%E5%B8%B8/">
+              <i class="fa fa-google-plus"></i>
+            </a>
+          </li>
+        
+      
+      
+        <li class="post-action">
+          <a class="post-action-btn btn btn--default" href="#disqus_thread">
+            <i class="fa fa-comment-o"></i>
+          </a>
+        </li>
+      
+      <li class="post-action">
+        
+          <a class="post-action-btn btn btn--default" href="#">
+        
+          <i class="fa fa-list"></i>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+
+      </div>
+      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
+  <i id="btn-close-shareoptions" class="fa fa-close"></i>
+  <ul class="share-options">
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fpytimer.github.io%2F2019%2F09%2Ffaq-%25E4%25BF%25AE%25E6%2594%25B9configmap%25E5%2590%258E%25E4%25BD%25BF%25E7%2594%25A8subpath%25E7%259A%2584pod%25E5%25BC%2582%25E5%25B8%25B8%2F">
+          <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fpytimer.github.io%2F2019%2F09%2Ffaq-%25E4%25BF%25AE%25E6%2594%25B9configmap%25E5%2590%258E%25E4%25BD%25BF%25E7%2594%25A8subpath%25E7%259A%2584pod%25E5%25BC%2582%25E5%25B8%25B8%2F">
+          <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
+        </a>
+      </li>
+    
+      <li class="share-option">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fpytimer.github.io%2F2019%2F09%2Ffaq-%25E4%25BF%25AE%25E6%2594%25B9configmap%25E5%2590%258E%25E4%25BD%25BF%25E7%2594%25A8subpath%25E7%259A%2584pod%25E5%25BC%2582%25E5%25B8%25B8%2F">
+          <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+<div id="share-options-mask" class="share-options-mask"></div>
     </div>
     
     <div id="about">
@@ -558,6 +829,32 @@ $(document).ready(function() {
 });
 </script>
 
+
+  
+    
+      <script>
+        var disqus_config = function () {
+          this.page.url = 'https:\/\/pytimer.github.io\/2019\/09\/faq-%E4%BF%AE%E6%94%B9configmap%E5%90%8E%E4%BD%BF%E7%94%A8subpath%E7%9A%84pod%E5%BC%82%E5%B8%B8\/';
+          
+            this.page.identifier = '\/2019\/09\/faq-%E4%BF%AE%E6%94%B9configmap%E5%90%8E%E4%BD%BF%E7%94%A8subpath%E7%9A%84pod%E5%BC%82%E5%B8%B8\/'
+          
+        };
+        (function() {
+          
+          
+          if (window.location.hostname == "localhost") {
+            return;
+          }
+          var d = document, s = d.createElement('script');
+          var disqus_shortname = 'hugo-tranquilpeak-theme';
+          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+        })();
+      </script>
+    
+  
 
 
 

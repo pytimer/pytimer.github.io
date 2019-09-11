@@ -124,6 +124,27 @@
           <div class="media">
             
             <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2019/09/faq-%E4%BF%AE%E6%94%B9configmap%E5%90%8E%E4%BD%BF%E7%94%A8subpath%E7%9A%84pod%E5%BC%82%E5%B8%B8/">
+                <h3 class="media-heading">[FAQ] 修改configmap后，使用subPath的Pod异常</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Sep 9, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Pod状态异常，挂载configmap显示no such file or directory $ kubectl get pod -o wide test-7695dc7fb9-rjxlq 0/1 CrashLoopBackOff 13 17h 192.168.100.20 node1 &lt;none&gt;  CrashLoopBackOff状态需要查看pod的日志，通过kubectl logs可以查看到具体的错误信息。
+$ kubectl logs -n test-7695dc7fb9-rjxlq container_linux.go:345: starting container process caused &quot;process_linux.go:430: container init caused \&quot;rootfs_linux.go:58: mounting \\\&quot;/var/lib/kubelet/pods/ed1b799a-d3a5-11e9-add6-0894ef725f6e/volume-subpaths/test-cm/app-conf/1\\\&quot; to rootfs \\\&quot;/var/lib/docker/overlay/23a69e27f79f84a14b50fbee1e4840836487f8c740423291c2f785da1e7a6820/merged\\\&quot; at \\\&quot;/var/lib/docker/overlay/23a69e27f79f84a14b50fbee1e4840836487f8c740423291c2f785da1e7a6820/merged/etc/app/app.conf\\\&quot; caused \\\&quot;no such file or directory\\\&quot;\&quot;&quot;  查看日志发现是挂载的configmap有问题。
+猜测原因：该pod采用subPath的方式挂载configmap，怀疑是configmap修改后，未重建pod导致，因此会出现上述no such file or directory的错误。
+排查问题 查看异常pod的uid，通过下述的命令我们可以看到当前pod在2019-09-10T08:35:21Z的时间创建，并且uid为ed1b799a-d3a5-11e9-add6-0894ef725f6e。
+$ kubectl get pod test-7695dc7fb9-rjxlq -o json | jq .metadata { &quot;creationTimestamp&quot;: &quot;2019-09-10T08:35:21Z&quot;, &quot;generateName&quot;: &quot;test-7695dc7fb9-&quot;, &quot;labels&quot;: { &quot;application&quot;: &quot;test&quot;, &quot;pod-template-hash&quot;: &quot;3251873965&quot; }, &quot;name&quot;: &quot;test-7695dc7fb9-rjxlq&quot;, &quot;namespace&quot;: &quot;openstack&quot;, &quot;ownerReferences&quot;: [ { &quot;apiVersion&quot;: &quot;apps/v1&quot;, &quot;blockOwnerDeletion&quot;: true, &quot;controller&quot;: true, &quot;kind&quot;: &quot;ReplicaSet&quot;, &quot;name&quot;: &quot;test-7695dc7fb9&quot;, &quot;uid&quot;: &quot;ece58508-d3a5-11e9-add6-0894ef725f6e&quot; } ], &quot;resourceVersion&quot;: &quot;1762165&quot;, &quot;selfLink&quot;: &quot;/api/v1/namespaces/default/pods/test-7695dc7fb9-rjxlq&quot;, &quot;uid&quot;: &quot;ed1b799a-d3a5-11e9-add6-0894ef725f6e&quot; }  接下来就需要登录到pod所在的节点进行查看。</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
               <a class="link-unstyled" href="https://pytimer.github.io/2019/06/mac%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8docker/">
                 <h3 class="media-heading">Mac安装使用Docker</h3>
               </a>
@@ -314,28 +335,6 @@ $ kubectl get pod -n kube-system -l &quot;name=tiller&quot; NAME READY STATUS RE
             <hr>
           </div>
         
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://pytimer.github.io/2018/12/kube-admission/">
-                <h3 class="media-heading">Kube Admission</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Dec 12, 2018
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">External Admission Webhooks 作用及使用场景 当需要对某些api请求或者所有请求进行校验或者修改object的时候，可以考虑使用ValidatingAdmissionWebhook或者MutatingAdmissionWebhook，两者的区别：
- ValidatingAdmissionWebhook不允许在webhook中对Object进行修改，只是返回结果是true或false MutatingAdmissionWebhook运行在webhook中对Object进行修改  启用 在1.10之前的版本，需要使用 --admission-control 启用相关配置，并且是按配置的顺序来决定运行顺序，因此需要用户对于Admission Controllers 完全了解。
-在1.10之后的版本，上述配置已经废弃，建议使用--enable-admission-plugins=MutatingAdmissionWebhook,ValidatingAdmissionWebhook，并且用户指定的顺序并不会影响实际运行顺序，更加友好。
-官方的Using Admission Controllers - Kubernetes有关于这方面的详细说明。
-流程 kube-apiserver &ndash;&gt; 认证鉴权 &ndash;&gt; Admission Controller &ndash;&gt; webhook
-使用 创建admission服务，以供kube-apiserver调用 package main import ( &quot;crypto/tls&quot; &quot;encoding/json&quot; &quot;flag&quot; &quot;io/ioutil&quot; &quot;net/http&quot; admissionv1beta1 &quot;k8s.io/api/admission/v1beta1&quot; admissionregistrationv1beta1 &quot;k8s.io/api/admissionregistration/v1beta1&quot; corev1 &quot;k8s.io/api/core/v1&quot; metav1 &quot;k8s.io/apimachinery/pkg/apis/meta/v1&quot; &quot;k8s.io/apimachinery/pkg/runtime&quot; &quot;k8s.io/apimachinery/pkg/runtime/serializer&quot; utilruntime &quot;k8s.io/apimachinery/pkg/util/runtime&quot; &quot;k8s.io/klog&quot; ) type patchOperation struct { Op string `json:&quot;op&quot;` Path string `json:&quot;path&quot;` Value interface{} `json:&quot;value,omitempty&quot;` } var scheme = runtime.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
       </div>
     </div>
     <div class="modal-footer">
@@ -343,7 +342,7 @@ $ kubectl get pod -n kube-system -l &quot;name=tiller&quot; NAME READY STATUS RE
          data-message-zero=""
          data-message-one=""
          data-message-other="">
-         27 posts found
+         28 posts found
       </p>
     </div>
   </div>

@@ -6,10 +6,23 @@
     <description>Recent content in Posts on Pytimer Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 26 Jun 2019 19:35:13 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 11 Sep 2019 17:02:11 +0800</lastBuildDate>
     
 	<atom:link href="https://pytimer.github.io/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>[FAQ] 修改configmap后，使用subPath的Pod异常</title>
+      <link>https://pytimer.github.io/2019/09/faq-%E4%BF%AE%E6%94%B9configmap%E5%90%8E%E4%BD%BF%E7%94%A8subpath%E7%9A%84pod%E5%BC%82%E5%B8%B8/</link>
+      <pubDate>Wed, 11 Sep 2019 17:02:11 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/2019/09/faq-%E4%BF%AE%E6%94%B9configmap%E5%90%8E%E4%BD%BF%E7%94%A8subpath%E7%9A%84pod%E5%BC%82%E5%B8%B8/</guid>
+      <description>Pod状态异常，挂载configmap显示no such file or directory $ kubectl get pod -o wide test-7695dc7fb9-rjxlq 0/1 CrashLoopBackOff 13 17h 192.168.100.20 node1 &amp;lt;none&amp;gt;  CrashLoopBackOff状态需要查看pod的日志，通过kubectl logs可以查看到具体的错误信息。
+$ kubectl logs -n test-7695dc7fb9-rjxlq container_linux.go:345: starting container process caused &amp;quot;process_linux.go:430: container init caused \&amp;quot;rootfs_linux.go:58: mounting \\\&amp;quot;/var/lib/kubelet/pods/ed1b799a-d3a5-11e9-add6-0894ef725f6e/volume-subpaths/test-cm/app-conf/1\\\&amp;quot; to rootfs \\\&amp;quot;/var/lib/docker/overlay/23a69e27f79f84a14b50fbee1e4840836487f8c740423291c2f785da1e7a6820/merged\\\&amp;quot; at \\\&amp;quot;/var/lib/docker/overlay/23a69e27f79f84a14b50fbee1e4840836487f8c740423291c2f785da1e7a6820/merged/etc/app/app.conf\\\&amp;quot; caused \\\&amp;quot;no such file or directory\\\&amp;quot;\&amp;quot;&amp;quot;  查看日志发现是挂载的configmap有问题。
+猜测原因：该pod采用subPath的方式挂载configmap，怀疑是configmap修改后，未重建pod导致，因此会出现上述no such file or directory的错误。
+排查问题 查看异常pod的uid，通过下述的命令我们可以看到当前pod在2019-09-10T08:35:21Z的时间创建，并且uid为ed1b799a-d3a5-11e9-add6-0894ef725f6e。
+$ kubectl get pod test-7695dc7fb9-rjxlq -o json | jq .metadata { &amp;quot;creationTimestamp&amp;quot;: &amp;quot;2019-09-10T08:35:21Z&amp;quot;, &amp;quot;generateName&amp;quot;: &amp;quot;test-7695dc7fb9-&amp;quot;, &amp;quot;labels&amp;quot;: { &amp;quot;application&amp;quot;: &amp;quot;test&amp;quot;, &amp;quot;pod-template-hash&amp;quot;: &amp;quot;3251873965&amp;quot; }, &amp;quot;name&amp;quot;: &amp;quot;test-7695dc7fb9-rjxlq&amp;quot;, &amp;quot;namespace&amp;quot;: &amp;quot;openstack&amp;quot;, &amp;quot;ownerReferences&amp;quot;: [ { &amp;quot;apiVersion&amp;quot;: &amp;quot;apps/v1&amp;quot;, &amp;quot;blockOwnerDeletion&amp;quot;: true, &amp;quot;controller&amp;quot;: true, &amp;quot;kind&amp;quot;: &amp;quot;ReplicaSet&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;test-7695dc7fb9&amp;quot;, &amp;quot;uid&amp;quot;: &amp;quot;ece58508-d3a5-11e9-add6-0894ef725f6e&amp;quot; } ], &amp;quot;resourceVersion&amp;quot;: &amp;quot;1762165&amp;quot;, &amp;quot;selfLink&amp;quot;: &amp;quot;/api/v1/namespaces/default/pods/test-7695dc7fb9-rjxlq&amp;quot;, &amp;quot;uid&amp;quot;: &amp;quot;ed1b799a-d3a5-11e9-add6-0894ef725f6e&amp;quot; }  接下来就需要登录到pod所在的节点进行查看。</description>
+    </item>
     
     <item>
       <title>Mac安装使用Docker</title>
