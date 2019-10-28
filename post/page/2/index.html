@@ -191,6 +191,71 @@
     
     <div class="postShorten-header">
       <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://pytimer.github.io/2019/01/deploy-helm-private-charts-repository-on-the-kubernetes/">
+          Deploy Helm private charts repository on the Kubernetes
+        </a>
+      </h1>
+      
+  <div class="postShorten-meta post-meta">
+    
+      <time itemprop="datePublished" datetime="2019-01-08T19:21:56&#43;08:00">
+        
+  
+  
+  
+  
+    8 一月 2019
+  
+
+      </time>
+    
+    
+  
+  
+    <span>发布在</span>
+    
+      <a class="category-link" href="https://pytimer.github.io/categories/cncf">CNCF</a>, 
+    
+      <a class="category-link" href="https://pytimer.github.io/categories/kubernetes">Kubernetes</a>
+    
+  
+
+  </div>
+
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      Helm是一个管理Kubernetes上charts的工具，通过Helm你可以比较方便的部署、卸载组件等操作。
+在大多数时候，我们都可以直接使用官方的charts仓库来安装我们想要的组件，但是我们有时候会在内网的情况下使用Helm，这个时候我们可能需要一个自己私有的charts仓库。该文档将介绍如何搭建一个私有的charts仓库。
+我们使用minio作为charts仓库的后端存储，结合chartmuseum来提供charts仓库的服务，以方便我们操作charts仓库。
+术语  minio: minio是一个类似Amazon S3的分布式存储服务，该服务提供API、SDK、Client来让我们操作。 chartmuseum: chartmuseum是一个Web服务，该服务提供API来让我们比较轻松的操作charts仓库，而且该服务还可以满足多租户场景。  组件 部署完成后，全部的组件。
+$ kubectl get pod -n kube-system -l &quot;name=tiller&quot; NAME READY STATUS RESTARTS AGE tiller-deploy-&lt;xxx&gt; 1/1 Running 0 5h $ kubectl get pod -n kube-system -l &quot;app=chartmuseum&quot; NAME READY STATUS RESTARTS AGE &lt;release-name&gt;-chartmuseum-&lt;xxx&gt; 1/1 Running 0 47m $ kubectl get pod -n storage NAME READY STATUS RESTARTS AGE minio-client-deployment-&lt;xxx&gt; 1/1 Running 0 7h minio-deployment-&lt;xxx&gt; 1/1 Running 0 9h  部署 部署私有charts仓库，初始化helm init，部署tiller服务，部署好minio服务，部署chartmuseum，通过helm install安装上述两个组件，启动服务。等待服务启动成功，使用helm添加新的charts仓库即可使用。
+      <p>
+        <a href="https://pytimer.github.io/2019/01/deploy-helm-private-charts-repository-on-the-kubernetes/" class="postShorten-excerpt_link link">阅读全文</a>
+        
+      </p>
+    </div>
+  </div>
+  
+</article>
+
+          
+            
+  
+    
+      
+        
+      
+    
+  
+
+
+  
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
         <a class="link-unstyled" href="https://pytimer.github.io/2018/12/kube-admission/">
           Kube Admission
         </a>
@@ -781,77 +846,6 @@ list.go只是对state.json的数据处理，没有过多关于底层实现。
 </article>
 
           
-            
-  
-    
-      
-        
-      
-    
-  
-
-
-  
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-  <div class="postShorten-wrap">
-    
-    <div class="postShorten-header">
-      <h1 class="postShorten-title" itemprop="headline">
-        <a class="link-unstyled" href="https://pytimer.github.io/2018/06/go%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7delve/">
-          Go调试工具Delve
-        </a>
-      </h1>
-      
-  <div class="postShorten-meta post-meta">
-    
-      <time itemprop="datePublished" datetime="2018-06-06T10:42:03&#43;08:00">
-        
-  
-  
-  
-  
-    6 六月 2018
-  
-
-      </time>
-    
-    
-  
-  
-    <span>发布在</span>
-    
-      <a class="category-link" href="https://pytimer.github.io/categories/go">Go</a>
-    
-  
-
-  </div>
-
-    </div>
-    <div class="postShorten-excerpt" itemprop="articleBody">
-      安装 delve/Documentation/installation · derekparker/delve · GitHub提供了所有操作系统平台上安装Delve的说明，
-用法 可以使用Delve调试Go程序
-Delve支持远程调试、命令行调试、集成环境调试  远程调试  如果程序运行在服务器，我们又没有办法查看到程序的源码，我们可以通过远程调试的方式进行
- 在服务器上查看到程序的pid  ps -ef|grep &lt;program&gt;
- 执行attach命令  dlv attach &lt;PID&gt; --headless --api-version=2 --log --listen=:8081
- 在本机执行connect命令  dlv connect &lt;server_ip&gt;:8081
-如果本机dlv退出，远程的dlv也会退出
-本机dlv没有启动，远程dlv直接关闭，会导致进程退出
-本机dlv退出的时候，会询问是否关闭调试进程的pid
- 命令行调试  dlv debug
-具体可以查看Getting started with Delve该文档，有比较详细的说明
- 集成环境调试  [Chinese]delve · nebulasio/wiki Wiki · GitHub
-常用命令说明    命令 描述     args 打印函数参数   break (alias: b) 设置一个断点   breakpoints (alias: bp) 打印活动断点信息   clear 删除断点   clearall 删除所有的断点   condition (alias: cond) 设置断点条件   config 改变配置参数   continue (alias: c) 运行到断点或程序终止   exit `(alias: quit q)`   funcs 打印函数列表   goroutine 显示或更改当前goroutine   goroutines 列出程序的全部goroutines   help (alias: h) 打印出帮助信息   list `(alias: ls l)`   locals 打印局部变量   next (alias: n) 跳到下一行   on 在遇到断点时执行一个命令   print (alias: p) 表达式   regs 打印CPU寄存器的内容   restart (alias: r) 重启进程   set 更改变量的值   source 执行包含delve命令列表的文件   sources 打印源文件列表   stack (alias: bt) 打印堆栈跟踪信息   step (alias: s) 单步执行程序   step-instruction (alias: si) 单步单个执行cpu指令   stepout 退出当前函数   thread (alias: tr) 切换到指定的线程   threads 打印每一个跟踪线程的信息   trace (alias: t) 设置跟踪点   types 打印类型列表   vars 打印某个包内的(全局)变量   whatis 打印表达式的类型    完整的命令说明：delve/Documentation/cli · derekparker/delve · GitHub
-      <p>
-        <a href="https://pytimer.github.io/2018/06/go%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7delve/" class="postShorten-excerpt_link link">阅读全文</a>
-        
-      </p>
-    </div>
-  </div>
-  
-</article>
-
-          
           
   <div class="pagination-bar">
     <ul class="pagination">
@@ -935,6 +929,34 @@ Delve支持远程调试、命令行调试、集成环境调试  远程调试  �
       <div class="no-result text-color-light text-center"></div>
       <div class="results">
         
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2019/10/go%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/">
+                <h3 class="media-heading">Go开发规范</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Oct 10, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">代码规范 辅助工具 goimports goimports是Go官方提供的工具，能够为我们自动格式化Go语言代码并对引入的包进行管理，其中包括自动增删依赖包引用，将依赖包进行分类排序。
+goimports等价于gofmt加依赖包的管理。
+因此建议所有GO语言开发人员在开发时，使用goimports进行格式化，并在IDE中进行配置，保存时自动格式化。
+在Goland中进行设置 golint golint是Go官方提供的静态检查工具，该工具的诟病在于可定制化不足，但是在Go的社区中，保证一致性的编程规范是有益的事情，因此该工具大多数用在基础库和框架项目中，上层业务应用可以选用golangci-lint这个工具进行静态检查。
+建议所有Go语言开发人员在项目中加入golint或golangci-lint工具进行静态检查，甚至于对于基础库和框架来说，可以同时使用上述两个工具来进行检查。
+自动化 无论是上述的格式化还是静态检查，我们都要在我们的CI流程中进行自动化的处理，从而减少代码审核人员的工作，将重心放在代码逻辑上。
+Drone结合上述工具进行自动化的示例。
+项目开发 目录结构 在项目开发中，Go官方并没有给出一个推荐的目录规划，而在社区中有一些常见的约定，具体的可以看golang-standards/project-layout ，我们也是建议采用该方式进行项目目录规划。
+├── LICENSE ├── Makefile ├── README.md ├── api ├── assets ├── build ├── cmd ├── configs ├── deployments ├── docs ├── examples ├── githooks ├── init ├── internal ├── pkg ├── scripts ├── test ├── third_party ├── tools ├── vendor ├── web └── website  下面介绍常见并且重要的目录及文件。
+README.md 该文件写明该项目的简介，功能说明等。
+CONTRIBUTING.md 该文件说明其他开发人员如何合作开发该项目。
+/pkg 该目录存放的是项目中可以被外部项目或者本项目使用的代码仓库，外部项目直接通过import即可引入该包代码。</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
         
           <div class="media">
             
@@ -1129,27 +1151,6 @@ $ kubectl logs -n kube-system coredns-fb8b8dccf-cl9rp .:53 2019-03-26T13:58:34.6
             <hr>
           </div>
         
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://pytimer.github.io/2019/01/deploy-helm-private-charts-repository-on-the-kubernetes/">
-                <h3 class="media-heading">Deploy Helm private charts repository on the Kubernetes</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jan 1, 2019
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">Helm是一个管理Kubernetes上charts的工具，通过Helm你可以比较方便的部署、卸载组件等操作。
-在大多数时候，我们都可以直接使用官方的charts仓库来安装我们想要的组件，但是我们有时候会在内网的情况下使用Helm，这个时候我们可能需要一个自己私有的charts仓库。该文档将介绍如何搭建一个私有的charts仓库。
-我们使用minio作为charts仓库的后端存储，结合chartmuseum来提供charts仓库的服务，以方便我们操作charts仓库。
-术语  minio: minio是一个类似Amazon S3的分布式存储服务，该服务提供API、SDK、Client来让我们操作。 chartmuseum: chartmuseum是一个Web服务，该服务提供API来让我们比较轻松的操作charts仓库，而且该服务还可以满足多租户场景。  组件 部署完成后，全部的组件。
-$ kubectl get pod -n kube-system -l &quot;name=tiller&quot; NAME READY STATUS RESTARTS AGE tiller-deploy-&lt;xxx&gt; 1/1 Running 0 5h $ kubectl get pod -n kube-system -l &quot;app=chartmuseum&quot; NAME READY STATUS RESTARTS AGE &lt;release-name&gt;-chartmuseum-&lt;xxx&gt; 1/1 Running 0 47m $ kubectl get pod -n storage NAME READY STATUS RESTARTS AGE minio-client-deployment-&lt;xxx&gt; 1/1 Running 0 7h minio-deployment-&lt;xxx&gt; 1/1 Running 0 9h  部署 部署私有charts仓库，初始化helm init，部署tiller服务，部署好minio服务，部署chartmuseum，通过helm install安装上述两个组件，启动服务。等待服务启动成功，使用helm添加新的charts仓库即可使用。</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
       </div>
     </div>
     <div class="modal-footer">
@@ -1157,7 +1158,7 @@ $ kubectl get pod -n kube-system -l &quot;name=tiller&quot; NAME READY STATUS RE
          data-message-zero=""
          data-message-one=""
          data-message-other="">
-         28 posts found
+         29 posts found
       </p>
     </div>
   </div>

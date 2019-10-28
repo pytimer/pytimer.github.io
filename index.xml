@@ -6,10 +6,30 @@
     <description>Recent content on Pytimer Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 11 Sep 2019 17:02:11 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 25 Oct 2019 10:00:03 +0800</lastBuildDate>
     
 	<atom:link href="https://pytimer.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Go开发规范</title>
+      <link>https://pytimer.github.io/2019/10/go%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/</link>
+      <pubDate>Fri, 25 Oct 2019 10:00:03 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/2019/10/go%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/</guid>
+      <description>代码规范 辅助工具 goimports goimports是Go官方提供的工具，能够为我们自动格式化Go语言代码并对引入的包进行管理，其中包括自动增删依赖包引用，将依赖包进行分类排序。
+goimports等价于gofmt加依赖包的管理。
+因此建议所有GO语言开发人员在开发时，使用goimports进行格式化，并在IDE中进行配置，保存时自动格式化。
+在Goland中进行设置 golint golint是Go官方提供的静态检查工具，该工具的诟病在于可定制化不足，但是在Go的社区中，保证一致性的编程规范是有益的事情，因此该工具大多数用在基础库和框架项目中，上层业务应用可以选用golangci-lint这个工具进行静态检查。
+建议所有Go语言开发人员在项目中加入golint或golangci-lint工具进行静态检查，甚至于对于基础库和框架来说，可以同时使用上述两个工具来进行检查。
+自动化 无论是上述的格式化还是静态检查，我们都要在我们的CI流程中进行自动化的处理，从而减少代码审核人员的工作，将重心放在代码逻辑上。
+Drone结合上述工具进行自动化的示例。
+项目开发 目录结构 在项目开发中，Go官方并没有给出一个推荐的目录规划，而在社区中有一些常见的约定，具体的可以看golang-standards/project-layout ，我们也是建议采用该方式进行项目目录规划。
+├── LICENSE ├── Makefile ├── README.md ├── api ├── assets ├── build ├── cmd ├── configs ├── deployments ├── docs ├── examples ├── githooks ├── init ├── internal ├── pkg ├── scripts ├── test ├── third_party ├── tools ├── vendor ├── web └── website  下面介绍常见并且重要的目录及文件。
+README.md 该文件写明该项目的简介，功能说明等。
+CONTRIBUTING.md 该文件说明其他开发人员如何合作开发该项目。
+/pkg 该目录存放的是项目中可以被外部项目或者本项目使用的代码仓库，外部项目直接通过import即可引入该包代码。</description>
+    </item>
     
     <item>
       <title>[FAQ] 修改configmap后，使用subPath的Pod异常</title>

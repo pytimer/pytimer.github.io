@@ -20,44 +20,56 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.53 with theme Tranquilpeak 0.4.3-BETA">
-    <title>Coredns简介</title>
+    <title>Go开发规范</title>
     <meta name="author" content="Pytimer">
-    <meta name="keywords" content="dns, nameserver">
+    <meta name="keywords" content="">
 
     <link rel="icon" href="https://pytimer.github.io/favicon.png">
     
 
     
-    <meta name="description" content="DNS Linux上通过/etc/resolv.conf文件可以配置DNS相关信息，该文件是resovler类库所使用的配置文件，每当通过域名访问其他主机时，该类库会将域名转换为对应的IP，然后才可以进行访问。
-resolv.conf 配置 nameserver 该选项用来配置DNS服务器地址，可以指定多个DNS
-domain 该选项用来指定本地的域名，没有配置search的情况下，search默认使用的为domain的值
-search 用来指定多个域名，用空格分隔。当访问的域名无法被DNS服务器解析时，resolver会将该域名后加上search指定的值，重新请求DNS，直到被正确解析或者列表循环结束。
-nslookup 默认的超时时间为15s左右。
-没有配置nameserver 在没有配置任何DNS的情况下，解析域名失败，返回如下错误：
-$ nslookup baidu.com ;; connection timed out; no servers could be reached  配置nameserver $ cat /etc/resolv.conf nameserver 8.8.8.8  $ nslookup baidu.com Server: 8.8.8.8 Address: 8.8.8.8#53 Non-authoritative answer: Name: baidu.com Address: x.x.x.x Name: baidu.com Address: y.y.y.y  如果没有解析域名成功会有如下信息：
-$ nslookup aaa.bbb.ccc Server: 8.8.8.8 Address: 8.8.8.8#53 ** server can&#39;t find aaa.bbb.ccc: NXDOMAIN  DNS常见记录类型  A：指定域名对应的IP地址">
-    <meta property="og:description" content="DNS Linux上通过/etc/resolv.conf文件可以配置DNS相关信息，该文件是resovler类库所使用的配置文件，每当通过域名访问其他主机时，该类库会将域名转换为对应的IP，然后才可以进行访问。
-resolv.conf 配置 nameserver 该选项用来配置DNS服务器地址，可以指定多个DNS
-domain 该选项用来指定本地的域名，没有配置search的情况下，search默认使用的为domain的值
-search 用来指定多个域名，用空格分隔。当访问的域名无法被DNS服务器解析时，resolver会将该域名后加上search指定的值，重新请求DNS，直到被正确解析或者列表循环结束。
-nslookup 默认的超时时间为15s左右。
-没有配置nameserver 在没有配置任何DNS的情况下，解析域名失败，返回如下错误：
-$ nslookup baidu.com ;; connection timed out; no servers could be reached  配置nameserver $ cat /etc/resolv.conf nameserver 8.8.8.8  $ nslookup baidu.com Server: 8.8.8.8 Address: 8.8.8.8#53 Non-authoritative answer: Name: baidu.com Address: x.x.x.x Name: baidu.com Address: y.y.y.y  如果没有解析域名成功会有如下信息：
-$ nslookup aaa.bbb.ccc Server: 8.8.8.8 Address: 8.8.8.8#53 ** server can&#39;t find aaa.bbb.ccc: NXDOMAIN  DNS常见记录类型  A：指定域名对应的IP地址">
+    <meta name="description" content="代码规范 辅助工具 goimports goimports是Go官方提供的工具，能够为我们自动格式化Go语言代码并对引入的包进行管理，其中包括自动增删依赖包引用，将依赖包进行分类排序。
+goimports等价于gofmt加依赖包的管理。
+因此建议所有GO语言开发人员在开发时，使用goimports进行格式化，并在IDE中进行配置，保存时自动格式化。
+在Goland中进行设置 golint golint是Go官方提供的静态检查工具，该工具的诟病在于可定制化不足，但是在Go的社区中，保证一致性的编程规范是有益的事情，因此该工具大多数用在基础库和框架项目中，上层业务应用可以选用golangci-lint这个工具进行静态检查。
+建议所有Go语言开发人员在项目中加入golint或golangci-lint工具进行静态检查，甚至于对于基础库和框架来说，可以同时使用上述两个工具来进行检查。
+自动化 无论是上述的格式化还是静态检查，我们都要在我们的CI流程中进行自动化的处理，从而减少代码审核人员的工作，将重心放在代码逻辑上。
+Drone结合上述工具进行自动化的示例。
+项目开发 目录结构 在项目开发中，Go官方并没有给出一个推荐的目录规划，而在社区中有一些常见的约定，具体的可以看golang-standards/project-layout ，我们也是建议采用该方式进行项目目录规划。
+├── LICENSE ├── Makefile ├── README.md ├── api ├── assets ├── build ├── cmd ├── configs ├── deployments ├── docs ├── examples ├── githooks ├── init ├── internal ├── pkg ├── scripts ├── test ├── third_party ├── tools ├── vendor ├── web └── website  下面介绍常见并且重要的目录及文件。
+README.md 该文件写明该项目的简介，功能说明等。
+CONTRIBUTING.md 该文件说明其他开发人员如何合作开发该项目。
+/pkg 该目录存放的是项目中可以被外部项目或者本项目使用的代码仓库，外部项目直接通过import即可引入该包代码。">
+    <meta property="og:description" content="代码规范 辅助工具 goimports goimports是Go官方提供的工具，能够为我们自动格式化Go语言代码并对引入的包进行管理，其中包括自动增删依赖包引用，将依赖包进行分类排序。
+goimports等价于gofmt加依赖包的管理。
+因此建议所有GO语言开发人员在开发时，使用goimports进行格式化，并在IDE中进行配置，保存时自动格式化。
+在Goland中进行设置 golint golint是Go官方提供的静态检查工具，该工具的诟病在于可定制化不足，但是在Go的社区中，保证一致性的编程规范是有益的事情，因此该工具大多数用在基础库和框架项目中，上层业务应用可以选用golangci-lint这个工具进行静态检查。
+建议所有Go语言开发人员在项目中加入golint或golangci-lint工具进行静态检查，甚至于对于基础库和框架来说，可以同时使用上述两个工具来进行检查。
+自动化 无论是上述的格式化还是静态检查，我们都要在我们的CI流程中进行自动化的处理，从而减少代码审核人员的工作，将重心放在代码逻辑上。
+Drone结合上述工具进行自动化的示例。
+项目开发 目录结构 在项目开发中，Go官方并没有给出一个推荐的目录规划，而在社区中有一些常见的约定，具体的可以看golang-standards/project-layout ，我们也是建议采用该方式进行项目目录规划。
+├── LICENSE ├── Makefile ├── README.md ├── api ├── assets ├── build ├── cmd ├── configs ├── deployments ├── docs ├── examples ├── githooks ├── init ├── internal ├── pkg ├── scripts ├── test ├── third_party ├── tools ├── vendor ├── web └── website  下面介绍常见并且重要的目录及文件。
+README.md 该文件写明该项目的简介，功能说明等。
+CONTRIBUTING.md 该文件说明其他开发人员如何合作开发该项目。
+/pkg 该目录存放的是项目中可以被外部项目或者本项目使用的代码仓库，外部项目直接通过import即可引入该包代码。">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="Coredns简介">
-    <meta property="og:url" content="/2019/06/coredns%E7%AE%80%E4%BB%8B/">
+    <meta property="og:title" content="Go开发规范">
+    <meta property="og:url" content="/2019/10/go%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/">
     <meta property="og:site_name" content="Pytimer Blog">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Pytimer Blog">
-    <meta name="twitter:description" content="DNS Linux上通过/etc/resolv.conf文件可以配置DNS相关信息，该文件是resovler类库所使用的配置文件，每当通过域名访问其他主机时，该类库会将域名转换为对应的IP，然后才可以进行访问。
-resolv.conf 配置 nameserver 该选项用来配置DNS服务器地址，可以指定多个DNS
-domain 该选项用来指定本地的域名，没有配置search的情况下，search默认使用的为domain的值
-search 用来指定多个域名，用空格分隔。当访问的域名无法被DNS服务器解析时，resolver会将该域名后加上search指定的值，重新请求DNS，直到被正确解析或者列表循环结束。
-nslookup 默认的超时时间为15s左右。
-没有配置nameserver 在没有配置任何DNS的情况下，解析域名失败，返回如下错误：
-$ nslookup baidu.com ;; connection timed out; no servers could be reached  配置nameserver $ cat /etc/resolv.conf nameserver 8.8.8.8  $ nslookup baidu.com Server: 8.8.8.8 Address: 8.8.8.8#53 Non-authoritative answer: Name: baidu.com Address: x.x.x.x Name: baidu.com Address: y.y.y.y  如果没有解析域名成功会有如下信息：
-$ nslookup aaa.bbb.ccc Server: 8.8.8.8 Address: 8.8.8.8#53 ** server can&#39;t find aaa.bbb.ccc: NXDOMAIN  DNS常见记录类型  A：指定域名对应的IP地址">
+    <meta name="twitter:description" content="代码规范 辅助工具 goimports goimports是Go官方提供的工具，能够为我们自动格式化Go语言代码并对引入的包进行管理，其中包括自动增删依赖包引用，将依赖包进行分类排序。
+goimports等价于gofmt加依赖包的管理。
+因此建议所有GO语言开发人员在开发时，使用goimports进行格式化，并在IDE中进行配置，保存时自动格式化。
+在Goland中进行设置 golint golint是Go官方提供的静态检查工具，该工具的诟病在于可定制化不足，但是在Go的社区中，保证一致性的编程规范是有益的事情，因此该工具大多数用在基础库和框架项目中，上层业务应用可以选用golangci-lint这个工具进行静态检查。
+建议所有Go语言开发人员在项目中加入golint或golangci-lint工具进行静态检查，甚至于对于基础库和框架来说，可以同时使用上述两个工具来进行检查。
+自动化 无论是上述的格式化还是静态检查，我们都要在我们的CI流程中进行自动化的处理，从而减少代码审核人员的工作，将重心放在代码逻辑上。
+Drone结合上述工具进行自动化的示例。
+项目开发 目录结构 在项目开发中，Go官方并没有给出一个推荐的目录规划，而在社区中有一些常见的约定，具体的可以看golang-standards/project-layout ，我们也是建议采用该方式进行项目目录规划。
+├── LICENSE ├── Makefile ├── README.md ├── api ├── assets ├── build ├── cmd ├── configs ├── deployments ├── docs ├── examples ├── githooks ├── init ├── internal ├── pkg ├── scripts ├── test ├── third_party ├── tools ├── vendor ├── web └── website  下面介绍常见并且重要的目录及文件。
+README.md 该文件写明该项目的简介，功能说明等。
+CONTRIBUTING.md 该文件说明其他开发人员如何合作开发该项目。
+/pkg 该目录存放的是项目中可以被外部项目或者本项目使用的代码仓库，外部项目直接通过import即可引入该包代码。">
     
     
 
@@ -200,19 +212,19 @@ $ nslookup aaa.bbb.ccc Server: 8.8.8.8 Address: 8.8.8.8#53 ** server can&#39;t f
             <div class="post-header main-content-wrap text-left">
   
     <h1 class="post-title" itemprop="headline">
-      Coredns简介
+      Go开发规范
     </h1>
   
   
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2019-06-06T18:06:42&#43;08:00">
+      <time itemprop="datePublished" datetime="2019-10-25T10:00:03&#43;08:00">
         
   
   
   
   
-    6 六月 2019
+    25 十月 2019
   
 
       </time>
@@ -222,9 +234,7 @@ $ nslookup aaa.bbb.ccc Server: 8.8.8.8 Address: 8.8.8.8#53 ** server can&#39;t f
   
     <span>发布在</span>
     
-      <a class="category-link" href="https://pytimer.github.io/categories/cncf">CNCF</a>, 
-    
-      <a class="category-link" href="https://pytimer.github.io/categories/kubernetes">Kubernetes</a>
+      <a class="category-link" href="https://pytimer.github.io/categories/go">Go</a>
     
   
 
@@ -236,214 +246,171 @@ $ nslookup aaa.bbb.ccc Server: 8.8.8.8 Address: 8.8.8.8#53 ** server can&#39;t f
             <div class="main-content-wrap">
               
 
-<h2 id="dns">DNS</h2>
+<h2 id="代码规范">代码规范</h2>
 
-<p>Linux上通过<code>/etc/resolv.conf</code>文件可以配置DNS相关信息，该文件是resovler类库所使用的配置文件，每当通过域名访问其他主机时，该类库会将域名转换为对应的IP，然后才可以进行访问。</p>
+<h3 id="辅助工具">辅助工具</h3>
 
-<h3 id="resolv-conf-配置">resolv.conf 配置</h3>
+<h4 id="goimports">goimports</h4>
 
-<p><strong>nameserver</strong> 该选项用来配置DNS服务器地址，可以指定多个DNS</p>
+<p>goimports是Go官方提供的工具，能够为我们自动格式化Go语言代码并对引入的包进行管理，其中包括自动增删依赖包引用，将依赖包进行分类排序。</p>
 
-<p><strong>domain</strong> 该选项用来指定本地的域名，没有配置search的情况下，search默认使用的为domain的值</p>
+<p>goimports等价于gofmt加依赖包的管理。</p>
 
-<p><strong>search</strong> 用来指定多个域名，用空格分隔。当访问的域名无法被DNS服务器解析时，resolver会将该域名后加上search指定的值，重新请求DNS，直到被正确解析或者列表循环结束。</p>
+<p>因此建议所有GO语言开发人员在开发时，使用goimports进行格式化，并在IDE中进行配置，保存时自动格式化。</p>
 
-<h3 id="nslookup">nslookup</h3>
+<h5 id="在goland中进行设置">在Goland中进行设置</h5>
 
-<p>默认的超时时间为15s左右。</p>
+<h4 id="golint">golint</h4>
 
-<h4 id="没有配置nameserver">没有配置nameserver</h4>
+<p>golint是Go官方提供的静态检查工具，该工具的诟病在于可定制化不足，但是在Go的社区中，保证一致性的编程规范是有益的事情，因此该工具大多数用在基础库和框架项目中，上层业务应用可以选用golangci-lint这个工具进行静态检查。</p>
 
-<p>在没有配置任何DNS的情况下，解析域名失败，返回如下错误：</p>
+<p>建议所有Go语言开发人员在项目中加入golint或golangci-lint工具进行静态检查，甚至于对于基础库和框架来说，可以同时使用上述两个工具来进行检查。</p>
 
-<pre><code class="language-sh">$ nslookup baidu.com
-;; connection timed out; no servers could be reached
+<h4 id="自动化">自动化</h4>
+
+<p>无论是上述的格式化还是静态检查，我们都要在我们的CI流程中进行自动化的处理，从而减少代码审核人员的工作，将重心放在代码逻辑上。</p>
+
+<p>Drone结合上述工具进行自动化的示例。</p>
+
+<h2 id="项目开发">项目开发</h2>
+
+<h3 id="目录结构">目录结构</h3>
+
+<p>在项目开发中，Go官方并没有给出一个推荐的目录规划，而在社区中有一些常见的约定，具体的可以看<a href="https://github.com/golang-standards/project-layout">golang-standards/project-layout </a>，我们也是建议采用该方式进行项目目录规划。</p>
+
+<pre><code class="language-sh">├── LICENSE
+├── Makefile
+├── README.md
+├── api
+├── assets
+├── build
+├── cmd
+├── configs
+├── deployments
+├── docs
+├── examples
+├── githooks
+├── init
+├── internal
+├── pkg
+├── scripts
+├── test
+├── third_party
+├── tools
+├── vendor
+├── web
+└── website
 </code></pre>
 
-<h4 id="配置nameserver">配置nameserver</h4>
+<p>下面介绍常见并且重要的目录及文件。</p>
 
-<pre><code class="language-sh">$ cat /etc/resolv.conf
-nameserver 8.8.8.8
-</code></pre>
+<h4 id="readme-md">README.md</h4>
 
-<pre><code class="language-sh">$ nslookup baidu.com
-Server:         8.8.8.8
-Address:        8.8.8.8#53
+<p>该文件写明该项目的简介，功能说明等。</p>
 
-Non-authoritative answer:
-Name:   baidu.com
-Address: x.x.x.x
-Name:   baidu.com
-Address: y.y.y.y
-</code></pre>
+<h4 id="contributing-md">CONTRIBUTING.md</h4>
 
-<p>如果没有解析域名成功会有如下信息：</p>
+<p>该文件说明其他开发人员如何合作开发该项目。</p>
 
-<pre><code class="language-sh">$ nslookup aaa.bbb.ccc
-Server:         8.8.8.8
-Address:        8.8.8.8#53
+<h4 id="pkg">/pkg</h4>
 
-** server can't find aaa.bbb.ccc: NXDOMAIN
-</code></pre>
+<p>该目录存放的是项目中可以被外部项目或者本项目使用的代码仓库，外部项目直接通过import即可引入该包代码。</p>
 
-<h3 id="dns常见记录类型">DNS常见记录类型</h3>
+<h4 id="internal">/internal</h4>
 
-<ul>
-<li><p><code>A</code>：指定域名对应的IP地址</p></li>
+<p>该目录存放的是本项目中的私有代码包，不对外提供。该目录可以和pkg目录合并在一起。</p>
 
-<li><p><code>AAAA</code>：将域名解析到指定的IPv6的IP地址上</p></li>
+<h4 id="cmd">/cmd</h4>
 
-<li><p><code>CNAME</code>：别名解析。将注册的不同域名转到同一个域名记录上，由这个域名进行统一解析管理。</p></li>
+<p>该目录存放的是当前项目中的可执行程序入口，即main入口。</p>
 
-<li><p><code>NS</code>：域名服务器记录，用来指定该域名由哪个DNS服务器进行解析。</p></li>
+<h4 id="api">/api</h4>
 
-<li><p><code>PTR</code>：反向DNS，用于将IP地址映射到对应主机名。即通过IP查询对应的域名。</p></li>
-</ul>
+<p>该目录存放的是当前项目对外提供的各种RESTful api接口定义文件，包含grpc的protobuf等文件。</p>
 
-<h3 id="工作原理">工作原理</h3>
+<h4 id="scripts">/scripts</h4>
 
-<p><img src="http://dockone.io/uploads/article/20181111/15dfe73de4f1a60a4494272e0ec8dc00.png" alt="dns工作原理" /></p>
+<p>该目录放置当前项目中各种脚本文件。</p>
 
-<ol>
-<li>本地的DNS客户端向resolver发送域名(example.me)解析请求；</li>
-<li>resolver向根DNS服务器请求顶级域名DNS服务的地址；</li>
-<li>拿到顶级域名<code>me.</code>的DNS服务地址后，向顶级DNS服务请求<code>example.me</code>域名解析的服务；</li>
-<li>得到该域名的服务后，可以拿到该域名对应的IP地址，之后可以进行通信。</li>
-</ol>
+<h4 id="makefile">Makefile</h4>
 
-<p>DNS resolver有两种DNS查询方式：</p>
+<p>该文件用于编译、测试等操作的入口，建议所有/scripts下的脚本文件均由Makefile触发。</p>
 
-<ul>
-<li><p>迭代查询：每个DNS服务返回另外一台DNS服务的位置，客户端依次询问不同级别的DNS服务，直到查询到了想要的结果。</p></li>
+<p><strong>注意：</strong>
+<strong>/src不要使用该目录，该目录与$GOPATH/src类似，会导致其他项目引用本项目出现歧义。</strong></p>
 
-<li><p>递归查询：DNS服务收到客户端的请求之后，会直接返回准确的结果，如果当前DNS服务没有存储该结果，会自己访问其他的DNS服务，并将结果返回给客户端。</p></li>
-</ul>
+<h3 id="模块划分">模块划分</h3>
 
-<h3 id="域名层级关系">域名层级关系</h3>
+<p>Go语言推荐按职责进行模块划分，不同于MVC的这种按层来分，这种划分的方式，可以使得项目中模块在拆分成微服务的时候，直接把某一模块目录拆分出来，不需要过多处理。而按MVC的方式划分模块，很容易出现循环依赖。</p>
 
-<p><img src="http://dockone.io/uploads/article/20181111/e72bf8290395de64c786dea4966e49f9.png" alt="域名层级" /></p>
+<h3 id="显示声明">显示声明</h3>
 
-<h2 id="coredns">CoreDNS</h2>
+<p>Go语言社区建议我们在开发的时候，显式的初始化、调用和错误处理。</p>
 
-<h3 id="corefile">Corefile</h3>
+<h4 id="init">init</h4>
 
-<pre><code class="language-yaml">apiVersion: v1
-data:
-  Corefile: |
-    .:53 {
-        errors
-        health
-        kubernetes cluster.local in-addr.arpa ip6.arpa {
-           pods insecure
-           upstream
-           fallthrough in-addr.arpa ip6.arpa
-        }
-        prometheus :9153
-        proxy . /etc/resolv.conf
-        cache 30
-        reload
+<p>init建议只做一些简单的条件判断，不要掺杂复杂的逻辑及一些数据库或者tcp初始化。</p>
+
+<pre><code class="language-go">var grpcClient *grpc.Client
+
+func init() {
+    var err error
+    grpcClient, err = grpc.Dial(...)
+    if err != nil {
+        panic(err)
     }
-kind: ConfigMap
-metadata:
-  name: coredns
-  namespace: kube-system
+}
+
+func GetPost(postID int64) (*Post, error) {
+    post, err := grpcClient.FindPost(context.Background(), &amp;pb.FindPostRequest{PostID: postID})
+    if err != nil {
+        return nil, err
+    }
+
+    return post, nil
+}
 </code></pre>
 
-<p>集群内部pod通过service来进行访问的时候，采用的是域名方式，会根据容器里的<code>/etc/reslov.conf</code>文件内容进行DNS解析。</p>
+<p>上述代码虽然可以正常工作，但是在这里<code>init</code>函数隐式地初始化了grpc的连接，如果该包被引用的话，这个隐式初始化可能会导致引入这个依赖的项目在遇到错误时很迷茫。</p>
 
-<h4 id="alpine的容器进行dns解析">alpine的容器进行DNS解析</h4>
+<p>合理的做法是，我们定义一个<code>Client</code>结构体和用于初始化这个结构体的函数<code>NewClient</code>，这个函数返回grpc的连接。</p>
 
-<p>设置CoreDNS所在宿主机的DNS <strong>nameserver</strong>为一个无法ping通的地址（192.168.100.200）。</p>
+<pre><code class="language-go">type Client struct {
+    grpcClient *grpc.ClientConn
+}
 
-<p>使用下面的yaml创建一个用于测试的Pod，访问我们自己的一个在<code>kube-system</code>的命名空间下的服务<code>k8s-keystone-auth</code></p>
+func NewClient(grpcClient *grpcClientConn) Client {
+    return &amp;Client{
+        grpcClient: grpcClient,
+    }
+}
 
-<pre><code class="language-yaml">apiVersion: v1
-kind: Pod
-metadata:
-  name: alpine
-spec:
-  containers:
-  - name: alpine
-    image: alpine:3.6
-    command:
-      - sleep
-      - &quot;3600&quot;
-    imagePullPolicy: IfNotPresent
-  restartPolicy: Always
+func (c *Client) GetPost(postID int64) (*Post, error) {
+    post, err := c.grpcClient.FindPost(context.Background(), &amp;pb.FindPostRequest{PostID: postID})
+    if err != nil {
+        return nil, err
+    }
+
+    return post, nil
+}
 </code></pre>
 
-<pre><code class="language-sh">$ kubectl get pod
-NAME              READY     STATUS    RESTARTS   AGE
-alpine            1/1       Running   0          54m
+<p>在其他项目引用该包的时候，可以按下面的方式进行。</p>
+
+<pre><code class="language-go">func main() {
+    grpcClient, err := grpc.Dial(...)
+    if err != nil {
+        panic(err)
+    }
+
+    postClient := post.NewClient(grpcClient)
+    // ...
+}
 </code></pre>
 
-<p>查看该Pod的<code>/etc/resolv.conf</code>内容如下：</p>
+<h4 id="error">error</h4>
 
-<pre><code class="language-sh"> $ kubectl exec alpine -- cat /etc/resolv.conf
-nameserver 10.96.0.10
-search default.svc.cluster.local svc.cluster.local cluster.local
-options ndots:5
-</code></pre>
-
-<p>在直接访问<code>k8s-keystone-auth</code>这个服务的时候，因为该服务和当前Pod不在同一个命名空间，因此会导致DNS解析失败，而且出现超时的情况。</p>
-
-<pre><code class="language-sh">$ kubectl exec busybox -- nslookup k8s-keystone-auth
-nslookup: can't resolve 'k8s-keystone-auth': Try again
-</code></pre>
-
-<p>CoreDNS的日志信息：</p>
-
-<pre><code class="language-sh">2019/06/06 17:53:29 [ERROR] 2 k8s-keystone-auth. AAAA: unreachable backend: read udp 10.120.25.14:58391-&gt;192.168.100.200:53: i/o timeout
-2019/06/06 17:53:29 [ERROR] 2 k8s-keystone-auth. A: unreachable backend: read udp 10.120.25.14:46773-&gt;192.168.100.200:53: i/o timeout
-2019/06/06 17:53:31 [ERROR] 2 k8s-keystone-auth. A: unreachable backend: read udp 10.120.25.14:56768-&gt;192.168.100.200:53: i/o timeout
-2019/06/06 17:53:31 [ERROR] 2 k8s-keystone-auth. AAAA: unreachable backend: read udp 10.120.25.14:33867-&gt;192.168.100.200:53: i/o timeout
-</code></pre>
-
-<p>在访问<code>k8s-keystone-auth.kube-system</code>的时候，因为指定了命名空间，因此会导致DNS解析成功，CoreDNS的日志无超时或错误信息。</p>
-
-<pre><code class="language-sh">$ kubectl exec busybox -- nslookup k8s-keystone-auth.kube-system
-Name:      k8s-keystone-auth.kube-system
-Address 1: 10.99.215.79 k8s-keystone-auth.kube-system.svc.cluster.local
-</code></pre>
-
-<h3 id="nameserver不通-访问集群内部服务">nameserver不通，访问集群内部服务</h3>
-
-<p>如果在<code>/etc/resolv.conf</code>文件中配置了nameserver，并且nameserver无法连通，会导致集群内部所有域名解析超时，超时时间为15s。</p>
-
-<pre><code class="language-sh">$ kubectl exec -it busybox -- nslookup kubernetes.default
-;; connection timed out; no servers could be reached
-</code></pre>
-
-<pre><code class="language-sh">2019/06/06 09:34:56 [ERROR] 2 kubernetes.default. AAAA: unreachable backend: read udp 10.120.25.5:55430-&gt;&lt;nameserver&gt;:53: i/o timeout
-</code></pre>
-
-<p>如果nameserver不通，此时访问集群内部服务使用<code>&lt;my-svc&gt;.&lt;namespace&gt;.svc.cluster.local</code>的方式可以解析成功。如下示例：</p>
-
-<pre><code class="language-sh">$ kubectl exec -it busybox -- nslookup k8s-keystone-auth-service.kube-system.svc.cluster.local
-Server:    10.96.0.10
-Address 1: 10.96.0.10 kube-dns.kube-system.svc.cluster.local
-
-Name:      k8s-keystone-auth-service.kube-system.svc.cluster.local
-Address 1: 10.99.215.79 k8s-keystone-auth-service.kube-system.svc.cluster.local
-</code></pre>
-
-<h3 id="注意事项">注意事项</h3>
-
-<ul>
-<li><p>Linux限制DNS <strong>nameserver</strong>为3条记录，DNS <strong>search</strong>为6条记录，因为Kubernetes要使用1个<strong>nameserver</strong>和3个<strong>search</strong>记录，因此本地设置DNS的话需要注意</p></li>
-
-<li><p>Alpine镜像小于3.3版本，对于DNS解析可能存在问题，因此建议使用更高级的版本</p></li>
-</ul>
-
-<h2 id="参考文档">参考文档</h2>
-
-<p><a href="https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/">https://kubernetes.io/docs/tasks/administer-cluster/dns-debugging-resolution/</a></p>
-
-<p><a href="https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/#coredns">https://kubernetes.io/docs/tasks/administer-cluster/dns-custom-nameservers/#coredns</a></p>
-
-<p><a href="https://blog.csdn.net/luanpeng825485697/article/details/84108166">https://blog.csdn.net/luanpeng825485697/article/details/84108166</a></p>
-
-<p><a href="https://github.com/coredns/coredns/issues/2287">https://github.com/coredns/coredns/issues/2287</a></p>
+<p>建议在处理错误逻辑的时候，对于所有可能发生的错误进行显式处理，对于一个方法或者函数是否需要返回error给上层，也需要我们进行思考再决定。</p>
 
               
             </div>
@@ -456,7 +423,7 @@ Address 1: 10.99.215.79 k8s-keystone-auth-service.kube-system.svc.cluster.local
                   <div class="post-footer-tags">
                     <span class="text-color-light text-small">标签</span><br/>
                     
-  <a class="tag tag--primary tag--small" href="https://pytimer.github.io/tags/coredns/">coredns</a>
+  <a class="tag tag--primary tag--small" href="https://pytimer.github.io/tags/code/">code</a>
 
                   </div>
                 
@@ -469,7 +436,7 @@ Address 1: 10.99.215.79 k8s-keystone-auth-service.kube-system.svc.cluster.local
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2019/06/mac%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8docker/" data-tooltip="Mac安装使用Docker">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -477,7 +444,7 @@ Address 1: 10.99.215.79 k8s-keystone-auth-service.kube-system.svc.cluster.local
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2019/05/change-etcd-cluster-member-ip/" data-tooltip="Change Etcd cluster member ip">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2019/09/faq-%E4%BF%AE%E6%94%B9configmap%E5%90%8E%E4%BD%BF%E7%94%A8subpath%E7%9A%84pod%E5%BC%82%E5%B8%B8/" data-tooltip="[FAQ] 修改configmap后，使用subPath的Pod异常">
               
                   <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -495,19 +462,19 @@ Address 1: 10.99.215.79 k8s-keystone-auth-service.kube-system.svc.cluster.local
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2019/06/coredns%E7%AE%80%E4%BB%8B/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2019/10/go%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2019/06/coredns%E7%AE%80%E4%BB%8B/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2019/10/go%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2019/06/coredns%E7%AE%80%E4%BB%8B/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2019/10/go%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -555,7 +522,7 @@ Address 1: 10.99.215.79 k8s-keystone-auth-service.kube-system.svc.cluster.local
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2019/06/mac%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8docker/" data-tooltip="Mac安装使用Docker">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -563,7 +530,7 @@ Address 1: 10.99.215.79 k8s-keystone-auth-service.kube-system.svc.cluster.local
             </li>
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2019/05/change-etcd-cluster-member-ip/" data-tooltip="Change Etcd cluster member ip">
+                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2019/09/faq-%E4%BF%AE%E6%94%B9configmap%E5%90%8E%E4%BD%BF%E7%94%A8subpath%E7%9A%84pod%E5%BC%82%E5%B8%B8/" data-tooltip="[FAQ] 修改configmap后，使用subPath的Pod异常">
               
                   <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
                   <i class="fa fa-angle-right"></i>
@@ -581,19 +548,19 @@ Address 1: 10.99.215.79 k8s-keystone-auth-service.kube-system.svc.cluster.local
         </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2019/06/coredns%E7%AE%80%E4%BB%8B/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2019/10/go%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/">
               <i class="fa fa-facebook-official"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2019/06/coredns%E7%AE%80%E4%BB%8B/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2019/10/go%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/">
               <i class="fa fa-twitter"></i>
             </a>
           </li>
         
           <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2019/06/coredns%E7%AE%80%E4%BB%8B/">
+            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2019/10/go%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/">
               <i class="fa fa-google-plus"></i>
             </a>
           </li>
@@ -623,19 +590,19 @@ Address 1: 10.99.215.79 k8s-keystone-auth-service.kube-system.svc.cluster.local
   <ul class="share-options">
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fpytimer.github.io%2F2019%2F06%2Fcoredns%25E7%25AE%2580%25E4%25BB%258B%2F">
+        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fpytimer.github.io%2F2019%2F10%2Fgo%25E5%25BC%2580%25E5%258F%2591%25E8%25A7%2584%25E8%258C%2583%2F">
           <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fpytimer.github.io%2F2019%2F06%2Fcoredns%25E7%25AE%2580%25E4%25BB%258B%2F">
+        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fpytimer.github.io%2F2019%2F10%2Fgo%25E5%25BC%2580%25E5%258F%2591%25E8%25A7%2584%25E8%258C%2583%2F">
           <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
         </a>
       </li>
     
       <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fpytimer.github.io%2F2019%2F06%2Fcoredns%25E7%25AE%2580%25E4%25BB%258B%2F">
+        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fpytimer.github.io%2F2019%2F10%2Fgo%25E5%25BC%2580%25E5%258F%2591%25E8%25A7%2584%25E8%258C%2583%2F">
           <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
         </a>
       </li>
@@ -962,9 +929,9 @@ $(document).ready(function() {
     
       <script>
         var disqus_config = function () {
-          this.page.url = 'https:\/\/pytimer.github.io\/2019\/06\/coredns%E7%AE%80%E4%BB%8B\/';
+          this.page.url = 'https:\/\/pytimer.github.io\/2019\/10\/go%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83\/';
           
-            this.page.identifier = '\/2019\/06\/coredns%E7%AE%80%E4%BB%8B\/'
+            this.page.identifier = '\/2019\/10\/go%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83\/'
           
         };
         (function() {
