@@ -755,6 +755,26 @@ Delve支持远程调试、命令行调试、集成环境调试  远程调试  �
           <div class="media">
             
             <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2019/11/docker%E5%AE%B9%E5%99%A8%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5%E5%A4%96%E9%83%A8%E7%BD%91%E7%BB%9C%E5%8E%9F%E5%9B%A0%E6%8E%92%E6%9F%A5/">
+                <h3 class="media-heading">Docker容器无法连接外部网络原因排查</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Nov 11, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Docker是当前最常用的容器运行时引擎，在使用Kubernetes的过程中，我们使用Docker来负责底层的容器的启动、停止。在用户新安装Docker后的使用过程中，发现通过docker run命令启动的容器，使用默认的bridge网络的情况下，容器无法连接到外部网络，针对这个现象进行排查。
+缩小问题范围 使用 docker run -it --rm alpine:3.6 /bin/sh 启动一个容器，采用bridge网络，在容器内ping外部网络的IP，我们发现是无法ping通，该命令会hang住。退出该容器，再尝试使用host网络启动容器，docker run -it --rm --network=host alpine:3.6 /bin/sh，这次我们发现是可以ping通外部网络的，说明是docker的默认bridge网络有问题，缩小范围。
+容器使用bridge网络的情况下，在ping外部网络的情况下，如果发送的不是Docker启动创建的docker0的网桥，会进行SNAT，然后使用宿主机的网卡出去，那么怀疑是SNAT可能有问题，因此查看iptables中和Docker相关的规则。命令结果如下：
+# iptables -t nat -nvL POSTROUTING Chain POSTROUTING (policy ACCEPT 845 packets, 57086 bytes) pkts bytes target prot opt in out source destination 1414 96107 POSTROUTING_direct all -- * * 0.0.0.0/0 0.0.0.0/0 1414 96107 POSTROUTING_ZONES_SOURCE all -- * * 0.0.0.0/0 0.0.0.0/0 1414 96107 POSTROUTING_ZONES all -- * * 0.0.0.0/0 0.0.0.0/0  根据上面结果，我们发现缺少了一条-A POSTROUTING -s 172.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
               <a class="link-unstyled" href="https://pytimer.github.io/2019/10/go%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/">
                 <h3 class="media-heading">Go开发规范</h3>
               </a>
@@ -952,27 +972,6 @@ $ kubectl logs -n kube-system coredns-fb8b8dccf-cl9rp .:53 2019-03-26T13:58:34.6
             <hr>
           </div>
         
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://pytimer.github.io/2019/01/mac-develop-environment-installation/">
-                <h3 class="media-heading">Mac Develop Environment Installation</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jan 1, 2019
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">Mac开发环境配置
-安装iTerm2 官网下载：https://www.iterm2.com/
-安装oh-my-zsh oh-my-zsh 是一个开源的，负责管理你的zsh配置。
- 通过curl来安装  sh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;
- 通过wget来安装  sh -c &quot;$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)&quot;</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
       </div>
     </div>
     <div class="modal-footer">
@@ -980,7 +979,7 @@ $ kubectl logs -n kube-system coredns-fb8b8dccf-cl9rp .:53 2019-03-26T13:58:34.6
          data-message-zero=""
          data-message-one=""
          data-message-other="">
-         29 posts found
+         30 posts found
       </p>
     </div>
   </div>

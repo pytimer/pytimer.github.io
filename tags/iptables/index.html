@@ -1,9 +1,5 @@
 
 
-  
-    
-  
-
 
   
 
@@ -20,35 +16,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="generator" content="Hugo 0.53 with theme Tranquilpeak 0.4.3-BETA">
-    <title>Telegram Dev</title>
+    <title>Iptables</title>
     <meta name="author" content="Pytimer">
     <meta name="keywords" content="">
 
     <link rel="icon" href="https://pytimer.github.io/favicon.png">
     
+      <link rel="alternate" type="application/rss+xml" title="RSS" href="https://pytimer.github.io/tags/iptables/index.xml">
+    
 
     
-    <meta name="description" content="使用 日志设置 在使用tdlib库的时候，需要先设置日志级别
-tdlib.SetLogVerbosityLevel(1)  SetLogVerbosityLevel(int)设置tdlib的日志级别，默认为5
-   级别 说明     0 fatal   1 error   2 warning、debug warning   3 info   4 debug   5 verbose debug   &gt;5 and &lt;=1024 更多的日志    参考网址 官方tdlib
-tdlib methods
-td-log">
-    <meta property="og:description" content="使用 日志设置 在使用tdlib库的时候，需要先设置日志级别
-tdlib.SetLogVerbosityLevel(1)  SetLogVerbosityLevel(int)设置tdlib的日志级别，默认为5
-   级别 说明     0 fatal   1 error   2 warning、debug warning   3 info   4 debug   5 verbose debug   &gt;5 and &lt;=1024 更多的日志    参考网址 官方tdlib
-tdlib methods
-td-log">
+    <meta name="description" content="Hugo tranquilpeak theme pytimer">
+    <meta property="og:description" content="Hugo tranquilpeak theme pytimer">
     <meta property="og:type" content="blog">
-    <meta property="og:title" content="Telegram Dev">
-    <meta property="og:url" content="/2018/07/telegram-dev/">
+    <meta property="og:title" content="Iptables">
+    <meta property="og:url" content="/tags/iptables/">
     <meta property="og:site_name" content="Pytimer Blog">
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Pytimer Blog">
-    <meta name="twitter:description" content="使用 日志设置 在使用tdlib库的时候，需要先设置日志级别
-tdlib.SetLogVerbosityLevel(1)  SetLogVerbosityLevel(int)设置tdlib的日志级别，默认为5
-   级别 说明     0 fatal   1 error   2 warning、debug warning   3 info   4 debug   5 verbose debug   &gt;5 and &lt;=1024 更多的日志    参考网址 官方tdlib
-tdlib methods
-td-log">
+    <meta name="twitter:description" content="Hugo tranquilpeak theme pytimer">
     
     
 
@@ -83,7 +69,7 @@ td-log">
 
   <body>
     <div id="blog">
-      <header id="header" data-behavior="4">
+      <header id="header" data-behavior="1">
   <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
   <div class="header-title">
     <a class="header-title-link" href="https://pytimer.github.io/">Pytimer Blog</a>
@@ -101,7 +87,7 @@ td-log">
   
 </header>
 
-      <nav id="sidebar" data-behavior="4">
+      <nav id="sidebar" data-behavior="1">
   <div class="sidebar-container">
     
       <div class="sidebar-profile">
@@ -180,30 +166,48 @@ td-log">
 </nav>
 
       
+        
 
-      <div id="main" data-behavior="4"
+      
+      <div id="main" data-behavior="1"
         class="
                hasCoverMetaIn
                ">
-        <article class="post" itemscope itemType="http://schema.org/BlogPosting">
-          
-          
-            <div class="post-header main-content-wrap text-left">
+        
+          <section class="postShorten-group main-content-wrap">
+            
+            
+              
   
-    <h1 class="post-title" itemprop="headline">
-      Telegram Dev
-    </h1>
+    
+      
+        
+      
+    
   
+
+
   
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+  <div class="postShorten-wrap">
+    
+    <div class="postShorten-header">
+      <h1 class="postShorten-title" itemprop="headline">
+        <a class="link-unstyled" href="https://pytimer.github.io/2019/11/docker%E5%AE%B9%E5%99%A8%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5%E5%A4%96%E9%83%A8%E7%BD%91%E7%BB%9C%E5%8E%9F%E5%9B%A0%E6%8E%92%E6%9F%A5/">
+          Docker容器无法连接外部网络原因排查
+        </a>
+      </h1>
+      
   <div class="postShorten-meta post-meta">
     
-      <time itemprop="datePublished" datetime="2018-07-27T16:21:45&#43;08:00">
+      <time itemprop="datePublished" datetime="2019-11-20T11:08:41&#43;08:00">
         
   
   
   
   
-    27 七月 2018
+    20 十一月 2019
   
 
       </time>
@@ -213,180 +217,32 @@ td-log">
   
     <span>发布在</span>
     
-      <a class="category-link" href="https://pytimer.github.io/categories/telegram">Telegram</a>
+      <a class="category-link" href="https://pytimer.github.io/categories/docker">Docker</a>
     
   
 
   </div>
 
-</div>
-          
-          <div class="post-content markdown" itemprop="articleBody">
-            <div class="main-content-wrap">
-              
-
-<h2 id="使用">使用</h2>
-
-<h3 id="日志设置">日志设置</h3>
-
-<p>在使用tdlib库的时候，需要先设置日志级别</p>
-
-<pre><code class="language-go">tdlib.SetLogVerbosityLevel(1)
-</code></pre>
-
-<p><code>SetLogVerbosityLevel(int)</code>设置<code>tdlib</code>的日志级别，默认为5</p>
-
-<table>
-<thead>
-<tr>
-<th align="left">级别</th>
-<th align="left">说明</th>
-</tr>
-</thead>
-
-<tbody>
-<tr>
-<td align="left">0</td>
-<td align="left">fatal</td>
-</tr>
-
-<tr>
-<td align="left">1</td>
-<td align="left">error</td>
-</tr>
-
-<tr>
-<td align="left">2</td>
-<td align="left">warning、debug warning</td>
-</tr>
-
-<tr>
-<td align="left">3</td>
-<td align="left">info</td>
-</tr>
-
-<tr>
-<td align="left">4</td>
-<td align="left">debug</td>
-</tr>
-
-<tr>
-<td align="left">5</td>
-<td align="left">verbose debug</td>
-</tr>
-
-<tr>
-<td align="left">&gt;5 and &lt;=1024</td>
-<td align="left">更多的日志</td>
-</tr>
-</tbody>
-</table>
-
-<h2 id="参考网址">参考网址</h2>
-
-<p><a href="https://core.telegram.org/tdlib/docs">官方tdlib</a></p>
-
-<p><a href="https://core.telegram.org/tdlib/docs/classes.html">tdlib methods</a></p>
-
-<p><a href="https://core.telegram.org/tdlib/docs/td__log_8h.html">td-log</a></p>
-
-              
-            </div>
-          </div>
-          <div id="post-footer" class="post-footer main-content-wrap">
-            
-              
-                
-                
-                  <div class="post-footer-tags">
-                    <span class="text-color-light text-small">标签</span><br/>
-                    
-  <a class="tag tag--primary tag--small" href="https://pytimer.github.io/tags/tdlib/">tdlib</a>
-
-  <a class="tag tag--primary tag--small" href="https://pytimer.github.io/tags/telegram/">telegram</a>
-
-                  </div>
-                
-              
-            
-            
-  <div class="post-actions-wrap">
-      <nav >
-        <ul class="post-actions post-action-nav">
-          
-            <li class="post-action">
-              
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/10/promethues-operator/" data-tooltip="Promethues Operator">
-              
-                  <i class="fa fa-angle-left"></i>
-                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
-                </a>
-            </li>
-            <li class="post-action">
-              
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/06/%E6%8F%90%E9%97%AE%E7%9A%84%E6%99%BA%E6%85%A7/" data-tooltip="提问的智慧">
-              
-                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
-                  <i class="fa fa-angle-right"></i>
-                </a>
-            </li>
-          
-        </ul>
-      </nav>
-    <ul class="post-actions post-action-share" >
-      
-        <li class="post-action hide-lg hide-md hide-sm">
-          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
-            <i class="fa fa-share-alt"></i>
-          </a>
-        </li>
+    </div>
+    <div class="postShorten-excerpt" itemprop="articleBody">
+      Docker是当前最常用的容器运行时引擎，在使用Kubernetes的过程中，我们使用Docker来负责底层的容器的启动、停止。在用户新安装Docker后的使用过程中，发现通过docker run命令启动的容器，使用默认的bridge网络的情况下，容器无法连接到外部网络，针对这个现象进行排查。
+缩小问题范围 使用 docker run -it --rm alpine:3.6 /bin/sh 启动一个容器，采用bridge网络，在容器内ping外部网络的IP，我们发现是无法ping通，该命令会hang住。退出该容器，再尝试使用host网络启动容器，docker run -it --rm --network=host alpine:3.6 /bin/sh，这次我们发现是可以ping通外部网络的，说明是docker的默认bridge网络有问题，缩小范围。
+容器使用bridge网络的情况下，在ping外部网络的情况下，如果发送的不是Docker启动创建的docker0的网桥，会进行SNAT，然后使用宿主机的网卡出去，那么怀疑是SNAT可能有问题，因此查看iptables中和Docker相关的规则。命令结果如下：
+# iptables -t nat -nvL POSTROUTING Chain POSTROUTING (policy ACCEPT 845 packets, 57086 bytes) pkts bytes target prot opt in out source destination 1414 96107 POSTROUTING_direct all -- * * 0.0.0.0/0 0.0.0.0/0 1414 96107 POSTROUTING_ZONES_SOURCE all -- * * 0.0.0.0/0 0.0.0.0/0 1414 96107 POSTROUTING_ZONES all -- * * 0.0.0.0/0 0.0.0.0/0  根据上面结果，我们发现缺少了一条-A POSTROUTING -s 172.
+      <p>
+        <a href="https://pytimer.github.io/2019/11/docker%E5%AE%B9%E5%99%A8%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5%E5%A4%96%E9%83%A8%E7%BD%91%E7%BB%9C%E5%8E%9F%E5%9B%A0%E6%8E%92%E6%9F%A5/" class="postShorten-excerpt_link link">阅读全文</a>
         
-          <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2018/07/telegram-dev/">
-              <i class="fa fa-facebook-official"></i>
-            </a>
-          </li>
-        
-          <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2018/07/telegram-dev/">
-              <i class="fa fa-twitter"></i>
-            </a>
-          </li>
-        
-          <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2018/07/telegram-dev/">
-              <i class="fa fa-google-plus"></i>
-            </a>
-          </li>
-        
-      
-      
-        <li class="post-action">
-          <a class="post-action-btn btn btn--default" href="#disqus_thread">
-            <i class="fa fa-comment-o"></i>
-          </a>
-        </li>
-      
-      <li class="post-action">
-        
-          <a class="post-action-btn btn btn--default" href="#">
-        
-          <i class="fa fa-list"></i>
-        </a>
-      </li>
-    </ul>
+      </p>
+    </div>
   </div>
-
+  
+</article>
 
             
-              
-                <div id="disqus_thread">
-  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-</div>
-              
             
-          </div>
-        </article>
+
+          </section>
+        
         <footer id="footer" class="main-content-wrap">
   <span class="copyrights">
     &copy; 2019 <a href="https://github.com/pytimer">pytimer</a>. All Rights Reserved
@@ -394,102 +250,6 @@ td-log">
 </footer>
 
       </div>
-      <div id="bottom-bar" class="post-bottom-bar" data-behavior="4">
-        
-  <div class="post-actions-wrap">
-      <nav >
-        <ul class="post-actions post-action-nav">
-          
-            <li class="post-action">
-              
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/10/promethues-operator/" data-tooltip="Promethues Operator">
-              
-                  <i class="fa fa-angle-left"></i>
-                  <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
-                </a>
-            </li>
-            <li class="post-action">
-              
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2018/06/%E6%8F%90%E9%97%AE%E7%9A%84%E6%99%BA%E6%85%A7/" data-tooltip="提问的智慧">
-              
-                  <span class="hide-xs hide-sm text-small icon-mr">上一篇</span>
-                  <i class="fa fa-angle-right"></i>
-                </a>
-            </li>
-          
-        </ul>
-      </nav>
-    <ul class="post-actions post-action-share" >
-      
-        <li class="post-action hide-lg hide-md hide-sm">
-          <a class="post-action-btn btn btn--default btn-open-shareoptions" href="#btn-open-shareoptions">
-            <i class="fa fa-share-alt"></i>
-          </a>
-        </li>
-        
-          <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https://pytimer.github.io/2018/07/telegram-dev/">
-              <i class="fa fa-facebook-official"></i>
-            </a>
-          </li>
-        
-          <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://twitter.com/intent/tweet?text=https://pytimer.github.io/2018/07/telegram-dev/">
-              <i class="fa fa-twitter"></i>
-            </a>
-          </li>
-        
-          <li class="post-action hide-xs">
-            <a class="post-action-btn btn btn--default" target="new" href="https://plus.google.com/share?url=https://pytimer.github.io/2018/07/telegram-dev/">
-              <i class="fa fa-google-plus"></i>
-            </a>
-          </li>
-        
-      
-      
-        <li class="post-action">
-          <a class="post-action-btn btn btn--default" href="#disqus_thread">
-            <i class="fa fa-comment-o"></i>
-          </a>
-        </li>
-      
-      <li class="post-action">
-        
-          <a class="post-action-btn btn btn--default" href="#">
-        
-          <i class="fa fa-list"></i>
-        </a>
-      </li>
-    </ul>
-  </div>
-
-
-      </div>
-      <div id="share-options-bar" class="share-options-bar" data-behavior="4">
-  <i id="btn-close-shareoptions" class="fa fa-close"></i>
-  <ul class="share-options">
-    
-      <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fpytimer.github.io%2F2018%2F07%2Ftelegram-dev%2F">
-          <i class="fa fa-facebook-official"></i><span>分享到 Facebook</span>
-        </a>
-      </li>
-    
-      <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://twitter.com/intent/tweet?text=https%3A%2F%2Fpytimer.github.io%2F2018%2F07%2Ftelegram-dev%2F">
-          <i class="fa fa-twitter"></i><span>分享到 Twitter</span>
-        </a>
-      </li>
-    
-      <li class="share-option">
-        <a class="share-option-btn" target="new" href="https://plus.google.com/share?url=https%3A%2F%2Fpytimer.github.io%2F2018%2F07%2Ftelegram-dev%2F">
-          <i class="fa fa-google-plus"></i><span>分享到 Google&#43;</span>
-        </a>
-      </li>
-    
-  </ul>
-</div>
-<div id="share-options-mask" class="share-options-mask"></div>
     </div>
     
     <div id="about">
@@ -803,32 +563,6 @@ $(document).ready(function() {
 });
 </script>
 
-
-  
-    
-      <script>
-        var disqus_config = function () {
-          this.page.url = 'https:\/\/pytimer.github.io\/2018\/07\/telegram-dev\/';
-          
-            this.page.identifier = '\/2018\/07\/telegram-dev\/'
-          
-        };
-        (function() {
-          
-          
-          if (window.location.hostname == "localhost") {
-            return;
-          }
-          var d = document, s = d.createElement('script');
-          var disqus_shortname = 'hugo-tranquilpeak-theme';
-          s.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-
-          s.setAttribute('data-timestamp', +new Date());
-          (d.head || d.body).appendChild(s);
-        })();
-      </script>
-    
-  
 
 
 

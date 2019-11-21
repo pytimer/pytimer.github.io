@@ -6,10 +6,22 @@
     <description>Recent content on Pytimer Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 25 Oct 2019 10:00:03 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 20 Nov 2019 11:08:41 +0800</lastBuildDate>
     
 	<atom:link href="https://pytimer.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Docker容器无法连接外部网络原因排查</title>
+      <link>https://pytimer.github.io/2019/11/docker%E5%AE%B9%E5%99%A8%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5%E5%A4%96%E9%83%A8%E7%BD%91%E7%BB%9C%E5%8E%9F%E5%9B%A0%E6%8E%92%E6%9F%A5/</link>
+      <pubDate>Wed, 20 Nov 2019 11:08:41 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/2019/11/docker%E5%AE%B9%E5%99%A8%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5%E5%A4%96%E9%83%A8%E7%BD%91%E7%BB%9C%E5%8E%9F%E5%9B%A0%E6%8E%92%E6%9F%A5/</guid>
+      <description>Docker是当前最常用的容器运行时引擎，在使用Kubernetes的过程中，我们使用Docker来负责底层的容器的启动、停止。在用户新安装Docker后的使用过程中，发现通过docker run命令启动的容器，使用默认的bridge网络的情况下，容器无法连接到外部网络，针对这个现象进行排查。
+缩小问题范围 使用 docker run -it --rm alpine:3.6 /bin/sh 启动一个容器，采用bridge网络，在容器内ping外部网络的IP，我们发现是无法ping通，该命令会hang住。退出该容器，再尝试使用host网络启动容器，docker run -it --rm --network=host alpine:3.6 /bin/sh，这次我们发现是可以ping通外部网络的，说明是docker的默认bridge网络有问题，缩小范围。
+容器使用bridge网络的情况下，在ping外部网络的情况下，如果发送的不是Docker启动创建的docker0的网桥，会进行SNAT，然后使用宿主机的网卡出去，那么怀疑是SNAT可能有问题，因此查看iptables中和Docker相关的规则。命令结果如下：
+# iptables -t nat -nvL POSTROUTING Chain POSTROUTING (policy ACCEPT 845 packets, 57086 bytes) pkts bytes target prot opt in out source destination 1414 96107 POSTROUTING_direct all -- * * 0.0.0.0/0 0.0.0.0/0 1414 96107 POSTROUTING_ZONES_SOURCE all -- * * 0.0.0.0/0 0.0.0.0/0 1414 96107 POSTROUTING_ZONES all -- * * 0.0.0.0/0 0.0.0.0/0  根据上面结果，我们发现缺少了一条-A POSTROUTING -s 172.</description>
+    </item>
     
     <item>
       <title>Go开发规范</title>
