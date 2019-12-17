@@ -6,10 +6,26 @@
     <description>Recent content in Cncf on Pytimer Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 06 Jun 2019 18:06:42 +0800</lastBuildDate>
+    <lastBuildDate>Tue, 17 Dec 2019 17:14:45 +0800</lastBuildDate>
     
 	<atom:link href="https://pytimer.github.io/categories/cncf/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Kubernetes Dashboard Installation</title>
+      <link>https://pytimer.github.io/2019/12/kubernetes-dashboard-installation/</link>
+      <pubDate>Tue, 17 Dec 2019 17:14:45 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/2019/12/kubernetes-dashboard-installation/</guid>
+      <description>Dashboard为Kubernetes官方的一个webui，集合了所有命令行可以操作的资源，可以根据浏览器的语言自动进行语言的识别。通过webui，我们可以更直观的看到Kubernetes集群的运行情况。不过在安装Dashboard的过程中有一些坑，因此在这里整理成文档以便在今后方便查阅。
+安装 Dashboard的安装相对还是简单的，参考官方的github就可以。
+ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml
+ 不过在这中间有一个坑，那就是Dashboard的webui默认是自动生成证书的，由于时间和名称的问题，会导致Chrome和IE等浏览器无法打开界面，这里需要我们自己制作证书处理。
+开启NodePort kind: Service apiVersion: v1 metadata: labels: k8s-app: kubernetes-dashboard name: kubernetes-dashboard namespace: kube-system spec: ports: - port: 443 targetPort: 8443 nodePort: 30003 selector: k8s-app: kubernetes-dashboard type: NodePort  使用kubectl apply的命令将该service应用在Kubernetes集群中，可以看到该service已经生效。
+[root@k8s ~]# kubectl get svc -n kube-system kubernetes-dashboard NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE kubernetes-dashboard NodePort 10.106.67.12 &amp;lt;none&amp;gt; 443:30003/TCP 40m  通过浏览器访问Dashboard，我们发现无法访问界面，会有类似x.x.x.x通常会使用加密技术来保护您的信息，Google Chrome此次尝试连接到x.x.x.x时，此网站发回了异常的错误凭据。...的字样，更换IE、360浏览器均无法访问，在机器上使用curl -k https://x.x.x.x:30003/命令测试，是可以通的。
+出现以上现象是因为Dashboard默认为webui生成的证书时间是无效的，时间是过期的，因此需要解决下该问题，以通过浏览器来访问。
+解决证书过期问题 [root@k8s ~]# openssl genrsa -out dashboard.</description>
+    </item>
     
     <item>
       <title>Coredns简介</title>

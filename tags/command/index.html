@@ -306,6 +306,30 @@ flag定义参数  flag.String()等flag.Xxx()方法，flag该方式返回一个�
           <div class="media">
             
             <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2019/12/kubernetes-dashboard-installation/">
+                <h3 class="media-heading">Kubernetes Dashboard Installation</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Dec 12, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Dashboard为Kubernetes官方的一个webui，集合了所有命令行可以操作的资源，可以根据浏览器的语言自动进行语言的识别。通过webui，我们可以更直观的看到Kubernetes集群的运行情况。不过在安装Dashboard的过程中有一些坑，因此在这里整理成文档以便在今后方便查阅。
+安装 Dashboard的安装相对还是简单的，参考官方的github就可以。
+ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml
+ 不过在这中间有一个坑，那就是Dashboard的webui默认是自动生成证书的，由于时间和名称的问题，会导致Chrome和IE等浏览器无法打开界面，这里需要我们自己制作证书处理。
+开启NodePort kind: Service apiVersion: v1 metadata: labels: k8s-app: kubernetes-dashboard name: kubernetes-dashboard namespace: kube-system spec: ports: - port: 443 targetPort: 8443 nodePort: 30003 selector: k8s-app: kubernetes-dashboard type: NodePort  使用kubectl apply的命令将该service应用在Kubernetes集群中，可以看到该service已经生效。
+[root@k8s ~]# kubectl get svc -n kube-system kubernetes-dashboard NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE kubernetes-dashboard NodePort 10.106.67.12 &lt;none&gt; 443:30003/TCP 40m  通过浏览器访问Dashboard，我们发现无法访问界面，会有类似x.x.x.x通常会使用加密技术来保护您的信息，Google Chrome此次尝试连接到x.x.x.x时，此网站发回了异常的错误凭据。...的字样，更换IE、360浏览器均无法访问，在机器上使用curl -k https://x.x.x.x:30003/命令测试，是可以通的。
+出现以上现象是因为Dashboard默认为webui生成的证书时间是无效的，时间是过期的，因此需要解决下该问题，以通过浏览器来访问。
+解决证书过期问题 [root@k8s ~]# openssl genrsa -out dashboard.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
               <a class="link-unstyled" href="https://pytimer.github.io/2019/11/docker%E5%AE%B9%E5%99%A8%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5%E5%A4%96%E9%83%A8%E7%BD%91%E7%BB%9C%E5%8E%9F%E5%9B%A0%E6%8E%92%E6%9F%A5/">
                 <h3 class="media-heading">Docker容器无法连接外部网络原因排查</h3>
               </a>
@@ -505,24 +529,6 @@ $ ll ~/.ssh total 24 -rw------- 1 pytimer staff 1.8K 4 20 15:28 k8smaster1 -rw-r
             <hr>
           </div>
         
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://pytimer.github.io/2019/03/faq-coredns%E5%90%AF%E5%8A%A8%E5%A4%B1%E8%B4%A5/">
-                <h3 class="media-heading">[FAQ] Coredns启动失败</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Mar 3, 2019
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">coredns pod status is CrashLoopBackOff $ kubectl get pod -n kube-system NAME READY STATUS RESTARTS AGE coredns-fb8b8dccf-cl9rp 0/1 CrashLoopBackOff 6 10m coredns-fb8b8dccf-v4lsv 0/1 CrashLoopBackOff 6 10m etcd-pytimer 1/1 Running 0 9m24s kube-apiserver-pytimer 1/1 Running 0 9m21s kube-controller-manager-pytimer 1/1 Running 0 9m24s kube-flannel-ds-amd64-84vxg 1/1 Running 0 8m14s kube-proxy-cgqpn 1/1 Running 0 10m kube-scheduler-pytimer 1/1 Running 0 9m15s  查看coredns pod的日志，发现如下错误：
-$ kubectl logs -n kube-system coredns-fb8b8dccf-cl9rp .:53 2019-03-26T13:58:34.693Z [INFO] CoreDNS-1.3.1 2019-03-26T13:58:34.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
       </div>
     </div>
     <div class="modal-footer">
@@ -530,7 +536,7 @@ $ kubectl logs -n kube-system coredns-fb8b8dccf-cl9rp .:53 2019-03-26T13:58:34.6
          data-message-zero=""
          data-message-one=""
          data-message-other="">
-         30 posts found
+         31 posts found
       </p>
     </div>
   </div>

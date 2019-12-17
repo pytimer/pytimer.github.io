@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://pytimer.github.io/2019/12/kubernetes-dashboard-installation/</loc>
+    <lastmod>2019-12-17T17:14:45+08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://pytimer.github.io/2019/11/docker%E5%AE%B9%E5%99%A8%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5%E5%A4%96%E9%83%A8%E7%BD%91%E7%BB%9C%E5%8E%9F%E5%9B%A0%E6%8E%92%E6%9F%A5/</loc>
     <lastmod>2019-11-20T11:08:41+08:00</lastmod>
   </url>
@@ -188,7 +193,7 @@
   
   <url>
     <loc>https://pytimer.github.io/categories/cncf/</loc>
-    <lastmod>2019-06-06T18:06:42+08:00</lastmod>
+    <lastmod>2019-12-17T17:14:45+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -213,6 +218,12 @@
   <url>
     <loc>https://pytimer.github.io/tags/coredns/</loc>
     <lastmod>2019-06-06T18:06:42+08:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/dashboard/</loc>
+    <lastmod>2019-12-17T17:14:45+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -332,13 +343,13 @@
   
   <url>
     <loc>https://pytimer.github.io/tags/kubernetes/</loc>
-    <lastmod>2019-09-11T17:02:11+08:00</lastmod>
+    <lastmod>2019-12-17T17:14:45+08:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
     <loc>https://pytimer.github.io/categories/kubernetes/</loc>
-    <lastmod>2019-09-11T17:02:11+08:00</lastmod>
+    <lastmod>2019-12-17T17:14:45+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -374,7 +385,7 @@
   
   <url>
     <loc>https://pytimer.github.io/post/</loc>
-    <lastmod>2019-11-20T11:08:41+08:00</lastmod>
+    <lastmod>2019-12-17T17:14:45+08:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -392,7 +403,7 @@
   
   <url>
     <loc>https://pytimer.github.io/</loc>
-    <lastmod>2019-11-20T11:08:41+08:00</lastmod>
+    <lastmod>2019-12-17T17:14:45+08:00</lastmod>
     <priority>0</priority>
   </url>
   
