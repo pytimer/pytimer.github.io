@@ -248,7 +248,7 @@ $ kubectl get pod -n kube-system -l &quot;name=tiller&quot; NAME READY STATUS RE
         
         <footer id="footer" class="main-content-wrap">
   <span class="copyrights">
-    &copy; 2019 <a href="https://github.com/pytimer">pytimer</a>. All Rights Reserved
+    &copy; 2020 <a href="https://github.com/pytimer">pytimer</a>. All Rights Reserved
   </span>
 </footer>
 
@@ -302,6 +302,32 @@ $ kubectl get pod -n kube-system -l &quot;name=tiller&quot; NAME READY STATUS RE
       <div class="no-result text-color-light text-center"></div>
       <div class="results">
         
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2020/07/%E5%9C%A8windows%E4%B8%8A%E4%BD%BF%E7%94%A8kubectl%E8%BF%9E%E6%8E%A5%E9%9B%86%E7%BE%A4/">
+                <h3 class="media-heading">在Windows上使用Kubectl连接集群</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jul 7, 2020
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">平时都在Linux上搭建并操作Kubernetes集群，但是有时候会使用Windows来进行开发或者日常工作，这个时候如果在登录某台Linux主机，通过kubectl命令行操作集群就显得不是很方便，Kubernetes本身也是提供了Windows的命令行，因此在Windows上安装并配置kubectl，用于操作远端的Kubernetes集群。下面就是相关步骤。
+下载Windows版本kubectl 可以按照官方文档Install kubectl on Windows来下载Windows版本的kubectl命令行。
+因集群为v1.17.2版本，因此这里直接下载指定版本的kubectl.exe。
+curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.17.2/bin/windows/amd64/kubectl.exe
+下载好后，配置Windows的PATH，在该环境变量值后增加F:\k8s\bin(该路径为kubectl.exe的目录)。
+配置好后，打开Git Bash或其他的工具，输入kubectl.exe version --client，可以看到对应的kubectl版本。到这里kubectl就安装好了。下面需要配置kubectl来连接远端Kubernetes集群。
+$ kubectl.exe version --client Client Version: version.Info{Major:&quot;1&quot;, Minor:&quot;17&quot;, GitVersion:&quot;v1.17.2&quot;, GitCommit:&quot;59603c6e503c87169aea6106f57b9f242f64df89&quot;, GitTreeState:&quot;clean&quot;, BuildDate:&quot;2020-01-18T23:30:10Z&quot;, GoVersion:&quot;go1.13.5&quot;, Compiler:&quot;gc&quot;, Platform:&quot;windows/amd64&quot;}  配置kubectl kubectl需要使用kubeconfig来连接远端集群，通常有三种方式来指定kubeconfig。
+ ~/.kube/config，默认kubectl会使用该目录。 KUBECONFIG，使用该环境变量的文件。 --kubeconfig，每次执行命令指定kubeconfig文件。  这里采用第2种方式。因此在Windows上配置一个环境变量KUBECONFIG。设置KUBECONFIG=F:\k8s\bin\kubeconfig。
+重新打开Git Bash，执行kubectl.exe get nodes，可以看到连接到了远端的Kubernetes集群。
+$ kubectl.exe get nodes NAME STATUS ROLES AGE VERSION meta-k8s-234 Ready master 29m v1.17.2 meta-k8s-235 Ready &lt;none&gt; 28m v1.17.2 meta-k8s-236 Ready &lt;none&gt; 28m v1.17.2 meta-k8s-237 Ready &lt;none&gt; 28m v1.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
         
           <div class="media">
             
@@ -501,34 +527,6 @@ Node Capacity --------------------------- | kube-reserved | |-------------------
             <hr>
           </div>
         
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://pytimer.github.io/2019/04/%E5%9C%A8gcp%E4%B8%8A%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%9E%E4%BE%8B/">
-                <h3 class="media-heading">在GCP上创建虚拟机实例</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Apr 4, 2019
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">想要在GCP上使用kubeadm搭建Kubernetes集群，用来平时使用，因此需要事先在GCP上创建几个虚拟机实例，用来部署集群。
-创建虚拟机实例 首先登录GCP的控制台页面，如果没有项目，需要新建一个项目，这里项目示例为kubernetes-pytimer。
-新建项目后，选择该项目，进入信息中心，在左侧的导航菜单中，选择Compute Engine -&gt; VM实例，刚进入页面的时候，如果是新注册的用户，需要等待初始化Compute Engine，这个时候页面的创建按钮是不可用的，等待初始化结束，按钮变亮后，即可创建虚拟机实例。
-点击创建按钮或者上方工具栏的创建实例按钮。如图：因为是要创建Kubernetes集群使用，而kubeadm在部署集群之前是对机器有要求的，需要至少2核CPU和2GB内存，具体的要求可以参考官方文档说明，因此需要在创建虚拟机实例的时候选择合适规格。
-选择虚拟机实例规格的操作比较简单，不进行描述，因为第一台机器需要作为集群的control plane节点，后续也会部署自己的组件，因此磁盘空间选择稍微大些。
-这里创建了两台虚拟机实例，等待一会，可以看到两台虚拟机创建完成，并且已经有了内部IP和临时外部IP。如图：本地Mac或者Linux连接虚拟机实例 自己开发电脑如果想要连接远程虚拟机，我们知道都是使用ssh进行连接，默认GCP不允许直接使用root进行远程连接，我们需要使用登录的GCP账号作为虚拟机的用户名进行登录才可以。关于如何登录虚拟机实例，官方有相关的文档，不过稍微有些麻烦，因此在这里进行简单的描述。
-我们在本地使用ssh-keygen生成ssh所需要的公钥和密钥，相关的操作，可以查阅[]()。
-ssh-keygen -t rsa -f ~/.ssh/k8smaster1 -C &lt;USERNAME&gt;， USERNAME是我们后面使用ssh登录机器的用户名，这样会生成两个文件，可以在~/.ssh看到如下：
-$ ll ~/.ssh total 24 -rw------- 1 pytimer staff 1.8K 4 20 15:28 k8smaster1 -rw-r--r-- 1 pytimer staff 395B 4 20 15:28 k8smaster1.pub -rw-r--r-- 1 pytimer staff 2.8K 4 20 13:19 known_hosts  查看k8smaster1.pub文件内容格式为: ssh-rsa &lt;content&gt; &lt;USERNAME&gt;，因为我们后面需要自己使用，因此当前制作密钥不设置过期时间。
-接下来我们需要把ssh公钥在虚拟机实例上进行设置。具体的操作可以参考文档添加ssh-key到虚拟机实例。
-设置完成后，使用ssh -i ~/.ssh/k8smaster1 &lt;USERNAME&gt;@&lt;IP&gt;即可登录到虚拟机。
-&lt;IP&gt;是虚拟机的外部IP。</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
       </div>
     </div>
     <div class="modal-footer">
@@ -536,7 +534,7 @@ $ ll ~/.ssh total 24 -rw------- 1 pytimer staff 1.8K 4 20 15:28 k8smaster1 -rw-r
          data-message-zero=""
          data-message-one=""
          data-message-other="">
-         31 posts found
+         32 posts found
       </p>
     </div>
   </div>

@@ -6,10 +6,28 @@
     <description>Recent content in Cncf on Pytimer Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 17 Dec 2019 17:14:45 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 20 Jul 2020 09:47:00 +0800</lastBuildDate>
     
 	<atom:link href="https://pytimer.github.io/categories/cncf/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>在Windows上使用Kubectl连接集群</title>
+      <link>https://pytimer.github.io/2020/07/%E5%9C%A8windows%E4%B8%8A%E4%BD%BF%E7%94%A8kubectl%E8%BF%9E%E6%8E%A5%E9%9B%86%E7%BE%A4/</link>
+      <pubDate>Mon, 20 Jul 2020 09:47:00 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/2020/07/%E5%9C%A8windows%E4%B8%8A%E4%BD%BF%E7%94%A8kubectl%E8%BF%9E%E6%8E%A5%E9%9B%86%E7%BE%A4/</guid>
+      <description>平时都在Linux上搭建并操作Kubernetes集群，但是有时候会使用Windows来进行开发或者日常工作，这个时候如果在登录某台Linux主机，通过kubectl命令行操作集群就显得不是很方便，Kubernetes本身也是提供了Windows的命令行，因此在Windows上安装并配置kubectl，用于操作远端的Kubernetes集群。下面就是相关步骤。
+下载Windows版本kubectl 可以按照官方文档Install kubectl on Windows来下载Windows版本的kubectl命令行。
+因集群为v1.17.2版本，因此这里直接下载指定版本的kubectl.exe。
+curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.17.2/bin/windows/amd64/kubectl.exe
+下载好后，配置Windows的PATH，在该环境变量值后增加F:\k8s\bin(该路径为kubectl.exe的目录)。
+配置好后，打开Git Bash或其他的工具，输入kubectl.exe version --client，可以看到对应的kubectl版本。到这里kubectl就安装好了。下面需要配置kubectl来连接远端Kubernetes集群。
+$ kubectl.exe version --client Client Version: version.Info{Major:&amp;quot;1&amp;quot;, Minor:&amp;quot;17&amp;quot;, GitVersion:&amp;quot;v1.17.2&amp;quot;, GitCommit:&amp;quot;59603c6e503c87169aea6106f57b9f242f64df89&amp;quot;, GitTreeState:&amp;quot;clean&amp;quot;, BuildDate:&amp;quot;2020-01-18T23:30:10Z&amp;quot;, GoVersion:&amp;quot;go1.13.5&amp;quot;, Compiler:&amp;quot;gc&amp;quot;, Platform:&amp;quot;windows/amd64&amp;quot;}  配置kubectl kubectl需要使用kubeconfig来连接远端集群，通常有三种方式来指定kubeconfig。
+ ~/.kube/config，默认kubectl会使用该目录。 KUBECONFIG，使用该环境变量的文件。 --kubeconfig，每次执行命令指定kubeconfig文件。  这里采用第2种方式。因此在Windows上配置一个环境变量KUBECONFIG。设置KUBECONFIG=F:\k8s\bin\kubeconfig。
+重新打开Git Bash，执行kubectl.exe get nodes，可以看到连接到了远端的Kubernetes集群。
+$ kubectl.exe get nodes NAME STATUS ROLES AGE VERSION meta-k8s-234 Ready master 29m v1.17.2 meta-k8s-235 Ready &amp;lt;none&amp;gt; 28m v1.17.2 meta-k8s-236 Ready &amp;lt;none&amp;gt; 28m v1.17.2 meta-k8s-237 Ready &amp;lt;none&amp;gt; 28m v1.</description>
+    </item>
     
     <item>
       <title>Kubernetes Dashboard Installation</title>
