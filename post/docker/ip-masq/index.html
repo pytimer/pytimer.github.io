@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Software Develper, **Like Go and Kubernetes** Golang developer China Pytimer https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/gopher.png ">
+<meta name="description" content="" />
+<meta name="keywords" content=", iptables" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://pytimer.github.io/post/docker/ip-masq/" />
+
+
+    <title>
+        
+            Docker容器无法连接外部网络原因排查 :: Pytimer  — Kubernetes爱好者
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.d1ea4af8fd04fb24a4f8b882ea54bd04eb245427ca4baf527c81a5dab071410b.css">
+
+
+
+
+
+
+<meta itemprop="name" content="Docker容器无法连接外部网络原因排查">
+<meta itemprop="description" content="">
+<meta itemprop="datePublished" content="2019-11-20T11:08:41+08:00" />
+<meta itemprop="dateModified" content="2019-11-20T11:08:41+08:00" />
+<meta itemprop="wordCount" content="1275">
+<meta itemprop="image" content="https://pytimer.github.io/"/>
+
+
+
+<meta itemprop="keywords" content="iptables," />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://pytimer.github.io/"/>
+
+<meta name="twitter:title" content="Docker容器无法连接外部网络原因排查"/>
+<meta name="twitter:description" content=""/>
+
+
+
+
+
+    <meta property="article:section" content="Docker" />
+
+
+
+    <meta property="article:published_time" content="2019-11-20 11:08:41 &#43;0800 CST" />
+
+
+
+
+
+
+
+
+    </head>
+
+    <body class="">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://pytimer.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ kubectl</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://pytimer.github.io/post">博客</a></li><li><a href="https://pytimer.github.io/categories">类别</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://pytimer.github.io/post/docker/ip-masq/">Docker容器无法连接外部网络原因排查</a></h2>
+
+            
+
+            <div class="post-content">
+                <p>Docker是当前最常用的容器运行时引擎，在使用Kubernetes的过程中，我们使用Docker来负责底层的容器的启动、停止。在用户新安装Docker后的使用过程中，发现通过<code>docker run</code>命令启动的容器，使用默认的bridge网络的情况下，容器无法连接到外部网络，针对这个现象进行排查。</p>
+<h2 id="缩小问题范围">缩小问题范围</h2>
+<p>使用 <code>docker run -it --rm alpine:3.6 /bin/sh</code> 启动一个容器，采用bridge网络，在容器内<code>ping</code>外部网络的IP，我们发现是无法ping通，该命令会hang住。退出该容器，再尝试使用host网络启动容器，<code>docker run -it --rm --network=host alpine:3.6 /bin/sh</code>，这次我们发现是可以<code>ping</code>通外部网络的，说明是docker的默认bridge网络有问题，缩小范围。</p>
+<p>容器使用bridge网络的情况下，在<code>ping</code>外部网络的情况下，如果发送的不是Docker启动创建的<code>docker0</code>的网桥，会进行SNAT，然后使用宿主机的网卡出去，那么怀疑是SNAT可能有问题，因此查看iptables中和Docker相关的规则。命令结果如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># iptables -t nat -nvL POSTROUTING</span>
+Chain POSTROUTING <span style="color:#f92672">(</span>policy ACCEPT <span style="color:#ae81ff">845</span> packets, <span style="color:#ae81ff">57086</span> bytes<span style="color:#f92672">)</span>
+ pkts bytes target     prot opt in     out     source               destination
+ <span style="color:#ae81ff">1414</span> <span style="color:#ae81ff">96107</span> POSTROUTING_direct  all  --  *      *       0.0.0.0/0            0.0.0.0/0
+ <span style="color:#ae81ff">1414</span> <span style="color:#ae81ff">96107</span> POSTROUTING_ZONES_SOURCE  all  --  *      *       0.0.0.0/0            0.0.0.0/0
+ <span style="color:#ae81ff">1414</span> <span style="color:#ae81ff">96107</span> POSTROUTING_ZONES  all  --  *      *       0.0.0.0/0            0.0.0.0/0
+</code></pre></div><p>根据上面结果，我们发现缺少了一条<code>-A POSTROUTING -s 172.17.0.0/16 ! -o docker0 -j MASQUERADE</code>的iptables规则。我们怀疑是用户在配置Docker的时候，配置出错导致的该问题。</p>
+<h2 id="排查过程">排查过程</h2>
+<p>根据上面的章节，我们发现是iptable的SNAT规则有问题，那么我们就要看Docker是如何来生成该规则的。</p>
+<h3 id="查看配置">查看配置</h3>
+<p>首先查看官方的<a href="https://docs.docker.com/engine/reference/commandline/dockerd/#run-multiple-daemons">文档</a>，我们看到官方文档有一段关于SNAT的相关配置：</p>
+<blockquote>
+<p><code>--iptables=false</code> prevents the Docker daemon from adding iptables rules. If multiple daemons manage iptables rules, they may overwrite rules set by another daemon. Be aware that disabling this option requires you to manually add iptables rules to expose container ports. If you prevent Docker from adding iptables rules, Docker will also not add IP masquerading rules, even if you set <code>--ip-masq</code> to <code>true</code>. Without IP masquerading rules, Docker containers will not be able to connect to external hosts or the internet when using network other than default bridge.</p>
+</blockquote>
+<p>可以看到对于缺少的这条规则来说，需要dockerd在启动的时候有两项配置<code>--iptables=true</code>和<code>--ip-masq=true</code>，否则Docker不会在创建默认网桥的时候生成该规则，从而容器无法访问外部网络，但是Docker默认以上两个配置项默认均为<code>true</code>。我们让用户登录出现该问题的机器上，查看<code>/etc/docker/daemon.json</code>里的上述两项配置，发现确实是因为设置了<code>--ip-masq=false</code>，这个配置是我们在Kubernetes的环境上开启的，用户在新安装的时候，由于不清楚Docker的相关配置，直接拷贝了Kubernetes环境上的配置，导致覆盖了Docker默认的配置，从而出现了容器内部无法访问外部网络的情况。</p>
+<p>到这里问题已经排查清楚，下面我们看下<code>dockerd</code>是如何根据<code>--ip-masq</code>这个参数生成<code>-A POSTROUTING -s 172.17.0.0/16 ! -o docker0 -j MASQUERADE</code>这条iptables规则的。</p>
+<h3 id="查看日志">查看日志</h3>
+<p>我们把<code>dockerd</code>的debug模式开启，在<code>--ip-masq</code>为<code>false</code>的情况下，我们重启<code>dockerd</code>的服务，看到日志如下：</p>
+<!-- raw HTML omitted -->
+<p>通过dockerd的启动日志，看到没有关于设置<code>-A POSTROUTING -s 172.17.0.0/16 ! -o docker0 -j MASQUERADE</code>的。接着看下在<code>--ip-masq</code>为<code>true</code>的情况下，<code>dockerd</code>服务的日志：</p>
+<!-- raw HTML omitted -->
+<p>通过日志，我们可以看到在启用<code>--ip-masq</code>这个配置的情况下，<code>dockerd</code>服务的日志会先删除，再重新生成上述两行防火墙规则。下面看下源码是如何处理这个规则的。</p>
+<h3 id="查看源码">查看源码</h3>
+<p>下载对应环境中17.06.2-ce的Docker代码，我们可以搜索<code>MASQUERADE</code>或者<code>POSTROUTING</code>关键字，可以发现在<code>libnetwork/drivers/bridge/setup_ip_tables.go</code>里是有相关设置的。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">setupIPTablesInternal</span>(<span style="color:#a6e22e">bridgeIface</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">addr</span> <span style="color:#a6e22e">net</span>.<span style="color:#a6e22e">Addr</span>, <span style="color:#a6e22e">icc</span>, <span style="color:#a6e22e">ipmasq</span>, <span style="color:#a6e22e">hairpin</span>, <span style="color:#a6e22e">enable</span> <span style="color:#66d9ef">bool</span>) <span style="color:#66d9ef">error</span> {
+
+	<span style="color:#66d9ef">var</span> (
+		<span style="color:#a6e22e">address</span>   = <span style="color:#a6e22e">addr</span>.<span style="color:#a6e22e">String</span>()
+		<span style="color:#a6e22e">natRule</span>   = <span style="color:#a6e22e">iptRule</span>{<span style="color:#a6e22e">table</span>: <span style="color:#a6e22e">iptables</span>.<span style="color:#a6e22e">Nat</span>, <span style="color:#a6e22e">chain</span>: <span style="color:#e6db74">&#34;POSTROUTING&#34;</span>, <span style="color:#a6e22e">preArgs</span>: []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;-t&#34;</span>, <span style="color:#e6db74">&#34;nat&#34;</span>}, <span style="color:#a6e22e">args</span>: []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;-s&#34;</span>, <span style="color:#a6e22e">address</span>, <span style="color:#e6db74">&#34;!&#34;</span>, <span style="color:#e6db74">&#34;-o&#34;</span>, <span style="color:#a6e22e">bridgeIface</span>, <span style="color:#e6db74">&#34;-j&#34;</span>, <span style="color:#e6db74">&#34;MASQUERADE&#34;</span>}}
+		<span style="color:#a6e22e">hpNatRule</span> = <span style="color:#a6e22e">iptRule</span>{<span style="color:#a6e22e">table</span>: <span style="color:#a6e22e">iptables</span>.<span style="color:#a6e22e">Nat</span>, <span style="color:#a6e22e">chain</span>: <span style="color:#e6db74">&#34;POSTROUTING&#34;</span>, <span style="color:#a6e22e">preArgs</span>: []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;-t&#34;</span>, <span style="color:#e6db74">&#34;nat&#34;</span>}, <span style="color:#a6e22e">args</span>: []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;-m&#34;</span>, <span style="color:#e6db74">&#34;addrtype&#34;</span>, <span style="color:#e6db74">&#34;--src-type&#34;</span>, <span style="color:#e6db74">&#34;LOCAL&#34;</span>, <span style="color:#e6db74">&#34;-o&#34;</span>, <span style="color:#a6e22e">bridgeIface</span>, <span style="color:#e6db74">&#34;-j&#34;</span>, <span style="color:#e6db74">&#34;MASQUERADE&#34;</span>}}
+		<span style="color:#a6e22e">skipDNAT</span>  = <span style="color:#a6e22e">iptRule</span>{<span style="color:#a6e22e">table</span>: <span style="color:#a6e22e">iptables</span>.<span style="color:#a6e22e">Nat</span>, <span style="color:#a6e22e">chain</span>: <span style="color:#a6e22e">DockerChain</span>, <span style="color:#a6e22e">preArgs</span>: []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;-t&#34;</span>, <span style="color:#e6db74">&#34;nat&#34;</span>}, <span style="color:#a6e22e">args</span>: []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;-i&#34;</span>, <span style="color:#a6e22e">bridgeIface</span>, <span style="color:#e6db74">&#34;-j&#34;</span>, <span style="color:#e6db74">&#34;RETURN&#34;</span>}}
+		<span style="color:#a6e22e">outRule</span>   = <span style="color:#a6e22e">iptRule</span>{<span style="color:#a6e22e">table</span>: <span style="color:#a6e22e">iptables</span>.<span style="color:#a6e22e">Filter</span>, <span style="color:#a6e22e">chain</span>: <span style="color:#e6db74">&#34;FORWARD&#34;</span>, <span style="color:#a6e22e">args</span>: []<span style="color:#66d9ef">string</span>{<span style="color:#e6db74">&#34;-i&#34;</span>, <span style="color:#a6e22e">bridgeIface</span>, <span style="color:#e6db74">&#34;!&#34;</span>, <span style="color:#e6db74">&#34;-o&#34;</span>, <span style="color:#a6e22e">bridgeIface</span>, <span style="color:#e6db74">&#34;-j&#34;</span>, <span style="color:#e6db74">&#34;ACCEPT&#34;</span>}}
+	)
+
+	<span style="color:#75715e">// Set NAT.
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">ipmasq</span> {
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">programChainRule</span>(<span style="color:#a6e22e">natRule</span>, <span style="color:#e6db74">&#34;NAT&#34;</span>, <span style="color:#a6e22e">enable</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+			<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+		}
+    }
+    <span style="color:#f92672">...</span>
+}
+</code></pre></div><p>可以看到只有上述<code>ipmasq</code>为<code>true</code>的时候，该<code>POSTROUTING</code>的规则才会被创建。而我们继续向上追溯，<code>setupIPTablesInternal</code>这个函数是在<code>setup_ip_tables.go</code>中<code>setupIPTables</code>进行调用，该函数如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// setup_ip_tables.go
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">n</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">bridgeNetwork</span>) <span style="color:#a6e22e">setupIPTables</span>(<span style="color:#a6e22e">config</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">networkConfiguration</span>, <span style="color:#a6e22e">i</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">bridgeInterface</span>) <span style="color:#66d9ef">error</span> {
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>
+
+	<span style="color:#a6e22e">d</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">driver</span>
+	<span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">Lock</span>()
+	<span style="color:#a6e22e">driverConfig</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">config</span>
+	<span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">Unlock</span>()
+
+	<span style="color:#75715e">// Sanity check.
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">driverConfig</span>.<span style="color:#a6e22e">EnableIPTables</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">false</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">errors</span>.<span style="color:#a6e22e">New</span>(<span style="color:#e6db74">&#34;Cannot program chains, EnableIPTable is disabled&#34;</span>)
+    }
+    <span style="color:#f92672">...</span>
+
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">Internal</span> {
+		<span style="color:#f92672">...</span>
+	} <span style="color:#66d9ef">else</span> {
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">setupIPTablesInternal</span>(<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">BridgeName</span>, <span style="color:#a6e22e">maskedAddrv4</span>, <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">EnableICC</span>, <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">EnableIPMasquerade</span>, <span style="color:#a6e22e">hairpinMode</span>, <span style="color:#66d9ef">true</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+			<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;Failed to Setup IP tables: %s&#34;</span>, <span style="color:#a6e22e">err</span>.<span style="color:#a6e22e">Error</span>())
+		}
+		<span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">registerIptCleanFunc</span>(<span style="color:#66d9ef">func</span>() <span style="color:#66d9ef">error</span> {
+			<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">setupIPTablesInternal</span>(<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">BridgeName</span>, <span style="color:#a6e22e">maskedAddrv4</span>, <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">EnableICC</span>, <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">EnableIPMasquerade</span>, <span style="color:#a6e22e">hairpinMode</span>, <span style="color:#66d9ef">false</span>)
+		})
+	}
+
+	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+}
+</code></pre></div><p>我们看到<code>ipmasq</code>对应的是<code>config.EnableIPMasquerade</code>，我们继续查找<code>config.EnableIPMasquerade</code>引用的地方，发现针对该配置的设置是在初始化bridge的时候进行的。</p>
+<p>接下来我们看下从dockerd启动到初始化bridge及网络的这个过程中，相关<code>ipmasq</code>的处理。</p>
+<h3 id="具体的启动实现流程">具体的启动实现流程</h3>
+<p>首先dockerd读取命令行参数并调用<code>daemonCli.start(opts)</code>，该函数先读取<code>/etc/docker/daemon.json</code>的文件，并与命令行参数进行比对及配置合并，然后会执行<code>NewDaemon</code>函数进行daemon的初始化，主要的daemon的逻辑在这个函数完成。</p>
+<h5 id="newdaemon首先执行verfiydaemonsettings函数进行参数的校验处理">NewDaemon首先执行verfiyDaemonSettings函数进行参数的校验处理</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">verifyDaemonSettings</span>(<span style="color:#a6e22e">conf</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">Config</span>) <span style="color:#66d9ef">error</span> {
+	<span style="color:#f92672">...</span>
+	<span style="color:#75715e">// 如果iptables为false，即使ip-masq为true，该ip-masq仍然失效，这个和上面官方文档的说明是一致的。
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">conf</span>.<span style="color:#a6e22e">BridgeConfig</span>.<span style="color:#a6e22e">EnableIPTables</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#a6e22e">conf</span>.<span style="color:#a6e22e">BridgeConfig</span>.<span style="color:#a6e22e">EnableIPMasq</span> {
+		<span style="color:#a6e22e">conf</span>.<span style="color:#a6e22e">BridgeConfig</span>.<span style="color:#a6e22e">EnableIPMasq</span> = <span style="color:#66d9ef">false</span>
+	}
+	<span style="color:#f92672">...</span>
+	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+}
+</code></pre></div><h5 id="执行数据恢复">执行数据恢复</h5>
+<p>配置处理好后，会执行日志驱动、线程数等设置，并且根据数据目录（<code>/var/lib/docker</code>）初始化相应的组件的存储信息，以上执行完后，会执行数据恢复的步骤，该步骤是为了把之前本机的容器网络、容器配置好并启动，函数为<code>d.restore()</code>，下面进入该函数。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// daemon/daemon.go
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">daemon</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Daemon</span>) <span style="color:#a6e22e">restore</span>() <span style="color:#66d9ef">error</span> {
+	<span style="color:#66d9ef">var</span> (
+		<span style="color:#a6e22e">currentDriver</span> = <span style="color:#a6e22e">daemon</span>.<span style="color:#a6e22e">GraphDriverName</span>()
+		<span style="color:#a6e22e">containers</span>    = make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#f92672">*</span><span style="color:#a6e22e">container</span>.<span style="color:#a6e22e">Container</span>)
+	)
+
+	<span style="color:#a6e22e">logrus</span>.<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;Loading containers: start.&#34;</span>)
+
+	<span style="color:#a6e22e">dir</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ioutil</span>.<span style="color:#a6e22e">ReadDir</span>(<span style="color:#a6e22e">daemon</span>.<span style="color:#a6e22e">repository</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+	}
+
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">v</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">dir</span> {
+		<span style="color:#a6e22e">id</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">v</span>.<span style="color:#a6e22e">Name</span>()
+        <span style="color:#75715e">// 读取`/var/lib/docker/containers`中所有文件目录，获取到所有的容器信息，加载到内存中，
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">// 每次加载完一个容器，会打印`Loaded container `字样的日志
+</span><span style="color:#75715e"></span>	}
+
+	<span style="color:#a6e22e">removeContainers</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#f92672">*</span><span style="color:#a6e22e">container</span>.<span style="color:#a6e22e">Container</span>)
+	<span style="color:#a6e22e">restartContainers</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">map</span>[<span style="color:#f92672">*</span><span style="color:#a6e22e">container</span>.<span style="color:#a6e22e">Container</span>]<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">struct</span>{})
+	<span style="color:#a6e22e">activeSandboxes</span> <span style="color:#f92672">:=</span> make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">interface</span>{})
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">id</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">containers</span> {
+        <span style="color:#75715e">// 查看上述加载的容器，并把老版本的容器进行配置或volumes的迁移，用于兼容老版本启动的容器
+</span><span style="color:#75715e"></span>        <span style="color:#f92672">...</span>
+	}
+
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">wg</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">WaitGroup</span>
+	<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">mapLock</span> <span style="color:#a6e22e">sync</span>.<span style="color:#a6e22e">Mutex</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">containers</span> {
+		<span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Add</span>(<span style="color:#ae81ff">1</span>)
+		<span style="color:#66d9ef">go</span> <span style="color:#66d9ef">func</span>(<span style="color:#a6e22e">c</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">container</span>.<span style="color:#a6e22e">Container</span>) {
+			<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Done</span>()
+            <span style="color:#75715e">//启动多协程，对状态为`Running`和`Paused`的容器进行不同的处理，处理包括：mount、remove等操作
+</span><span style="color:#75715e"></span>            <span style="color:#f92672">...</span>
+		}(<span style="color:#a6e22e">c</span>)
+	}
+    <span style="color:#a6e22e">wg</span>.<span style="color:#a6e22e">Wait</span>()
+    <span style="color:#75715e">// 初始化网络
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">daemon</span>.<span style="color:#a6e22e">netController</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">daemon</span>.<span style="color:#a6e22e">initNetworkController</span>(<span style="color:#a6e22e">daemon</span>.<span style="color:#a6e22e">configStore</span>, <span style="color:#a6e22e">activeSandboxes</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;Error initializing network controller: %v&#34;</span>, <span style="color:#a6e22e">err</span>)
+	}
+    <span style="color:#f92672">...</span>
+	<span style="color:#a6e22e">logrus</span>.<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;Loading containers: done.&#34;</span>)
+
+	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+}
+</code></pre></div><h5 id="进入initnetworkcontroller方法查看具体的实现">进入initNetworkController方法，查看具体的实现。</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// daemon/daemon_unix.go
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">daemon</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">Daemon</span>) <span style="color:#a6e22e">initNetworkController</span>(<span style="color:#a6e22e">config</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">Config</span>, <span style="color:#a6e22e">activeSandboxes</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">interface</span>{}) (<span style="color:#a6e22e">libnetwork</span>.<span style="color:#a6e22e">NetworkController</span>, <span style="color:#66d9ef">error</span>) {
+    <span style="color:#75715e">// 处理network的配置，把默认的bridge的网络插件添加到配置中
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">netOptions</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">daemon</span>.<span style="color:#a6e22e">networkOptions</span>(<span style="color:#a6e22e">config</span>, <span style="color:#a6e22e">daemon</span>.<span style="color:#a6e22e">PluginStore</span>, <span style="color:#a6e22e">activeSandboxes</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
+	}
+
+    <span style="color:#75715e">// 创建网络的控制器
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// 1. 默认把`/var/lib/docker/network/files/local-kv.db`作为网络的数据库存储容器网络相关信息。
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// 2. 初始化docker支持的所有网络类型，如：bridge、host、none等。
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// 3. 清理之前docker创建的iptables规则，并处理FORWARD规则。
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// 该部分的实现内容可以参考`libnetwork.New(netOptions...)`的实现
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">controller</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">libnetwork</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">netOptions</span><span style="color:#f92672">...</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;error obtaining controller instance: %v&#34;</span>, <span style="color:#a6e22e">err</span>)
+	}
+
+    <span style="color:#75715e">// Initialize default network on &#34;null&#34;
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">...</span>
+    <span style="color:#75715e">// Initialize default network on &#34;host&#34;
+</span><span style="color:#75715e"></span>    <span style="color:#f92672">...</span>
+	<span style="color:#75715e">// 清理无用的bridge网络
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">n</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">controller</span>.<span style="color:#a6e22e">NetworkByName</span>(<span style="color:#e6db74">&#34;bridge&#34;</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">==</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">n</span>.<span style="color:#a6e22e">Delete</span>(); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+			<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;could not delete the default bridge network: %v&#34;</span>, <span style="color:#a6e22e">err</span>)
+		}
+	}
+
+	<span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">DisableBridge</span> {
+		<span style="color:#75715e">// Initialize default driver &#34;bridge&#34;
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">initBridgeDriver</span>(<span style="color:#a6e22e">controller</span>, <span style="color:#a6e22e">config</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+			<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
+		}
+	} <span style="color:#66d9ef">else</span> {
+		<span style="color:#a6e22e">removeDefaultBridgeInterface</span>()
+	}
+
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">controller</span>, <span style="color:#66d9ef">nil</span>
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">initBridgeDriver</span>(<span style="color:#a6e22e">controller</span> <span style="color:#a6e22e">libnetwork</span>.<span style="color:#a6e22e">NetworkController</span>, <span style="color:#a6e22e">config</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">Config</span>) <span style="color:#66d9ef">error</span> {
+	<span style="color:#a6e22e">bridgeName</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">bridge</span>.<span style="color:#a6e22e">DefaultBridgeName</span>
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">BridgeConfig</span>.<span style="color:#a6e22e">Iface</span> <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;&#34;</span> {
+		<span style="color:#a6e22e">bridgeName</span> = <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">BridgeConfig</span>.<span style="color:#a6e22e">Iface</span>
+	}
+	<span style="color:#a6e22e">netOption</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">string</span>{
+		<span style="color:#a6e22e">bridge</span>.<span style="color:#a6e22e">BridgeName</span>:         <span style="color:#a6e22e">bridgeName</span>,
+		<span style="color:#a6e22e">bridge</span>.<span style="color:#a6e22e">DefaultBridge</span>:      <span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">FormatBool</span>(<span style="color:#66d9ef">true</span>),
+        <span style="color:#a6e22e">netlabel</span>.<span style="color:#a6e22e">DriverMTU</span>:        <span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">Itoa</span>(<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">Mtu</span>),
+        <span style="color:#75715e">// config.BridgeConfig.EnableIPMasq 这里对应了1中的verifyDaemonSettings的校验函数。
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">bridge</span>.<span style="color:#a6e22e">EnableIPMasquerade</span>: <span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">FormatBool</span>(<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">BridgeConfig</span>.<span style="color:#a6e22e">EnableIPMasq</span>),
+		<span style="color:#a6e22e">bridge</span>.<span style="color:#a6e22e">EnableICC</span>:          <span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">FormatBool</span>(<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">BridgeConfig</span>.<span style="color:#a6e22e">InterContainerCommunication</span>),
+	}
+
+	<span style="color:#75715e">// --ip processing
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">BridgeConfig</span>.<span style="color:#a6e22e">DefaultIP</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">netOption</span>[<span style="color:#a6e22e">bridge</span>.<span style="color:#a6e22e">DefaultBindingIP</span>] = <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">BridgeConfig</span>.<span style="color:#a6e22e">DefaultIP</span>.<span style="color:#a6e22e">String</span>()
+    }
+    <span style="color:#f92672">...</span>
+    <span style="color:#75715e">// NewNetwork这个方法是初始化bridge，进入该函数
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// Initialize default network on &#34;bridge&#34; with the same name
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">controller</span>.<span style="color:#a6e22e">NewNetwork</span>(<span style="color:#e6db74">&#34;bridge&#34;</span>, <span style="color:#e6db74">&#34;bridge&#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>,
+		<span style="color:#a6e22e">libnetwork</span>.<span style="color:#a6e22e">NetworkOptionEnableIPv6</span>(<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">BridgeConfig</span>.<span style="color:#a6e22e">EnableIPv6</span>),
+		<span style="color:#a6e22e">libnetwork</span>.<span style="color:#a6e22e">NetworkOptionDriverOpts</span>(<span style="color:#a6e22e">netOption</span>),
+		<span style="color:#a6e22e">libnetwork</span>.<span style="color:#a6e22e">NetworkOptionIpam</span>(<span style="color:#e6db74">&#34;default&#34;</span>, <span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#a6e22e">v4Conf</span>, <span style="color:#a6e22e">v6Conf</span>, <span style="color:#66d9ef">nil</span>),
+		<span style="color:#a6e22e">libnetwork</span>.<span style="color:#a6e22e">NetworkOptionDeferIPv6Alloc</span>(<span style="color:#a6e22e">deferIPv6Alloc</span>))
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Errorf</span>(<span style="color:#e6db74">&#34;Error creating default \&#34;bridge\&#34; network: %v&#34;</span>, <span style="color:#a6e22e">err</span>)
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+}
+</code></pre></div><p>NewNetwork这个方法是初始化bridge，进入该函数，发现调用<code>github.com/docker/libnetwork/drivers/bridge/bridge.go</code>中的<code>createNetwork</code>方法，进入到方法中，我们看到这个<code>createNetwork</code>方法最终调用了我们在一开始看到的<code>setupIPTables</code>这个方法进行iptables规则的处理。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// github.com/docker/libnetwork/drivers/bridge/bridge.go
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">d</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">driver</span>) <span style="color:#a6e22e">createNetwork</span>(<span style="color:#a6e22e">config</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">networkConfiguration</span>) <span style="color:#66d9ef">error</span> {
+
+    <span style="color:#f92672">...</span>
+    <span style="color:#a6e22e">network</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">bridgeNetwork</span>{
+		<span style="color:#a6e22e">id</span>:         <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">ID</span>,
+		<span style="color:#a6e22e">endpoints</span>:  make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#f92672">*</span><span style="color:#a6e22e">bridgeEndpoint</span>),
+		<span style="color:#a6e22e">config</span>:     <span style="color:#a6e22e">config</span>,
+		<span style="color:#a6e22e">portMapper</span>: <span style="color:#a6e22e">portmapper</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">UserlandProxyPath</span>),
+		<span style="color:#a6e22e">driver</span>:     <span style="color:#a6e22e">d</span>,
+	}
+    <span style="color:#f92672">...</span>
+	<span style="color:#75715e">// Conditionally queue setup steps depending on configuration values.
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">step</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> []<span style="color:#66d9ef">struct</span> {
+		<span style="color:#a6e22e">Condition</span> <span style="color:#66d9ef">bool</span>
+		<span style="color:#a6e22e">Fn</span>        <span style="color:#a6e22e">setupStep</span>
+	}{
+		<span style="color:#f92672">...</span>
+		<span style="color:#75715e">// Setup IPTables.
+</span><span style="color:#75715e"></span>		{<span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">EnableIPTables</span>, <span style="color:#a6e22e">network</span>.<span style="color:#a6e22e">setupIPTables</span>},
+        <span style="color:#f92672">...</span>
+	} {
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">step</span>.<span style="color:#a6e22e">Condition</span> {
+			<span style="color:#a6e22e">bridgeSetup</span>.<span style="color:#a6e22e">queueStep</span>(<span style="color:#a6e22e">step</span>.<span style="color:#a6e22e">Fn</span>)
+		}
+	}
+
+	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+}
+</code></pre></div><p>到这里，我们就了解了docker是如何处理<code>--ip-masq</code>这个参数并如何根据这个参数进行iptables规则的设置。</p>
+<h5 id="libnetworknewnetoptions的实现">libnetwork.New(netOptions&hellip;)的实现</h5>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// github.com/docker/libnetwork/controller.go
+</span><span style="color:#75715e">// New creates a new instance of network controller.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">cfgOptions</span> <span style="color:#f92672">...</span><span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">Option</span>) (<span style="color:#a6e22e">NetworkController</span>, <span style="color:#66d9ef">error</span>) {
+	<span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">controller</span>{
+		<span style="color:#a6e22e">id</span>:              <span style="color:#a6e22e">stringid</span>.<span style="color:#a6e22e">GenerateRandomID</span>(),
+		<span style="color:#a6e22e">cfg</span>:             <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">ParseConfigOptions</span>(<span style="color:#a6e22e">cfgOptions</span><span style="color:#f92672">...</span>),
+		<span style="color:#a6e22e">sandboxes</span>:       <span style="color:#a6e22e">sandboxTable</span>{},
+		<span style="color:#a6e22e">svcRecords</span>:      make(<span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#a6e22e">svcInfo</span>),
+		<span style="color:#a6e22e">serviceBindings</span>: make(<span style="color:#66d9ef">map</span>[<span style="color:#a6e22e">serviceKey</span>]<span style="color:#f92672">*</span><span style="color:#a6e22e">service</span>),
+		<span style="color:#a6e22e">agentInitDone</span>:   make(<span style="color:#66d9ef">chan</span> <span style="color:#66d9ef">struct</span>{}),
+		<span style="color:#a6e22e">networkLocker</span>:   <span style="color:#a6e22e">locker</span>.<span style="color:#a6e22e">New</span>(),
+	}
+
+    <span style="color:#75715e">// 创建读取网络数据库的client
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">initStores</span>(); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
+	}
+
+	<span style="color:#a6e22e">drvRegistry</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">drvregistry</span>.<span style="color:#a6e22e">New</span>(<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">getStore</span>(<span style="color:#a6e22e">datastore</span>.<span style="color:#a6e22e">LocalScope</span>), <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">getStore</span>(<span style="color:#a6e22e">datastore</span>.<span style="color:#a6e22e">GlobalScope</span>), <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">RegisterDriver</span>, <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">PluginGetter</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
+	}
+
+    <span style="color:#75715e">// 添加并初始化所有网络类型，getInitializers的函数如下，可以看到这些是docker支持的网络类型。
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// 我们主要关注在bridge的类型，即bridge.Init这个方法。
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">/*
+</span><span style="color:#75715e">        func getInitializers(experimental bool) []initializer {
+</span><span style="color:#75715e">            in := []initializer{
+</span><span style="color:#75715e">                {bridge.Init, &#34;bridge&#34;},
+</span><span style="color:#75715e">                {host.Init, &#34;host&#34;},
+</span><span style="color:#75715e">                {macvlan.Init, &#34;macvlan&#34;},
+</span><span style="color:#75715e">                {null.Init, &#34;null&#34;},
+</span><span style="color:#75715e">                {remote.Init, &#34;remote&#34;},
+</span><span style="color:#75715e">                {overlay.Init, &#34;overlay&#34;},
+</span><span style="color:#75715e">            }
+</span><span style="color:#75715e">
+</span><span style="color:#75715e">            if experimental {
+</span><span style="color:#75715e">                in = append(in, additionalDrivers()...)
+</span><span style="color:#75715e">            }
+</span><span style="color:#75715e">            return in
+</span><span style="color:#75715e">        }
+</span><span style="color:#75715e">    */</span>
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">getInitializers</span>(<span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">cfg</span>.<span style="color:#a6e22e">Daemon</span>.<span style="color:#a6e22e">Experimental</span>) {
+		<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">dcfg</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">interface</span>{}
+
+		<span style="color:#75715e">// External plugins don&#39;t need config passed through daemon. They can
+</span><span style="color:#75715e"></span>		<span style="color:#75715e">// bootstrap themselves
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">i</span>.<span style="color:#a6e22e">ntype</span> <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;remote&#34;</span> {
+			<span style="color:#a6e22e">dcfg</span> = <span style="color:#a6e22e">c</span>.<span style="color:#a6e22e">makeDriverConfig</span>(<span style="color:#a6e22e">i</span>.<span style="color:#a6e22e">ntype</span>)
+		}
+
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">drvRegistry</span>.<span style="color:#a6e22e">AddDriver</span>(<span style="color:#a6e22e">i</span>.<span style="color:#a6e22e">ntype</span>, <span style="color:#a6e22e">i</span>.<span style="color:#a6e22e">fn</span>, <span style="color:#a6e22e">dcfg</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+			<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
+		}
+    }
+    <span style="color:#f92672">...</span>
+
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">c</span>, <span style="color:#66d9ef">nil</span>
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// bridge.Init方法的实现。
+</span><span style="color:#75715e">// Init registers a new instance of bridge driver
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">Init</span>(<span style="color:#a6e22e">dc</span> <span style="color:#a6e22e">driverapi</span>.<span style="color:#a6e22e">DriverCallback</span>, <span style="color:#a6e22e">config</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">interface</span>{}) <span style="color:#66d9ef">error</span> {
+	<span style="color:#a6e22e">d</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">newDriver</span>()
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">d</span>.<span style="color:#a6e22e">configure</span>(<span style="color:#a6e22e">config</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+	}
+
+	<span style="color:#a6e22e">c</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">driverapi</span>.<span style="color:#a6e22e">Capability</span>{
+		<span style="color:#a6e22e">DataScope</span>:         <span style="color:#a6e22e">datastore</span>.<span style="color:#a6e22e">LocalScope</span>,
+		<span style="color:#a6e22e">ConnectivityScope</span>: <span style="color:#a6e22e">datastore</span>.<span style="color:#a6e22e">LocalScope</span>,
+	}
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">dc</span>.<span style="color:#a6e22e">RegisterDriver</span>(<span style="color:#a6e22e">networkType</span>, <span style="color:#a6e22e">d</span>, <span style="color:#a6e22e">c</span>)
+}
+
+<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">d</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">driver</span>) <span style="color:#a6e22e">configure</span>(<span style="color:#a6e22e">option</span> <span style="color:#66d9ef">map</span>[<span style="color:#66d9ef">string</span>]<span style="color:#66d9ef">interface</span>{}) <span style="color:#66d9ef">error</span> {
+	<span style="color:#66d9ef">var</span> (
+		<span style="color:#a6e22e">config</span>         <span style="color:#f92672">*</span><span style="color:#a6e22e">configuration</span>
+		<span style="color:#a6e22e">err</span>            <span style="color:#66d9ef">error</span>
+		<span style="color:#a6e22e">natChain</span>       <span style="color:#f92672">*</span><span style="color:#a6e22e">iptables</span>.<span style="color:#a6e22e">ChainInfo</span>
+		<span style="color:#a6e22e">filterChain</span>    <span style="color:#f92672">*</span><span style="color:#a6e22e">iptables</span>.<span style="color:#a6e22e">ChainInfo</span>
+		<span style="color:#a6e22e">isolationChain</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">iptables</span>.<span style="color:#a6e22e">ChainInfo</span>
+    )
+    <span style="color:#f92672">...</span>
+
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">EnableIPTables</span> {
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Stat</span>(<span style="color:#e6db74">&#34;/proc/sys/net/bridge&#34;</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+			<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">out</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">exec</span>.<span style="color:#a6e22e">Command</span>(<span style="color:#e6db74">&#34;modprobe&#34;</span>, <span style="color:#e6db74">&#34;-va&#34;</span>, <span style="color:#e6db74">&#34;bridge&#34;</span>, <span style="color:#e6db74">&#34;br_netfilter&#34;</span>).<span style="color:#a6e22e">CombinedOutput</span>(); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+				<span style="color:#a6e22e">logrus</span>.<span style="color:#a6e22e">Warnf</span>(<span style="color:#e6db74">&#34;Running modprobe bridge br_netfilter failed with message: %s, error: %v&#34;</span>, <span style="color:#a6e22e">out</span>, <span style="color:#a6e22e">err</span>)
+			}
+        }
+        <span style="color:#75715e">// 清理之前docker相关的iptables规则，在前面章节的日志可以看到有删除iptables规则
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">removeIPChains</span>()
+		<span style="color:#a6e22e">natChain</span>, <span style="color:#a6e22e">filterChain</span>, <span style="color:#a6e22e">isolationChain</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">setupIPChains</span>(<span style="color:#a6e22e">config</span>)
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+			<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+		}
+		<span style="color:#75715e">// Make sure on firewall reload, first thing being re-played is chains creation
+</span><span style="color:#75715e"></span>		<span style="color:#a6e22e">iptables</span>.<span style="color:#a6e22e">OnReloaded</span>(<span style="color:#66d9ef">func</span>() { <span style="color:#a6e22e">logrus</span>.<span style="color:#a6e22e">Debugf</span>(<span style="color:#e6db74">&#34;Recreating iptables chains on firewall reload&#34;</span>); <span style="color:#a6e22e">setupIPChains</span>(<span style="color:#a6e22e">config</span>) })
+	}
+
+    <span style="color:#75715e">// 这里是处理FORWARD规则的地方，会去读取/proc/sys/net/ipv4/ip_forward中的值进行处理
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">EnableIPForwarding</span> {
+		<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">setupIPForwarding</span>(<span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">EnableIPTables</span>)
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+			<span style="color:#a6e22e">logrus</span>.<span style="color:#a6e22e">Warn</span>(<span style="color:#a6e22e">err</span>)
+			<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">err</span>
+		}
+    }
+    <span style="color:#f92672">...</span>
+
+	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>
+}
+</code></pre></div><h3 id="数据存储在本地db文件中的内容">数据存储在本地db文件中的内容</h3>
+<p>docker默认使用boltdb来存储网络相关的配置信息，那么我们看下在这个db文件中到底保存的数据格式是什么，对于我们以后看docker的一些源码实现或者自身组件的实现可能会有帮助。</p>
+<p>我们通过代码，可以读取存储在本机的docker网络配置，我们读取了Key为<code>docker/network/v1.0/bridge</code>的值，该key为docker的默认bridge的信息，信息格式如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json">{
+    <span style="color:#f92672">&#34;BridgeIfaceCreator&#34;</span>: <span style="color:#ae81ff">2</span>,
+    <span style="color:#f92672">&#34;Internal&#34;</span>: <span style="color:#66d9ef">false</span>,
+    <span style="color:#f92672">&#34;DefaultBridge&#34;</span>: <span style="color:#66d9ef">true</span>,
+    <span style="color:#f92672">&#34;EnableICC&#34;</span>: <span style="color:#66d9ef">true</span>,
+    <span style="color:#f92672">&#34;EnableIPv6&#34;</span>: <span style="color:#66d9ef">false</span>,
+    <span style="color:#f92672">&#34;Mtu&#34;</span>: <span style="color:#ae81ff">1500</span>,
+    <span style="color:#f92672">&#34;DefaultGatewayIPv6&#34;</span>: <span style="color:#e6db74">&#34;&lt;nil&gt;&#34;</span>,
+    <span style="color:#f92672">&#34;EnableIPMasquerade&#34;</span>: <span style="color:#66d9ef">true</span>,
+    <span style="color:#f92672">&#34;DefaultGatewayIPv4&#34;</span>: <span style="color:#e6db74">&#34;&lt;nil&gt;&#34;</span>,
+    <span style="color:#f92672">&#34;AddressIPv4&#34;</span>: <span style="color:#e6db74">&#34;172.17.0.1/16&#34;</span>,
+    <span style="color:#f92672">&#34;ContainerIfacePrefix&#34;</span>: <span style="color:#e6db74">&#34;&#34;</span>,
+    <span style="color:#f92672">&#34;ID&#34;</span>: <span style="color:#e6db74">&#34;6ce3c0c4d5c392d732a06a7ea9d6293bf04201056d563f7a6ad5ef9d8b3822db&#34;</span>,
+    <span style="color:#f92672">&#34;BridgeName&#34;</span>: <span style="color:#e6db74">&#34;docker0&#34;</span>,
+    <span style="color:#f92672">&#34;DefaultBindingIP&#34;</span>: <span style="color:#e6db74">&#34;0.0.0.0&#34;</span>
+}
+</code></pre></div><p>可以看到<code>EnableIPMasquerade</code>我们设置的<code>true</code>，从而使得前文所说的<code>-A POSTROUTING -s 172.17.0.0/16 ! -o docker0 -j MASQUERADE</code>规则被创建。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// 读取boltdb的代码示例
+</span><span style="color:#75715e"></span><span style="color:#f92672">package</span> <span style="color:#a6e22e">main</span>
+
+<span style="color:#f92672">import</span> (
+	<span style="color:#e6db74">&#34;fmt&#34;</span>
+	<span style="color:#e6db74">&#34;log&#34;</span>
+	<span style="color:#e6db74">&#34;time&#34;</span>
+
+	<span style="color:#e6db74">&#34;github.com/docker/libkv&#34;</span>
+	<span style="color:#e6db74">&#34;github.com/docker/libkv/store&#34;</span>
+	<span style="color:#e6db74">&#34;github.com/docker/libkv/store/boltdb&#34;</span>
+)
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">init</span>() {
+	<span style="color:#75715e">// Register boltdb store to libkv
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">boltdb</span>.<span style="color:#a6e22e">Register</span>()
+}
+
+<span style="color:#66d9ef">func</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#a6e22e">client</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;./local-kv.db&#34;</span>
+
+	<span style="color:#75715e">// Initialize a new store
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">kv</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">libkv</span>.<span style="color:#a6e22e">NewStore</span>(
+		<span style="color:#a6e22e">store</span>.<span style="color:#a6e22e">BOLTDB</span>,
+		[]<span style="color:#66d9ef">string</span>{<span style="color:#a6e22e">client</span>},
+		<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">store</span>.<span style="color:#a6e22e">Config</span>{
+			<span style="color:#a6e22e">Bucket</span>:            <span style="color:#e6db74">&#34;libnetwork&#34;</span>,
+			<span style="color:#a6e22e">ConnectionTimeout</span>: <span style="color:#ae81ff">10</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">time</span>.<span style="color:#a6e22e">Second</span>,
+		},
+	)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Fatalf</span>(<span style="color:#e6db74">&#34;Cannot create store: %v&#34;</span>, <span style="color:#a6e22e">err</span>)
+	}
+
+	<span style="color:#a6e22e">pair</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">kv</span>.<span style="color:#a6e22e">List</span>(<span style="color:#e6db74">&#34;docker/network/v1.0/bridge&#34;</span>)
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">p</span> <span style="color:#f92672">:=</span> <span style="color:#66d9ef">range</span> <span style="color:#a6e22e">pair</span> {
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">Key</span>)
+		<span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Println</span>(string(<span style="color:#a6e22e">p</span>.<span style="color:#a6e22e">Value</span>))
+	}
+}
+</code></pre></div><h2 id="总结">总结</h2>
+<p>实现流程如下：</p>
+<ol>
+<li><code>dockerd</code>首先根据配置文件和命令行参数获取<code>--iptables</code>和<code>--ip-masq</code>的值</li>
+<li>进行参数校验，校验后决定<code>ip-masq</code>是否启用</li>
+<li>在<code>dockerd</code>初始化bridge网络的时候，先清理旧的iptables规则，然后依次添加新的iptables规则</li>
+<li>如果启用<code>ip-masq</code>，那么创建<code>POSTROUTING</code>的规则。</li>
+</ol>
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://pytimer.github.io/tags/iptables">iptables</a></span>
+  				</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2020</span>
+            
+                <span><a href="https://pytimer.github.io/">Pytimer</a></span>
+            
+            
+            <span> <a href="https://pytimer.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">Djordje Atlialp</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+
+
+
+    </body>
+</html>

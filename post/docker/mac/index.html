@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Software Develper, **Like Go and Kubernetes** Golang developer China Pytimer https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/gopher.png ">
+<meta name="description" content="Docker是目前最常用的容器引擎，在Mac上安装Docker。
+安装、配置Docker Install Docker Desktop for Mac
+按照官方文档直接下载Docker.img并双击安装即可，安装的过程中，需要输入当前用户的登录密码。
+配置Docker 在Mac上，我们需要先注册Docker ID，进行登录才可以使用。因此我们需要先去https://cloud.docker.com注册自己的账号。
+Dockerhub关联Github上的项目 关联Github账号 进入https://cloud.docker.com，登录自己的账号，然后点击账号的倒三角，看到Account Settings，点击进入设置页面，查看Linked Accounts选项卡，可以关联Github账号，关联好后会显示关联成功。
+创建Repository 创建好Repository后，点击Builds，设置自动制作镜像的操作。" />
+<meta name="keywords" content=", docker-mac" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://pytimer.github.io/post/docker/mac/" />
+
+
+    <title>
+        
+            Mac安装使用Docker :: Pytimer  — Kubernetes爱好者
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.d1ea4af8fd04fb24a4f8b882ea54bd04eb245427ca4baf527c81a5dab071410b.css">
+
+
+
+
+
+
+<meta itemprop="name" content="Mac安装使用Docker">
+<meta itemprop="description" content="Docker是目前最常用的容器引擎，在Mac上安装Docker。
+安装、配置Docker Install Docker Desktop for Mac
+按照官方文档直接下载Docker.img并双击安装即可，安装的过程中，需要输入当前用户的登录密码。
+配置Docker 在Mac上，我们需要先注册Docker ID，进行登录才可以使用。因此我们需要先去https://cloud.docker.com注册自己的账号。
+Dockerhub关联Github上的项目 关联Github账号 进入https://cloud.docker.com，登录自己的账号，然后点击账号的倒三角，看到Account Settings，点击进入设置页面，查看Linked Accounts选项卡，可以关联Github账号，关联好后会显示关联成功。
+创建Repository 创建好Repository后，点击Builds，设置自动制作镜像的操作。">
+<meta itemprop="datePublished" content="2019-06-26T19:35:13+08:00" />
+<meta itemprop="dateModified" content="2019-06-26T19:35:13+08:00" />
+<meta itemprop="wordCount" content="18">
+<meta itemprop="image" content="https://pytimer.github.io/"/>
+
+
+
+<meta itemprop="keywords" content="docker-mac," />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://pytimer.github.io/"/>
+
+<meta name="twitter:title" content="Mac安装使用Docker"/>
+<meta name="twitter:description" content="Docker是目前最常用的容器引擎，在Mac上安装Docker。
+安装、配置Docker Install Docker Desktop for Mac
+按照官方文档直接下载Docker.img并双击安装即可，安装的过程中，需要输入当前用户的登录密码。
+配置Docker 在Mac上，我们需要先注册Docker ID，进行登录才可以使用。因此我们需要先去https://cloud.docker.com注册自己的账号。
+Dockerhub关联Github上的项目 关联Github账号 进入https://cloud.docker.com，登录自己的账号，然后点击账号的倒三角，看到Account Settings，点击进入设置页面，查看Linked Accounts选项卡，可以关联Github账号，关联好后会显示关联成功。
+创建Repository 创建好Repository后，点击Builds，设置自动制作镜像的操作。"/>
+
+
+
+
+
+    <meta property="article:section" content="Docker" />
+
+
+
+    <meta property="article:published_time" content="2019-06-26 19:35:13 &#43;0800 CST" />
+
+
+
+
+
+
+
+
+    </head>
+
+    <body class="">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://pytimer.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ kubectl</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://pytimer.github.io/post">博客</a></li><li><a href="https://pytimer.github.io/categories">类别</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://pytimer.github.io/post/docker/mac/">Mac安装使用Docker</a></h2>
+
+            
+
+            <div class="post-content">
+                <p>Docker是目前最常用的容器引擎，在Mac上安装Docker。</p>
+<h2 id="安装配置docker">安装、配置Docker</h2>
+<p><a href="https://docs.docker.com/docker-for-mac/install/">Install Docker Desktop for Mac</a></p>
+<p>按照官方文档直接下载<code>Docker.img</code>并双击安装即可，安装的过程中，需要输入当前用户的登录密码。</p>
+<h3 id="配置docker">配置Docker</h3>
+<p>在Mac上，我们需要先注册Docker ID，进行登录才可以使用。因此我们需要先去<code>https://cloud.docker.com</code>注册自己的账号。</p>
+<h2 id="dockerhub关联github上的项目">Dockerhub关联Github上的项目</h2>
+<h3 id="关联github账号">关联Github账号</h3>
+<p>进入<code>https://cloud.docker.com</code>，登录自己的账号，然后点击账号的倒三角，看到<code>Account Settings</code>，点击进入设置页面，查看<code>Linked Accounts</code>选项卡，可以关联Github账号，关联好后会显示关联成功。</p>
+<h3 id="创建repository">创建Repository</h3>
+<p>创建好Repository后，点击<code>Builds</code>，设置自动制作镜像的操作。</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://pytimer.github.io/tags/docker-mac">docker-mac</a></span>
+  				</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2020</span>
+            
+                <span><a href="https://pytimer.github.io/">Pytimer</a></span>
+            
+            
+            <span> <a href="https://pytimer.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">Djordje Atlialp</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+
+
+
+    </body>
+</html>

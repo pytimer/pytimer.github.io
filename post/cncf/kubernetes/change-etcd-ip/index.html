@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Software Develper, **Like Go and Kubernetes** Golang developer China Pytimer https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/gopher.png ">
+<meta name="description" content="背景 Etcd是用于共享配置和服务发现的分布式、满足一致性的KV系统，受到Zookeeper启发，该项目是由CoreOS公司发起。目前在各种云环境中应用广泛，几个比较流行的云项目都采用了Etcd，如CloudFoundry、Kubernetes、Docker。Etcd采用Raft协议进行主节点的选举，并把相应的成员信息存储在各成员的db中。更多关于Etcd的详细介绍，可以在网上或者官方看到，这里不进行相关描述。
+由于Kubernetes采用Etcd作为后端数据存储，如果Etcd出现问题，会导致整个Kubernetes集群的数据不一致，严重的甚至会导致集群不可用，因此需要掌握Etcd集群的常见问题解决方式，以便在该组件出现故障的时候，可以及时修复，从而保证Kubernetes集群的正常可用，不影响用户的使用。
+如果Kubernetes集群部署完成后，更新整个集群所有节点的IP地址，当前Kubernetes的控制节点和Etcd成员节点在同一主机上运行，这也意味着如果修改Kubernetes控制节点的IP地址，需要对Etcd集群进行操作，以便Etcd集群可以使用新的IP地址进行通信。因此本文档重点介绍Etcd集群成员变更的两种方式。
+成员变更解决方式 Etcd集群本身满足(n/2)&#43;1的成员容忍性。下面为集群大小对应的可容忍的异常成员数量。
+   集群大小 Majority 容忍数量     1 1 0   2 2 0   3 2 1   4 3 1   5 3 2   6 4 2   7 4 3   8 5 3   9 5 4    目前我们的Kubernetes集群采用大多数是3节点的Etcd集群，因此允许一个节点失联。
+下面详细描述下如何进行集群成员IP变更，因为我们的Etcd集群运行在容器中，采用Static Pod的方式由Kubelet进行管理，所以如果Etcd集群部署形态并非容器的话，请根据实际情况进行相应调整，关于etcdctl的操作是一致的，没有区别。
+我们仍然使用下面的三节点集群，所有节点IP地址如下：
+   成员名称 旧IP 新IP     master1 192." />
+<meta name="keywords" content=", etcd" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://pytimer.github.io/post/cncf/kubernetes/change-etcd-ip/" />
+
+
+    <title>
+        
+            Change Etcd cluster member ip :: Pytimer  — Kubernetes爱好者
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.d1ea4af8fd04fb24a4f8b882ea54bd04eb245427ca4baf527c81a5dab071410b.css">
+
+
+
+
+
+
+<meta itemprop="name" content="Change Etcd cluster member ip">
+<meta itemprop="description" content="背景 Etcd是用于共享配置和服务发现的分布式、满足一致性的KV系统，受到Zookeeper启发，该项目是由CoreOS公司发起。目前在各种云环境中应用广泛，几个比较流行的云项目都采用了Etcd，如CloudFoundry、Kubernetes、Docker。Etcd采用Raft协议进行主节点的选举，并把相应的成员信息存储在各成员的db中。更多关于Etcd的详细介绍，可以在网上或者官方看到，这里不进行相关描述。
+由于Kubernetes采用Etcd作为后端数据存储，如果Etcd出现问题，会导致整个Kubernetes集群的数据不一致，严重的甚至会导致集群不可用，因此需要掌握Etcd集群的常见问题解决方式，以便在该组件出现故障的时候，可以及时修复，从而保证Kubernetes集群的正常可用，不影响用户的使用。
+如果Kubernetes集群部署完成后，更新整个集群所有节点的IP地址，当前Kubernetes的控制节点和Etcd成员节点在同一主机上运行，这也意味着如果修改Kubernetes控制节点的IP地址，需要对Etcd集群进行操作，以便Etcd集群可以使用新的IP地址进行通信。因此本文档重点介绍Etcd集群成员变更的两种方式。
+成员变更解决方式 Etcd集群本身满足(n/2)&#43;1的成员容忍性。下面为集群大小对应的可容忍的异常成员数量。
+   集群大小 Majority 容忍数量     1 1 0   2 2 0   3 2 1   4 3 1   5 3 2   6 4 2   7 4 3   8 5 3   9 5 4    目前我们的Kubernetes集群采用大多数是3节点的Etcd集群，因此允许一个节点失联。
+下面详细描述下如何进行集群成员IP变更，因为我们的Etcd集群运行在容器中，采用Static Pod的方式由Kubelet进行管理，所以如果Etcd集群部署形态并非容器的话，请根据实际情况进行相应调整，关于etcdctl的操作是一致的，没有区别。
+我们仍然使用下面的三节点集群，所有节点IP地址如下：
+   成员名称 旧IP 新IP     master1 192.">
+<meta itemprop="datePublished" content="2019-05-28T13:35:48+08:00" />
+<meta itemprop="dateModified" content="2019-05-28T13:35:48+08:00" />
+<meta itemprop="wordCount" content="366">
+<meta itemprop="image" content="https://pytimer.github.io/"/>
+
+
+
+<meta itemprop="keywords" content="etcd," />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://pytimer.github.io/"/>
+
+<meta name="twitter:title" content="Change Etcd cluster member ip"/>
+<meta name="twitter:description" content="背景 Etcd是用于共享配置和服务发现的分布式、满足一致性的KV系统，受到Zookeeper启发，该项目是由CoreOS公司发起。目前在各种云环境中应用广泛，几个比较流行的云项目都采用了Etcd，如CloudFoundry、Kubernetes、Docker。Etcd采用Raft协议进行主节点的选举，并把相应的成员信息存储在各成员的db中。更多关于Etcd的详细介绍，可以在网上或者官方看到，这里不进行相关描述。
+由于Kubernetes采用Etcd作为后端数据存储，如果Etcd出现问题，会导致整个Kubernetes集群的数据不一致，严重的甚至会导致集群不可用，因此需要掌握Etcd集群的常见问题解决方式，以便在该组件出现故障的时候，可以及时修复，从而保证Kubernetes集群的正常可用，不影响用户的使用。
+如果Kubernetes集群部署完成后，更新整个集群所有节点的IP地址，当前Kubernetes的控制节点和Etcd成员节点在同一主机上运行，这也意味着如果修改Kubernetes控制节点的IP地址，需要对Etcd集群进行操作，以便Etcd集群可以使用新的IP地址进行通信。因此本文档重点介绍Etcd集群成员变更的两种方式。
+成员变更解决方式 Etcd集群本身满足(n/2)&#43;1的成员容忍性。下面为集群大小对应的可容忍的异常成员数量。
+   集群大小 Majority 容忍数量     1 1 0   2 2 0   3 2 1   4 3 1   5 3 2   6 4 2   7 4 3   8 5 3   9 5 4    目前我们的Kubernetes集群采用大多数是3节点的Etcd集群，因此允许一个节点失联。
+下面详细描述下如何进行集群成员IP变更，因为我们的Etcd集群运行在容器中，采用Static Pod的方式由Kubelet进行管理，所以如果Etcd集群部署形态并非容器的话，请根据实际情况进行相应调整，关于etcdctl的操作是一致的，没有区别。
+我们仍然使用下面的三节点集群，所有节点IP地址如下：
+   成员名称 旧IP 新IP     master1 192."/>
+
+
+
+
+
+    <meta property="article:section" content="CNCF" />
+
+    <meta property="article:section" content="Kubernetes" />
+
+
+
+    <meta property="article:published_time" content="2019-05-28 13:35:48 &#43;0800 CST" />
+
+
+
+
+
+
+
+
+    </head>
+
+    <body class="">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://pytimer.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ kubectl</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://pytimer.github.io/post">博客</a></li><li><a href="https://pytimer.github.io/categories">类别</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://pytimer.github.io/post/cncf/kubernetes/change-etcd-ip/">Change Etcd cluster member ip</a></h2>
+
+            
+
+            <div class="post-content">
+                <h2 id="背景">背景</h2>
+<p>Etcd是用于共享配置和服务发现的分布式、满足一致性的KV系统，受到Zookeeper启发，该项目是由CoreOS公司发起。目前在各种云环境中应用广泛，几个比较流行的云项目都采用了Etcd，如CloudFoundry、Kubernetes、Docker。Etcd采用Raft协议进行主节点的选举，并把相应的成员信息存储在各成员的db中。更多关于Etcd的详细介绍，可以在网上或者官方看到，这里不进行相关描述。</p>
+<p>由于Kubernetes采用Etcd作为后端数据存储，如果Etcd出现问题，会导致整个Kubernetes集群的数据不一致，严重的甚至会导致集群不可用，因此需要掌握Etcd集群的常见问题解决方式，以便在该组件出现故障的时候，可以及时修复，从而保证Kubernetes集群的正常可用，不影响用户的使用。</p>
+<p>如果Kubernetes集群部署完成后，更新整个集群所有节点的IP地址，当前Kubernetes的控制节点和Etcd成员节点在同一主机上运行，这也意味着如果修改Kubernetes控制节点的IP地址，需要对Etcd集群进行操作，以便Etcd集群可以使用新的IP地址进行通信。因此本文档重点介绍Etcd集群成员变更的两种方式。</p>
+<h2 id="成员变更解决方式">成员变更解决方式</h2>
+<p>Etcd集群本身满足<code>(n/2)+1</code>的成员容忍性。下面为集群大小对应的可容忍的异常成员数量。</p>
+<table>
+<thead>
+<tr>
+<th align="left">集群大小</th>
+<th align="left">Majority</th>
+<th align="left">容忍数量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">1</td>
+<td align="left">1</td>
+<td align="left">0</td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="left">2</td>
+<td align="left">0</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="left">2</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">4</td>
+<td align="left">3</td>
+<td align="left">1</td>
+</tr>
+<tr>
+<td align="left">5</td>
+<td align="left">3</td>
+<td align="left">2</td>
+</tr>
+<tr>
+<td align="left">6</td>
+<td align="left">4</td>
+<td align="left">2</td>
+</tr>
+<tr>
+<td align="left">7</td>
+<td align="left">4</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td align="left">8</td>
+<td align="left">5</td>
+<td align="left">3</td>
+</tr>
+<tr>
+<td align="left">9</td>
+<td align="left">5</td>
+<td align="left">4</td>
+</tr>
+</tbody>
+</table>
+<p>目前我们的Kubernetes集群采用大多数是3节点的Etcd集群，因此允许一个节点失联。</p>
+<p>下面详细描述下如何进行集群成员IP变更，因为我们的Etcd集群运行在容器中，采用Static Pod的方式由Kubelet进行管理，所以如果Etcd集群部署形态并非容器的话，请根据实际情况进行相应调整，关于<code>etcdctl</code>的操作是一致的，没有区别。</p>
+<p>我们仍然使用下面的三节点集群，所有节点IP地址如下：</p>
+<table>
+<thead>
+<tr>
+<th align="left">成员名称</th>
+<th align="left">旧IP</th>
+<th align="left">新IP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">master1</td>
+<td align="left">192.168.100.10</td>
+<td align="left">192.168.110.10</td>
+</tr>
+<tr>
+<td align="left">master2</td>
+<td align="left">192.168.100.11</td>
+<td align="left">192.168.110.11</td>
+</tr>
+<tr>
+<td align="left">master3</td>
+<td align="left">192.168.100.12</td>
+<td align="left">192.168.110.12</td>
+</tr>
+</tbody>
+</table>
+<h3 id="在保证集群可用的情况进行成员变更">在保证集群可用的情况进行成员变更</h3>
+<p>为满足对集群中节点进行IP地址变更的需求，在进行成员变更的时候，需要保证原有集群仍然可以对外进行服务，因此需要依次更换集群中的成员信息。</p>
+<p>查看集群成员信息并检测集群是否健康。我们先进行master3节点的IP地址变更操作，看下如何在保证集群可用的情况下进行成员的IP地址变更。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ ETCDCTL_API<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span> etcdctl --endpoints<span style="color:#f92672">=</span>https://etcd.cluster.local.lb:2379 --cacert<span style="color:#f92672">=</span>/etc/kubernetes/pki/etcd/ca.crt --cert<span style="color:#f92672">=</span>/etc/kubernetes/pki/etcd/healthcheck-client.crt --key<span style="color:#f92672">=</span>/etc/kubernetes/pki/etcd/healthcheck-client.key member list
+e2ef974167ea1d35, started, master1, https://192.168.100.10:2380, https://192.168.100.10:2379
+1f2e59c3615624b3, started, master2, https://192.168.100.11:2380, https://192.168.100.11:2379
+2430ba10b69efc5a, started, master3, https://192.168.100.12:2380, https://192.168.100.12:2379
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ /usr/bin/etcdctl --cert-file /etc/kubernetes/pki/etcd/peer.crt --key-file /etc/kubernetes/pki/etcd/peer.key --ca-file /etc/kubernetes/pki/etcd/ca.crt --endpoints https://etcd.cluster.local.lb:2379 cluster-health
+member e2ef974167ea1d35 is healthy: got healthy result from https://192.168.100.10:2379
+member 1f2e59c3615624b3 is healthy: got healthy result from https://192.168.100.11:2379
+member 2430ba10b69efc5a is healthy: got healthy result from https://192.168.100.12:2379
+</code></pre></div><p>我们更改<code>master3</code>的IP地址<code>192.168.100.12</code>为<code>192.168.110.12</code>。下面是针对Etcd集群的变更操作。</p>
+<ol>
+<li>重启master3上etcd的服务，可以看到该etcd成员正常启动。</li>
+</ol>
+<p><code>docker ps -a -q --filter name=k8s_etcd | xargs -r docker rm --force --volumes</code>，可以看到etcd的容器被移除，并在1分钟之内会由Kubelet启动一个新的etcd服务。</p>
+<p>可以通过<code>docker ps -a -q --filter name=k8s_etcd | xargs docker logs</code> 查看etcd的启动日志，启动会可以通过<code>netstat -anp|grep 2379 | grep LISTEN</code>查看到etcd服务已经启动完成，并监听在2379端口。</p>
+<ol start="2">
+<li>登录到master1上，查看当前集群成员信息</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ ETCDCTL_API<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span> etcdctl --endpoints<span style="color:#f92672">=</span>https://etcd.cluster.local.lb:2379 --cacert<span style="color:#f92672">=</span>/etc/kubernetes/pki/etcd/ca.crt --cert<span style="color:#f92672">=</span>/etc/kubernetes/pki/etcd/healthcheck-client.crt --key<span style="color:#f92672">=</span>/etc/kubernetes/pki/etcd/healthcheck-client.key member list
+e2ef974167ea1d35, started, master1, https://192.168.100.10:2380, https://192.168.100.10:2379
+1f2e59c3615624b3, started, master2, https://192.168.100.11:2380, https://192.168.100.11:2379
+2430ba10b69efc5a, started, master3, https://192.168.100.12:2380, https://192.168.110.12:2379
+</code></pre></div><p>我们可以看到集群中master3成员的client地址变为了新IP，而peer的地址仍然是旧IP，这是因为peer的信息存储在成员的db中，因此我们需要更改当前集群中master3的peer地址为新IP。</p>
+<ol start="3">
+<li>使用如下命令更改peer地址</li>
+</ol>
+<p><code>ETCDCTL_API=3 etcdctl --endpoints=https://etcd.cluster.local.lb:2379 --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/healthcheck-client.crt --key=/etc/kubernetes/pki/etcd/healthcheck-client.key member update 2430ba10b69efc5a --peer-urls=https://192.168.110.12:2380</code></p>
+<ol start="4">
+<li>查看当前集群成员信息是否正确</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ ETCDCTL_API<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span> etcdctl --endpoints<span style="color:#f92672">=</span>https://etcd.cluster.local.lb:2379 --cacert<span style="color:#f92672">=</span>/etc/kubernetes/pki/etcd/ca.crt --cert<span style="color:#f92672">=</span>/etc/kubernetes/pki/etcd/healthcheck-client.crt --key<span style="color:#f92672">=</span>/etc/kubernetes/pki/etcd/healthcheck-client.key member list
+e2ef974167ea1d35, started, master1, https://192.168.100.10:2380, https://192.168.100.10:2379
+1f2e59c3615624b3, started, master2, https://192.168.100.11:2380, https://192.168.100.11:2379
+2430ba10b69efc5a, started, master3, https://192.168.110.12:2380, https://192.168.110.12:2379
+</code></pre></div><p>可以看到master3的成员信息更新为新的IP。</p>
+<p>要替换整个集群的成员信息，我们需要按上述步骤依次变更Etcd集群成员信息，该方式可以保证Etcd集群在成员变更的情况下，仍然可以对外提供服务。并且该方式对于整个集群风险偏低。</p>
+<h3 id="在不保证集群可用的情况下进行成员变更">在不保证集群可用的情况下进行成员变更</h3>
+<p>在对集群中节点进行IP地址变更的过程中，还存在一种情况，那就是集群中所有节点事先修改了IP，在这种情况下，我们不能通过上面的依次变更成员的方式进行IP地址的变更，因为在这个时候，整个Etcd集群是不可用的，无法进行成员信息的在线变更，因此我们提供另一种变更方式来支持这种情况。</p>
+<p>该方式主要是基于原有的Etcd集群数据，恢复出来一个新的Etcd集群，保证数据不丢失，因为在这个时候Etcd集群已经不可用了，并且所有成员信息全部进行了变更，相当于使用原有数据新建集群。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ ETCDCTL_API<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span> etcdctl --endpoints<span style="color:#f92672">=</span>https://etcd.cluster.local.lb:2379 --cacert<span style="color:#f92672">=</span>/etc/kubernetes/pki/etcd/ca.crt --cert<span style="color:#f92672">=</span>/etc/kubernetes/pki/etcd/healthcheck-client.crt --key<span style="color:#f92672">=</span>/etc/kubernetes/pki/etcd/healthcheck-client.key member list
+e2ef974167ea1d35, started, master1, https://192.168.100.10:2380, https://192.168.100.10:2379
+1f2e59c3615624b3, started, master2, https://192.168.100.11:2380, https://192.168.100.11:2379
+2430ba10b69efc5a, started, master3, https://192.168.100.12:2380, https://192.168.100.12:2379
+</code></pre></div><ol>
+<li>在任意一台成员节点生成现有Etcd集群的数据快照，并拷贝快照到其他成员节点<code>/tmp</code>目录下</li>
+</ol>
+<p><code>ETCDCTL_API=3 etcdctl --endpoints=https://127.0.0.1:2379 --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/healthcheck-client.crt --key=/etc/kubernetes/pki/etcd/healthcheck-client.key snapshot save /tmp/snapshot.db</code></p>
+<ol start="2">
+<li>分别在所有成员节点主机上删除整个Etcd集群成员etcd数据目录</li>
+</ol>
+<p><code>rm -rf &lt;etcd数据目录&gt;</code></p>
+<ol start="3">
+<li>分别在所有成员节点主机上执行快照恢复的命令</li>
+</ol>
+<p><code>ETCDCTL_API=3 etcdctl --cacert=/etc/kubernetes/pki/etcd/ca.crt --cert=/etc/kubernetes/pki/etcd/healthcheck-client.crt --key=/etc/kubernetes/pki/etcd/healthcheck-client.key snapshot restore snapshot.db --name &lt;当前主机成员节点名称&gt;   --initial-cluster master1=https://&lt;master1新IP&gt;:2380,master2=https://&lt;master2新IP&gt;:2380,master3=https://&lt;master3新IP&gt;:2380 --initial-advertise-peer-urls=https://&lt;当前主机成员节点IP&gt;:2380 --data-dir=&lt;etcd数据目录&gt;</code></p>
+<ol start="4">
+<li>
+<p>分别在所有成员节点修改Etcd服务的启动项中<code>--initial-cluster</code>、<code>--initial-advertise-peer-urls</code>和<code>--advertise-client-urls</code>的配置，该配置属于Etcd基本操作，不在此进行描述。</p>
+</li>
+<li>
+<p>分别在所有成员节点重启etcd服务，等待etcd成员正常启动。</p>
+</li>
+</ol>
+<p><code>docker ps -a -q --filter name=k8s_etcd | xargs -r docker rm --force --volumes</code>，Kubelet会启动一个新的etcd服务。</p>
+<p>可以通过<code>docker ps -a -q --filter name=k8s_etcd | xargs docker logs</code> 查看etcd的启动日志，启动会可以通过<code>netstat -anp|grep 2379 | grep LISTEN</code>查看到etcd服务已经启动完成，并监听在2379端口。</p>
+<ol start="2">
+<li>登录到任意一台成员主机上，查看当前集群成员信息</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ ETCDCTL_API<span style="color:#f92672">=</span><span style="color:#ae81ff">3</span> etcdctl --endpoints<span style="color:#f92672">=</span>https://etcd.cluster.local.lb:2379 --cacert<span style="color:#f92672">=</span>/etc/kubernetes/pki/etcd/ca.crt --cert<span style="color:#f92672">=</span>/etc/kubernetes/pki/etcd/healthcheck-client.crt --key<span style="color:#f92672">=</span>/etc/kubernetes/pki/etcd/healthcheck-client.key member list
+e2ef974167ea1d35, started, master1, https://192.168.110.10:2380, https://192.168.110.10:2379
+1f2e59c3615624b3, started, master2, https://192.168.110.11:2380, https://192.168.110.11:2379
+2430ba10b69efc5a, started, master3, https://192.168.110.12:2380, https://192.168.110.12:2379
+</code></pre></div><p>我们可以看到集群的client和peer地址变为了新的IP，使用etcdctl检测集群是否健康。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ /usr/bin/etcdctl --cert-file /etc/kubernetes/pki/etcd/peer.crt --key-file /etc/kubernetes/pki/etcd/peer.key --ca-file /etc/kubernetes/pki/etcd/ca.crt --endpoints https://etcd.cluster.local.lb:2379 cluster-health
+member e2ef974167ea1d35 is healthy: got healthy result from https://192.168.110.10:2379
+member 1f2e59c3615624b3 is healthy: got healthy result from https://192.168.110.11:2379
+member 2430ba10b69efc5a is healthy: got healthy result from https://192.168.110.12:2379
+</code></pre></div><p>至此整个集群成员IP变更就完成了，并且集群可以正常对外提供服务。</p>
+<h2 id="总结">总结</h2>
+<p>上面介绍了两种不同的方式来进行Etcd集群成员IP变更，在Kubernetes集群中，Etcd是被严重依赖的，因此对于Etcd集群的任何操作，我们都需要小心谨慎，否则可能会导致整个集群的崩溃，从而使得影响面无限扩大，因此建议如非必要，切勿进行上述的第二种方式进行集群成员的变更，因为快照数据一旦损坏，整个集群需要重建，建议采用第一种方式，该方式可以保证在修改的成员出现问题的时候，集群仍然是可用的，从而如果在变更的成员出现问题无法恢复的情况下，集群仍然可以进行节点添加、删除的操作，来保证集群的高可用。</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://pytimer.github.io/tags/etcd">etcd</a></span>
+  				</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2020</span>
+            
+                <span><a href="https://pytimer.github.io/">Pytimer</a></span>
+            
+            
+            <span> <a href="https://pytimer.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">Djordje Atlialp</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+
+
+
+    </body>
+</html>

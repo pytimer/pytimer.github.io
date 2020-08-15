@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Docker Mac on Pytimer Blog</title>
+    <title>docker-mac on Pytimer</title>
     <link>https://pytimer.github.io/tags/docker-mac/</link>
-    <description>Recent content in Docker Mac on Pytimer Blog</description>
+    <description>Recent content in docker-mac on Pytimer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 26 Jun 2019 19:35:13 +0800</lastBuildDate>
@@ -13,10 +13,10 @@
     
     <item>
       <title>Mac安装使用Docker</title>
-      <link>https://pytimer.github.io/2019/06/mac%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8docker/</link>
+      <link>https://pytimer.github.io/post/docker/mac/</link>
       <pubDate>Wed, 26 Jun 2019 19:35:13 +0800</pubDate>
       
-      <guid>https://pytimer.github.io/2019/06/mac%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8docker/</guid>
+      <guid>https://pytimer.github.io/post/docker/mac/</guid>
       <description>Docker是目前最常用的容器引擎，在Mac上安装Docker。
 安装、配置Docker Install Docker Desktop for Mac
 按照官方文档直接下载Docker.img并双击安装即可，安装的过程中，需要输入当前用户的登录密码。

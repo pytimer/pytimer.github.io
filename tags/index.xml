@@ -1,81 +1,27 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on Pytimer Blog</title>
+    <title>Tags on Pytimer</title>
     <link>https://pytimer.github.io/tags/</link>
-    <description>Recent content in Tags on Pytimer Blog</description>
+    <description>Recent content in Tags on Pytimer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 17 Dec 2018 09:51:57 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 20 Jul 2020 09:47:00 +0800</lastBuildDate>
     
 	<atom:link href="https://pytimer.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Admissionwebhook</title>
-      <link>https://pytimer.github.io/tags/admissionwebhook/</link>
-      <pubDate>Mon, 17 Dec 2018 09:51:57 +0800</pubDate>
+      <title>kubectl</title>
+      <link>https://pytimer.github.io/tags/kubectl/</link>
+      <pubDate>Mon, 20 Jul 2020 09:47:00 +0800</pubDate>
       
-      <guid>https://pytimer.github.io/tags/admissionwebhook/</guid>
+      <guid>https://pytimer.github.io/tags/kubectl/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Ask</title>
-      <link>https://pytimer.github.io/tags/ask/</link>
-      <pubDate>Fri, 08 Jun 2018 14:52:20 +0800</pubDate>
-      
-      <guid>https://pytimer.github.io/tags/ask/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Cadvisor</title>
-      <link>https://pytimer.github.io/tags/cadvisor/</link>
-      <pubDate>Sun, 28 Oct 2018 15:40:49 +0800</pubDate>
-      
-      <guid>https://pytimer.github.io/tags/cadvisor/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Cloudnative</title>
-      <link>https://pytimer.github.io/tags/cloudnative/</link>
-      <pubDate>Fri, 01 Jun 2018 14:38:01 +0800</pubDate>
-      
-      <guid>https://pytimer.github.io/tags/cloudnative/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Code</title>
-      <link>https://pytimer.github.io/tags/code/</link>
-      <pubDate>Fri, 25 Oct 2019 10:00:03 +0800</pubDate>
-      
-      <guid>https://pytimer.github.io/tags/code/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Command</title>
-      <link>https://pytimer.github.io/tags/command/</link>
-      <pubDate>Wed, 06 Jun 2018 09:47:21 +0800</pubDate>
-      
-      <guid>https://pytimer.github.io/tags/command/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Coredns</title>
-      <link>https://pytimer.github.io/tags/coredns/</link>
-      <pubDate>Thu, 06 Jun 2019 18:06:42 +0800</pubDate>
-      
-      <guid>https://pytimer.github.io/tags/coredns/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Dashboard</title>
+      <title>dashboard</title>
       <link>https://pytimer.github.io/tags/dashboard/</link>
       <pubDate>Tue, 17 Dec 2019 17:14:45 +0800</pubDate>
       
@@ -84,34 +30,34 @@
     </item>
     
     <item>
-      <title>Debug</title>
-      <link>https://pytimer.github.io/tags/debug/</link>
-      <pubDate>Wed, 06 Jun 2018 10:42:03 +0800</pubDate>
+      <title>kubernetes</title>
+      <link>https://pytimer.github.io/tags/kubernetes/</link>
+      <pubDate>Tue, 17 Dec 2019 17:14:45 +0800</pubDate>
       
-      <guid>https://pytimer.github.io/tags/debug/</guid>
+      <guid>https://pytimer.github.io/tags/kubernetes/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Develop</title>
-      <link>https://pytimer.github.io/tags/develop/</link>
-      <pubDate>Sat, 12 Jan 2019 18:34:29 +0800</pubDate>
+      <title>iptables</title>
+      <link>https://pytimer.github.io/tags/iptables/</link>
+      <pubDate>Wed, 20 Nov 2019 11:08:41 +0800</pubDate>
       
-      <guid>https://pytimer.github.io/tags/develop/</guid>
+      <guid>https://pytimer.github.io/tags/iptables/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Dlv</title>
-      <link>https://pytimer.github.io/tags/dlv/</link>
-      <pubDate>Wed, 06 Jun 2018 10:42:03 +0800</pubDate>
+      <title>code</title>
+      <link>https://pytimer.github.io/tags/code/</link>
+      <pubDate>Fri, 25 Oct 2019 10:00:03 +0800</pubDate>
       
-      <guid>https://pytimer.github.io/tags/dlv/</guid>
+      <guid>https://pytimer.github.io/tags/code/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Docker Mac</title>
+      <title>docker-mac</title>
       <link>https://pytimer.github.io/tags/docker-mac/</link>
       <pubDate>Wed, 26 Jun 2019 19:35:13 +0800</pubDate>
       
@@ -120,16 +66,16 @@
     </item>
     
     <item>
-      <title>Egid</title>
-      <link>https://pytimer.github.io/tags/egid/</link>
-      <pubDate>Tue, 05 Jun 2018 19:44:06 +0800</pubDate>
+      <title>coredns</title>
+      <link>https://pytimer.github.io/tags/coredns/</link>
+      <pubDate>Thu, 06 Jun 2019 18:06:42 +0800</pubDate>
       
-      <guid>https://pytimer.github.io/tags/egid/</guid>
+      <guid>https://pytimer.github.io/tags/coredns/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Etcd</title>
+      <title>etcd</title>
       <link>https://pytimer.github.io/tags/etcd/</link>
       <pubDate>Tue, 28 May 2019 13:35:48 +0800</pubDate>
       
@@ -138,7 +84,178 @@
     </item>
     
     <item>
-      <title>Euid</title>
+      <title>kubelet</title>
+      <link>https://pytimer.github.io/tags/kubelet/</link>
+      <pubDate>Mon, 13 May 2019 15:46:02 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/kubelet/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Interface</title>
+      <link>https://pytimer.github.io/tags/interface/</link>
+      <pubDate>Tue, 30 Apr 2019 16:33:54 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/interface/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gcp</title>
+      <link>https://pytimer.github.io/tags/gcp/</link>
+      <pubDate>Sat, 20 Apr 2019 19:33:35 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/gcp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>mac</title>
+      <link>https://pytimer.github.io/tags/mac/</link>
+      <pubDate>Sat, 12 Jan 2019 18:34:29 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/mac/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>helm</title>
+      <link>https://pytimer.github.io/tags/helm/</link>
+      <pubDate>Tue, 08 Jan 2019 19:21:56 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/helm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>admission webhook</title>
+      <link>https://pytimer.github.io/tags/admission-webhook/</link>
+      <pubDate>Mon, 17 Dec 2018 09:51:57 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/admission-webhook/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kubeadm</title>
+      <link>https://pytimer.github.io/tags/kubeadm/</link>
+      <pubDate>Wed, 05 Dec 2018 11:26:10 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/kubeadm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>cadvisor</title>
+      <link>https://pytimer.github.io/tags/cadvisor/</link>
+      <pubDate>Sun, 28 Oct 2018 15:40:49 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/cadvisor/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CNCF</title>
+      <link>https://pytimer.github.io/tags/cncf/</link>
+      <pubDate>Sun, 28 Oct 2018 15:40:49 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/cncf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>prometheus</title>
+      <link>https://pytimer.github.io/tags/prometheus/</link>
+      <pubDate>Sun, 28 Oct 2018 15:40:49 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/prometheus/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>telegram</title>
+      <link>https://pytimer.github.io/tags/telegram/</link>
+      <pubDate>Fri, 27 Jul 2018 16:21:45 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/telegram/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>ask</title>
+      <link>https://pytimer.github.io/tags/ask/</link>
+      <pubDate>Fri, 08 Jun 2018 14:52:20 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/ask/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>oci</title>
+      <link>https://pytimer.github.io/tags/oci/</link>
+      <pubDate>Thu, 07 Jun 2018 13:53:15 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/oci/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>runc</title>
+      <link>https://pytimer.github.io/tags/runc/</link>
+      <pubDate>Thu, 07 Jun 2018 13:53:15 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/runc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>debug</title>
+      <link>https://pytimer.github.io/tags/debug/</link>
+      <pubDate>Wed, 06 Jun 2018 10:42:03 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/debug/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>dlv</title>
+      <link>https://pytimer.github.io/tags/dlv/</link>
+      <pubDate>Wed, 06 Jun 2018 10:42:03 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/dlv/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>command</title>
+      <link>https://pytimer.github.io/tags/command/</link>
+      <pubDate>Wed, 06 Jun 2018 09:47:21 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/command/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>godoc</title>
+      <link>https://pytimer.github.io/tags/godoc/</link>
+      <pubDate>Wed, 06 Jun 2018 09:47:06 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/godoc/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>egid</title>
+      <link>https://pytimer.github.io/tags/egid/</link>
+      <pubDate>Tue, 05 Jun 2018 19:44:06 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/egid/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>euid</title>
       <link>https://pytimer.github.io/tags/euid/</link>
       <pubDate>Tue, 05 Jun 2018 19:44:06 +0800</pubDate>
       
@@ -147,11 +264,20 @@
     </item>
     
     <item>
-      <title>Gcp</title>
-      <link>https://pytimer.github.io/tags/gcp/</link>
-      <pubDate>Sat, 20 Apr 2019 19:33:35 +0800</pubDate>
+      <title>permission</title>
+      <link>https://pytimer.github.io/tags/permission/</link>
+      <pubDate>Tue, 05 Jun 2018 19:44:06 +0800</pubDate>
       
-      <guid>https://pytimer.github.io/tags/gcp/</guid>
+      <guid>https://pytimer.github.io/tags/permission/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>cloudNative</title>
+      <link>https://pytimer.github.io/tags/cloudnative/</link>
+      <pubDate>Fri, 01 Jun 2018 14:38:01 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/tags/cloudnative/</guid>
       <description></description>
     </item>
     
@@ -170,141 +296,6 @@
       <pubDate>Thu, 24 May 2018 10:48:15 +0800</pubDate>
       
       <guid>https://pytimer.github.io/tags/git/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Godoc</title>
-      <link>https://pytimer.github.io/tags/godoc/</link>
-      <pubDate>Wed, 06 Jun 2018 09:47:06 +0800</pubDate>
-      
-      <guid>https://pytimer.github.io/tags/godoc/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Helm</title>
-      <link>https://pytimer.github.io/tags/helm/</link>
-      <pubDate>Tue, 08 Jan 2019 19:21:56 +0800</pubDate>
-      
-      <guid>https://pytimer.github.io/tags/helm/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Interface</title>
-      <link>https://pytimer.github.io/tags/interface/</link>
-      <pubDate>Tue, 30 Apr 2019 16:33:54 +0800</pubDate>
-      
-      <guid>https://pytimer.github.io/tags/interface/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Iptables</title>
-      <link>https://pytimer.github.io/tags/iptables/</link>
-      <pubDate>Wed, 20 Nov 2019 11:08:41 +0800</pubDate>
-      
-      <guid>https://pytimer.github.io/tags/iptables/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Kubeadm</title>
-      <link>https://pytimer.github.io/tags/kubeadm/</link>
-      <pubDate>Wed, 05 Dec 2018 11:26:10 +0800</pubDate>
-      
-      <guid>https://pytimer.github.io/tags/kubeadm/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Kubectl</title>
-      <link>https://pytimer.github.io/tags/kubectl/</link>
-      <pubDate>Mon, 20 Jul 2020 09:47:00 +0800</pubDate>
-      
-      <guid>https://pytimer.github.io/tags/kubectl/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Kubelet</title>
-      <link>https://pytimer.github.io/tags/kubelet/</link>
-      <pubDate>Mon, 13 May 2019 15:46:02 +0800</pubDate>
-      
-      <guid>https://pytimer.github.io/tags/kubelet/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Kubernetes</title>
-      <link>https://pytimer.github.io/tags/kubernetes/</link>
-      <pubDate>Tue, 17 Dec 2019 17:14:45 +0800</pubDate>
-      
-      <guid>https://pytimer.github.io/tags/kubernetes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Oci</title>
-      <link>https://pytimer.github.io/tags/oci/</link>
-      <pubDate>Thu, 07 Jun 2018 13:53:15 +0800</pubDate>
-      
-      <guid>https://pytimer.github.io/tags/oci/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Permission</title>
-      <link>https://pytimer.github.io/tags/permission/</link>
-      <pubDate>Tue, 05 Jun 2018 19:44:06 +0800</pubDate>
-      
-      <guid>https://pytimer.github.io/tags/permission/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Prometheus</title>
-      <link>https://pytimer.github.io/tags/prometheus/</link>
-      <pubDate>Sun, 28 Oct 2018 15:40:49 +0800</pubDate>
-      
-      <guid>https://pytimer.github.io/tags/prometheus/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Reserve Resources</title>
-      <link>https://pytimer.github.io/tags/reserve-resources/</link>
-      <pubDate>Mon, 13 May 2019 15:46:02 +0800</pubDate>
-      
-      <guid>https://pytimer.github.io/tags/reserve-resources/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Runc</title>
-      <link>https://pytimer.github.io/tags/runc/</link>
-      <pubDate>Thu, 07 Jun 2018 13:53:15 +0800</pubDate>
-      
-      <guid>https://pytimer.github.io/tags/runc/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Tdlib</title>
-      <link>https://pytimer.github.io/tags/tdlib/</link>
-      <pubDate>Fri, 27 Jul 2018 16:21:45 +0800</pubDate>
-      
-      <guid>https://pytimer.github.io/tags/tdlib/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Telegram</title>
-      <link>https://pytimer.github.io/tags/telegram/</link>
-      <pubDate>Fri, 27 Jul 2018 16:21:45 +0800</pubDate>
-      
-      <guid>https://pytimer.github.io/tags/telegram/</guid>
       <description></description>
     </item>
     

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Software Develper, **Like Go and Kubernetes** Golang developer China Pytimer https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/gopher.png ">
+<meta name="description" content="平时都在Linux上搭建并操作Kubernetes集群，但是有时候会使用Windows来进行开发或者日常工作，这个时候如果在登录某台Linux主机，通过kubectl命令行操作集群就显得不是很方便，Kubernetes本身也是提供了Windows的命令行，因此在Windows上安装并配置kubectl，用于操作远端的Kubernetes集群。下面就是相关步骤。
+下载Windows版本kubectl 可以按照官方文档Install kubectl on Windows来下载Windows版本的kubectl命令行。
+因集群为v1.17.2版本，因此这里直接下载指定版本的kubectl.exe。
+curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.17.2/bin/windows/amd64/kubectl.exe
+下载好后，配置Windows的PATH，在该环境变量值后增加F:\k8s\bin(该路径为kubectl.exe的目录)。
+配置好后，打开Git Bash或其他的工具，输入kubectl.exe version --client，可以看到对应的kubectl版本。到这里kubectl就安装好了。下面需要配置kubectl来连接远端Kubernetes集群。
+$ kubectl.exe version --client Client Version: version.Info{Major:&amp;#34;1&amp;#34;, Minor:&amp;#34;17&amp;#34;, GitVersion:&amp;#34;v1.17.2&amp;#34;, GitCommit:&amp;#34;59603c6e503c87169aea6106f57b9f242f64df89&amp;#34;, GitTreeState:&amp;#34;clean&amp;#34;, BuildDate:&amp;#34;2020-01-18T23:30:10Z&amp;#34;, GoVersion:&amp;#34;go1.13.5&amp;#34;, Compiler:&amp;#34;gc&amp;#34;, Platform:&amp;#34;windows/amd64&amp;#34;} 配置kubectl kubectl需要使用kubeconfig来连接远端集群，通常有三种方式来指定kubeconfig。
+ ~/.kube/config，默认kubectl会使用该目录。 KUBECONFIG，使用该环境变量的文件。 --kubeconfig，每次执行命令指定kubeconfig文件。  这里采用第2种方式。因此在Windows上配置一个环境变量KUBECONFIG。设置KUBECONFIG=F:\k8s\bin\kubeconfig。
+重新打开Git Bash，执行kubectl.exe get nodes，可以看到连接到了远端的Kubernetes集群。
+$ kubectl.exe get nodes NAME STATUS ROLES AGE VERSION meta-k8s-234 Ready master 29m v1.17.2 meta-k8s-235 Ready &amp;lt;none&amp;gt; 28m v1.17.2 meta-k8s-236 Ready &amp;lt;none&amp;gt; 28m v1.17.2 meta-k8s-237 Ready &amp;lt;none&amp;gt; 28m v1." />
+<meta name="keywords" content=", kubectl" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://pytimer.github.io/post/cncf/kubernetes/kubectl/" />
+
+
+    <title>
+        
+            在Windows上使用Kubectl连接集群 :: Pytimer  — Kubernetes爱好者
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.d1ea4af8fd04fb24a4f8b882ea54bd04eb245427ca4baf527c81a5dab071410b.css">
+
+
+
+
+
+
+<meta itemprop="name" content="在Windows上使用Kubectl连接集群">
+<meta itemprop="description" content="平时都在Linux上搭建并操作Kubernetes集群，但是有时候会使用Windows来进行开发或者日常工作，这个时候如果在登录某台Linux主机，通过kubectl命令行操作集群就显得不是很方便，Kubernetes本身也是提供了Windows的命令行，因此在Windows上安装并配置kubectl，用于操作远端的Kubernetes集群。下面就是相关步骤。
+下载Windows版本kubectl 可以按照官方文档Install kubectl on Windows来下载Windows版本的kubectl命令行。
+因集群为v1.17.2版本，因此这里直接下载指定版本的kubectl.exe。
+curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.17.2/bin/windows/amd64/kubectl.exe
+下载好后，配置Windows的PATH，在该环境变量值后增加F:\k8s\bin(该路径为kubectl.exe的目录)。
+配置好后，打开Git Bash或其他的工具，输入kubectl.exe version --client，可以看到对应的kubectl版本。到这里kubectl就安装好了。下面需要配置kubectl来连接远端Kubernetes集群。
+$ kubectl.exe version --client Client Version: version.Info{Major:&#34;1&#34;, Minor:&#34;17&#34;, GitVersion:&#34;v1.17.2&#34;, GitCommit:&#34;59603c6e503c87169aea6106f57b9f242f64df89&#34;, GitTreeState:&#34;clean&#34;, BuildDate:&#34;2020-01-18T23:30:10Z&#34;, GoVersion:&#34;go1.13.5&#34;, Compiler:&#34;gc&#34;, Platform:&#34;windows/amd64&#34;} 配置kubectl kubectl需要使用kubeconfig来连接远端集群，通常有三种方式来指定kubeconfig。
+ ~/.kube/config，默认kubectl会使用该目录。 KUBECONFIG，使用该环境变量的文件。 --kubeconfig，每次执行命令指定kubeconfig文件。  这里采用第2种方式。因此在Windows上配置一个环境变量KUBECONFIG。设置KUBECONFIG=F:\k8s\bin\kubeconfig。
+重新打开Git Bash，执行kubectl.exe get nodes，可以看到连接到了远端的Kubernetes集群。
+$ kubectl.exe get nodes NAME STATUS ROLES AGE VERSION meta-k8s-234 Ready master 29m v1.17.2 meta-k8s-235 Ready &lt;none&gt; 28m v1.17.2 meta-k8s-236 Ready &lt;none&gt; 28m v1.17.2 meta-k8s-237 Ready &lt;none&gt; 28m v1.">
+<meta itemprop="datePublished" content="2020-07-20T09:47:00+08:00" />
+<meta itemprop="dateModified" content="2020-07-20T09:47:00+08:00" />
+<meta itemprop="wordCount" content="70">
+<meta itemprop="image" content="https://pytimer.github.io/"/>
+
+
+
+<meta itemprop="keywords" content="kubectl," />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://pytimer.github.io/"/>
+
+<meta name="twitter:title" content="在Windows上使用Kubectl连接集群"/>
+<meta name="twitter:description" content="平时都在Linux上搭建并操作Kubernetes集群，但是有时候会使用Windows来进行开发或者日常工作，这个时候如果在登录某台Linux主机，通过kubectl命令行操作集群就显得不是很方便，Kubernetes本身也是提供了Windows的命令行，因此在Windows上安装并配置kubectl，用于操作远端的Kubernetes集群。下面就是相关步骤。
+下载Windows版本kubectl 可以按照官方文档Install kubectl on Windows来下载Windows版本的kubectl命令行。
+因集群为v1.17.2版本，因此这里直接下载指定版本的kubectl.exe。
+curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.17.2/bin/windows/amd64/kubectl.exe
+下载好后，配置Windows的PATH，在该环境变量值后增加F:\k8s\bin(该路径为kubectl.exe的目录)。
+配置好后，打开Git Bash或其他的工具，输入kubectl.exe version --client，可以看到对应的kubectl版本。到这里kubectl就安装好了。下面需要配置kubectl来连接远端Kubernetes集群。
+$ kubectl.exe version --client Client Version: version.Info{Major:&#34;1&#34;, Minor:&#34;17&#34;, GitVersion:&#34;v1.17.2&#34;, GitCommit:&#34;59603c6e503c87169aea6106f57b9f242f64df89&#34;, GitTreeState:&#34;clean&#34;, BuildDate:&#34;2020-01-18T23:30:10Z&#34;, GoVersion:&#34;go1.13.5&#34;, Compiler:&#34;gc&#34;, Platform:&#34;windows/amd64&#34;} 配置kubectl kubectl需要使用kubeconfig来连接远端集群，通常有三种方式来指定kubeconfig。
+ ~/.kube/config，默认kubectl会使用该目录。 KUBECONFIG，使用该环境变量的文件。 --kubeconfig，每次执行命令指定kubeconfig文件。  这里采用第2种方式。因此在Windows上配置一个环境变量KUBECONFIG。设置KUBECONFIG=F:\k8s\bin\kubeconfig。
+重新打开Git Bash，执行kubectl.exe get nodes，可以看到连接到了远端的Kubernetes集群。
+$ kubectl.exe get nodes NAME STATUS ROLES AGE VERSION meta-k8s-234 Ready master 29m v1.17.2 meta-k8s-235 Ready &lt;none&gt; 28m v1.17.2 meta-k8s-236 Ready &lt;none&gt; 28m v1.17.2 meta-k8s-237 Ready &lt;none&gt; 28m v1."/>
+
+
+
+
+
+    <meta property="article:section" content="CNCF" />
+
+    <meta property="article:section" content="Kubernetes" />
+
+
+
+    <meta property="article:published_time" content="2020-07-20 09:47:00 &#43;0800 CST" />
+
+
+
+
+
+
+
+
+    </head>
+
+    <body class="">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://pytimer.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ kubectl</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://pytimer.github.io/post">博客</a></li><li><a href="https://pytimer.github.io/categories">类别</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://pytimer.github.io/post/cncf/kubernetes/kubectl/">在Windows上使用Kubectl连接集群</a></h2>
+
+            
+
+            <div class="post-content">
+                <p>平时都在Linux上搭建并操作Kubernetes集群，但是有时候会使用Windows来进行开发或者日常工作，这个时候如果在登录某台Linux主机，通过<code>kubectl</code>命令行操作集群就显得不是很方便，Kubernetes本身也是提供了Windows的命令行，因此在Windows上安装并配置kubectl，用于操作远端的Kubernetes集群。下面就是相关步骤。</p>
+<h2 id="下载windows版本kubectl">下载Windows版本kubectl</h2>
+<p>可以按照官方文档<a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/#install-kubectl-on-windows">Install kubectl on Windows</a>来下载Windows版本的kubectl命令行。</p>
+<p>因集群为<code>v1.17.2</code>版本，因此这里直接下载指定版本的kubectl.exe。</p>
+<p><code>curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.17.2/bin/windows/amd64/kubectl.exe</code></p>
+<p>下载好后，配置Windows的<code>PATH</code>，在该环境变量值后增加<code>F:\k8s\bin</code>(该路径为kubectl.exe的目录)。</p>
+<p>配置好后，打开<code>Git Bash</code>或其他的工具，输入<code>kubectl.exe version --client</code>，可以看到对应的kubectl版本。到这里kubectl就安装好了。下面需要配置kubectl来连接远端Kubernetes集群。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ kubectl.exe version --client
+Client Version: version.Info<span style="color:#f92672">{</span>Major:<span style="color:#e6db74">&#34;1&#34;</span>, Minor:<span style="color:#e6db74">&#34;17&#34;</span>, GitVersion:<span style="color:#e6db74">&#34;v1.17.2&#34;</span>, GitCommit:<span style="color:#e6db74">&#34;59603c6e503c87169aea6106f57b9f242f64df89&#34;</span>, GitTreeState:<span style="color:#e6db74">&#34;clean&#34;</span>, BuildDate:<span style="color:#e6db74">&#34;2020-01-18T23:30:10Z&#34;</span>, GoVersion:<span style="color:#e6db74">&#34;go1.13.5&#34;</span>, Compiler:<span style="color:#e6db74">&#34;gc&#34;</span>, Platform:<span style="color:#e6db74">&#34;windows/amd64&#34;</span><span style="color:#f92672">}</span>
+</code></pre></div><h2 id="配置kubectl">配置kubectl</h2>
+<p>kubectl需要使用kubeconfig来连接远端集群，通常有三种方式来指定kubeconfig。</p>
+<ol>
+<li><code>~/.kube/config</code>，默认kubectl会使用该目录。</li>
+<li><code>KUBECONFIG</code>，使用该环境变量的文件。</li>
+<li><code>--kubeconfig</code>，每次执行命令指定kubeconfig文件。</li>
+</ol>
+<p>这里采用第2种方式。因此在Windows上配置一个环境变量<code>KUBECONFIG</code>。设置<code>KUBECONFIG=F:\k8s\bin\kubeconfig</code>。</p>
+<p>重新打开<code>Git Bash</code>，执行<code>kubectl.exe get nodes</code>，可以看到连接到了远端的Kubernetes集群。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ kubectl.exe get nodes
+NAME           STATUS   ROLES    AGE   VERSION
+meta-k8s-234   Ready    master   29m   v1.17.2
+meta-k8s-235   Ready    &lt;none&gt;   28m   v1.17.2
+meta-k8s-236   Ready    &lt;none&gt;   28m   v1.17.2
+meta-k8s-237   Ready    &lt;none&gt;   28m   v1.17.2
+</code></pre></div><p>至此就可以在Windows上操作远端Kubernetes集群，不用在Windows和Linux之间进行切换。</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://pytimer.github.io/tags/kubectl">kubectl</a></span>
+  				</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2020</span>
+            
+                <span><a href="https://pytimer.github.io/">Pytimer</a></span>
+            
+            
+            <span> <a href="https://pytimer.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">Djordje Atlialp</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+
+
+
+    </body>
+</html>

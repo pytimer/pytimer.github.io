@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Kubernetes on Pytimer Blog</title>
+    <title>kubernetes on Pytimer</title>
     <link>https://pytimer.github.io/tags/kubernetes/</link>
-    <description>Recent content in Kubernetes on Pytimer Blog</description>
+    <description>Recent content in kubernetes on Pytimer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 17 Dec 2019 17:14:45 +0800</lastBuildDate>
@@ -13,53 +13,67 @@
     
     <item>
       <title>Kubernetes Dashboard Installation</title>
-      <link>https://pytimer.github.io/2019/12/kubernetes-dashboard-installation/</link>
+      <link>https://pytimer.github.io/post/cncf/kubernetes/kubernetes-dashboard-installation/</link>
       <pubDate>Tue, 17 Dec 2019 17:14:45 +0800</pubDate>
       
-      <guid>https://pytimer.github.io/2019/12/kubernetes-dashboard-installation/</guid>
+      <guid>https://pytimer.github.io/post/cncf/kubernetes/kubernetes-dashboard-installation/</guid>
       <description>Dashboard为Kubernetes官方的一个webui，集合了所有命令行可以操作的资源，可以根据浏览器的语言自动进行语言的识别。通过webui，我们可以更直观的看到Kubernetes集群的运行情况。不过在安装Dashboard的过程中有一些坑，因此在这里整理成文档以便在今后方便查阅。
 安装 Dashboard的安装相对还是简单的，参考官方的github就可以。
  kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml
  不过在这中间有一个坑，那就是Dashboard的webui默认是自动生成证书的，由于时间和名称的问题，会导致Chrome和IE等浏览器无法打开界面，这里需要我们自己制作证书处理。
-开启NodePort kind: Service apiVersion: v1 metadata: labels: k8s-app: kubernetes-dashboard name: kubernetes-dashboard namespace: kube-system spec: ports: - port: 443 targetPort: 8443 nodePort: 30003 selector: k8s-app: kubernetes-dashboard type: NodePort  使用kubectl apply的命令将该service应用在Kubernetes集群中，可以看到该service已经生效。
-[root@k8s ~]# kubectl get svc -n kube-system kubernetes-dashboard NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE kubernetes-dashboard NodePort 10.106.67.12 &amp;lt;none&amp;gt; 443:30003/TCP 40m  通过浏览器访问Dashboard，我们发现无法访问界面，会有类似x.x.x.x通常会使用加密技术来保护您的信息，Google Chrome此次尝试连接到x.x.x.x时，此网站发回了异常的错误凭据。...的字样，更换IE、360浏览器均无法访问，在机器上使用curl -k https://x.x.x.x:30003/命令测试，是可以通的。
+开启NodePort kind: Service apiVersion: v1 metadata: labels: k8s-app: kubernetes-dashboard name: kubernetes-dashboard namespace: kube-system spec: ports: - port: 443 targetPort: 8443 nodePort: 30003 selector: k8s-app: kubernetes-dashboard type: NodePort 使用kubectl apply的命令将该service应用在Kubernetes集群中，可以看到该service已经生效。
+[root@k8s ~]# kubectl get svc -n kube-system kubernetes-dashboard NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE kubernetes-dashboard NodePort 10.106.67.12 &amp;lt;none&amp;gt; 443:30003/TCP 40m 通过浏览器访问Dashboard，我们发现无法访问界面，会有类似x.x.x.x通常会使用加密技术来保护您的信息，Google Chrome此次尝试连接到x.x.x.x时，此网站发回了异常的错误凭据。...的字样，更换IE、360浏览器均无法访问，在机器上使用curl -k https://x.x.x.x:30003/命令测试，是可以通的。
 出现以上现象是因为Dashboard默认为webui生成的证书时间是无效的，时间是过期的，因此需要解决下该问题，以通过浏览器来访问。
 解决证书过期问题 [root@k8s ~]# openssl genrsa -out dashboard.</description>
     </item>
     
     <item>
       <title>[FAQ] 修改configmap后，使用subPath的Pod异常</title>
-      <link>https://pytimer.github.io/2019/09/faq-%E4%BF%AE%E6%94%B9configmap%E5%90%8E%E4%BD%BF%E7%94%A8subpath%E7%9A%84pod%E5%BC%82%E5%B8%B8/</link>
+      <link>https://pytimer.github.io/post/cncf/kubernetes/pod-crash-with-configmap/</link>
       <pubDate>Wed, 11 Sep 2019 17:02:11 +0800</pubDate>
       
-      <guid>https://pytimer.github.io/2019/09/faq-%E4%BF%AE%E6%94%B9configmap%E5%90%8E%E4%BD%BF%E7%94%A8subpath%E7%9A%84pod%E5%BC%82%E5%B8%B8/</guid>
-      <description>Pod状态异常，挂载configmap显示no such file or directory $ kubectl get pod -o wide test-7695dc7fb9-rjxlq 0/1 CrashLoopBackOff 13 17h 192.168.100.20 node1 &amp;lt;none&amp;gt;  CrashLoopBackOff状态需要查看pod的日志，通过kubectl logs可以查看到具体的错误信息。
-$ kubectl logs -n test-7695dc7fb9-rjxlq container_linux.go:345: starting container process caused &amp;quot;process_linux.go:430: container init caused \&amp;quot;rootfs_linux.go:58: mounting \\\&amp;quot;/var/lib/kubelet/pods/ed1b799a-d3a5-11e9-add6-0894ef725f6e/volume-subpaths/test-cm/app-conf/1\\\&amp;quot; to rootfs \\\&amp;quot;/var/lib/docker/overlay/23a69e27f79f84a14b50fbee1e4840836487f8c740423291c2f785da1e7a6820/merged\\\&amp;quot; at \\\&amp;quot;/var/lib/docker/overlay/23a69e27f79f84a14b50fbee1e4840836487f8c740423291c2f785da1e7a6820/merged/etc/app/app.conf\\\&amp;quot; caused \\\&amp;quot;no such file or directory\\\&amp;quot;\&amp;quot;&amp;quot;  查看日志发现是挂载的configmap有问题。
+      <guid>https://pytimer.github.io/post/cncf/kubernetes/pod-crash-with-configmap/</guid>
+      <description>Pod状态异常，挂载configmap显示no such file or directory $ kubectl get pod -o wide test-7695dc7fb9-rjxlq 0/1 CrashLoopBackOff 13 17h 192.168.100.20 node1 &amp;lt;none&amp;gt; CrashLoopBackOff状态需要查看pod的日志，通过kubectl logs可以查看到具体的错误信息。
+$ kubectl logs -n test-7695dc7fb9-rjxlq container_linux.go:345: starting container process caused &amp;#34;process_linux.go:430: container init caused \&amp;#34;rootfs_linux.go:58: mounting \\\&amp;#34;/var/lib/kubelet/pods/ed1b799a-d3a5-11e9-add6-0894ef725f6e/volume-subpaths/test-cm/app-conf/1\\\&amp;#34; to rootfs \\\&amp;#34;/var/lib/docker/overlay/23a69e27f79f84a14b50fbee1e4840836487f8c740423291c2f785da1e7a6820/merged\\\&amp;#34; at \\\&amp;#34;/var/lib/docker/overlay/23a69e27f79f84a14b50fbee1e4840836487f8c740423291c2f785da1e7a6820/merged/etc/app/app.conf\\\&amp;#34; caused \\\&amp;#34;no such file or directory\\\&amp;#34;\&amp;#34;&amp;#34; 查看日志发现是挂载的configmap有问题。
 猜测原因：该pod采用subPath的方式挂载configmap，怀疑是configmap修改后，未重建pod导致，因此会出现上述no such file or directory的错误。
 排查问题 查看异常pod的uid，通过下述的命令我们可以看到当前pod在2019-09-10T08:35:21Z的时间创建，并且uid为ed1b799a-d3a5-11e9-add6-0894ef725f6e。
-$ kubectl get pod test-7695dc7fb9-rjxlq -o json | jq .metadata { &amp;quot;creationTimestamp&amp;quot;: &amp;quot;2019-09-10T08:35:21Z&amp;quot;, &amp;quot;generateName&amp;quot;: &amp;quot;test-7695dc7fb9-&amp;quot;, &amp;quot;labels&amp;quot;: { &amp;quot;application&amp;quot;: &amp;quot;test&amp;quot;, &amp;quot;pod-template-hash&amp;quot;: &amp;quot;3251873965&amp;quot; }, &amp;quot;name&amp;quot;: &amp;quot;test-7695dc7fb9-rjxlq&amp;quot;, &amp;quot;namespace&amp;quot;: &amp;quot;openstack&amp;quot;, &amp;quot;ownerReferences&amp;quot;: [ { &amp;quot;apiVersion&amp;quot;: &amp;quot;apps/v1&amp;quot;, &amp;quot;blockOwnerDeletion&amp;quot;: true, &amp;quot;controller&amp;quot;: true, &amp;quot;kind&amp;quot;: &amp;quot;ReplicaSet&amp;quot;, &amp;quot;name&amp;quot;: &amp;quot;test-7695dc7fb9&amp;quot;, &amp;quot;uid&amp;quot;: &amp;quot;ece58508-d3a5-11e9-add6-0894ef725f6e&amp;quot; } ], &amp;quot;resourceVersion&amp;quot;: &amp;quot;1762165&amp;quot;, &amp;quot;selfLink&amp;quot;: &amp;quot;/api/v1/namespaces/default/pods/test-7695dc7fb9-rjxlq&amp;quot;, &amp;quot;uid&amp;quot;: &amp;quot;ed1b799a-d3a5-11e9-add6-0894ef725f6e&amp;quot; }  接下来就需要登录到pod所在的节点进行查看。</description>
+$ kubectl get pod test-7695dc7fb9-rjxlq -o json | jq .metadata { &amp;#34;creationTimestamp&amp;#34;: &amp;#34;2019-09-10T08:35:21Z&amp;#34;, &amp;#34;generateName&amp;#34;: &amp;#34;test-7695dc7fb9-&amp;#34;, &amp;#34;labels&amp;#34;: { &amp;#34;application&amp;#34;: &amp;#34;test&amp;#34;, &amp;#34;pod-template-hash&amp;#34;: &amp;#34;3251873965&amp;#34; }, &amp;#34;name&amp;#34;: &amp;#34;test-7695dc7fb9-rjxlq&amp;#34;, &amp;#34;namespace&amp;#34;: &amp;#34;openstack&amp;#34;, &amp;#34;ownerReferences&amp;#34;: [ { &amp;#34;apiVersion&amp;#34;: &amp;#34;apps/v1&amp;#34;, &amp;#34;blockOwnerDeletion&amp;#34;: true, &amp;#34;controller&amp;#34;: true, &amp;#34;kind&amp;#34;: &amp;#34;ReplicaSet&amp;#34;, &amp;#34;name&amp;#34;: &amp;#34;test-7695dc7fb9&amp;#34;, &amp;#34;uid&amp;#34;: &amp;#34;ece58508-d3a5-11e9-add6-0894ef725f6e&amp;#34; } ], &amp;#34;resourceVersion&amp;#34;: &amp;#34;1762165&amp;#34;, &amp;#34;selfLink&amp;#34;: &amp;#34;/api/v1/namespaces/default/pods/test-7695dc7fb9-rjxlq&amp;#34;, &amp;#34;uid&amp;#34;: &amp;#34;ed1b799a-d3a5-11e9-add6-0894ef725f6e&amp;#34; } 接下来就需要登录到pod所在的节点进行查看。</description>
     </item>
     
     <item>
       <title>Promethues Operator</title>
-      <link>https://pytimer.github.io/2018/10/promethues-operator/</link>
+      <link>https://pytimer.github.io/post/cncf/prometheus/promethues-operator/</link>
       <pubDate>Sun, 28 Oct 2018 15:40:49 +0800</pubDate>
       
-      <guid>https://pytimer.github.io/2018/10/promethues-operator/</guid>
+      <guid>https://pytimer.github.io/post/cncf/prometheus/promethues-operator/</guid>
       <description>pormetheus-operator禁用cadvisor-port的方式 目前kubelet已经默认禁用--cadvisor-port的配置，而且后续该配置也会完全移除，因此需要改变prometheus-operator的serviceMonitor，修改的方式如下：
 原有的配置方式：
-- port: http-metrics interval: 15s - port: cadvisor interval: 30s honorLabels: true  修改后的配置方式：
-- port: http-metrics interval: 15s - port: http-metrics path: /metrics/cadvisor interval: 30s honorLabels: true  参考的网址 https://github.com/coreos/prometheus-operator/issues/1400
+- port: http-metrics interval: 15s - port: cadvisor interval: 30s honorLabels: true 修改后的配置方式：
+- port: http-metrics interval: 15s - port: http-metrics path: /metrics/cadvisor interval: 30s honorLabels: true 参考的网址 https://github.com/coreos/prometheus-operator/issues/1400
+https://github.com/coreos/prometheus-operator/issues/1741
+https://github.com/coreos/prometheus-operator/issues/633</description>
+    </item>
+    
+    <item>
+      <title>Promethues Operator</title>
+      <link>https://pytimer.github.io/post/prometheus/promethues-operator/</link>
+      <pubDate>Sun, 28 Oct 2018 15:40:49 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/post/prometheus/promethues-operator/</guid>
+      <description>pormetheus-operator禁用cadvisor-port的方式 目前kubelet已经默认禁用--cadvisor-port的配置，而且后续该配置也会完全移除，因此需要改变prometheus-operator的serviceMonitor，修改的方式如下：
+原有的配置方式：
+- port: http-metrics interval: 15s - port: cadvisor interval: 30s honorLabels: true 修改后的配置方式：
+- port: http-metrics interval: 15s - port: http-metrics path: /metrics/cadvisor interval: 30s honorLabels: true 参考的网址 https://github.com/coreos/prometheus-operator/issues/1400
 https://github.com/coreos/prometheus-operator/issues/1741
 https://github.com/coreos/prometheus-operator/issues/633</description>
     </item>
     
     <item>
       <title>Cloud Native</title>
-      <link>https://pytimer.github.io/2018/06/cloud-native/</link>
+      <link>https://pytimer.github.io/post/cncf/cloud-native/</link>
       <pubDate>Fri, 01 Jun 2018 14:38:01 +0800</pubDate>
       
-      <guid>https://pytimer.github.io/2018/06/cloud-native/</guid>
+      <guid>https://pytimer.github.io/post/cncf/cloud-native/</guid>
       <description>参考
 Kubernetes与云原生2017年年终总结与2018年展望</description>
     </item>

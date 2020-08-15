@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Runtime on Pytimer Blog</title>
+    <title>Runtime on Pytimer</title>
     <link>https://pytimer.github.io/categories/runtime/</link>
-    <description>Recent content in Runtime on Pytimer Blog</description>
+    <description>Recent content in Runtime on Pytimer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 07 Jun 2018 13:53:15 +0800</lastBuildDate>
@@ -13,23 +13,23 @@
     
     <item>
       <title>runc spec源码解读</title>
-      <link>https://pytimer.github.io/2018/06/runc-spec%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/</link>
+      <link>https://pytimer.github.io/post/runc/runc-spec/</link>
       <pubDate>Thu, 07 Jun 2018 13:53:15 +0800</pubDate>
       
-      <guid>https://pytimer.github.io/2018/06/runc-spec%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB/</guid>
+      <guid>https://pytimer.github.io/post/runc/runc-spec/</guid>
       <description>runc spec 命令的使用说明
 该命令，主要是用来生成容器启动的config.json文件，所有的容器config.json初始相同，根据--rootless再覆盖配置，重新生成config.json
 --bundle 工作目录
 --rootless 非root用户权限的容器
-$ runc spec --help NAME: runc spec - create a new specification file USAGE: runc spec [command options] [arguments...] DESCRIPTION: The spec command creates the new specification file named &amp;quot;config.json&amp;quot; for the bundle. The spec generated is just a starter file. Editing of the spec is required to achieve desired results. For example, the newly generated spec includes an args parameter that is initially set to call the &amp;quot;sh&amp;quot; command when the container is started.</description>
+$ runc spec --help NAME: runc spec - create a new specification file USAGE: runc spec [command options] [arguments...] DESCRIPTION: The spec command creates the new specification file named &amp;#34;config.json&amp;#34; for the bundle. The spec generated is just a starter file. Editing of the spec is required to achieve desired results. For example, the newly generated spec includes an args parameter that is initially set to call the &amp;#34;sh&amp;#34; command when the container is started.</description>
     </item>
     
     <item>
       <title>runc解读(二)</title>
-      <link>https://pytimer.github.io/2018/06/runc%E8%A7%A3%E8%AF%BB%E4%BA%8C/</link>
+      <link>https://pytimer.github.io/post/runc/runc-run/</link>
       <pubDate>Wed, 06 Jun 2018 14:34:02 +0800</pubDate>
       
-      <guid>https://pytimer.github.io/2018/06/runc%E8%A7%A3%E8%AF%BB%E4%BA%8C/</guid>
+      <guid>https://pytimer.github.io/post/runc/runc-run/</guid>
       <description>runc run命令源码流程解读
 有些地方不是很明白，会继续研究，先初步掌握整体流程
 简单记录，后续整理
@@ -39,16 +39,16 @@ b /root/workspace/src/github.com/opencontainers/runc/utils_linux.go:288
 2.读取config.json配置文件 生成specs.Spec
 3.校验process的参数是否正确validateProcessSpec
 4.返回specs.Spec
-启动容器，需要specs.Spec和CT_ACT_RUN这个参数(查看这个参数在linux的含义) func startContainer(context *cli.Context, spec *specs.Spec, action CtAct, criuOpts *libcontainer.CriuOpts) (int, error) { id := context.Args().First() if id == &amp;quot;&amp;quot; { return -1, errEmptyID } notifySocket := newNotifySocket(context, os.Getenv(&amp;quot;NOTIFY_SOCKET&amp;quot;), id) if notifySocket != nil { notifySocket.setupSpec(context, spec) } container, err := createContainer(context, id, spec) if err != nil { return -1, err } if notifySocket !</description>
+启动容器，需要specs.Spec和CT_ACT_RUN这个参数(查看这个参数在linux的含义) func startContainer(context *cli.Context, spec *specs.Spec, action CtAct, criuOpts *libcontainer.CriuOpts) (int, error) { id := context.Args().First() if id == &amp;#34;&amp;#34; { return -1, errEmptyID } notifySocket := newNotifySocket(context, os.Getenv(&amp;#34;NOTIFY_SOCKET&amp;#34;), id) if notifySocket != nil { notifySocket.setupSpec(context, spec) } container, err := createContainer(context, id, spec) if err != nil { return -1, err } if notifySocket !</description>
     </item>
     
     <item>
       <title>runc解读(一)</title>
-      <link>https://pytimer.github.io/2018/06/runc%E8%A7%A3%E8%AF%BB%E4%B8%80/</link>
+      <link>https://pytimer.github.io/post/runc/runc-cmd/</link>
       <pubDate>Wed, 06 Jun 2018 13:46:13 +0800</pubDate>
       
-      <guid>https://pytimer.github.io/2018/06/runc%E8%A7%A3%E8%AF%BB%E4%B8%80/</guid>
-      <description> runc 源码解读
+      <guid>https://pytimer.github.io/post/runc/runc-cmd/</guid>
+      <description>runc 源码解读
 runc项目只是阅读源码有些地方不是很好理解，因此采用Delve一边调试一边查看源码的方式。
 执行的命令示例：
 dlv debug -- run --bundle /root/mycontainer/basic testcontainer

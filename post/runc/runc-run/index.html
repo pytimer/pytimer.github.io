@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Software Develper, **Like Go and Kubernetes** Golang developer China Pytimer https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/gopher.png ">
+<meta name="description" content="runc run命令源码流程解读
+有些地方不是很明白，会继续研究，先初步掌握整体流程
+简单记录，后续整理
+断点设置 b /root/workspace/src/github.com/opencontainers/runc/utils_linux.go:248
+b /root/workspace/src/github.com/opencontainers/runc/utils_linux.go:288
+调用run 命令，会先检查参数是否正确，然后设置pid file 根据命令行参数初始化容器配置 1.更改工作路径到--bundle参数所指定的路径下
+2.读取config.json配置文件 生成specs.Spec
+3.校验process的参数是否正确validateProcessSpec
+4.返回specs.Spec
+启动容器，需要specs.Spec和CT_ACT_RUN这个参数(查看这个参数在linux的含义) func startContainer(context *cli.Context, spec *specs.Spec, action CtAct, criuOpts *libcontainer.CriuOpts) (int, error) { id := context.Args().First() if id == &amp;#34;&amp;#34; { return -1, errEmptyID } notifySocket := newNotifySocket(context, os.Getenv(&amp;#34;NOTIFY_SOCKET&amp;#34;), id) if notifySocket != nil { notifySocket.setupSpec(context, spec) } container, err := createContainer(context, id, spec) if err != nil { return -1, err } if notifySocket !" />
+<meta name="keywords" content=", runc, oci" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://pytimer.github.io/post/runc/runc-run/" />
+
+
+    <title>
+        
+            runc解读(二) :: Pytimer  — Kubernetes爱好者
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.d1ea4af8fd04fb24a4f8b882ea54bd04eb245427ca4baf527c81a5dab071410b.css">
+
+
+
+
+
+
+<meta itemprop="name" content="runc解读(二)">
+<meta itemprop="description" content="runc run命令源码流程解读
+有些地方不是很明白，会继续研究，先初步掌握整体流程
+简单记录，后续整理
+断点设置 b /root/workspace/src/github.com/opencontainers/runc/utils_linux.go:248
+b /root/workspace/src/github.com/opencontainers/runc/utils_linux.go:288
+调用run 命令，会先检查参数是否正确，然后设置pid file 根据命令行参数初始化容器配置 1.更改工作路径到--bundle参数所指定的路径下
+2.读取config.json配置文件 生成specs.Spec
+3.校验process的参数是否正确validateProcessSpec
+4.返回specs.Spec
+启动容器，需要specs.Spec和CT_ACT_RUN这个参数(查看这个参数在linux的含义) func startContainer(context *cli.Context, spec *specs.Spec, action CtAct, criuOpts *libcontainer.CriuOpts) (int, error) { id := context.Args().First() if id == &#34;&#34; { return -1, errEmptyID } notifySocket := newNotifySocket(context, os.Getenv(&#34;NOTIFY_SOCKET&#34;), id) if notifySocket != nil { notifySocket.setupSpec(context, spec) } container, err := createContainer(context, id, spec) if err != nil { return -1, err } if notifySocket !">
+<meta itemprop="datePublished" content="2018-06-06T14:34:02+08:00" />
+<meta itemprop="dateModified" content="2018-06-06T14:34:02+08:00" />
+<meta itemprop="wordCount" content="547">
+<meta itemprop="image" content="https://pytimer.github.io/"/>
+
+
+
+<meta itemprop="keywords" content="runc,oci," />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://pytimer.github.io/"/>
+
+<meta name="twitter:title" content="runc解读(二)"/>
+<meta name="twitter:description" content="runc run命令源码流程解读
+有些地方不是很明白，会继续研究，先初步掌握整体流程
+简单记录，后续整理
+断点设置 b /root/workspace/src/github.com/opencontainers/runc/utils_linux.go:248
+b /root/workspace/src/github.com/opencontainers/runc/utils_linux.go:288
+调用run 命令，会先检查参数是否正确，然后设置pid file 根据命令行参数初始化容器配置 1.更改工作路径到--bundle参数所指定的路径下
+2.读取config.json配置文件 生成specs.Spec
+3.校验process的参数是否正确validateProcessSpec
+4.返回specs.Spec
+启动容器，需要specs.Spec和CT_ACT_RUN这个参数(查看这个参数在linux的含义) func startContainer(context *cli.Context, spec *specs.Spec, action CtAct, criuOpts *libcontainer.CriuOpts) (int, error) { id := context.Args().First() if id == &#34;&#34; { return -1, errEmptyID } notifySocket := newNotifySocket(context, os.Getenv(&#34;NOTIFY_SOCKET&#34;), id) if notifySocket != nil { notifySocket.setupSpec(context, spec) } container, err := createContainer(context, id, spec) if err != nil { return -1, err } if notifySocket !"/>
+
+
+
+
+
+    <meta property="article:section" content="Container" />
+
+    <meta property="article:section" content="Runtime" />
+
+
+
+    <meta property="article:published_time" content="2018-06-06 14:34:02 &#43;0800 CST" />
+
+
+
+
+
+
+
+
+    </head>
+
+    <body class="">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://pytimer.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ kubectl</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://pytimer.github.io/post">博客</a></li><li><a href="https://pytimer.github.io/categories">类别</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://pytimer.github.io/post/runc/runc-run/">runc解读(二)</a></h2>
+
+            
+
+            <div class="post-content">
+                <p><code>runc run</code>命令源码流程解读</p>
+<p><strong>有些地方不是很明白，会继续研究，先初步掌握整体流程</strong></p>
+<p><strong>简单记录，后续整理</strong></p>
+<h2 id="断点设置">断点设置</h2>
+<p><code>b /root/workspace/src/github.com/opencontainers/runc/utils_linux.go:248</code></p>
+<p><code>b /root/workspace/src/github.com/opencontainers/runc/utils_linux.go:288</code></p>
+<h3 id="调用run-命令会先检查参数是否正确然后设置pid-file">调用<code>run</code> 命令，会先检查参数是否正确，然后设置pid file</h3>
+<h3 id="根据命令行参数初始化容器配置">根据命令行参数初始化容器配置</h3>
+<p>1.更改工作路径到<code>--bundle</code>参数所指定的路径下</p>
+<p>2.读取<code>config.json</code>配置文件 生成specs.Spec</p>
+<p>3.校验process的参数是否正确validateProcessSpec</p>
+<p>4.返回specs.Spec</p>
+<h3 id="启动容器需要specsspec和ct_act_run这个参数查看这个参数在linux的含义">启动容器，需要specs.Spec和CT_ACT_RUN这个参数(查看这个参数在linux的含义)</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">startContainer</span>(<span style="color:#a6e22e">context</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">cli</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">spec</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">specs</span>.<span style="color:#a6e22e">Spec</span>, <span style="color:#a6e22e">action</span> <span style="color:#a6e22e">CtAct</span>, <span style="color:#a6e22e">criuOpts</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">libcontainer</span>.<span style="color:#a6e22e">CriuOpts</span>) (<span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">error</span>) {
+    <span style="color:#a6e22e">id</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Args</span>().<span style="color:#a6e22e">First</span>()
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">id</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;&#34;</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">errEmptyID</span>
+    }
+    
+    <span style="color:#a6e22e">notifySocket</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">newNotifySocket</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Getenv</span>(<span style="color:#e6db74">&#34;NOTIFY_SOCKET&#34;</span>), <span style="color:#a6e22e">id</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">notifySocket</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">notifySocket</span>.<span style="color:#a6e22e">setupSpec</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">spec</span>)
+	}
+
+    <span style="color:#a6e22e">container</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">createContainer</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">id</span>, <span style="color:#a6e22e">spec</span>)
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">err</span>
+    }
+    
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">notifySocket</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+        <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">notifySocket</span>.<span style="color:#a6e22e">setupSocket</span>()
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+            <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">err</span>
+        }
+    }
+    
+    <span style="color:#75715e">// Support on-demand socket activation by passing file descriptors into the container init process.
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">listenFDs</span> <span style="color:#f92672">:=</span> []<span style="color:#f92672">*</span><span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">File</span>{}
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">Getenv</span>(<span style="color:#e6db74">&#34;LISTEN_FDS&#34;</span>) <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;&#34;</span> {
+        <span style="color:#a6e22e">listenFDs</span> = <span style="color:#a6e22e">activation</span>.<span style="color:#a6e22e">Files</span>(<span style="color:#66d9ef">false</span>)
+    }
+    <span style="color:#a6e22e">r</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">runner</span>{
+        <span style="color:#a6e22e">enableSubreaper</span>: !<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Bool</span>(<span style="color:#e6db74">&#34;no-subreaper&#34;</span>),
+        <span style="color:#a6e22e">shouldDestroy</span>:   <span style="color:#66d9ef">true</span>,
+        <span style="color:#a6e22e">container</span>:       <span style="color:#a6e22e">container</span>,
+        <span style="color:#a6e22e">listenFDs</span>:       <span style="color:#a6e22e">listenFDs</span>,
+        <span style="color:#a6e22e">notifySocket</span>:    <span style="color:#a6e22e">notifySocket</span>,
+        <span style="color:#a6e22e">consoleSocket</span>:   <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">String</span>(<span style="color:#e6db74">&#34;console-socket&#34;</span>),
+        <span style="color:#a6e22e">detach</span>:          <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Bool</span>(<span style="color:#e6db74">&#34;detach&#34;</span>),
+        <span style="color:#a6e22e">pidFile</span>:         <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">String</span>(<span style="color:#e6db74">&#34;pid-file&#34;</span>),
+        <span style="color:#a6e22e">preserveFDs</span>:     <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Int</span>(<span style="color:#e6db74">&#34;preserve-fds&#34;</span>),
+        <span style="color:#a6e22e">action</span>:          <span style="color:#a6e22e">action</span>,
+        <span style="color:#a6e22e">criuOpts</span>:        <span style="color:#a6e22e">criuOpts</span>,
+        <span style="color:#a6e22e">init</span>:            <span style="color:#66d9ef">true</span>,
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">run</span>(<span style="color:#a6e22e">spec</span>.<span style="color:#a6e22e">Process</span>)
+}
+</code></pre></div><h4 id="notify_socket不需要因此notifysocket为nil">NOTIFY_SOCKET不需要，因此notifySocket为nil</h4>
+<h4 id="createcontainer两个重要的参数容器id容器spec配置">createContainer()两个重要的参数:容器id，容器spec配置</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">startContainer</span>(<span style="color:#a6e22e">context</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">cli</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">spec</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">specs</span>.<span style="color:#a6e22e">Spec</span>, <span style="color:#a6e22e">action</span> <span style="color:#a6e22e">CtAct</span>, <span style="color:#a6e22e">criuOpts</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">libcontainer</span>.<span style="color:#a6e22e">CriuOpts</span>) (<span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">error</span>) {
+    <span style="color:#a6e22e">id</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Args</span>().<span style="color:#a6e22e">First</span>()
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">id</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;&#34;</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">errEmptyID</span>
+    }
+    
+    <span style="color:#f92672">...</span>
+
+    <span style="color:#a6e22e">container</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">createContainer</span>(<span style="color:#a6e22e">context</span>, <span style="color:#a6e22e">id</span>, <span style="color:#a6e22e">spec</span>)
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">err</span>
+    }
+    
+    <span style="color:#f92672">...</span>
+}
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">createContainer</span>(<span style="color:#a6e22e">context</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">cli</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">id</span> <span style="color:#66d9ef">string</span>, <span style="color:#a6e22e">spec</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">specs</span>.<span style="color:#a6e22e">Spec</span>) (<span style="color:#a6e22e">libcontainer</span>.<span style="color:#a6e22e">Container</span>, <span style="color:#66d9ef">error</span>) {
+    <span style="color:#a6e22e">rootless</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">isRootless</span>(<span style="color:#a6e22e">context</span>)
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
+    }
+    <span style="color:#a6e22e">config</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">specconv</span>.<span style="color:#a6e22e">CreateLibcontainerConfig</span>(<span style="color:#f92672">&amp;</span><span style="color:#a6e22e">specconv</span>.<span style="color:#a6e22e">CreateOpts</span>{
+        <span style="color:#a6e22e">CgroupName</span>:       <span style="color:#a6e22e">id</span>,
+        <span style="color:#a6e22e">UseSystemdCgroup</span>: <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">GlobalBool</span>(<span style="color:#e6db74">&#34;systemd-cgroup&#34;</span>),
+        <span style="color:#a6e22e">NoPivotRoot</span>:      <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Bool</span>(<span style="color:#e6db74">&#34;no-pivot&#34;</span>),
+        <span style="color:#a6e22e">NoNewKeyring</span>:     <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Bool</span>(<span style="color:#e6db74">&#34;no-new-keyring&#34;</span>),
+        <span style="color:#a6e22e">Spec</span>:             <span style="color:#a6e22e">spec</span>,
+        <span style="color:#a6e22e">Rootless</span>:         <span style="color:#a6e22e">rootless</span>,
+    })
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
+    }
+
+    <span style="color:#a6e22e">factory</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">loadFactory</span>(<span style="color:#a6e22e">context</span>)
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
+    }
+    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">factory</span>.<span style="color:#a6e22e">Create</span>(<span style="color:#a6e22e">id</span>, <span style="color:#a6e22e">config</span>)
+}
+</code></pre></div><p>1.判断是否为rootless</p>
+<p>2.根据spec配置和cgroup，生成libcontainer的配置</p>
+<p>3.loadFactory 生成指定的容器的LinuxFactory</p>
+<p>4.Create 创建状态为stopped的linuxContainer容器配置，创建容器的根目录</p>
+<h4 id="初始化runner对象该对象就是实际容器的启动控制对象">初始化runner对象，该对象就是实际容器的启动控制对象</h4>
+<h4 id="运行runnerrunspecprocess">运行runner.run(spec.Process)</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">runner</span>) <span style="color:#a6e22e">run</span>(<span style="color:#a6e22e">config</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">specs</span>.<span style="color:#a6e22e">Process</span>) (<span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">error</span>) {
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">checkTerminal</span>(<span style="color:#a6e22e">config</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">destroy</span>()
+		<span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">err</span>
+	}
+	<span style="color:#a6e22e">process</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">newProcess</span>(<span style="color:#f92672">*</span><span style="color:#a6e22e">config</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">init</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">destroy</span>()
+		<span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">err</span>
+	}
+	<span style="color:#66d9ef">if</span> len(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">listenFDs</span>) &gt; <span style="color:#ae81ff">0</span> {
+		<span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">Env</span> = append(<span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">Env</span>, <span style="color:#a6e22e">fmt</span>.<span style="color:#a6e22e">Sprintf</span>(<span style="color:#e6db74">&#34;LISTEN_FDS=%d&#34;</span>, len(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">listenFDs</span>)), <span style="color:#e6db74">&#34;LISTEN_PID=1&#34;</span>)
+		<span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">ExtraFiles</span> = append(<span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">ExtraFiles</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">listenFDs</span><span style="color:#f92672">...</span>)
+	}
+	<span style="color:#a6e22e">baseFd</span> <span style="color:#f92672">:=</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">+</span> len(<span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">ExtraFiles</span>)
+	<span style="color:#66d9ef">for</span> <span style="color:#a6e22e">i</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">baseFd</span>; <span style="color:#a6e22e">i</span> &lt; <span style="color:#a6e22e">baseFd</span><span style="color:#f92672">+</span><span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">preserveFDs</span>; <span style="color:#a6e22e">i</span><span style="color:#f92672">++</span> {
+		<span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">ExtraFiles</span> = append(<span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">ExtraFiles</span>, <span style="color:#a6e22e">os</span>.<span style="color:#a6e22e">NewFile</span>(uintptr(<span style="color:#a6e22e">i</span>), <span style="color:#e6db74">&#34;PreserveFD:&#34;</span><span style="color:#f92672">+</span><span style="color:#a6e22e">strconv</span>.<span style="color:#a6e22e">Itoa</span>(<span style="color:#a6e22e">i</span>)))
+	}
+	<span style="color:#a6e22e">rootuid</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">container</span>.<span style="color:#a6e22e">Config</span>().<span style="color:#a6e22e">HostRootUID</span>()
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">destroy</span>()
+		<span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">err</span>
+	}
+	<span style="color:#a6e22e">rootgid</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">container</span>.<span style="color:#a6e22e">Config</span>().<span style="color:#a6e22e">HostRootGID</span>()
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">destroy</span>()
+		<span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">err</span>
+	}
+	<span style="color:#66d9ef">var</span> (
+		<span style="color:#a6e22e">detach</span> = <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">detach</span> <span style="color:#f92672">||</span> (<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">action</span> <span style="color:#f92672">==</span> <span style="color:#a6e22e">CT_ACT_CREATE</span>)
+	)
+	<span style="color:#75715e">// Setting up IO is a two stage process. We need to modify process to deal
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// with detaching containers, and then we get a tty after the container has
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// started.
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">handler</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">newSignalHandler</span>(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">enableSubreaper</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">notifySocket</span>)
+	<span style="color:#a6e22e">tty</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">setupIO</span>(<span style="color:#a6e22e">process</span>, <span style="color:#a6e22e">rootuid</span>, <span style="color:#a6e22e">rootgid</span>, <span style="color:#a6e22e">config</span>.<span style="color:#a6e22e">Terminal</span>, <span style="color:#a6e22e">detach</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">consoleSocket</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">destroy</span>()
+		<span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">err</span>
+	}
+	<span style="color:#66d9ef">defer</span> <span style="color:#a6e22e">tty</span>.<span style="color:#a6e22e">Close</span>()
+
+	<span style="color:#66d9ef">switch</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">action</span> {
+	<span style="color:#66d9ef">case</span> <span style="color:#a6e22e">CT_ACT_CREATE</span>:
+		<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">container</span>.<span style="color:#a6e22e">Start</span>(<span style="color:#a6e22e">process</span>)
+	<span style="color:#66d9ef">case</span> <span style="color:#a6e22e">CT_ACT_RESTORE</span>:
+		<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">container</span>.<span style="color:#a6e22e">Restore</span>(<span style="color:#a6e22e">process</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">criuOpts</span>)
+	<span style="color:#66d9ef">case</span> <span style="color:#a6e22e">CT_ACT_RUN</span>:
+		<span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">container</span>.<span style="color:#a6e22e">Run</span>(<span style="color:#a6e22e">process</span>)
+	<span style="color:#66d9ef">default</span>:
+		panic(<span style="color:#e6db74">&#34;Unknown action&#34;</span>)
+	}
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">destroy</span>()
+		<span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">err</span>
+	}
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">tty</span>.<span style="color:#a6e22e">waitConsole</span>(); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">terminate</span>(<span style="color:#a6e22e">process</span>)
+		<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">destroy</span>()
+		<span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">err</span>
+	}
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">tty</span>.<span style="color:#a6e22e">ClosePostStart</span>(); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">terminate</span>(<span style="color:#a6e22e">process</span>)
+		<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">destroy</span>()
+		<span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">err</span>
+	}
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">pidFile</span> <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#34;&#34;</span> {
+		<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">createPidFile</span>(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">pidFile</span>, <span style="color:#a6e22e">process</span>); <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+			<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">terminate</span>(<span style="color:#a6e22e">process</span>)
+			<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">destroy</span>()
+			<span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#a6e22e">err</span>
+		}
+	}
+	<span style="color:#a6e22e">status</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">handler</span>.<span style="color:#a6e22e">forward</span>(<span style="color:#a6e22e">process</span>, <span style="color:#a6e22e">tty</span>, <span style="color:#a6e22e">detach</span>)
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+		<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">terminate</span>(<span style="color:#a6e22e">process</span>)
+	}
+	<span style="color:#66d9ef">if</span> <span style="color:#a6e22e">detach</span> {
+		<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">nil</span>
+	}
+	<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">destroy</span>()
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">status</span>, <span style="color:#a6e22e">err</span>
+}
+</code></pre></div><p>1.检测terminal是否符合要求</p>
+<p>2.newProcess  根据spec和specs.Process，生成新的libcontainer的Process对象</p>
+<p>3.根据上面的CT_ACT_RUN执行container.Run(process)</p>
+<p>4.默认的runner.Init为true，因此Start的时候，会先在容器根目录下新建exec.fifo的文件</p>
+<p>5.然后创建state.json</p>
+<p>6.容器运行后会删除exec.fifo</p>
+<p>7.tty.waitConsole() 等待容器退出</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://pytimer.github.io/tags/runc">runc</a></span><span class="tag"><a href="https://pytimer.github.io/tags/oci">oci</a></span>
+  				</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2020</span>
+            
+                <span><a href="https://pytimer.github.io/">Pytimer</a></span>
+            
+            
+            <span> <a href="https://pytimer.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">Djordje Atlialp</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+
+
+
+    </body>
+</html>

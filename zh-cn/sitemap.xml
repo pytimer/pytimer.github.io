@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  
+  <url>
+    <loc>https://pytimer.github.io/categories/</loc>
+    <lastmod>2020-07-20T09:47:00+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://pytimer.github.io/en/categories/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://pytimer.github.io/categories/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/categories/cncf/</loc>
+    <lastmod>2020-07-20T09:47:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/kubectl/</loc>
+    <lastmod>2020-07-20T09:47:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/categories/kubernetes/</loc>
+    <lastmod>2020-07-20T09:47:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/</loc>
+    <lastmod>2020-07-20T09:47:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/</loc>
+    <lastmod>2020-07-20T09:47:00+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://pytimer.github.io/en/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://pytimer.github.io/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/</loc>
+    <lastmod>2020-07-20T09:47:00+08:00</lastmod>
+    <xhtml:link
+                rel="alternate"
+                hreflang="en"
+                href="https://pytimer.github.io/en/tags/"
+                />
+    <xhtml:link
+                rel="alternate"
+                hreflang="zh-cn"
+                href="https://pytimer.github.io/tags/"
+                />
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/cncf/kubernetes/kubectl/</loc>
+    <lastmod>2020-07-20T09:47:00+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/dashboard/</loc>
+    <lastmod>2019-12-17T17:14:45+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/kubernetes/</loc>
+    <lastmod>2019-12-17T17:14:45+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/cncf/kubernetes/kubernetes-dashboard-installation/</loc>
+    <lastmod>2019-12-17T17:14:45+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/categories/docker/</loc>
+    <lastmod>2019-11-20T11:08:41+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/docker/ip-masq/</loc>
+    <lastmod>2019-11-20T11:08:41+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/iptables/</loc>
+    <lastmod>2019-11-20T11:08:41+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/code/</loc>
+    <lastmod>2019-10-25T10:00:03+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/categories/go/</loc>
+    <lastmod>2019-10-25T10:00:03+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/go/code/</loc>
+    <lastmod>2019-10-25T10:00:03+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/cncf/kubernetes/pod-crash-with-configmap/</loc>
+    <lastmod>2019-09-11T17:02:11+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/docker-mac/</loc>
+    <lastmod>2019-06-26T19:35:13+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/docker/mac/</loc>
+    <lastmod>2019-06-26T19:35:13+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/coredns/</loc>
+    <lastmod>2019-06-06T18:06:42+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/cncf/dns/coredns/</loc>
+    <lastmod>2019-06-06T18:06:42+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/kubernetes/dns/</loc>
+    <lastmod>2019-06-06T18:06:42+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/cncf/kubernetes/change-etcd-ip/</loc>
+    <lastmod>2019-05-28T13:35:48+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/etcd/</loc>
+    <lastmod>2019-05-28T13:35:48+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/kubelet/</loc>
+    <lastmod>2019-05-13T15:46:02+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/cncf/kubernetes/reserve-compute-resources/</loc>
+    <lastmod>2019-05-13T15:46:02+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/interface/</loc>
+    <lastmod>2019-04-30T16:33:54+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/go/interface/</loc>
+    <lastmod>2019-04-30T16:33:54+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/gcp/</loc>
+    <lastmod>2019-04-20T19:33:35+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/categories/gcp/</loc>
+    <lastmod>2019-04-20T19:33:35+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/gcp/vm/</loc>
+    <lastmod>2019-04-20T19:33:35+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/cncf/dns/coredns-run-crash/</loc>
+    <lastmod>2019-03-26T22:09:07+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/mac/</loc>
+    <lastmod>2019-01-12T18:34:29+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/other/dev-env-install/</loc>
+    <lastmod>2019-01-12T18:34:29+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/categories/other/</loc>
+    <lastmod>2019-01-12T18:34:29+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/cncf/kubernetes/helm/</loc>
+    <lastmod>2019-01-08T19:21:56+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/helm/</loc>
+    <lastmod>2019-01-08T19:21:56+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/admission-webhook/</loc>
+    <lastmod>2018-12-17T09:51:57+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/cncf/kubernetes/kube-admission/</loc>
+    <lastmod>2018-12-17T09:51:57+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/kubeadm/</loc>
+    <lastmod>2018-12-05T11:26:10+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/cncf/kubernetes/kubeadm_design/</loc>
+    <lastmod>2018-12-05T11:26:10+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/cncf/kubernetes/kubeadm/</loc>
+    <lastmod>2018-12-03T16:58:17+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/cadvisor/</loc>
+    <lastmod>2018-10-28T15:40:49+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/cncf/</loc>
+    <lastmod>2018-10-28T15:40:49+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/categories/prometheus/</loc>
+    <lastmod>2018-10-28T15:40:49+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/prometheus/</loc>
+    <lastmod>2018-10-28T15:40:49+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/cncf/prometheus/promethues-operator/</loc>
+    <lastmod>2018-10-28T15:40:49+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/prometheus/promethues-operator/</loc>
+    <lastmod>2018-10-28T15:40:49+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/categories/telegram/</loc>
+    <lastmod>2018-07-27T16:21:45+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/telegram/</loc>
+    <lastmod>2018-07-27T16:21:45+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/other/telegram-dev/</loc>
+    <lastmod>2018-07-27T16:21:45+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/ask/</loc>
+    <lastmod>2018-06-08T14:52:20+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/ask/</loc>
+    <lastmod>2018-06-08T14:52:20+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/categories/container/</loc>
+    <lastmod>2018-06-07T13:53:15+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/oci/</loc>
+    <lastmod>2018-06-07T13:53:15+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/runc/</loc>
+    <lastmod>2018-06-07T13:53:15+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/runc/runc-spec/</loc>
+    <lastmod>2018-06-07T13:53:15+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/categories/runtime/</loc>
+    <lastmod>2018-06-07T13:53:15+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/runc/runc-run/</loc>
+    <lastmod>2018-06-06T14:34:02+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/runc/runc-cmd/</loc>
+    <lastmod>2018-06-06T13:46:13+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/debug/</loc>
+    <lastmod>2018-06-06T10:42:03+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/dlv/</loc>
+    <lastmod>2018-06-06T10:42:03+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/go/delve/</loc>
+    <lastmod>2018-06-06T10:42:03+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/command/</loc>
+    <lastmod>2018-06-06T09:47:21+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/go/flag/</loc>
+    <lastmod>2018-06-06T09:47:21+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/godoc/</loc>
+    <lastmod>2018-06-06T09:47:06+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/go/godoc/</loc>
+    <lastmod>2018-06-06T09:47:06+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/go/windll/</loc>
+    <lastmod>2018-06-06T09:45:10+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/egid/</loc>
+    <lastmod>2018-06-05T19:44:06+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/euid/</loc>
+    <lastmod>2018-06-05T19:44:06+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/categories/linux/</loc>
+    <lastmod>2018-06-05T19:44:06+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/permission/</loc>
+    <lastmod>2018-06-05T19:44:06+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/linux/suid_sgid/</loc>
+    <lastmod>2018-06-05T19:44:06+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/cncf/cloud-native/</loc>
+    <lastmod>2018-06-01T14:38:01+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/cloudnative/</loc>
+    <lastmod>2018-06-01T14:38:01+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/linux/seccomp/</loc>
+    <lastmod>2018-06-01T14:17:19+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/gerrit/</loc>
+    <lastmod>2018-05-24T10:48:15+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/tags/git/</loc>
+    <lastmod>2018-05-24T10:48:15+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/go/go-contribut/</loc>
+    <lastmod>2018-05-24T10:48:15+08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://pytimer.github.io/post/readme/</loc>
+    <lastmod>2018-05-18T16:29:28+08:00</lastmod>
+  </url>
+  
+</urlset>

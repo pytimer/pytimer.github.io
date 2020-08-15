@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Go on Pytimer Blog</title>
+    <title>Go on Pytimer</title>
     <link>https://pytimer.github.io/categories/go/</link>
-    <description>Recent content in Go on Pytimer Blog</description>
+    <description>Recent content in Go on Pytimer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 25 Oct 2019 10:00:03 +0800</lastBuildDate>
@@ -13,10 +13,10 @@
     
     <item>
       <title>Go开发规范</title>
-      <link>https://pytimer.github.io/2019/10/go%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/</link>
+      <link>https://pytimer.github.io/post/go/code/</link>
       <pubDate>Fri, 25 Oct 2019 10:00:03 +0800</pubDate>
       
-      <guid>https://pytimer.github.io/2019/10/go%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/</guid>
+      <guid>https://pytimer.github.io/post/go/code/</guid>
       <description>代码规范 辅助工具 goimports goimports是Go官方提供的工具，能够为我们自动格式化Go语言代码并对引入的包进行管理，其中包括自动增删依赖包引用，将依赖包进行分类排序。
 goimports等价于gofmt加依赖包的管理。
 因此建议所有GO语言开发人员在开发时，使用goimports进行格式化，并在IDE中进行配置，保存时自动格式化。
@@ -25,50 +25,51 @@ goimports等价于gofmt加依赖包的管理。
 自动化 无论是上述的格式化还是静态检查，我们都要在我们的CI流程中进行自动化的处理，从而减少代码审核人员的工作，将重心放在代码逻辑上。
 Drone结合上述工具进行自动化的示例。
 项目开发 目录结构 在项目开发中，Go官方并没有给出一个推荐的目录规划，而在社区中有一些常见的约定，具体的可以看golang-standards/project-layout ，我们也是建议采用该方式进行项目目录规划。
-├── LICENSE ├── Makefile ├── README.md ├── api ├── assets ├── build ├── cmd ├── configs ├── deployments ├── docs ├── examples ├── githooks ├── init ├── internal ├── pkg ├── scripts ├── test ├── third_party ├── tools ├── vendor ├── web └── website  下面介绍常见并且重要的目录及文件。
+├── LICENSE ├── Makefile ├── README.md ├── api ├── assets ├── build ├── cmd ├── configs ├── deployments ├── docs ├── examples ├── githooks ├── init ├── internal ├── pkg ├── scripts ├── test ├── third_party ├── tools ├── vendor ├── web └── website 下面介绍常见并且重要的目录及文件。
 README.md 该文件写明该项目的简介，功能说明等。
 CONTRIBUTING.md 该文件说明其他开发人员如何合作开发该项目。
-/pkg 该目录存放的是项目中可以被外部项目或者本项目使用的代码仓库，外部项目直接通过import即可引入该包代码。</description>
+/pkg 该目录存放的是项目中可以被外部项目或者本项目使用的代码仓库，外部项目直接通过import即可引入该包代码。
+/internal 该目录存放的是本项目中的私有代码包，不对外提供。该目录可以和pkg目录合并在一起。</description>
     </item>
     
     <item>
       <title>Interface</title>
-      <link>https://pytimer.github.io/2019/04/interface/</link>
+      <link>https://pytimer.github.io/post/go/interface/</link>
       <pubDate>Tue, 30 Apr 2019 16:33:54 +0800</pubDate>
       
-      <guid>https://pytimer.github.io/2019/04/interface/</guid>
-      <description>检测struct类型是否实现了某个接口 package main import &amp;quot;fmt&amp;quot; type Resource interface { GetName() string Restart() } type Pod struct { Name string RestartNumber int } func (p Pod) GetName() string { return p.Name } func (p *Pod) Restart() { p.RestartNumber += 1 } func main() { // 会出现如下的错误: cannot use Pod literal (type Pod) as type Resource in assignment: Pod does not implement Resource (Restart method has pointer receiver) var _ Resource = Pod{} }  因此如果我们想要检测一个类型是否实现了指定的接口，可以通过var _ io.</description>
+      <guid>https://pytimer.github.io/post/go/interface/</guid>
+      <description>检测struct类型是否实现了某个接口 package main import &amp;#34;fmt&amp;#34; type Resource interface { GetName() string Restart() } type Pod struct { Name string RestartNumber int } func (p Pod) GetName() string { return p.Name } func (p *Pod) Restart() { p.RestartNumber += 1 } func main() { // 会出现如下的错误: cannot use Pod literal (type Pod) as type Resource in assignment: 	Pod does not implement Resource (Restart method has pointer receiver) var _ Resource = Pod{} } 因此如果我们想要检测一个类型是否实现了指定的接口，可以通过var _ io.</description>
     </item>
     
     <item>
       <title>Go调试工具Delve</title>
-      <link>https://pytimer.github.io/2018/06/go%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7delve/</link>
+      <link>https://pytimer.github.io/post/go/delve/</link>
       <pubDate>Wed, 06 Jun 2018 10:42:03 +0800</pubDate>
       
-      <guid>https://pytimer.github.io/2018/06/go%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7delve/</guid>
+      <guid>https://pytimer.github.io/post/go/delve/</guid>
       <description>安装 delve/Documentation/installation · derekparker/delve · GitHub提供了所有操作系统平台上安装Delve的说明，
 用法 可以使用Delve调试Go程序
 Delve支持远程调试、命令行调试、集成环境调试  远程调试  如果程序运行在服务器，我们又没有办法查看到程序的源码，我们可以通过远程调试的方式进行
  在服务器上查看到程序的pid  ps -ef|grep &amp;lt;program&amp;gt;
- 执行attach命令  dlv attach &amp;lt;PID&amp;gt; --headless --api-version=2 --log --listen=:8081
- 在本机执行connect命令  dlv connect &amp;lt;server_ip&amp;gt;:8081
+执行attach命令  dlv attach &amp;lt;PID&amp;gt; --headless --api-version=2 --log --listen=:8081
+在本机执行connect命令  dlv connect &amp;lt;server_ip&amp;gt;:8081
 如果本机dlv退出，远程的dlv也会退出
 本机dlv没有启动，远程dlv直接关闭，会导致进程退出
 本机dlv退出的时候，会询问是否关闭调试进程的pid
  命令行调试  dlv debug
 具体可以查看Getting started with Delve该文档，有比较详细的说明
  集成环境调试  [Chinese]delve · nebulasio/wiki Wiki · GitHub
-常用命令说明    命令 描述     args 打印函数参数   break (alias: b) 设置一个断点   breakpoints (alias: bp) 打印活动断点信息   clear 删除断点   clearall 删除所有的断点   condition (alias: cond) 设置断点条件   config 改变配置参数   continue (alias: c) 运行到断点或程序终止   exit `(alias: quit q)`   funcs 打印函数列表   goroutine 显示或更改当前goroutine   goroutines 列出程序的全部goroutines   help (alias: h) 打印出帮助信息   list `(alias: ls l)`   locals 打印局部变量   next (alias: n) 跳到下一行   on 在遇到断点时执行一个命令   print (alias: p) 表达式   regs 打印CPU寄存器的内容   restart (alias: r) 重启进程   set 更改变量的值   source 执行包含delve命令列表的文件   sources 打印源文件列表   stack (alias: bt) 打印堆栈跟踪信息   step (alias: s) 单步执行程序   step-instruction (alias: si) 单步单个执行cpu指令   stepout 退出当前函数   thread (alias: tr) 切换到指定的线程   threads 打印每一个跟踪线程的信息   trace (alias: t) 设置跟踪点   types 打印类型列表   vars 打印某个包内的(全局)变量   whatis 打印表达式的类型    完整的命令说明：delve/Documentation/cli · derekparker/delve · GitHub</description>
+常用命令说明    命令 描述     args 打印函数参数   break (alias: b) 设置一个断点   breakpoints (alias: bp) 打印活动断点信息   clear 删除断点   clearall 删除所有的断点   condition (alias: cond) 设置断点条件   config 改变配置参数   continue (alias: c) 运行到断点或程序终止   exit (alias: quit | q) 退出debugger   funcs 打印函数列表   goroutine 显示或更改当前goroutine   goroutines 列出程序的全部goroutines   help (alias: h) 打印出帮助信息   list (alias: ls | l) 显示当前执行步骤的源代码   locals 打印局部变量   next (alias: n) 跳到下一行   on 在遇到断点时执行一个命令   print (alias: p) 表达式   regs 打印CPU寄存器的内容   restart (alias: r) 重启进程   set 更改变量的值   source 执行包含delve命令列表的文件   sources 打印源文件列表   stack (alias: bt) 打印堆栈跟踪信息   step (alias: s) 单步执行程序   step-instruction (alias: si) 单步单个执行cpu指令   stepout 退出当前函数   thread	(alias: tr) 切换到指定的线程   threads 打印每一个跟踪线程的信息   trace (alias: t) 设置跟踪点   types 打印类型列表   vars 打印某个包内的(全局)变量   whatis 打印表达式的类型    完整的命令说明：delve/Documentation/cli · derekparker/delve · GitHub</description>
     </item>
     
     <item>
       <title>flag命令行解析</title>
-      <link>https://pytimer.github.io/2018/06/flag%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%A7%A3%E6%9E%90/</link>
+      <link>https://pytimer.github.io/post/go/flag/</link>
       <pubDate>Wed, 06 Jun 2018 09:47:21 +0800</pubDate>
       
-      <guid>https://pytimer.github.io/2018/06/flag%E5%91%BD%E4%BB%A4%E8%A1%8C%E8%A7%A3%E6%9E%90/</guid>
+      <guid>https://pytimer.github.io/post/go/flag/</guid>
       <description>flag用于解析命令行参数
- 语法 -flag //只支持bool -flag=x //都支持 -flag x //支持非bool
+语法 -flag //只支持bool -flag=x //都支持 -flag x //支持非bool
 bool类型可以为：1,0,t,f,T,F,true,false,True,False,TRUE,FALSE
 flag定义参数  flag.String()等flag.Xxx()方法，flag该方式返回一个指针 flag.XxxVar()方法将flag参数绑定到一个变量 flag.Var()方法绑定自定义类型，自定义类型需要实现Value()接口  flag.Parse() 解析命令行参数到定义的flag
 获取非flag参数 flag.Args() flag.Arg(i)
@@ -78,34 +79,34 @@ flag定义参数  flag.String()等flag.Xxx()方法，flag该方式返回一个�
     
     <item>
       <title>godoc介绍</title>
-      <link>https://pytimer.github.io/2018/06/godoc%E4%BB%8B%E7%BB%8D/</link>
+      <link>https://pytimer.github.io/post/go/godoc/</link>
       <pubDate>Wed, 06 Jun 2018 09:47:06 +0800</pubDate>
       
-      <guid>https://pytimer.github.io/2018/06/godoc%E4%BB%8B%E7%BB%8D/</guid>
+      <guid>https://pytimer.github.io/post/go/godoc/</guid>
       <description>godoc为go语言提供文档生成的工具
-godoc有两种使用的方法 命令行使用 godoc fmt Println // 输出fmt.Println的用法文档 godoc -src fmt Println //fmt.Println的实现  启动server godoc -http=&amp;quot;:6060&amp;quot;  搜索 godoc -q Reader  编写godoc文档 规则：
- 类型、变量、函数、常量编写注释的时候，直接在声明前编写注释，中间不留空行。  // Fprint formats using the default formats for its operands and writes to w. // Spaces are added between operands when neither is a string. // It returns the number of bytes written and any write error encountered. func Fprint(w io.Writer, a .</description>
+godoc有两种使用的方法 命令行使用 godoc fmt Println // 输出fmt.Println的用法文档 godoc -src fmt Println //fmt.Println的实现 启动server godoc -http=&amp;#34;:6060&amp;#34; 搜索 godoc -q Reader 编写godoc文档 规则：
+ 类型、变量、函数、常量编写注释的时候，直接在声明前编写注释，中间不留空行。  // Fprint formats using the default formats for its operands and writes to w. // Spaces are added between operands when neither is a string. // It returns the number of bytes written and any write error encountered. func Fprint(w io.Writer, a ...interface{}) (n int, err error) {  包注释应该提供这个包的一般化文档。  // Package sort provides primitives for sorting slices and user-defined // collections.</description>
     </item>
     
     <item>
       <title>golang/go标准库贡献方式</title>
-      <link>https://pytimer.github.io/2018/05/golang-go%E6%A0%87%E5%87%86%E5%BA%93%E8%B4%A1%E7%8C%AE%E6%96%B9%E5%BC%8F/</link>
+      <link>https://pytimer.github.io/post/go/go-contribut/</link>
       <pubDate>Thu, 24 May 2018 10:48:15 +0800</pubDate>
       
-      <guid>https://pytimer.github.io/2018/05/golang-go%E6%A0%87%E5%87%86%E5%BA%93%E8%B4%A1%E7%8C%AE%E6%96%B9%E5%BC%8F/</guid>
+      <guid>https://pytimer.github.io/post/go/go-contribut/</guid>
       <description>阅读contribute内容 https://golang.org/doc/contribute.html
-准备工作 安装配置go-contrib-init工具 $ go get -v -u golang.org/x/tools/cmd/go-contrib-init $ cd /code/to/edit $ go-contrib-init  安装git 配置git使用Gerrit  申请Google Account。
- 登录googlesource并生成密码
-  进入go.googlesourc.com，单击右上角的&amp;rdquo;Generate Password&amp;rdquo;
- 执行完第2步后，会看到&amp;rdquo;Configure Git&amp;rdquo;页面，该页面说明如何配置git使用你的认证token，按说明执行后，在~/.gitcookies文件中可以看到你的token
- 注册Gerrit
+准备工作 安装配置go-contrib-init工具 $ go get -v -u golang.org/x/tools/cmd/go-contrib-init $ cd /code/to/edit $ go-contrib-init 安装git 配置git使用Gerrit   申请Google Account。
+  登录googlesource并生成密码
+  进入go.googlesourc.com，单击右上角的&amp;quot;Generate Password&amp;rdquo;
+ 执行完第2步后，会看到&amp;quot;Configure Git&amp;quot;页面，该页面说明如何配置git使用你的认证token，按说明执行后，在~/.gitcookies文件中可以看到你的token
+  注册Gerrit
   用你的Google Account登录go-review.googlesource.com/login/
-Contributor License  登录Gerrit
- 点击右上角头像的settings，再点击&amp;rdquo;Agreements&amp;rdquo;，如果没有任何的agreements，点击&amp;rdquo;New Contributor Agreement&amp;rdquo;，按提示进行操作。
-  设置开发环境 安装git-codereview工具 $ go get -u golang.org/x/review/git-codereview  安装完后git-codereview会在$GOPATH/bin下，把$GOPATH/bin添加到PATH。 (Windows的话执行git --exec-path查看git的执行路径，把git-codereview拷贝到该目录下)
+Contributor License   登录Gerrit
+  点击右上角头像的settings，再点击&amp;quot;Agreements&amp;rdquo;，如果没有任何的agreements，点击&amp;quot;New Contributor Agreement&amp;rdquo;，按提示进行操作。
+  设置开发环境 安装git-codereview工具 $ go get -u golang.org/x/review/git-codereview 安装完后git-codereview会在$GOPATH/bin下，把$GOPATH/bin添加到PATH。 (Windows的话执行git --exec-path查看git的执行路径，把git-codereview拷贝到该目录下)
 执行以下命令查看是否安装完成
-$ git codereview help  设置git aliases 把以下内容写入到~/.gitconfig文件
-[alias] change = codereview change gofmt = codereview gofmt mail = codereview mail pending = codereview pending submit = codereview submit sync = codereview sync  代码贡献 讨论设计 在提交代码之前，先去github仓库上提交issue，说明自己的意图，经过讨论后再进行代码的提交</description>
+$ git codereview help 设置git aliases 把以下内容写入到~/.gitconfig文件
+[alias] change = codereview change gofmt = codereview gofmt mail = codereview mail pending = codereview pending submit = codereview submit sync = codereview sync 代码贡献 讨论设计 在提交代码之前，先去github仓库上提交issue，说明自己的意图，经过讨论后再进行代码的提交</description>
     </item>
     
   </channel>

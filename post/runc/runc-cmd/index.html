@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Software Develper, **Like Go and Kubernetes** Golang developer China Pytimer https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/gopher.png ">
+<meta name="description" content="runc 源码解读
+runc项目只是阅读源码有些地方不是很好理解，因此采用Delve一边调试一边查看源码的方式。
+执行的命令示例：
+dlv debug -- run --bundle /root/mycontainer/basic testcontainer
+通过该方式可以进入debugger模式，可以设置断点，单步查看每个函数调用的效果，同时也方便查看当前操作系统的改变
+runc spec bundle 切换工作目录，执行的是os.Chdir(bundle)
+该命令，主要是用来生成容器启动的config.json文件，所有的容器config.json初始相同，根据--rootless再覆盖配置，重新生成config.json
+run runc run &amp;lt;container&amp;gt; 会生成state.json，该文件默认在/run/runc/&amp;lt;container&amp;gt;下，也可以使用--root /tmp/runc这个命令来改变存储位置。
+后面会单独描述该命令的代码流程。
+state TODO
+list 该命令可以查看目前启动的容器，该命令就是根据state.json来显示，因此如果启动容器的时候，指定了--root，在list查询的时候，也需要加上该命令参数。
+list.go只是对state.json的数据处理，没有过多关于底层实现。
+ getContainers() 调用utils_linux/loadFactory()，根据--root参数生成实现libcontainer.Factory接口的结构体，linux的Factory对应的就是libcontainer/factory_linux.go中的LinuxFactory 遍历--root指定路径下的目录 调用factory.Load(目录名)，根据state.json来生成对应的容器结构体libcontainer/container_linux.go中linuxContainer annotations就是对应的state.Config.Labels的字段 后面只是对于format的显示处理  " />
+<meta name="keywords" content=", runc, oci" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://pytimer.github.io/post/runc/runc-cmd/" />
+
+
+    <title>
+        
+            runc解读(一) :: Pytimer  — Kubernetes爱好者
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.d1ea4af8fd04fb24a4f8b882ea54bd04eb245427ca4baf527c81a5dab071410b.css">
+
+
+
+
+
+
+<meta itemprop="name" content="runc解读(一)">
+<meta itemprop="description" content="runc 源码解读
+runc项目只是阅读源码有些地方不是很好理解，因此采用Delve一边调试一边查看源码的方式。
+执行的命令示例：
+dlv debug -- run --bundle /root/mycontainer/basic testcontainer
+通过该方式可以进入debugger模式，可以设置断点，单步查看每个函数调用的效果，同时也方便查看当前操作系统的改变
+runc spec bundle 切换工作目录，执行的是os.Chdir(bundle)
+该命令，主要是用来生成容器启动的config.json文件，所有的容器config.json初始相同，根据--rootless再覆盖配置，重新生成config.json
+run runc run &lt;container&gt; 会生成state.json，该文件默认在/run/runc/&lt;container&gt;下，也可以使用--root /tmp/runc这个命令来改变存储位置。
+后面会单独描述该命令的代码流程。
+state TODO
+list 该命令可以查看目前启动的容器，该命令就是根据state.json来显示，因此如果启动容器的时候，指定了--root，在list查询的时候，也需要加上该命令参数。
+list.go只是对state.json的数据处理，没有过多关于底层实现。
+ getContainers() 调用utils_linux/loadFactory()，根据--root参数生成实现libcontainer.Factory接口的结构体，linux的Factory对应的就是libcontainer/factory_linux.go中的LinuxFactory 遍历--root指定路径下的目录 调用factory.Load(目录名)，根据state.json来生成对应的容器结构体libcontainer/container_linux.go中linuxContainer annotations就是对应的state.Config.Labels的字段 后面只是对于format的显示处理  ">
+<meta itemprop="datePublished" content="2018-06-06T13:46:13+08:00" />
+<meta itemprop="dateModified" content="2018-06-06T13:46:13+08:00" />
+<meta itemprop="wordCount" content="35">
+<meta itemprop="image" content="https://pytimer.github.io/"/>
+
+
+
+<meta itemprop="keywords" content="runc,oci," />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://pytimer.github.io/"/>
+
+<meta name="twitter:title" content="runc解读(一)"/>
+<meta name="twitter:description" content="runc 源码解读
+runc项目只是阅读源码有些地方不是很好理解，因此采用Delve一边调试一边查看源码的方式。
+执行的命令示例：
+dlv debug -- run --bundle /root/mycontainer/basic testcontainer
+通过该方式可以进入debugger模式，可以设置断点，单步查看每个函数调用的效果，同时也方便查看当前操作系统的改变
+runc spec bundle 切换工作目录，执行的是os.Chdir(bundle)
+该命令，主要是用来生成容器启动的config.json文件，所有的容器config.json初始相同，根据--rootless再覆盖配置，重新生成config.json
+run runc run &lt;container&gt; 会生成state.json，该文件默认在/run/runc/&lt;container&gt;下，也可以使用--root /tmp/runc这个命令来改变存储位置。
+后面会单独描述该命令的代码流程。
+state TODO
+list 该命令可以查看目前启动的容器，该命令就是根据state.json来显示，因此如果启动容器的时候，指定了--root，在list查询的时候，也需要加上该命令参数。
+list.go只是对state.json的数据处理，没有过多关于底层实现。
+ getContainers() 调用utils_linux/loadFactory()，根据--root参数生成实现libcontainer.Factory接口的结构体，linux的Factory对应的就是libcontainer/factory_linux.go中的LinuxFactory 遍历--root指定路径下的目录 调用factory.Load(目录名)，根据state.json来生成对应的容器结构体libcontainer/container_linux.go中linuxContainer annotations就是对应的state.Config.Labels的字段 后面只是对于format的显示处理  "/>
+
+
+
+
+
+    <meta property="article:section" content="Container" />
+
+    <meta property="article:section" content="Runtime" />
+
+
+
+    <meta property="article:published_time" content="2018-06-06 13:46:13 &#43;0800 CST" />
+
+
+
+
+
+
+
+
+    </head>
+
+    <body class="">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://pytimer.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ kubectl</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://pytimer.github.io/post">博客</a></li><li><a href="https://pytimer.github.io/categories">类别</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://pytimer.github.io/post/runc/runc-cmd/">runc解读(一)</a></h2>
+
+            
+
+            <div class="post-content">
+                <p><code>runc</code> 源码解读</p>
+<p>runc项目只是阅读源码有些地方不是很好理解，因此采用Delve一边调试一边查看源码的方式。</p>
+<p>执行的命令示例：</p>
+<p><code>dlv debug -- run --bundle /root/mycontainer/basic testcontainer</code></p>
+<p>通过该方式可以进入debugger模式，可以设置断点，单步查看每个函数调用的效果，同时也方便查看当前操作系统的改变</p>
+<h2 id="runc-spec"><code>runc spec</code></h2>
+<p><code>bundle</code> 切换工作目录，执行的是<code>os.Chdir(bundle)</code></p>
+<p>该命令，主要是用来生成容器启动的config.json文件，所有的容器config.json初始相同，根据<code>--rootless</code>再覆盖配置，重新生成config.json</p>
+<h2 id="run">run</h2>
+<p><code>runc run &lt;container&gt;</code> 会生成state.json，该文件默认在<code>/run/runc/&lt;container&gt;</code>下，也可以使用<code>--root /tmp/runc</code>这个命令来改变存储位置。</p>
+<p>后面会单独描述该命令的代码流程。</p>
+<h2 id="state">state</h2>
+<p>TODO</p>
+<h2 id="list">list</h2>
+<p>该命令可以查看目前启动的容器，该命令就是根据state.json来显示，因此如果启动容器的时候，指定了<code>--root</code>，在list查询的时候，也需要加上该命令参数。</p>
+<p>list.go只是对state.json的数据处理，没有过多关于底层实现。</p>
+<ul>
+<li>getContainers()</li>
+<li>调用utils_linux/loadFactory()，根据<code>--root</code>参数生成实现libcontainer.Factory接口的结构体，linux的Factory对应的就是libcontainer/factory_linux.go中的LinuxFactory</li>
+<li>遍历<code>--root</code>指定路径下的目录</li>
+<li>调用factory.Load(目录名)，根据state.json来生成对应的容器结构体libcontainer/container_linux.go中linuxContainer</li>
+<li>annotations就是对应的state.Config.Labels的字段</li>
+<li>后面只是对于format的显示处理</li>
+</ul>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://pytimer.github.io/tags/runc">runc</a></span><span class="tag"><a href="https://pytimer.github.io/tags/oci">oci</a></span>
+  				</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2020</span>
+            
+                <span><a href="https://pytimer.github.io/">Pytimer</a></span>
+            
+            
+            <span> <a href="https://pytimer.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">Djordje Atlialp</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+
+
+
+    </body>
+</html>

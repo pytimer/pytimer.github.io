@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Code on Pytimer Blog</title>
+    <title>code on Pytimer</title>
     <link>https://pytimer.github.io/tags/code/</link>
-    <description>Recent content in Code on Pytimer Blog</description>
+    <description>Recent content in code on Pytimer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 25 Oct 2019 10:00:03 +0800</lastBuildDate>
@@ -13,10 +13,10 @@
     
     <item>
       <title>Go开发规范</title>
-      <link>https://pytimer.github.io/2019/10/go%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/</link>
+      <link>https://pytimer.github.io/post/go/code/</link>
       <pubDate>Fri, 25 Oct 2019 10:00:03 +0800</pubDate>
       
-      <guid>https://pytimer.github.io/2019/10/go%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/</guid>
+      <guid>https://pytimer.github.io/post/go/code/</guid>
       <description>代码规范 辅助工具 goimports goimports是Go官方提供的工具，能够为我们自动格式化Go语言代码并对引入的包进行管理，其中包括自动增删依赖包引用，将依赖包进行分类排序。
 goimports等价于gofmt加依赖包的管理。
 因此建议所有GO语言开发人员在开发时，使用goimports进行格式化，并在IDE中进行配置，保存时自动格式化。
@@ -25,10 +25,11 @@ goimports等价于gofmt加依赖包的管理。
 自动化 无论是上述的格式化还是静态检查，我们都要在我们的CI流程中进行自动化的处理，从而减少代码审核人员的工作，将重心放在代码逻辑上。
 Drone结合上述工具进行自动化的示例。
 项目开发 目录结构 在项目开发中，Go官方并没有给出一个推荐的目录规划，而在社区中有一些常见的约定，具体的可以看golang-standards/project-layout ，我们也是建议采用该方式进行项目目录规划。
-├── LICENSE ├── Makefile ├── README.md ├── api ├── assets ├── build ├── cmd ├── configs ├── deployments ├── docs ├── examples ├── githooks ├── init ├── internal ├── pkg ├── scripts ├── test ├── third_party ├── tools ├── vendor ├── web └── website  下面介绍常见并且重要的目录及文件。
+├── LICENSE ├── Makefile ├── README.md ├── api ├── assets ├── build ├── cmd ├── configs ├── deployments ├── docs ├── examples ├── githooks ├── init ├── internal ├── pkg ├── scripts ├── test ├── third_party ├── tools ├── vendor ├── web └── website 下面介绍常见并且重要的目录及文件。
 README.md 该文件写明该项目的简介，功能说明等。
 CONTRIBUTING.md 该文件说明其他开发人员如何合作开发该项目。
-/pkg 该目录存放的是项目中可以被外部项目或者本项目使用的代码仓库，外部项目直接通过import即可引入该包代码。</description>
+/pkg 该目录存放的是项目中可以被外部项目或者本项目使用的代码仓库，外部项目直接通过import即可引入该包代码。
+/internal 该目录存放的是本项目中的私有代码包，不对外提供。该目录可以和pkg目录合并在一起。</description>
     </item>
     
   </channel>

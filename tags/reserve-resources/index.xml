@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Reserve Resources on Pytimer Blog</title>
+    <title>reserve-resources on Pytimer Blog</title>
     <link>https://pytimer.github.io/tags/reserve-resources/</link>
-    <description>Recent content in Reserve Resources on Pytimer Blog</description>
+    <description>Recent content in reserve-resources on Pytimer Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 13 May 2019 15:46:02 +0800</lastBuildDate>
@@ -13,12 +13,12 @@
     
     <item>
       <title>预留计算资源</title>
-      <link>https://pytimer.github.io/2019/05/%E9%A2%84%E7%95%99%E8%AE%A1%E7%AE%97%E8%B5%84%E6%BA%90/</link>
+      <link>https://pytimer.github.io/post/kubernetes/reserve-compute-resources/</link>
       <pubDate>Mon, 13 May 2019 15:46:02 +0800</pubDate>
       
-      <guid>https://pytimer.github.io/2019/05/%E9%A2%84%E7%95%99%E8%AE%A1%E7%AE%97%E8%B5%84%E6%BA%90/</guid>
+      <guid>https://pytimer.github.io/post/kubernetes/reserve-compute-resources/</guid>
       <description>Kubernetes Node Allocatable 表示整个集群当前节点pod可用的计算资源量，该配置可以保证调度器不会超额申请计算资源，目前支持CPU,memory,storage这几个参数。
-Node Capacity --------------------------- | kube-reserved | |-------------------------| | system-reserved | |-------------------------| | eviction-threshold | |-------------------------| | | | allocatable | | (available for pods) | | | | | ---------------------------  https://k8smeetup.github.io/docs/tasks/administer-cluster/out-of-resource/#eviction-policy https://yq.aliyun.com/articles/604524 https://github.com/rootsongjc/qa/issues/3 https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/#general-guidelines https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/ https://github.com/kubernetes/community/blob/master/contributors/design-proposals/node/node-allocatable.md#recommended-cgroups-setup https://github.com/rancher/rancher/issues/17177 https://github.com/kubernetes/kubernetes/blob/v1.11.6/pkg/kubelet/cm/cgroup_manager_linux.go#L259 http://www.kbase101.com/question/18764.html https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/7/html/resource_management_guide/chap-using_control_groups#sec-Creating_Cgroups https://k8smeetup.github.io/docs/tasks/administer-cluster/reserve-compute-resources/ https://godoc.org/k8s.io/kubernetes/pkg/kubelet/apis/config#KubeletConfiguration</description>
+Node Capacity --------------------------- | kube-reserved | |-------------------------| | system-reserved | |-------------------------| | eviction-threshold | |-------------------------| | | | allocatable | | (available for pods) | | | | | --------------------------- https://k8smeetup.github.io/docs/tasks/administer-cluster/out-of-resource/#eviction-policy https://yq.aliyun.com/articles/604524 https://github.com/rootsongjc/qa/issues/3 https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/#general-guidelines https://kubernetes.io/docs/tasks/administer-cluster/reserve-compute-resources/ https://github.com/kubernetes/community/blob/master/contributors/design-proposals/node/node-allocatable.md#recommended-cgroups-setup https://github.com/rancher/rancher/issues/17177 https://github.com/kubernetes/kubernetes/blob/v1.11.6/pkg/kubelet/cm/cgroup_manager_linux.go#L259 http://www.kbase101.com/question/18764.html https://access.redhat.com/documentation/zh-cn/red_hat_enterprise_linux/7/html/resource_management_guide/chap-using_control_groups#sec-Creating_Cgroups https://k8smeetup.github.io/docs/tasks/administer-cluster/reserve-compute-resources/ https://godoc.org/k8s.io/kubernetes/pkg/kubelet/apis/config#KubeletConfiguration</description>
     </item>
     
   </channel>

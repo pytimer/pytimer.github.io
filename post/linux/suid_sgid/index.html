@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Software Develper, **Like Go and Kubernetes** Golang developer China Pytimer https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/gopher.png ">
+<meta name="description" content="Unix下关于文件权限的说明 9 8 7 6 5 4 3 2 1 0 - r w x r - x r - x 第9位表示文件类型，类型说明：
+   文件类型 说明     p 管道文件   d 目录文件   l 符号连接文件   - 普通文件   s socket文件   c 字符设备文件   b 块设备文件    第8-6位 文件所有者权限 第5-3位 同组用户权限 第2-0位 其他用户权限
+r表示可读 w表示可写 x表示可执行
+uid 真实用户ID" />
+<meta name="keywords" content=", permission, euid, egid" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://pytimer.github.io/post/linux/suid_sgid/" />
+
+
+    <title>
+        
+            SUID SGID详细说明 :: Pytimer  — Kubernetes爱好者
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.d1ea4af8fd04fb24a4f8b882ea54bd04eb245427ca4baf527c81a5dab071410b.css">
+
+
+
+
+
+
+<meta itemprop="name" content="SUID SGID详细说明">
+<meta itemprop="description" content="Unix下关于文件权限的说明 9 8 7 6 5 4 3 2 1 0 - r w x r - x r - x 第9位表示文件类型，类型说明：
+   文件类型 说明     p 管道文件   d 目录文件   l 符号连接文件   - 普通文件   s socket文件   c 字符设备文件   b 块设备文件    第8-6位 文件所有者权限 第5-3位 同组用户权限 第2-0位 其他用户权限
+r表示可读 w表示可写 x表示可执行
+uid 真实用户ID">
+<meta itemprop="datePublished" content="2018-06-05T19:44:06+08:00" />
+<meta itemprop="dateModified" content="2018-06-05T19:44:06+08:00" />
+<meta itemprop="wordCount" content="168">
+<meta itemprop="image" content="https://pytimer.github.io/"/>
+
+
+
+<meta itemprop="keywords" content="permission,euid,egid," />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://pytimer.github.io/"/>
+
+<meta name="twitter:title" content="SUID SGID详细说明"/>
+<meta name="twitter:description" content="Unix下关于文件权限的说明 9 8 7 6 5 4 3 2 1 0 - r w x r - x r - x 第9位表示文件类型，类型说明：
+   文件类型 说明     p 管道文件   d 目录文件   l 符号连接文件   - 普通文件   s socket文件   c 字符设备文件   b 块设备文件    第8-6位 文件所有者权限 第5-3位 同组用户权限 第2-0位 其他用户权限
+r表示可读 w表示可写 x表示可执行
+uid 真实用户ID"/>
+
+
+
+
+
+    <meta property="article:section" content="linux" />
+
+
+
+    <meta property="article:published_time" content="2018-06-05 19:44:06 &#43;0800 CST" />
+
+
+
+
+
+
+
+
+    </head>
+
+    <body class="">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://pytimer.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ kubectl</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://pytimer.github.io/post">博客</a></li><li><a href="https://pytimer.github.io/categories">类别</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://pytimer.github.io/post/linux/suid_sgid/">SUID SGID详细说明</a></h2>
+
+            
+
+            <div class="post-content">
+                <h2 id="unix下关于文件权限的说明">Unix下关于文件权限的说明</h2>
+<pre><code>9  8  7  6  5  4  3  2  1  0
+-  r  w  x  r  -  x  r  -  x
+</code></pre><p>第9位表示文件类型，类型说明：</p>
+<table>
+<thead>
+<tr>
+<th align="left">文件类型</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">p</td>
+<td align="left">管道文件</td>
+</tr>
+<tr>
+<td align="left">d</td>
+<td align="left">目录文件</td>
+</tr>
+<tr>
+<td align="left">l</td>
+<td align="left">符号连接文件</td>
+</tr>
+<tr>
+<td align="left">-</td>
+<td align="left">普通文件</td>
+</tr>
+<tr>
+<td align="left">s</td>
+<td align="left">socket文件</td>
+</tr>
+<tr>
+<td align="left">c</td>
+<td align="left">字符设备文件</td>
+</tr>
+<tr>
+<td align="left">b</td>
+<td align="left">块设备文件</td>
+</tr>
+</tbody>
+</table>
+<p>第8-6位 文件所有者权限
+第5-3位 同组用户权限
+第2-0位 其他用户权限</p>
+<p>r表示可读
+w表示可写
+x表示可执行</p>
+<h3 id="uid">uid</h3>
+<p>真实用户ID</p>
+<h3 id="gid">gid</h3>
+<p>真实组ID</p>
+<h3 id="euid">euid</h3>
+<p>有效用户ID</p>
+<h3 id="egid">egid</h3>
+<p>有效组ID</p>
+<h2 id="suid和sgid详细说明">SUID和SGID详细说明</h2>
+<p>在unix中，内核是通过euid和egid来确定一个进程对于资源的访问权限。</p>
+<p>如果一个进程没有SUID和SGID位，那么权限为euid=uid,egid=gid，权限的话就是运行这个程序的用户权限。</p>
+<p>如果进程有SUID和SGID位，那么euid和egid为设置的用户权限，uid和gid为实际用户权限，程序运行的时候，内核根据euid和egid来判断进程的资源访问权限。</p>
+<h3 id="suid">SUID</h3>
+<p>该权限仅对二进制程序有效，执行者对于该程序需要拥有可执行权限，权限是在程序执行的过程中有效。</p>
+<p>目的：让本来没有相应权限的用户运行这个程序的时候，可以访问他本身没有权限访问的资源。</p>
+<p>例子：passwd</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ ls -l /usr/bin/passwd
+-rwsr-xr-x <span style="color:#ae81ff">1</span> root root <span style="color:#ae81ff">54256</span> May <span style="color:#ae81ff">16</span>  <span style="color:#ae81ff">2017</span> /usr/bin/passwd*
+
+$ ls -l /etc/shadow
+-rw-r----- <span style="color:#ae81ff">1</span> root shadow <span style="color:#ae81ff">1042</span> Jun  <span style="color:#ae81ff">1</span> 06:00 /etc/shadow
+
+</code></pre></div><p>我们知道用户密码保存在<code>/etc/shadow</code>，这个文件的权限如上，可以看到只有root用户有读写权限，同组只有读权限，其他用户没有任何权限，但是我们在使用passwd这个命令的时候，哪怕普通用户也是可以修改密码，这个就是SUID的作用。</p>
+<p>首先<code>/usr/bin/passwd</code>是任何用户都有权限执行的，这个程序设置了SUID，因此所有用户执行这个程序的时候，就拥有了root用户的权限访问系统资源。</p>
+<p>SUID的优先级比SGID高，当一个二进制程序设置了SUID，则SGID会变成相应的egid。</p>
+<h3 id="sgid">SGID</h3>
+<p>SGID主要用在目录上，其他的和SUID相似。</p>
+<p>目的：让程序或者目录拥有所属用户组的权限。</p>
+<h3 id="sbitsticky-bit">SBIT（Sticky Bit）</h3>
+<p>针对others设置，和SUID和SGID相似。</p>
+<p>目的：只针对目录有效，当用户在该目录下新建文件或目录时，仅有自己和root才有权限进行删除。</p>
+<p>具有代表性的 <code>/tmp</code> 目录</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ ll / | grep tmp
+drwxrwxrwt  <span style="color:#ae81ff">10</span> root root  <span style="color:#ae81ff">4096</span> Jun  <span style="color:#ae81ff">5</span> 15:17 tmp/
+</code></pre></div><h3 id="设置方法">设置方法</h3>
+<p><code>chmod u+s &lt;filename&gt;</code> 设置SUID位</p>
+<p><code>chmod u-s &lt;filename&gt;</code> 去掉SUID设置</p>
+<p><code>chmod g+s &lt;filename&gt;</code> 设置SGID位</p>
+<p><code>chmod g-s &lt;filename&gt;</code> 去掉SGID设置</p>
+<p><code>chmod o+t &lt;filename&gt;</code> 设置SBIT</p>
+<ul>
+<li>对应数字设置</li>
+</ul>
+<p>4 为 SUID ＝ u+s
+2 为 SGID ＝ g+s
+1 为 SBIT ＝ o+t</p>
+<h3 id="大写s和t问题">大写S和T问题</h3>
+<p>大写S和T是因为标记位没有可执行权限了，这个时候这个设置就相当于一个空权限，没有意义。有这个问题的时候，需要排查修复下。</p>
+<h2 id="参考网址">参考网址</h2>
+<p><a href="https://blog.csdn.net/findstr/article/details/7330592">uid gid euid egid详解 - CSDN博客</a></p>
+<p><a href="https://www.cnblogs.com/dyh004/p/6378456.html">Linux之特殊权限（SUID/SGID/SBIT） - dyh004 - 博客园</a></p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://pytimer.github.io/tags/permission">permission</a></span><span class="tag"><a href="https://pytimer.github.io/tags/euid">euid</a></span><span class="tag"><a href="https://pytimer.github.io/tags/egid">egid</a></span>
+  				</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2020</span>
+            
+                <span><a href="https://pytimer.github.io/">Pytimer</a></span>
+            
+            
+            <span> <a href="https://pytimer.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">Djordje Atlialp</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+
+
+
+    </body>
+</html>

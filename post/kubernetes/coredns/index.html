@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Software Develper, **Like Go and Cloud** Golang developer China Pytimer https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/gopher.png ">
+<meta name="description" content="coredns pod status is CrashLoopBackOff $ kubectl get pod -n kube-system NAME READY STATUS RESTARTS AGE coredns-fb8b8dccf-cl9rp 0/1 CrashLoopBackOff 6 10m coredns-fb8b8dccf-v4lsv 0/1 CrashLoopBackOff 6 10m etcd-pytimer 1/1 Running 0 9m24s kube-apiserver-pytimer 1/1 Running 0 9m21s kube-controller-manager-pytimer 1/1 Running 0 9m24s kube-flannel-ds-amd64-84vxg 1/1 Running 0 8m14s kube-proxy-cgqpn 1/1 Running 0 10m kube-scheduler-pytimer 1/1 Running 0 9m15s 查看coredns pod的日志，发现如下错误：
+$ kubectl logs -n kube-system coredns-fb8b8dccf-cl9rp .:53 2019-03-26T13:58:34.693Z [INFO] CoreDNS-1.3.1 2019-03-26T13:58:34.694Z [INFO] linux/amd64, go1." />
+<meta name="keywords" content="homepage, blog, kubeadm, CNCF" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://pytimer.github.io/post/kubernetes/coredns/" />
+
+
+    <title>
+        
+            Coredns :: Pytimer Blog 
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.d1ea4af8fd04fb24a4f8b882ea54bd04eb245427ca4baf527c81a5dab071410b.css">
+
+
+
+
+
+
+<meta itemprop="name" content="Coredns">
+<meta itemprop="description" content="coredns pod status is CrashLoopBackOff $ kubectl get pod -n kube-system NAME READY STATUS RESTARTS AGE coredns-fb8b8dccf-cl9rp 0/1 CrashLoopBackOff 6 10m coredns-fb8b8dccf-v4lsv 0/1 CrashLoopBackOff 6 10m etcd-pytimer 1/1 Running 0 9m24s kube-apiserver-pytimer 1/1 Running 0 9m21s kube-controller-manager-pytimer 1/1 Running 0 9m24s kube-flannel-ds-amd64-84vxg 1/1 Running 0 8m14s kube-proxy-cgqpn 1/1 Running 0 10m kube-scheduler-pytimer 1/1 Running 0 9m15s 查看coredns pod的日志，发现如下错误：
+$ kubectl logs -n kube-system coredns-fb8b8dccf-cl9rp .:53 2019-03-26T13:58:34.693Z [INFO] CoreDNS-1.3.1 2019-03-26T13:58:34.694Z [INFO] linux/amd64, go1.">
+<meta itemprop="datePublished" content="2019-03-26T22:09:07+08:00" />
+<meta itemprop="dateModified" content="2019-03-26T22:09:07+08:00" />
+<meta itemprop="wordCount" content="193">
+<meta itemprop="image" content="https://pytimer.github.io/"/>
+
+
+
+<meta itemprop="keywords" content="kubeadm,CNCF," />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://pytimer.github.io/"/>
+
+<meta name="twitter:title" content="Coredns"/>
+<meta name="twitter:description" content="coredns pod status is CrashLoopBackOff $ kubectl get pod -n kube-system NAME READY STATUS RESTARTS AGE coredns-fb8b8dccf-cl9rp 0/1 CrashLoopBackOff 6 10m coredns-fb8b8dccf-v4lsv 0/1 CrashLoopBackOff 6 10m etcd-pytimer 1/1 Running 0 9m24s kube-apiserver-pytimer 1/1 Running 0 9m21s kube-controller-manager-pytimer 1/1 Running 0 9m24s kube-flannel-ds-amd64-84vxg 1/1 Running 0 8m14s kube-proxy-cgqpn 1/1 Running 0 10m kube-scheduler-pytimer 1/1 Running 0 9m15s 查看coredns pod的日志，发现如下错误：
+$ kubectl logs -n kube-system coredns-fb8b8dccf-cl9rp .:53 2019-03-26T13:58:34.693Z [INFO] CoreDNS-1.3.1 2019-03-26T13:58:34.694Z [INFO] linux/amd64, go1."/>
+
+
+
+
+
+    <meta property="article:section" content="cloud" />
+
+    <meta property="article:section" content="Kubernetes" />
+
+
+
+    <meta property="article:published_time" content="2019-03-26 22:09:07 &#43;0800 CST" />
+
+
+
+
+
+
+
+
+    </head>
+
+    <body class="dark-theme">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://pytimer.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">hello</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://pytimer.github.io/post/kubernetes/coredns/">Coredns</a></h2>
+
+            
+
+            <div class="post-content">
+                <h1 id="coredns-pod-status-is-crashloopbackoff">coredns pod status is CrashLoopBackOff</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ kubectl get pod -n kube-system
+NAME                              READY   STATUS             RESTARTS   AGE
+coredns-fb8b8dccf-cl9rp           0/1     CrashLoopBackOff   <span style="color:#ae81ff">6</span>          10m
+coredns-fb8b8dccf-v4lsv           0/1     CrashLoopBackOff   <span style="color:#ae81ff">6</span>          10m
+etcd-pytimer                      1/1     Running            <span style="color:#ae81ff">0</span>          9m24s
+kube-apiserver-pytimer            1/1     Running            <span style="color:#ae81ff">0</span>          9m21s
+kube-controller-manager-pytimer   1/1     Running            <span style="color:#ae81ff">0</span>          9m24s
+kube-flannel-ds-amd64-84vxg       1/1     Running            <span style="color:#ae81ff">0</span>          8m14s
+kube-proxy-cgqpn                  1/1     Running            <span style="color:#ae81ff">0</span>          10m
+kube-scheduler-pytimer            1/1     Running            <span style="color:#ae81ff">0</span>          9m15s
+</code></pre></div><p>查看coredns pod的日志，发现如下错误：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ kubectl logs -n kube-system coredns-fb8b8dccf-cl9rp
+.:53
+2019-03-26T13:58:34.693Z <span style="color:#f92672">[</span>INFO<span style="color:#f92672">]</span> CoreDNS-1.3.1
+2019-03-26T13:58:34.694Z <span style="color:#f92672">[</span>INFO<span style="color:#f92672">]</span> linux/amd64, go1.11.4, 6b56a9c
+CoreDNS-1.3.1
+linux/amd64, go1.11.4, 6b56a9c
+2019-03-26T13:58:34.694Z <span style="color:#f92672">[</span>INFO<span style="color:#f92672">]</span> plugin/reload: Running configuration MD5 <span style="color:#f92672">=</span> 599b9eb76b8c147408aed6a0bbe0f669
+2019-03-26T13:58:34.694Z <span style="color:#f92672">[</span>FATAL<span style="color:#f92672">]</span> plugin/loop: Loop <span style="color:#f92672">(</span>127.0.0.1:51824 -&gt; :53<span style="color:#f92672">)</span> detected <span style="color:#66d9ef">for</span> zone <span style="color:#e6db74">&#34;.&#34;</span>, see https://coredns.io/plugins/loop#troubleshooting. Query: <span style="color:#e6db74">&#34;HINFO 5012779829032833898.3830104233741532924.&#34;</span>
+</code></pre></div><p>查看宿主机上的dns配置</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ cat /etc/resolv.conf
+<span style="color:#75715e"># Dynamic resolv.conf(5) file for glibc resolver(3) generated by resolvconf(8)</span>
+<span style="color:#75715e">#     DO NOT EDIT THIS FILE BY HAND -- YOUR CHANGES WILL BE OVERWRITTEN</span>
+nameserver 127.0.1.1
+search lan
+</code></pre></div><p>更改nameserver，不使用127.0.1.1</p>
+<p>修改<code>/etc/NetworkManager/NetworkManager.conf</code>，注释掉<code>dns=dnsmasq</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#f92672">[</span>main<span style="color:#f92672">]</span>
+plugins<span style="color:#f92672">=</span>ifupdown,keyfile,ofono
+<span style="color:#75715e">#dns=dnsmasq</span>
+</code></pre></div><p>重启服务：<code>service network-manager restart</code></p>
+<p>可以看到coredns的pod正常启动</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ kubectl get pod -n kube-system
+NAME                              READY   STATUS    RESTARTS   AGE
+coredns-fb8b8dccf-gctnk           1/1     Running   <span style="color:#ae81ff">0</span>          33s
+coredns-fb8b8dccf-zx246           1/1     Running   <span style="color:#ae81ff">0</span>          33s
+etcd-pytimer                      1/1     Running   <span style="color:#ae81ff">0</span>          10m
+kube-apiserver-pytimer            1/1     Running   <span style="color:#ae81ff">0</span>          10m
+kube-controller-manager-pytimer   1/1     Running   <span style="color:#ae81ff">0</span>          10m
+kube-flannel-ds-amd64-84vxg       1/1     Running   <span style="color:#ae81ff">0</span>          8m57s
+kube-proxy-cgqpn                  1/1     Running   <span style="color:#ae81ff">0</span>          10m
+kube-scheduler-pytimer            1/1     Running   <span style="color:#ae81ff">0</span>          9m58s
+</code></pre></div>
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://pytimer.github.io/tags/kubeadm">kubeadm</a></span><span class="tag"><a href="https://pytimer.github.io/tags/cncf">CNCF</a></span>
+  				</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2020</span>
+            
+                <span><a href="https://pytimer.github.io/">Pytimer</a></span>
+            
+            
+            <span> <a href="https://pytimer.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">Djordje Atlialp</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+
+
+
+    </body>
+</html>

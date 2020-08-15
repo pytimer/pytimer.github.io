@@ -601,7 +601,7 @@ Delve支持远程调试、命令行调试、集成环境调试  远程调试  �
         </article>
         <footer id="footer" class="main-content-wrap">
   <span class="copyrights">
-    &copy; 2020 <a href="https://github.com/pytimer">pytimer</a>. All Rights Reserved
+    &copy; 2019 <a href="https://github.com/pytimer">pytimer</a>. All Rights Reserved
   </span>
 </footer>
 
@@ -755,125 +755,6 @@ Delve支持远程调试、命令行调试、集成环境调试  远程调试  �
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="https://pytimer.github.io/2020/07/%E5%9C%A8windows%E4%B8%8A%E4%BD%BF%E7%94%A8kubectl%E8%BF%9E%E6%8E%A5%E9%9B%86%E7%BE%A4/">
-                <h3 class="media-heading">在Windows上使用Kubectl连接集群</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jul 7, 2020
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">平时都在Linux上搭建并操作Kubernetes集群，但是有时候会使用Windows来进行开发或者日常工作，这个时候如果在登录某台Linux主机，通过kubectl命令行操作集群就显得不是很方便，Kubernetes本身也是提供了Windows的命令行，因此在Windows上安装并配置kubectl，用于操作远端的Kubernetes集群。下面就是相关步骤。
-下载Windows版本kubectl 可以按照官方文档Install kubectl on Windows来下载Windows版本的kubectl命令行。
-因集群为v1.17.2版本，因此这里直接下载指定版本的kubectl.exe。
-curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.17.2/bin/windows/amd64/kubectl.exe
-下载好后，配置Windows的PATH，在该环境变量值后增加F:\k8s\bin(该路径为kubectl.exe的目录)。
-配置好后，打开Git Bash或其他的工具，输入kubectl.exe version --client，可以看到对应的kubectl版本。到这里kubectl就安装好了。下面需要配置kubectl来连接远端Kubernetes集群。
-$ kubectl.exe version --client Client Version: version.Info{Major:&quot;1&quot;, Minor:&quot;17&quot;, GitVersion:&quot;v1.17.2&quot;, GitCommit:&quot;59603c6e503c87169aea6106f57b9f242f64df89&quot;, GitTreeState:&quot;clean&quot;, BuildDate:&quot;2020-01-18T23:30:10Z&quot;, GoVersion:&quot;go1.13.5&quot;, Compiler:&quot;gc&quot;, Platform:&quot;windows/amd64&quot;}  配置kubectl kubectl需要使用kubeconfig来连接远端集群，通常有三种方式来指定kubeconfig。
- ~/.kube/config，默认kubectl会使用该目录。 KUBECONFIG，使用该环境变量的文件。 --kubeconfig，每次执行命令指定kubeconfig文件。  这里采用第2种方式。因此在Windows上配置一个环境变量KUBECONFIG。设置KUBECONFIG=F:\k8s\bin\kubeconfig。
-重新打开Git Bash，执行kubectl.exe get nodes，可以看到连接到了远端的Kubernetes集群。
-$ kubectl.exe get nodes NAME STATUS ROLES AGE VERSION meta-k8s-234 Ready master 29m v1.17.2 meta-k8s-235 Ready &lt;none&gt; 28m v1.17.2 meta-k8s-236 Ready &lt;none&gt; 28m v1.17.2 meta-k8s-237 Ready &lt;none&gt; 28m v1.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://pytimer.github.io/2019/12/kubernetes-dashboard-installation/">
-                <h3 class="media-heading">Kubernetes Dashboard Installation</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Dec 12, 2019
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">Dashboard为Kubernetes官方的一个webui，集合了所有命令行可以操作的资源，可以根据浏览器的语言自动进行语言的识别。通过webui，我们可以更直观的看到Kubernetes集群的运行情况。不过在安装Dashboard的过程中有一些坑，因此在这里整理成文档以便在今后方便查阅。
-安装 Dashboard的安装相对还是简单的，参考官方的github就可以。
- kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml
- 不过在这中间有一个坑，那就是Dashboard的webui默认是自动生成证书的，由于时间和名称的问题，会导致Chrome和IE等浏览器无法打开界面，这里需要我们自己制作证书处理。
-开启NodePort kind: Service apiVersion: v1 metadata: labels: k8s-app: kubernetes-dashboard name: kubernetes-dashboard namespace: kube-system spec: ports: - port: 443 targetPort: 8443 nodePort: 30003 selector: k8s-app: kubernetes-dashboard type: NodePort  使用kubectl apply的命令将该service应用在Kubernetes集群中，可以看到该service已经生效。
-[root@k8s ~]# kubectl get svc -n kube-system kubernetes-dashboard NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE kubernetes-dashboard NodePort 10.106.67.12 &lt;none&gt; 443:30003/TCP 40m  通过浏览器访问Dashboard，我们发现无法访问界面，会有类似x.x.x.x通常会使用加密技术来保护您的信息，Google Chrome此次尝试连接到x.x.x.x时，此网站发回了异常的错误凭据。...的字样，更换IE、360浏览器均无法访问，在机器上使用curl -k https://x.x.x.x:30003/命令测试，是可以通的。
-出现以上现象是因为Dashboard默认为webui生成的证书时间是无效的，时间是过期的，因此需要解决下该问题，以通过浏览器来访问。
-解决证书过期问题 [root@k8s ~]# openssl genrsa -out dashboard.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://pytimer.github.io/2019/11/docker%E5%AE%B9%E5%99%A8%E6%97%A0%E6%B3%95%E8%BF%9E%E6%8E%A5%E5%A4%96%E9%83%A8%E7%BD%91%E7%BB%9C%E5%8E%9F%E5%9B%A0%E6%8E%92%E6%9F%A5/">
-                <h3 class="media-heading">Docker容器无法连接外部网络原因排查</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Nov 11, 2019
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">Docker是当前最常用的容器运行时引擎，在使用Kubernetes的过程中，我们使用Docker来负责底层的容器的启动、停止。在用户新安装Docker后的使用过程中，发现通过docker run命令启动的容器，使用默认的bridge网络的情况下，容器无法连接到外部网络，针对这个现象进行排查。
-缩小问题范围 使用 docker run -it --rm alpine:3.6 /bin/sh 启动一个容器，采用bridge网络，在容器内ping外部网络的IP，我们发现是无法ping通，该命令会hang住。退出该容器，再尝试使用host网络启动容器，docker run -it --rm --network=host alpine:3.6 /bin/sh，这次我们发现是可以ping通外部网络的，说明是docker的默认bridge网络有问题，缩小范围。
-容器使用bridge网络的情况下，在ping外部网络的情况下，如果发送的不是Docker启动创建的docker0的网桥，会进行SNAT，然后使用宿主机的网卡出去，那么怀疑是SNAT可能有问题，因此查看iptables中和Docker相关的规则。命令结果如下：
-# iptables -t nat -nvL POSTROUTING Chain POSTROUTING (policy ACCEPT 845 packets, 57086 bytes) pkts bytes target prot opt in out source destination 1414 96107 POSTROUTING_direct all -- * * 0.0.0.0/0 0.0.0.0/0 1414 96107 POSTROUTING_ZONES_SOURCE all -- * * 0.0.0.0/0 0.0.0.0/0 1414 96107 POSTROUTING_ZONES all -- * * 0.0.0.0/0 0.0.0.0/0  根据上面结果，我们发现缺少了一条-A POSTROUTING -s 172.</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://pytimer.github.io/2019/10/go%E5%BC%80%E5%8F%91%E8%A7%84%E8%8C%83/">
-                <h3 class="media-heading">Go开发规范</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Oct 10, 2019
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">代码规范 辅助工具 goimports goimports是Go官方提供的工具，能够为我们自动格式化Go语言代码并对引入的包进行管理，其中包括自动增删依赖包引用，将依赖包进行分类排序。
-goimports等价于gofmt加依赖包的管理。
-因此建议所有GO语言开发人员在开发时，使用goimports进行格式化，并在IDE中进行配置，保存时自动格式化。
-在Goland中进行设置 golint golint是Go官方提供的静态检查工具，该工具的诟病在于可定制化不足，但是在Go的社区中，保证一致性的编程规范是有益的事情，因此该工具大多数用在基础库和框架项目中，上层业务应用可以选用golangci-lint这个工具进行静态检查。
-建议所有Go语言开发人员在项目中加入golint或golangci-lint工具进行静态检查，甚至于对于基础库和框架来说，可以同时使用上述两个工具来进行检查。
-自动化 无论是上述的格式化还是静态检查，我们都要在我们的CI流程中进行自动化的处理，从而减少代码审核人员的工作，将重心放在代码逻辑上。
-Drone结合上述工具进行自动化的示例。
-项目开发 目录结构 在项目开发中，Go官方并没有给出一个推荐的目录规划，而在社区中有一些常见的约定，具体的可以看golang-standards/project-layout ，我们也是建议采用该方式进行项目目录规划。
-├── LICENSE ├── Makefile ├── README.md ├── api ├── assets ├── build ├── cmd ├── configs ├── deployments ├── docs ├── examples ├── githooks ├── init ├── internal ├── pkg ├── scripts ├── test ├── third_party ├── tools ├── vendor ├── web └── website  下面介绍常见并且重要的目录及文件。
-README.md 该文件写明该项目的简介，功能说明等。
-CONTRIBUTING.md 该文件说明其他开发人员如何合作开发该项目。
-/pkg 该目录存放的是项目中可以被外部项目或者本项目使用的代码仓库，外部项目直接通过import即可引入该包代码。</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://pytimer.github.io/2019/09/faq-%E4%BF%AE%E6%94%B9configmap%E5%90%8E%E4%BD%BF%E7%94%A8subpath%E7%9A%84pod%E5%BC%82%E5%B8%B8/">
-                <h3 class="media-heading">[FAQ] 修改configmap后，使用subPath的Pod异常</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Sep 9, 2019
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">Pod状态异常，挂载configmap显示no such file or directory $ kubectl get pod -o wide test-7695dc7fb9-rjxlq 0/1 CrashLoopBackOff 13 17h 192.168.100.20 node1 &lt;none&gt;  CrashLoopBackOff状态需要查看pod的日志，通过kubectl logs可以查看到具体的错误信息。
-$ kubectl logs -n test-7695dc7fb9-rjxlq container_linux.go:345: starting container process caused &quot;process_linux.go:430: container init caused \&quot;rootfs_linux.go:58: mounting \\\&quot;/var/lib/kubelet/pods/ed1b799a-d3a5-11e9-add6-0894ef725f6e/volume-subpaths/test-cm/app-conf/1\\\&quot; to rootfs \\\&quot;/var/lib/docker/overlay/23a69e27f79f84a14b50fbee1e4840836487f8c740423291c2f785da1e7a6820/merged\\\&quot; at \\\&quot;/var/lib/docker/overlay/23a69e27f79f84a14b50fbee1e4840836487f8c740423291c2f785da1e7a6820/merged/etc/app/app.conf\\\&quot; caused \\\&quot;no such file or directory\\\&quot;\&quot;&quot;  查看日志发现是挂载的configmap有问题。
-猜测原因：该pod采用subPath的方式挂载configmap，怀疑是configmap修改后，未重建pod导致，因此会出现上述no such file or directory的错误。
-排查问题 查看异常pod的uid，通过下述的命令我们可以看到当前pod在2019-09-10T08:35:21Z的时间创建，并且uid为ed1b799a-d3a5-11e9-add6-0894ef725f6e。
-$ kubectl get pod test-7695dc7fb9-rjxlq -o json | jq .metadata { &quot;creationTimestamp&quot;: &quot;2019-09-10T08:35:21Z&quot;, &quot;generateName&quot;: &quot;test-7695dc7fb9-&quot;, &quot;labels&quot;: { &quot;application&quot;: &quot;test&quot;, &quot;pod-template-hash&quot;: &quot;3251873965&quot; }, &quot;name&quot;: &quot;test-7695dc7fb9-rjxlq&quot;, &quot;namespace&quot;: &quot;openstack&quot;, &quot;ownerReferences&quot;: [ { &quot;apiVersion&quot;: &quot;apps/v1&quot;, &quot;blockOwnerDeletion&quot;: true, &quot;controller&quot;: true, &quot;kind&quot;: &quot;ReplicaSet&quot;, &quot;name&quot;: &quot;test-7695dc7fb9&quot;, &quot;uid&quot;: &quot;ece58508-d3a5-11e9-add6-0894ef725f6e&quot; } ], &quot;resourceVersion&quot;: &quot;1762165&quot;, &quot;selfLink&quot;: &quot;/api/v1/namespaces/default/pods/test-7695dc7fb9-rjxlq&quot;, &quot;uid&quot;: &quot;ed1b799a-d3a5-11e9-add6-0894ef725f6e&quot; }  接下来就需要登录到pod所在的节点进行查看。</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
-        
-          <div class="media">
-            
-            <div class="media-body">
               <a class="link-unstyled" href="https://pytimer.github.io/2019/06/mac%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8docker/">
                 <h3 class="media-heading">Mac安装使用Docker</h3>
               </a>
@@ -896,8 +777,8 @@ Dockerhub关联Github上的项目 关联Github账号 进入https://cloud.docker.
           <div class="media">
             
             <div class="media-body">
-              <a class="link-unstyled" href="https://pytimer.github.io/2019/06/coredns%E7%AE%80%E4%BB%8B/">
-                <h3 class="media-heading">Coredns简介</h3>
+              <a class="link-unstyled" href="https://pytimer.github.io/2019/06/coredns/">
+                <h3 class="media-heading">Coredns</h3>
               </a>
               <span class="media-meta">
                 <span class="media-date text-small">
@@ -976,6 +857,116 @@ Node Capacity --------------------------- | kube-reserved | |-------------------
             <hr>
           </div>
         
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2019/04/%E5%9C%A8gcp%E4%B8%8A%E5%88%9B%E5%BB%BA%E8%99%9A%E6%8B%9F%E6%9C%BA%E5%AE%9E%E4%BE%8B/">
+                <h3 class="media-heading">在GCP上创建虚拟机实例</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Apr 4, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">想要在GCP上使用kubeadm搭建Kubernetes集群，用来平时使用，因此需要事先在GCP上创建几个虚拟机实例，用来部署集群。
+创建虚拟机实例 首先登录GCP的控制台页面，如果没有项目，需要新建一个项目，这里项目示例为kubernetes-pytimer。
+新建项目后，选择该项目，进入信息中心，在左侧的导航菜单中，选择Compute Engine -&gt; VM实例，刚进入页面的时候，如果是新注册的用户，需要等待初始化Compute Engine，这个时候页面的创建按钮是不可用的，等待初始化结束，按钮变亮后，即可创建虚拟机实例。
+点击创建按钮或者上方工具栏的创建实例按钮。如图：因为是要创建Kubernetes集群使用，而kubeadm在部署集群之前是对机器有要求的，需要至少2核CPU和2GB内存，具体的要求可以参考官方文档说明，因此需要在创建虚拟机实例的时候选择合适规格。
+选择虚拟机实例规格的操作比较简单，不进行描述，因为第一台机器需要作为集群的control plane节点，后续也会部署自己的组件，因此磁盘空间选择稍微大些。
+这里创建了两台虚拟机实例，等待一会，可以看到两台虚拟机创建完成，并且已经有了内部IP和临时外部IP。如图：本地Mac或者Linux连接虚拟机实例 自己开发电脑如果想要连接远程虚拟机，我们知道都是使用ssh进行连接，默认GCP不允许直接使用root进行远程连接，我们需要使用登录的GCP账号作为虚拟机的用户名进行登录才可以。关于如何登录虚拟机实例，官方有相关的文档，不过稍微有些麻烦，因此在这里进行简单的描述。
+我们在本地使用ssh-keygen生成ssh所需要的公钥和密钥，相关的操作，可以查阅[]()。
+ssh-keygen -t rsa -f ~/.ssh/k8smaster1 -C &lt;USERNAME&gt;， USERNAME是我们后面使用ssh登录机器的用户名，这样会生成两个文件，可以在~/.ssh看到如下：
+$ ll ~/.ssh total 24 -rw------- 1 pytimer staff 1.8K 4 20 15:28 k8smaster1 -rw-r--r-- 1 pytimer staff 395B 4 20 15:28 k8smaster1.pub -rw-r--r-- 1 pytimer staff 2.8K 4 20 13:19 known_hosts  查看k8smaster1.pub文件内容格式为: ssh-rsa &lt;content&gt; &lt;USERNAME&gt;，因为我们后面需要自己使用，因此当前制作密钥不设置过期时间。
+接下来我们需要把ssh公钥在虚拟机实例上进行设置。具体的操作可以参考文档添加ssh-key到虚拟机实例。
+设置完成后，使用ssh -i ~/.ssh/k8smaster1 &lt;USERNAME&gt;@&lt;IP&gt;即可登录到虚拟机。
+&lt;IP&gt;是虚拟机的外部IP。</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2019/03/coredns/">
+                <h3 class="media-heading">Coredns</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Mar 3, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">coredns pod status is CrashLoopBackOff $ kubectl get pod -n kube-system NAME READY STATUS RESTARTS AGE coredns-fb8b8dccf-cl9rp 0/1 CrashLoopBackOff 6 10m coredns-fb8b8dccf-v4lsv 0/1 CrashLoopBackOff 6 10m etcd-pytimer 1/1 Running 0 9m24s kube-apiserver-pytimer 1/1 Running 0 9m21s kube-controller-manager-pytimer 1/1 Running 0 9m24s kube-flannel-ds-amd64-84vxg 1/1 Running 0 8m14s kube-proxy-cgqpn 1/1 Running 0 10m kube-scheduler-pytimer 1/1 Running 0 9m15s  查看coredns pod的日志，发现如下错误：
+$ kubectl logs -n kube-system coredns-fb8b8dccf-cl9rp .:53 2019-03-26T13:58:34.693Z [INFO] CoreDNS-1.3.1 2019-03-26T13:58:34.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2019/01/mac-develop-environment-installation/">
+                <h3 class="media-heading">Mac Develop Environment Installation</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Mac开发环境配置
+安装iTerm2 官网下载：https://www.iterm2.com/
+安装oh-my-zsh oh-my-zsh 是一个开源的，负责管理你的zsh配置。
+ 通过curl来安装  sh -c &quot;$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)&quot;
+ 通过wget来安装  sh -c &quot;$(wget https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh -O -)&quot;</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2019/01/deploy-helm-private-charts-repository-on-the-kubernetes/">
+                <h3 class="media-heading">Deploy Helm private charts repository on the Kubernetes</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Jan 1, 2019
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Helm是一个管理Kubernetes上charts的工具，通过Helm你可以比较方便的部署、卸载组件等操作。
+在大多数时候，我们都可以直接使用官方的charts仓库来安装我们想要的组件，但是我们有时候会在内网的情况下使用Helm，这个时候我们可能需要一个自己私有的charts仓库。该文档将介绍如何搭建一个私有的charts仓库。
+我们使用minio作为charts仓库的后端存储，结合chartmuseum来提供charts仓库的服务，以方便我们操作charts仓库。
+术语  minio: minio是一个类似Amazon S3的分布式存储服务，该服务提供API、SDK、Client来让我们操作。 chartmuseum: chartmuseum是一个Web服务，该服务提供API来让我们比较轻松的操作charts仓库，而且该服务还可以满足多租户场景。  组件 部署完成后，全部的组件。
+$ kubectl get pod -n kube-system -l &quot;name=tiller&quot; NAME READY STATUS RESTARTS AGE tiller-deploy-&lt;xxx&gt; 1/1 Running 0 5h $ kubectl get pod -n kube-system -l &quot;app=chartmuseum&quot; NAME READY STATUS RESTARTS AGE &lt;release-name&gt;-chartmuseum-&lt;xxx&gt; 1/1 Running 0 47m $ kubectl get pod -n storage NAME READY STATUS RESTARTS AGE minio-client-deployment-&lt;xxx&gt; 1/1 Running 0 7h minio-deployment-&lt;xxx&gt; 1/1 Running 0 9h  部署 部署私有charts仓库，初始化helm init，部署tiller服务，部署好minio服务，部署chartmuseum，通过helm install安装上述两个组件，启动服务。等待服务启动成功，使用helm添加新的charts仓库即可使用。</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/12/kube-admission/">
+                <h3 class="media-heading">Kube Admission</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Dec 12, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">External Admission Webhooks 作用及使用场景 当需要对某些api请求或者所有请求进行校验或者修改object的时候，可以考虑使用ValidatingAdmissionWebhook或者MutatingAdmissionWebhook，两者的区别：
+ ValidatingAdmissionWebhook不允许在webhook中对Object进行修改，只是返回结果是true或false MutatingAdmissionWebhook运行在webhook中对Object进行修改  启用 在1.10之前的版本，需要使用 --admission-control 启用相关配置，并且是按配置的顺序来决定运行顺序，因此需要用户对于Admission Controllers 完全了解。
+在1.10之后的版本，上述配置已经废弃，建议使用--enable-admission-plugins=MutatingAdmissionWebhook,ValidatingAdmissionWebhook，并且用户指定的顺序并不会影响实际运行顺序，更加友好。
+官方的Using Admission Controllers - Kubernetes有关于这方面的详细说明。
+流程 kube-apiserver &ndash;&gt; 认证鉴权 &ndash;&gt; Admission Controller &ndash;&gt; webhook
+使用 创建admission服务，以供kube-apiserver调用 package main import ( &quot;crypto/tls&quot; &quot;encoding/json&quot; &quot;flag&quot; &quot;io/ioutil&quot; &quot;net/http&quot; admissionv1beta1 &quot;k8s.io/api/admission/v1beta1&quot; admissionregistrationv1beta1 &quot;k8s.io/api/admissionregistration/v1beta1&quot; corev1 &quot;k8s.io/api/core/v1&quot; metav1 &quot;k8s.io/apimachinery/pkg/apis/meta/v1&quot; &quot;k8s.io/apimachinery/pkg/runtime&quot; &quot;k8s.io/apimachinery/pkg/runtime/serializer&quot; utilruntime &quot;k8s.io/apimachinery/pkg/util/runtime&quot; &quot;k8s.io/klog&quot; ) type patchOperation struct { Op string `json:&quot;op&quot;` Path string `json:&quot;path&quot;` Value interface{} `json:&quot;value,omitempty&quot;` } var scheme = runtime.</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
       </div>
     </div>
     <div class="modal-footer">
@@ -983,7 +974,7 @@ Node Capacity --------------------------- | kube-reserved | |-------------------
          data-message-zero=""
          data-message-one=""
          data-message-other="">
-         32 posts found
+         27 posts found
       </p>
     </div>
   </div>

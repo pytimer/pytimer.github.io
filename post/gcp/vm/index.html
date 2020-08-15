@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Software Develper, **Like Go and Kubernetes** Golang developer China Pytimer https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/gopher.png ">
+<meta name="description" content="" />
+<meta name="keywords" content=", gcp" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://pytimer.github.io/post/gcp/vm/" />
+
+
+    <title>
+        
+            在GCP上创建虚拟机实例 :: Pytimer  — Kubernetes爱好者
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.d1ea4af8fd04fb24a4f8b882ea54bd04eb245427ca4baf527c81a5dab071410b.css">
+
+
+
+
+
+
+<meta itemprop="name" content="在GCP上创建虚拟机实例">
+<meta itemprop="description" content="">
+<meta itemprop="datePublished" content="2019-04-20T19:33:35+08:00" />
+<meta itemprop="dateModified" content="2019-04-20T19:33:35+08:00" />
+<meta itemprop="wordCount" content="64">
+<meta itemprop="image" content="https://pytimer.github.io/"/>
+
+
+
+<meta itemprop="keywords" content="gcp," />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://pytimer.github.io/"/>
+
+<meta name="twitter:title" content="在GCP上创建虚拟机实例"/>
+<meta name="twitter:description" content=""/>
+
+
+
+
+
+    <meta property="article:section" content="gcp" />
+
+
+
+    <meta property="article:published_time" content="2019-04-20 19:33:35 &#43;0800 CST" />
+
+
+
+
+
+
+
+
+    </head>
+
+    <body class="">
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="https://pytimer.github.io/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ kubectl</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="https://pytimer.github.io/post">博客</a></li><li><a href="https://pytimer.github.io/categories">类别</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+
+            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
+  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
+  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
+</svg>
+</span>
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://pytimer.github.io/post/gcp/vm/">在GCP上创建虚拟机实例</a></h2>
+
+            
+
+            <div class="post-content">
+                <p>想要在GCP上使用<code>kubeadm</code>搭建Kubernetes集群，用来平时使用，因此需要事先在GCP上创建几个虚拟机实例，用来部署集群。</p>
+<h2 id="创建虚拟机实例">创建虚拟机实例</h2>
+<p>首先登录GCP的<a href="https://console.cloud.google.com">控制台</a>页面，如果没有项目，需要新建一个项目，这里项目示例为<code>kubernetes-pytimer</code>。</p>
+<p>新建项目后，选择该项目，进入<code>信息中心</code>，在左侧的导航菜单中，选择<code>Compute Engine</code> -&gt; <code>VM实例</code>，刚进入页面的时候，如果是新注册的用户，需要等待初始化Compute Engine，这个时候页面的<code>创建</code>按钮是不可用的，等待初始化结束，按钮变亮后，即可创建虚拟机实例。</p>
+<p>点击<code>创建</code>按钮或者上方工具栏的<code>创建实例</code>按钮。如图：<img src="https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/screenshots/gcp-vm-instance-toolbar.png" alt="创建实例"></p>
+<p>因为是要创建Kubernetes集群使用，而<code>kubeadm</code>在部署集群之前是对机器有要求的，需要至少2核CPU和2GB内存，具体的要求可以参考<a href="https://kubernetes.io/docs/setup/independent/install-kubeadm/#before-you-begin">官方文档</a>说明，因此需要在创建虚拟机实例的时候选择合适规格。</p>
+<p>选择虚拟机实例规格的操作比较简单，不进行描述，因为第一台机器需要作为集群的control plane节点，后续也会部署自己的组件，因此磁盘空间选择稍微大些。</p>
+<p>这里创建了两台虚拟机实例，等待一会，可以看到两台虚拟机创建完成，并且已经有了内部IP和临时外部IP。如图：<img src="https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/screenshots/gcp-vm-instances-list.png" alt="vm实例列表"></p>
+<h2 id="本地mac或者linux连接虚拟机实例">本地Mac或者Linux连接虚拟机实例</h2>
+<p>自己开发电脑如果想要连接远程虚拟机，我们知道都是使用<code>ssh</code>进行连接，默认GCP不允许直接使用<code>root</code>进行远程连接，我们需要使用登录的GCP账号作为虚拟机的用户名进行登录才可以。关于如何登录虚拟机实例，官方有相关的文档，不过稍微有些麻烦，因此在这里进行简单的描述。</p>
+<p>我们在本地使用<code>ssh-keygen</code>生成ssh所需要的公钥和密钥，相关的操作，可以查阅<a href=""></a>。</p>
+<p><code>ssh-keygen -t rsa -f ~/.ssh/k8smaster1 -C &lt;USERNAME&gt;</code>， <code>USERNAME</code>是我们后面使用ssh登录机器的用户名，这样会生成两个文件，可以在<code>~/.ssh</code>看到如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ ll ~/.ssh
+total <span style="color:#ae81ff">24</span>
+-rw-------  <span style="color:#ae81ff">1</span> pytimer  staff   1.8K  <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">20</span> 15:28 k8smaster1
+-rw-r--r--  <span style="color:#ae81ff">1</span> pytimer  staff   395B  <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">20</span> 15:28 k8smaster1.pub
+-rw-r--r--  <span style="color:#ae81ff">1</span> pytimer  staff   2.8K  <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">20</span> 13:19 known_hosts
+</code></pre></div><p>查看<code>k8smaster1.pub</code>文件内容格式为: <code>ssh-rsa &lt;content&gt; &lt;USERNAME&gt;</code>，因为我们后面需要自己使用，因此当前制作密钥不设置过期时间。</p>
+<p>接下来我们需要把ssh公钥在虚拟机实例上进行设置。具体的操作可以参考文档<a href="https://cloud.google.com/compute/docs/instances/adding-removing-ssh-keys?hl=zh_CN&amp;_ga=2.29893503.-190421684.1535883669&amp;_gac=1.6491910.1553413829.EAIaIQobChMIg7_hiaWa4QIVOyCtBh0iNwzmEAAYASAAEgKDPPD_BwE">添加ssh-key到虚拟机实例</a>。</p>
+<p>设置完成后，使用<code>ssh -i ~/.ssh/k8smaster1 &lt;USERNAME&gt;@&lt;IP&gt;</code>即可登录到虚拟机。</p>
+<p><code>&lt;IP&gt;</code>是虚拟机的外部IP。</p>
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+  				<p>
+  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://pytimer.github.io/tags/gcp">gcp</a></span>
+  				</p>
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2020</span>
+            
+                <span><a href="https://pytimer.github.io/">Pytimer</a></span>
+            
+            
+            <span> <a href="https://pytimer.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">Djordje Atlialp</a></span>
+        </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+
+<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+
+
+
+    </body>
+</html>
