@@ -22,12 +22,12 @@ godoc有两种使用的方法 命令行使用 godoc fmt Println // 输出fmt.Pri
 
 
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
     type="text/css">
 
 
 
-<link rel="stylesheet" href="/main.d1ea4af8fd04fb24a4f8b882ea54bd04eb245427ca4baf527c81a5dab071410b.css">
+<link rel="stylesheet" href="/main.d7bdd8ee18bfbf4c605488a7e5b1b92cd980dfeed2bdaeab4dd5e931a7a78bc0.css">
 
 
 
@@ -37,16 +37,10 @@ godoc有两种使用的方法 命令行使用 godoc fmt Println // 输出fmt.Pri
 <meta itemprop="name" content="godoc介绍">
 <meta itemprop="description" content="godoc为go语言提供文档生成的工具
 godoc有两种使用的方法 命令行使用 godoc fmt Println // 输出fmt.Println的用法文档 godoc -src fmt Println //fmt.Println的实现 启动server godoc -http=&#34;:6060&#34; 搜索 godoc -q Reader 编写godoc文档 规则：
- 类型、变量、函数、常量编写注释的时候，直接在声明前编写注释，中间不留空行。  // Fprint formats using the default formats for its operands and writes to w. // Spaces are added between operands when neither is a string. // It returns the number of bytes written and any write error encountered. func Fprint(w io.Writer, a ...interface{}) (n int, err error) {  包注释应该提供这个包的一般化文档。  // Package sort provides primitives for sorting slices and user-defined // collections.">
-<meta itemprop="datePublished" content="2018-06-06T09:47:06+08:00" />
-<meta itemprop="dateModified" content="2018-06-06T09:47:06+08:00" />
-<meta itemprop="wordCount" content="105">
-<meta itemprop="image" content="https://pytimer.github.io/"/>
-
-
-
+ 类型、变量、函数、常量编写注释的时候，直接在声明前编写注释，中间不留空行。  // Fprint formats using the default formats for its operands and writes to w. // Spaces are added between operands when neither is a string. // It returns the number of bytes written and any write error encountered. func Fprint(w io.Writer, a ...interface{}) (n int, err error) {  包注释应该提供这个包的一般化文档。  // Package sort provides primitives for sorting slices and user-defined // collections."><meta itemprop="datePublished" content="2018-06-06T09:47:06&#43;08:00" />
+<meta itemprop="dateModified" content="2018-06-06T09:47:06&#43;08:00" />
+<meta itemprop="wordCount" content="105"><meta itemprop="image" content="https://pytimer.github.io/"/>
 <meta itemprop="keywords" content="godoc," />
-
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://pytimer.github.io/"/>
 
@@ -54,6 +48,7 @@ godoc有两种使用的方法 命令行使用 godoc fmt Println // 输出fmt.Pri
 <meta name="twitter:description" content="godoc为go语言提供文档生成的工具
 godoc有两种使用的方法 命令行使用 godoc fmt Println // 输出fmt.Println的用法文档 godoc -src fmt Println //fmt.Println的实现 启动server godoc -http=&#34;:6060&#34; 搜索 godoc -q Reader 编写godoc文档 规则：
  类型、变量、函数、常量编写注释的时候，直接在声明前编写注释，中间不留空行。  // Fprint formats using the default formats for its operands and writes to w. // Spaces are added between operands when neither is a string. // It returns the number of bytes written and any write error encountered. func Fprint(w io.Writer, a ...interface{}) (n int, err error) {  包注释应该提供这个包的一般化文档。  // Package sort provides primitives for sorting slices and user-defined // collections."/>
+
 
 
 
@@ -74,11 +69,14 @@ godoc有两种使用的方法 命令行使用 godoc fmt Println // 输出fmt.Pri
 
     </head>
 
-    <body class="">
+    
+        <body>
+    
+    
         <div class="container">
             <header class="header">
     <span class="header__inner">
-        <a href="https://pytimer.github.io/" style="text-decoration: none;">
+        <a href="/" style="text-decoration: none;">
     <div class="logo">
         
             <span class="logo__mark">></span>
@@ -96,7 +94,7 @@ godoc有两种使用的方法 命令行使用 godoc fmt Println // 输出fmt.Pri
         <span class="header__right">
             
                 <nav class="menu">
-    <ul class="menu__inner"><li><a href="https://pytimer.github.io/post">博客</a></li><li><a href="https://pytimer.github.io/categories">类别</a></li>
+    <ul class="menu__inner"><li><a href="/post">博客</a></li><li><a href="/categories">类别</a></li>
     </ul>
 </nav>
 
@@ -107,13 +105,6 @@ godoc有两种使用的方法 命令行使用 godoc fmt Println // 输出fmt.Pri
                     </svg>
                 </span>
             
-
-            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
-  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
-  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
-</svg>
-</span>
         </span>
     </span>
 </header>
@@ -131,6 +122,8 @@ godoc有两种使用的方法 命令行使用 godoc fmt Println // 输出fmt.Pri
         <article>
             <h2 class="post-title"><a href="https://pytimer.github.io/post/go/godoc/">godoc介绍</a></h2>
 
+            
+            
             
 
             <div class="post-content">
@@ -172,9 +165,22 @@ godoc -src fmt Println //fmt.Println的实现
         <hr />
 
         <div class="post-info">
-  				<p>
-  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://pytimer.github.io/tags/godoc">godoc</a></span>
-  				</p>
+            
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
+
+        <span class="tag"><a href="https://pytimer.github.io/tags/godoc/">godoc</a></span>
+        
+    </p>
+
+            
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-folder meta-icon"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+
+        <span class="tag"><a href="https://pytimer.github.io/categories/go/">Go</a></span>
+        
+    </p>
+
   		</div>
     </main>
 
@@ -184,19 +190,16 @@ godoc -src fmt Println //fmt.Println的实现
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2020</span>
-            
-                <span><a href="https://pytimer.github.io/">Pytimer</a></span>
-            
-            
-            <span> <a href="https://pytimer.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+            <span>&copy; 2021</span>
+            <span><a href="https://pytimer.github.io/">Pytimer</a></span>
+            <span><a href="https://pytimer.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
         </div>
     </div>
     <div class="footer__inner">
         <div class="footer__content">
             <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
             <span>Made with &#10084; by <a href="https://github.com/rhazdon">Djordje Atlialp</a></span>
-        </div>
+          </div>
     </div>
 </footer>
 
@@ -207,8 +210,7 @@ godoc -src fmt Println //fmt.Println的实现
 
 
 
-
-<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+<script type="text/javascript" src="/bundle.min.2ce64ea6ea44a72b13dd812fc2eb5cca3efe878cce258a47c137c17edf46e0602a05e422b618a5b80b5939c731b7a293351c2f2222a21f6ee27e54a8448dd20e.js" integrity="sha512-LOZOpupEpysT3YEvwutcyj7&#43;h4zOJYpHwTfBft9G4GAqBeQithiluAtZOccxt6KTNRwvIiKiH27iflSoRI3SDg=="></script>
 
 
 

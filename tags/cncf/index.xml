@@ -6,11 +6,7 @@
     <description>Recent content in CNCF on Pytimer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 28 Oct 2018 15:40:49 +0800</lastBuildDate>
-    
-	<atom:link href="https://pytimer.github.io/tags/cncf/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Sun, 28 Oct 2018 15:40:49 +0800</lastBuildDate><atom:link href="https://pytimer.github.io/tags/cncf/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Promethues Operator</title>
       <link>https://pytimer.github.io/post/prometheus/promethues-operator/</link>

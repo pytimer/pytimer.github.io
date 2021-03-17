@@ -6,11 +6,7 @@
     <description>Recent content in helm on Pytimer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 08 Jan 2019 19:21:56 +0800</lastBuildDate>
-    
-	<atom:link href="https://pytimer.github.io/tags/helm/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Tue, 08 Jan 2019 19:21:56 +0800</lastBuildDate><atom:link href="https://pytimer.github.io/tags/helm/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Deploy Helm private charts repository on the Kubernetes</title>
       <link>https://pytimer.github.io/post/cncf/kubernetes/helm/</link>

@@ -6,10 +6,21 @@
     <description>Recent content in Posts on Pytimer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 20 Jul 2020 09:47:00 +0800</lastBuildDate>
-    
-	<atom:link href="https://pytimer.github.io/post/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Wed, 17 Mar 2021 15:53:53 +0800</lastBuildDate><atom:link href="https://pytimer.github.io/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux禁用IPv6</title>
+      <link>https://pytimer.github.io/post/linux/disable-ipv6/</link>
+      <pubDate>Wed, 17 Mar 2021 15:53:53 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/post/linux/disable-ipv6/</guid>
+      <description>IPv6被认为是IPv4的替代，用来解决现有IPv4地址空间即将耗尽的问题，默认Linux操作系统是启用IPv6的，有时我们需要关闭，下面是关闭IPv6的方法。
+方法一 修改sysctl参数。
+编辑文件/etc/sysctl.conf，添加以下两行：
+net.ipv6.conf.all.disable_ipv6 = 1 net.ipv6.conf.default.disable_ipv6 = 1 如果想要为指定的网卡禁用IPv6，比如：eth1，可以添加以下行：
+net.ipv6.conf.eth1.disable_ipv6 = 1 保存后，执行sysctl -p来使上述配置生效。
+方法二 要在已运行的系统中禁用IPv6，可以输入一下命令：
+sysctl -w net.ipv6.conf.all.disable_ipv6=1 sysctl -w net.ipv6.conf.default.disable_ipv6=1 </description>
+    </item>
     
     <item>
       <title>在Windows上使用Kubectl连接集群</title>
@@ -312,7 +323,7 @@ td-log</description>
   提问的时候相关背景尽可能详细的说明清楚，并直接提出自己的目标而不仅仅是过程。
   提问的时候尽量不要加&amp;quot;紧急&amp;quot;之类的标题，哪怕你是付费用户。
   请态度和善提出你的任何问题，并善良对待任何人任何问题，不论谁都不喜欢自以为是的人。
-  多用&amp;quot;请&amp;rdquo;、&amp;ldquo;谢谢&amp;quot;之类的词语，同时对回复者保持尊重和感谢。
+  多用&amp;quot;请&amp;quot;、&amp;ldquo;谢谢&amp;quot;之类的词语，同时对回复者保持尊重和感谢。
   链接地址：提问的智慧</description>
     </item>
     
@@ -386,7 +397,25 @@ Delve支持远程调试、命令行调试、集成环境调试  远程调试  �
  命令行调试  dlv debug
 具体可以查看Getting started with Delve该文档，有比较详细的说明
  集成环境调试  [Chinese]delve · nebulasio/wiki Wiki · GitHub
-常用命令说明    命令 描述     args 打印函数参数   break (alias: b) 设置一个断点   breakpoints (alias: bp) 打印活动断点信息   clear 删除断点   clearall 删除所有的断点   condition (alias: cond) 设置断点条件   config 改变配置参数   continue (alias: c) 运行到断点或程序终止   exit (alias: quit | q) 退出debugger   funcs 打印函数列表   goroutine 显示或更改当前goroutine   goroutines 列出程序的全部goroutines   help (alias: h) 打印出帮助信息   list (alias: ls | l) 显示当前执行步骤的源代码   locals 打印局部变量   next (alias: n) 跳到下一行   on 在遇到断点时执行一个命令   print (alias: p) 表达式   regs 打印CPU寄存器的内容   restart (alias: r) 重启进程   set 更改变量的值   source 执行包含delve命令列表的文件   sources 打印源文件列表   stack (alias: bt) 打印堆栈跟踪信息   step (alias: s) 单步执行程序   step-instruction (alias: si) 单步单个执行cpu指令   stepout 退出当前函数   thread	(alias: tr) 切换到指定的线程   threads 打印每一个跟踪线程的信息   trace (alias: t) 设置跟踪点   types 打印类型列表   vars 打印某个包内的(全局)变量   whatis 打印表达式的类型    完整的命令说明：delve/Documentation/cli · derekparker/delve · GitHub</description>
+常用命令说明    命令 描述     args 打印函数参数   break (alias: b) 设置一个断点   breakpoints (alias: bp) 打印活动断点信息   clear 删除断点   clearall 删除所有的断点   condition (alias: cond) 设置断点条件   config 改变配置参数   continue (alias: c) 运行到断点或程序终止   exit `(alias: quit q)`   funcs 打印函数列表   goroutine 显示或更改当前goroutine   goroutines 列出程序的全部goroutines   help (alias: h) 打印出帮助信息   list `(alias: ls l)`   locals 打印局部变量   next (alias: n) 跳到下一行   on 在遇到断点时执行一个命令   print (alias: p) 表达式   regs 打印CPU寄存器的内容   restart (alias: r) 重启进程   set 更改变量的值   source 执行包含delve命令列表的文件   sources 打印源文件列表   stack (alias: bt) 打印堆栈跟踪信息   step (alias: s) 单步执行程序   step-instruction (alias: si) 单步单个执行cpu指令   stepout 退出当前函数   thread	(alias: tr) 切换到指定的线程   threads 打印每一个跟踪线程的信息   trace (alias: t) 设置跟踪点   types 打印类型列表   vars 打印某个包内的(全局)变量   whatis 打印表达式的类型    完整的命令说明：delve/Documentation/cli · derekparker/delve · GitHub</description>
+    </item>
+    
+    <item>
+      <title>Http</title>
+      <link>https://pytimer.github.io/post/go/http/</link>
+      <pubDate>Wed, 06 Jun 2018 09:48:11 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/post/go/http/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Gocmd</title>
+      <link>https://pytimer.github.io/post/go/gocmd/</link>
+      <pubDate>Wed, 06 Jun 2018 09:47:49 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/post/go/gocmd/</guid>
+      <description></description>
     </item>
     
     <item>
@@ -471,12 +500,12 @@ Kubernetes与云原生2017年年终总结与2018年展望</description>
       <description>阅读contribute内容 https://golang.org/doc/contribute.html
 准备工作 安装配置go-contrib-init工具 $ go get -v -u golang.org/x/tools/cmd/go-contrib-init $ cd /code/to/edit $ go-contrib-init 安装git 配置git使用Gerrit   申请Google Account。
   登录googlesource并生成密码
-  进入go.googlesourc.com，单击右上角的&amp;quot;Generate Password&amp;rdquo;
+  进入go.googlesourc.com，单击右上角的&amp;quot;Generate Password&amp;quot;
  执行完第2步后，会看到&amp;quot;Configure Git&amp;quot;页面，该页面说明如何配置git使用你的认证token，按说明执行后，在~/.gitcookies文件中可以看到你的token
   注册Gerrit
   用你的Google Account登录go-review.googlesource.com/login/
 Contributor License   登录Gerrit
-  点击右上角头像的settings，再点击&amp;quot;Agreements&amp;rdquo;，如果没有任何的agreements，点击&amp;quot;New Contributor Agreement&amp;rdquo;，按提示进行操作。
+  点击右上角头像的settings，再点击&amp;quot;Agreements&amp;quot;，如果没有任何的agreements，点击&amp;quot;New Contributor Agreement&amp;quot;，按提示进行操作。
   设置开发环境 安装git-codereview工具 $ go get -u golang.org/x/review/git-codereview 安装完后git-codereview会在$GOPATH/bin下，把$GOPATH/bin添加到PATH。 (Windows的话执行git --exec-path查看git的执行路径，把git-codereview拷贝到该目录下)
 执行以下命令查看是否安装完成
 $ git codereview help 设置git aliases 把以下内容写入到~/.gitconfig文件

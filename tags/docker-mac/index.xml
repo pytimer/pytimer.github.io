@@ -6,11 +6,7 @@
     <description>Recent content in docker-mac on Pytimer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 26 Jun 2019 19:35:13 +0800</lastBuildDate>
-    
-	<atom:link href="https://pytimer.github.io/tags/docker-mac/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Wed, 26 Jun 2019 19:35:13 +0800</lastBuildDate><atom:link href="https://pytimer.github.io/tags/docker-mac/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Mac安装使用Docker</title>
       <link>https://pytimer.github.io/post/docker/mac/</link>

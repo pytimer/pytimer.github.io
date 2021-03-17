@@ -24,12 +24,12 @@ $ kubectl get pod -n kube-system -l &amp;#34;name=tiller&amp;#34; NAME READY STA
 
 
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
     type="text/css">
 
 
 
-<link rel="stylesheet" href="/main.d1ea4af8fd04fb24a4f8b882ea54bd04eb245427ca4baf527c81a5dab071410b.css">
+<link rel="stylesheet" href="/main.d7bdd8ee18bfbf4c605488a7e5b1b92cd980dfeed2bdaeab4dd5e931a7a78bc0.css">
 
 
 
@@ -41,16 +41,10 @@ $ kubectl get pod -n kube-system -l &amp;#34;name=tiller&amp;#34; NAME READY STA
 在大多数时候，我们都可以直接使用官方的charts仓库来安装我们想要的组件，但是我们有时候会在内网的情况下使用Helm，这个时候我们可能需要一个自己私有的charts仓库。该文档将介绍如何搭建一个私有的charts仓库。
 我们使用minio作为charts仓库的后端存储，结合chartmuseum来提供charts仓库的服务，以方便我们操作charts仓库。
 术语  minio: minio是一个类似Amazon S3的分布式存储服务，该服务提供API、SDK、Client来让我们操作。 chartmuseum: chartmuseum是一个Web服务，该服务提供API来让我们比较轻松的操作charts仓库，而且该服务还可以满足多租户场景。  组件 部署完成后，全部的组件。
-$ kubectl get pod -n kube-system -l &#34;name=tiller&#34; NAME READY STATUS RESTARTS AGE tiller-deploy-&lt;xxx&gt; 1/1 Running 0 5h $ kubectl get pod -n kube-system -l &#34;app=chartmuseum&#34; NAME READY STATUS RESTARTS AGE &lt;release-name&gt;-chartmuseum-&lt;xxx&gt; 1/1 Running 0 47m $ kubectl get pod -n storage NAME READY STATUS RESTARTS AGE minio-client-deployment-&lt;xxx&gt; 1/1 Running 0 7h minio-deployment-&lt;xxx&gt; 1/1 Running 0 9h 部署 部署私有charts仓库，初始化helm init，部署tiller服务，部署好minio服务，部署chartmuseum，通过helm install安装上述两个组件，启动服务。等待服务启动成功，使用helm添加新的charts仓库即可使用。">
-<meta itemprop="datePublished" content="2019-01-08T19:21:56+08:00" />
-<meta itemprop="dateModified" content="2019-01-08T19:21:56+08:00" />
-<meta itemprop="wordCount" content="353">
-<meta itemprop="image" content="https://pytimer.github.io/"/>
-
-
-
+$ kubectl get pod -n kube-system -l &#34;name=tiller&#34; NAME READY STATUS RESTARTS AGE tiller-deploy-&lt;xxx&gt; 1/1 Running 0 5h $ kubectl get pod -n kube-system -l &#34;app=chartmuseum&#34; NAME READY STATUS RESTARTS AGE &lt;release-name&gt;-chartmuseum-&lt;xxx&gt; 1/1 Running 0 47m $ kubectl get pod -n storage NAME READY STATUS RESTARTS AGE minio-client-deployment-&lt;xxx&gt; 1/1 Running 0 7h minio-deployment-&lt;xxx&gt; 1/1 Running 0 9h 部署 部署私有charts仓库，初始化helm init，部署tiller服务，部署好minio服务，部署chartmuseum，通过helm install安装上述两个组件，启动服务。等待服务启动成功，使用helm添加新的charts仓库即可使用。"><meta itemprop="datePublished" content="2019-01-08T19:21:56&#43;08:00" />
+<meta itemprop="dateModified" content="2019-01-08T19:21:56&#43;08:00" />
+<meta itemprop="wordCount" content="353"><meta itemprop="image" content="https://pytimer.github.io/"/>
 <meta itemprop="keywords" content="helm," />
-
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://pytimer.github.io/"/>
 
@@ -60,6 +54,7 @@ $ kubectl get pod -n kube-system -l &#34;name=tiller&#34; NAME READY STATUS REST
 我们使用minio作为charts仓库的后端存储，结合chartmuseum来提供charts仓库的服务，以方便我们操作charts仓库。
 术语  minio: minio是一个类似Amazon S3的分布式存储服务，该服务提供API、SDK、Client来让我们操作。 chartmuseum: chartmuseum是一个Web服务，该服务提供API来让我们比较轻松的操作charts仓库，而且该服务还可以满足多租户场景。  组件 部署完成后，全部的组件。
 $ kubectl get pod -n kube-system -l &#34;name=tiller&#34; NAME READY STATUS RESTARTS AGE tiller-deploy-&lt;xxx&gt; 1/1 Running 0 5h $ kubectl get pod -n kube-system -l &#34;app=chartmuseum&#34; NAME READY STATUS RESTARTS AGE &lt;release-name&gt;-chartmuseum-&lt;xxx&gt; 1/1 Running 0 47m $ kubectl get pod -n storage NAME READY STATUS RESTARTS AGE minio-client-deployment-&lt;xxx&gt; 1/1 Running 0 7h minio-deployment-&lt;xxx&gt; 1/1 Running 0 9h 部署 部署私有charts仓库，初始化helm init，部署tiller服务，部署好minio服务，部署chartmuseum，通过helm install安装上述两个组件，启动服务。等待服务启动成功，使用helm添加新的charts仓库即可使用。"/>
+
 
 
 
@@ -80,11 +75,14 @@ $ kubectl get pod -n kube-system -l &#34;name=tiller&#34; NAME READY STATUS REST
 
     </head>
 
-    <body class="">
+    
+        <body>
+    
+    
         <div class="container">
             <header class="header">
     <span class="header__inner">
-        <a href="https://pytimer.github.io/" style="text-decoration: none;">
+        <a href="/" style="text-decoration: none;">
     <div class="logo">
         
             <span class="logo__mark">></span>
@@ -102,7 +100,7 @@ $ kubectl get pod -n kube-system -l &#34;name=tiller&#34; NAME READY STATUS REST
         <span class="header__right">
             
                 <nav class="menu">
-    <ul class="menu__inner"><li><a href="https://pytimer.github.io/post">博客</a></li><li><a href="https://pytimer.github.io/categories">类别</a></li>
+    <ul class="menu__inner"><li><a href="/post">博客</a></li><li><a href="/categories">类别</a></li>
     </ul>
 </nav>
 
@@ -113,13 +111,6 @@ $ kubectl get pod -n kube-system -l &#34;name=tiller&#34; NAME READY STATUS REST
                     </svg>
                 </span>
             
-
-            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
-  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
-  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
-</svg>
-</span>
         </span>
     </span>
 </header>
@@ -137,6 +128,8 @@ $ kubectl get pod -n kube-system -l &#34;name=tiller&#34; NAME READY STATUS REST
         <article>
             <h2 class="post-title"><a href="https://pytimer.github.io/post/cncf/kubernetes/helm/">Deploy Helm private charts repository on the Kubernetes</a></h2>
 
+            
+            
             
 
             <div class="post-content">
@@ -210,59 +203,59 @@ charts/kubernetes* <span style="color:#f92672">=</span>&gt; readonly
 </code></pre></div><p>拷贝<code>charts/stable/chartmuseum</code>到安装好<code>helm</code>的主机上。</p>
 <h4 id="安装chartmuseum-1">安装chartmuseum</h4>
 <p>我们需要修改chartmuseum的一些启动和安装参数，具体的参数修改，可以参考下面:</p>
-<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#66d9ef">image</span>:
-  <span style="color:#66d9ef">repository</span>: chartmuseum/chartmuseum
-<span style="color:#66d9ef">replicaCount</span>: <span style="color:#ae81ff">1</span>
-<span style="color:#66d9ef">resources</span>:
-  <span style="color:#66d9ef">limits</span>:
-    <span style="color:#66d9ef">memory</span>: 200Mi
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#f92672">image</span>:
+  <span style="color:#f92672">repository</span>: <span style="color:#ae81ff">chartmuseum/chartmuseum</span>
+<span style="color:#f92672">replicaCount</span>: <span style="color:#ae81ff">1</span>
+<span style="color:#f92672">resources</span>:
+  <span style="color:#f92672">limits</span>:
+    <span style="color:#f92672">memory</span>: <span style="color:#ae81ff">200Mi</span>
 
-<span style="color:#66d9ef">env</span>:
-  <span style="color:#66d9ef">open</span>:
-    <span style="color:#66d9ef">STORAGE</span>: amazon
-    <span style="color:#66d9ef">STORAGE_AMAZON_BUCKET</span>: <span style="color:#e6db74">&#34;charts&#34;</span>
-    <span style="color:#66d9ef">STORAGE_AMAZON_ENDPOINT</span>: <span style="color:#e6db74">&#34;http://&lt;minio-service&gt;.storage.svc:9000&#34;</span>
-    <span style="color:#66d9ef">DEPTH</span>: <span style="color:#ae81ff">1</span>
-    <span style="color:#66d9ef">DEBUG</span>: <span style="color:#66d9ef">true</span>
-    <span style="color:#66d9ef">DISABLE_API</span>: <span style="color:#66d9ef">false</span>
-  <span style="color:#66d9ef">secret</span>:
-    <span style="color:#66d9ef">AWS_ACCESS_KEY_ID</span>: <span style="color:#e6db74">&#34;...&#34;</span>
-    <span style="color:#66d9ef">AWS_SECRET_ACCESS_KEY</span>: <span style="color:#e6db74">&#34;...&#34;</span>
+<span style="color:#f92672">env</span>:
+  <span style="color:#f92672">open</span>:
+    <span style="color:#f92672">STORAGE</span>: <span style="color:#ae81ff">amazon</span>
+    <span style="color:#f92672">STORAGE_AMAZON_BUCKET</span>: <span style="color:#e6db74">&#34;charts&#34;</span>
+    <span style="color:#f92672">STORAGE_AMAZON_ENDPOINT</span>: <span style="color:#e6db74">&#34;http://&lt;minio-service&gt;.storage.svc:9000&#34;</span>
+    <span style="color:#f92672">DEPTH</span>: <span style="color:#ae81ff">1</span>
+    <span style="color:#f92672">DEBUG</span>: <span style="color:#66d9ef">true</span>
+    <span style="color:#f92672">DISABLE_API</span>: <span style="color:#66d9ef">false</span>
+  <span style="color:#f92672">secret</span>:
+    <span style="color:#f92672">AWS_ACCESS_KEY_ID</span>: <span style="color:#e6db74">&#34;...&#34;</span>
+    <span style="color:#f92672">AWS_SECRET_ACCESS_KEY</span>: <span style="color:#e6db74">&#34;...&#34;</span>
 </code></pre></div><table>
 <thead>
 <tr>
-<th align="left">参数</th>
-<th align="left">说明</th>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">说明</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left"><code>image.repository</code></td>
-<td align="left">如果我们有自己的chartmuseum可以修改为自己的镜像</td>
+<td style="text-align:left"><code>image.repository</code></td>
+<td style="text-align:left">如果我们有自己的chartmuseum可以修改为自己的镜像</td>
 </tr>
 <tr>
-<td align="left"><code>env.open.STORAGE</code></td>
-<td align="left">因为我们使用minio作为后端存储服务，因此该值需要配置为<code>amazon</code></td>
+<td style="text-align:left"><code>env.open.STORAGE</code></td>
+<td style="text-align:left">因为我们使用minio作为后端存储服务，因此该值需要配置为<code>amazon</code></td>
 </tr>
 <tr>
-<td align="left"><code>env.open.STORAGE_AMAZON_BUCKET</code></td>
-<td align="left">我们采用chartmuseum管理多个仓库，该值填写为最上层bucket即可</td>
+<td style="text-align:left"><code>env.open.STORAGE_AMAZON_BUCKET</code></td>
+<td style="text-align:left">我们采用chartmuseum管理多个仓库，该值填写为最上层bucket即可</td>
 </tr>
 <tr>
-<td align="left"><code>env.open.STORAGE_AMAZON_ENDPOINT</code></td>
-<td align="left">如果使用上面所说的方式部署minio，因为chartmuseum和minio不在同一个namespace中，因此需要填写为minio服务地址</td>
+<td style="text-align:left"><code>env.open.STORAGE_AMAZON_ENDPOINT</code></td>
+<td style="text-align:left">如果使用上面所说的方式部署minio，因为chartmuseum和minio不在同一个namespace中，因此需要填写为minio服务地址</td>
 </tr>
 <tr>
-<td align="left"><code>env.open.DEPTH</code></td>
-<td align="left">我们采用chartmuseum管理多个仓库，该值为<code>index.yaml</code>所在bucket和<code>STORAGE_AMAZON_BUCKET</code>的层级深度，该文档中为1</td>
+<td style="text-align:left"><code>env.open.DEPTH</code></td>
+<td style="text-align:left">我们采用chartmuseum管理多个仓库，该值为<code>index.yaml</code>所在bucket和<code>STORAGE_AMAZON_BUCKET</code>的层级深度，该文档中为1</td>
 </tr>
 <tr>
-<td align="left"><code>env.secret.AWS_ACCESS_KEY_ID</code></td>
-<td align="left">minio服务的access key</td>
+<td style="text-align:left"><code>env.secret.AWS_ACCESS_KEY_ID</code></td>
+<td style="text-align:left">minio服务的access key</td>
 </tr>
 <tr>
-<td align="left"><code>env.secret.AWS_SECRET_ACCESS_KEY</code></td>
-<td align="left">minio服务的secret key</td>
+<td style="text-align:left"><code>env.secret.AWS_SECRET_ACCESS_KEY</code></td>
+<td style="text-align:left">minio服务的secret key</td>
 </tr>
 </tbody>
 </table>
@@ -301,9 +294,22 @@ Done.
         <hr />
 
         <div class="post-info">
-  				<p>
-  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://pytimer.github.io/tags/helm">helm</a></span>
-  				</p>
+            
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
+
+        <span class="tag"><a href="https://pytimer.github.io/tags/helm/">helm</a></span>
+        
+    </p>
+
+            
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-folder meta-icon"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+
+        <span class="tag"><a href="https://pytimer.github.io/categories/kubernetes/">Kubernetes</a></span>
+        
+    </p>
+
   		</div>
     </main>
 
@@ -313,19 +319,16 @@ Done.
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2020</span>
-            
-                <span><a href="https://pytimer.github.io/">Pytimer</a></span>
-            
-            
-            <span> <a href="https://pytimer.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+            <span>&copy; 2021</span>
+            <span><a href="https://pytimer.github.io/">Pytimer</a></span>
+            <span><a href="https://pytimer.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
         </div>
     </div>
     <div class="footer__inner">
         <div class="footer__content">
             <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
             <span>Made with &#10084; by <a href="https://github.com/rhazdon">Djordje Atlialp</a></span>
-        </div>
+          </div>
     </div>
 </footer>
 
@@ -336,8 +339,7 @@ Done.
 
 
 
-
-<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+<script type="text/javascript" src="/bundle.min.2ce64ea6ea44a72b13dd812fc2eb5cca3efe878cce258a47c137c17edf46e0602a05e422b618a5b80b5939c731b7a293351c2f2222a21f6ee27e54a8448dd20e.js" integrity="sha512-LOZOpupEpysT3YEvwutcyj7&#43;h4zOJYpHwTfBft9G4GAqBeQithiluAtZOccxt6KTNRwvIiKiH27iflSoRI3SDg=="></script>
 
 
 

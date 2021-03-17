@@ -6,10 +6,21 @@
     <description>Recent content in linux on Pytimer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 05 Jun 2018 19:44:06 +0800</lastBuildDate>
-    
-	<atom:link href="https://pytimer.github.io/categories/linux/index.xml" rel="self" type="application/rss+xml" />
-    
+    <lastBuildDate>Wed, 17 Mar 2021 15:53:53 +0800</lastBuildDate><atom:link href="https://pytimer.github.io/categories/linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux禁用IPv6</title>
+      <link>https://pytimer.github.io/post/linux/disable-ipv6/</link>
+      <pubDate>Wed, 17 Mar 2021 15:53:53 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/post/linux/disable-ipv6/</guid>
+      <description>IPv6被认为是IPv4的替代，用来解决现有IPv4地址空间即将耗尽的问题，默认Linux操作系统是启用IPv6的，有时我们需要关闭，下面是关闭IPv6的方法。
+方法一 修改sysctl参数。
+编辑文件/etc/sysctl.conf，添加以下两行：
+net.ipv6.conf.all.disable_ipv6 = 1 net.ipv6.conf.default.disable_ipv6 = 1 如果想要为指定的网卡禁用IPv6，比如：eth1，可以添加以下行：
+net.ipv6.conf.eth1.disable_ipv6 = 1 保存后，执行sysctl -p来使上述配置生效。
+方法二 要在已运行的系统中禁用IPv6，可以输入一下命令：
+sysctl -w net.ipv6.conf.all.disable_ipv6=1 sysctl -w net.ipv6.conf.default.disable_ipv6=1 </description>
+    </item>
     
     <item>
       <title>SUID SGID详细说明</title>

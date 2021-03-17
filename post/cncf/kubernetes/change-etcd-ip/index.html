@@ -27,12 +27,12 @@
 
 
 
-<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.2.1/css/flag-icon.min.css" rel="stylesheet"
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
     type="text/css">
 
 
 
-<link rel="stylesheet" href="/main.d1ea4af8fd04fb24a4f8b882ea54bd04eb245427ca4baf527c81a5dab071410b.css">
+<link rel="stylesheet" href="/main.d7bdd8ee18bfbf4c605488a7e5b1b92cd980dfeed2bdaeab4dd5e931a7a78bc0.css">
 
 
 
@@ -47,16 +47,10 @@
    集群大小 Majority 容忍数量     1 1 0   2 2 0   3 2 1   4 3 1   5 3 2   6 4 2   7 4 3   8 5 3   9 5 4    目前我们的Kubernetes集群采用大多数是3节点的Etcd集群，因此允许一个节点失联。
 下面详细描述下如何进行集群成员IP变更，因为我们的Etcd集群运行在容器中，采用Static Pod的方式由Kubelet进行管理，所以如果Etcd集群部署形态并非容器的话，请根据实际情况进行相应调整，关于etcdctl的操作是一致的，没有区别。
 我们仍然使用下面的三节点集群，所有节点IP地址如下：
-   成员名称 旧IP 新IP     master1 192.">
-<meta itemprop="datePublished" content="2019-05-28T13:35:48+08:00" />
-<meta itemprop="dateModified" content="2019-05-28T13:35:48+08:00" />
-<meta itemprop="wordCount" content="366">
-<meta itemprop="image" content="https://pytimer.github.io/"/>
-
-
-
+   成员名称 旧IP 新IP     master1 192."><meta itemprop="datePublished" content="2019-05-28T13:35:48&#43;08:00" />
+<meta itemprop="dateModified" content="2019-05-28T13:35:48&#43;08:00" />
+<meta itemprop="wordCount" content="366"><meta itemprop="image" content="https://pytimer.github.io/"/>
 <meta itemprop="keywords" content="etcd," />
-
 <meta name="twitter:card" content="summary_large_image"/>
 <meta name="twitter:image" content="https://pytimer.github.io/"/>
 
@@ -69,6 +63,7 @@
 下面详细描述下如何进行集群成员IP变更，因为我们的Etcd集群运行在容器中，采用Static Pod的方式由Kubelet进行管理，所以如果Etcd集群部署形态并非容器的话，请根据实际情况进行相应调整，关于etcdctl的操作是一致的，没有区别。
 我们仍然使用下面的三节点集群，所有节点IP地址如下：
    成员名称 旧IP 新IP     master1 192."/>
+
 
 
 
@@ -91,11 +86,14 @@
 
     </head>
 
-    <body class="">
+    
+        <body>
+    
+    
         <div class="container">
             <header class="header">
     <span class="header__inner">
-        <a href="https://pytimer.github.io/" style="text-decoration: none;">
+        <a href="/" style="text-decoration: none;">
     <div class="logo">
         
             <span class="logo__mark">></span>
@@ -113,7 +111,7 @@
         <span class="header__right">
             
                 <nav class="menu">
-    <ul class="menu__inner"><li><a href="https://pytimer.github.io/post">博客</a></li><li><a href="https://pytimer.github.io/categories">类别</a></li>
+    <ul class="menu__inner"><li><a href="/post">博客</a></li><li><a href="/categories">类别</a></li>
     </ul>
 </nav>
 
@@ -124,13 +122,6 @@
                     </svg>
                 </span>
             
-
-            <span class="theme-toggle unselectable"><svg class="theme-toggler" width="24" height="24" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M22 41C32.4934 41 41 32.4934 41 22C41 11.5066 32.4934 3 22
-  3C11.5066 3 3 11.5066 3 22C3 32.4934 11.5066 41 22 41ZM7 22C7
-  13.7157 13.7157 7 22 7V37C13.7157 37 7 30.2843 7 22Z"/>
-</svg>
-</span>
         </span>
     </span>
 </header>
@@ -149,6 +140,8 @@
             <h2 class="post-title"><a href="https://pytimer.github.io/post/cncf/kubernetes/change-etcd-ip/">Change Etcd cluster member ip</a></h2>
 
             
+            
+            
 
             <div class="post-content">
                 <h2 id="背景">背景</h2>
@@ -160,56 +153,56 @@
 <table>
 <thead>
 <tr>
-<th align="left">集群大小</th>
-<th align="left">Majority</th>
-<th align="left">容忍数量</th>
+<th style="text-align:left">集群大小</th>
+<th style="text-align:left">Majority</th>
+<th style="text-align:left">容忍数量</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left">1</td>
-<td align="left">1</td>
-<td align="left">0</td>
+<td style="text-align:left">1</td>
+<td style="text-align:left">1</td>
+<td style="text-align:left">0</td>
 </tr>
 <tr>
-<td align="left">2</td>
-<td align="left">2</td>
-<td align="left">0</td>
+<td style="text-align:left">2</td>
+<td style="text-align:left">2</td>
+<td style="text-align:left">0</td>
 </tr>
 <tr>
-<td align="left">3</td>
-<td align="left">2</td>
-<td align="left">1</td>
+<td style="text-align:left">3</td>
+<td style="text-align:left">2</td>
+<td style="text-align:left">1</td>
 </tr>
 <tr>
-<td align="left">4</td>
-<td align="left">3</td>
-<td align="left">1</td>
+<td style="text-align:left">4</td>
+<td style="text-align:left">3</td>
+<td style="text-align:left">1</td>
 </tr>
 <tr>
-<td align="left">5</td>
-<td align="left">3</td>
-<td align="left">2</td>
+<td style="text-align:left">5</td>
+<td style="text-align:left">3</td>
+<td style="text-align:left">2</td>
 </tr>
 <tr>
-<td align="left">6</td>
-<td align="left">4</td>
-<td align="left">2</td>
+<td style="text-align:left">6</td>
+<td style="text-align:left">4</td>
+<td style="text-align:left">2</td>
 </tr>
 <tr>
-<td align="left">7</td>
-<td align="left">4</td>
-<td align="left">3</td>
+<td style="text-align:left">7</td>
+<td style="text-align:left">4</td>
+<td style="text-align:left">3</td>
 </tr>
 <tr>
-<td align="left">8</td>
-<td align="left">5</td>
-<td align="left">3</td>
+<td style="text-align:left">8</td>
+<td style="text-align:left">5</td>
+<td style="text-align:left">3</td>
 </tr>
 <tr>
-<td align="left">9</td>
-<td align="left">5</td>
-<td align="left">4</td>
+<td style="text-align:left">9</td>
+<td style="text-align:left">5</td>
+<td style="text-align:left">4</td>
 </tr>
 </tbody>
 </table>
@@ -219,26 +212,26 @@
 <table>
 <thead>
 <tr>
-<th align="left">成员名称</th>
-<th align="left">旧IP</th>
-<th align="left">新IP</th>
+<th style="text-align:left">成员名称</th>
+<th style="text-align:left">旧IP</th>
+<th style="text-align:left">新IP</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="left">master1</td>
-<td align="left">192.168.100.10</td>
-<td align="left">192.168.110.10</td>
+<td style="text-align:left">master1</td>
+<td style="text-align:left">192.168.100.10</td>
+<td style="text-align:left">192.168.110.10</td>
 </tr>
 <tr>
-<td align="left">master2</td>
-<td align="left">192.168.100.11</td>
-<td align="left">192.168.110.11</td>
+<td style="text-align:left">master2</td>
+<td style="text-align:left">192.168.100.11</td>
+<td style="text-align:left">192.168.110.11</td>
 </tr>
 <tr>
-<td align="left">master3</td>
-<td align="left">192.168.100.12</td>
-<td align="left">192.168.110.12</td>
+<td style="text-align:left">master3</td>
+<td style="text-align:left">192.168.100.12</td>
+<td style="text-align:left">192.168.110.12</td>
 </tr>
 </tbody>
 </table>
@@ -331,9 +324,23 @@ member 2430ba10b69efc5a is healthy: got healthy result from https://192.168.110.
         <hr />
 
         <div class="post-info">
-  				<p>
-  					<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg><span class="tag"><a href="https://pytimer.github.io/tags/etcd">etcd</a></span>
-  				</p>
+            
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
+
+        <span class="tag"><a href="https://pytimer.github.io/tags/etcd/">etcd</a></span>
+        
+    </p>
+
+            
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-folder meta-icon"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+
+        <span class="tag"><a href="https://pytimer.github.io/categories/cncf/">CNCF</a></span>
+        <span class="tag"><a href="https://pytimer.github.io/categories/kubernetes/">Kubernetes</a></span>
+        
+    </p>
+
   		</div>
     </main>
 
@@ -343,19 +350,16 @@ member 2430ba10b69efc5a is healthy: got healthy result from https://192.168.110.
                 <footer class="footer">
     <div class="footer__inner">
         <div class="footer__content">
-            <span>&copy; 2020</span>
-            
-                <span><a href="https://pytimer.github.io/">Pytimer</a></span>
-            
-            
-            <span> <a href="https://pytimer.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+            <span>&copy; 2021</span>
+            <span><a href="https://pytimer.github.io/">Pytimer</a></span>
+            <span><a href="https://pytimer.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
         </div>
     </div>
     <div class="footer__inner">
         <div class="footer__content">
             <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
             <span>Made with &#10084; by <a href="https://github.com/rhazdon">Djordje Atlialp</a></span>
-        </div>
+          </div>
     </div>
 </footer>
 
@@ -366,8 +370,7 @@ member 2430ba10b69efc5a is healthy: got healthy result from https://192.168.110.
 
 
 
-
-<script type="text/javascript" src="/bundle.min.dc716e9092c9820b77f96da294d0120aeeb189b5bcea9752309ebea27fd53bbe6b13cffb2aca8ecf32525647ceb7001f76091de4199ac5a3caa432c070247f5b.js" integrity="sha512-3HFukJLJggt3&#43;W2ilNASCu6xibW86pdSMJ6&#43;on/VO75rE8/7KsqOzzJSVkfOtwAfdgkd5BmaxaPKpDLAcCR/Ww=="></script>
+<script type="text/javascript" src="/bundle.min.2ce64ea6ea44a72b13dd812fc2eb5cca3efe878cce258a47c137c17edf46e0602a05e422b618a5b80b5939c731b7a293351c2f2222a21f6ee27e54a8448dd20e.js" integrity="sha512-LOZOpupEpysT3YEvwutcyj7&#43;h4zOJYpHwTfBft9G4GAqBeQithiluAtZOccxt6KTNRwvIiKiH27iflSoRI3SDg=="></script>
 
 
 

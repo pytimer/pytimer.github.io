@@ -6,11 +6,7 @@
     <description>Recent content in Telegram on Pytimer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 27 Jul 2018 16:21:45 +0800</lastBuildDate>
-    
-	<atom:link href="https://pytimer.github.io/categories/telegram/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Fri, 27 Jul 2018 16:21:45 +0800</lastBuildDate><atom:link href="https://pytimer.github.io/categories/telegram/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Telegram Dev</title>
       <link>https://pytimer.github.io/post/other/telegram-dev/</link>

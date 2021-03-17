@@ -19,7 +19,7 @@
     
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="Hugo 0.53 with theme Tranquilpeak 0.4.3-BETA">
+    <meta name="generator" content="Hugo 0.52 with theme Tranquilpeak 0.4.3-BETA">
     <title>Coredns</title>
     <meta name="author" content="Pytimer">
     <meta name="keywords" content="tech">
@@ -471,7 +471,7 @@ Address 1: 10.99.215.79 k8s-keystone-auth-service.kube-system.svc.cluster.local
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2019/06/mac%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8docker/" data-tooltip="Mac安装使用Docker">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -557,7 +557,7 @@ Address 1: 10.99.215.79 k8s-keystone-auth-service.kube-system.svc.cluster.local
           
             <li class="post-action">
               
-                <a class="post-action-btn btn btn--default tooltip--top" href="https://pytimer.github.io/2019/06/mac%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8docker/" data-tooltip="Mac安装使用Docker">
+                <a class="post-action-btn btn btn--disabled">
               
                   <i class="fa fa-angle-left"></i>
                   <span class="hide-xs hide-sm text-small icon-ml">下一篇</span>
@@ -694,28 +694,6 @@ Address 1: 10.99.215.79 k8s-keystone-auth-service.kube-system.svc.cluster.local
       <div class="no-result text-color-light text-center"></div>
       <div class="results">
         
-        
-          <div class="media">
-            
-            <div class="media-body">
-              <a class="link-unstyled" href="https://pytimer.github.io/2019/06/mac%E5%AE%89%E8%A3%85%E4%BD%BF%E7%94%A8docker/">
-                <h3 class="media-heading">Mac安装使用Docker</h3>
-              </a>
-              <span class="media-meta">
-                <span class="media-date text-small">
-                  Jun 6, 2019
-                </span>
-              </span>
-              <div class="media-content hide-xs font-merryweather">Docker是目前最常用的容器引擎，在Mac上安装Docker。
-安装、配置Docker Install Docker Desktop for Mac
-按照官方文档直接下载Docker.img并双击安装即可，安装的过程中，需要输入当前用户的登录密码。
-配置Docker 在Mac上，我们需要先注册Docker ID，进行登录才可以使用。因此我们需要先去https://cloud.docker.com注册自己的账号。
-Dockerhub关联Github上的项目 关联Github账号 进入https://cloud.docker.com，登录自己的账号，然后点击账号的倒三角，看到Account Settings，点击进入设置页面，查看Linked Accounts选项卡，可以关联Github账号，关联好后会显示关联成功。
-创建Repository 创建好Repository后，点击Builds，设置自动制作镜像的操作。</div>
-            </div>
-            <div style="clear:both;"></div>
-            <hr>
-          </div>
         
           <div class="media">
             
@@ -910,6 +888,37 @@ $ kubectl get pod -n kube-system -l &quot;name=tiller&quot; NAME READY STATUS RE
             <hr>
           </div>
         
+          <div class="media">
+            
+            <div class="media-body">
+              <a class="link-unstyled" href="https://pytimer.github.io/2018/12/kubeadm-%E8%AE%BE%E8%AE%A1/">
+                <h3 class="media-heading">Kubeadm 设计</h3>
+              </a>
+              <span class="media-meta">
+                <span class="media-date text-small">
+                  Dec 12, 2018
+                </span>
+              </span>
+              <div class="media-content hide-xs font-merryweather">Master：控制面节点
+Node：工作节点
+目标  构建高可用的Kubernetes集群。
+ 定义一种通用并且可扩展的多个控制面实例部署的流程。kubeadm join --control-plane。 为明确的用户用例提供一种更好的解决方案。  高级工具集成
+  因为要提供给更高级的工具（ansible、saltstack）使用kubeadm来部署集群，因此，kubeadm join --control-plane需要为其提供更好的易操作性：
+ 并发部署节点
+高级工具可以并行的创建节点（包括：控制面节点和工作节点），以减少集群的启动时间。kubeadm join --control-plane应该提供一种更好的实践方式而不是依赖于高级工具进行同步。
+ 支持动态和静态两种形态的部署流程
+ 在用户执行kubeadm init的时候，可能并不清楚集群最终的形态是什么样子，例如， 用户可能只启动了一个控制面节点和n个工作节点，然后在未来可能需要添加更多的控制面节点和工作节点。用户不能提前知道控制面节点的最终状态，这种流程叫做“动态部署”。
+ kubeadm同时也应该支持另外一种“静态部署”流程，即用户在事先就已经规划并知道控制面节点的数量、IP等信息。
+  支持不同的etcd部署场景，具体来说就是，在相同的节点上部署控制面组件和etcd，或者是在专有机器上运行etcd。
+  非核心目标  在一个工作节点上安装控制面组件。该节点在最开始就要决定是作为控制面还是工作节点，并且在后续整个生命周期的过程中，都要保持不变。 该设计提案不包括etcd集群部署的管理。 该设计提案不包括api-server的load balancing。但是不能该提案的任何设计都不能阻止用户使用自己的负载均衡方案 该设计提案不涉及kubeadm的self-hosting方案。但是设计不能阻止未来重新考虑该部分。 该提案不提供对于跨主机传输CA和其他必要证书。 该提案不能阻塞当前已经存在的设计。  实现细节 初始化 Kubernetes 集群 在第一个节点上运行kubeadm init初始化集群，该节点被称为自举控制节点。
+为支持kubeadm join --control-plane，新的Kubernetes集群必须要满足下面条件：
+ 集群必须设置一个controlPlaneEndpoint 集群必须使用外部etcd  执行join之前的准备 在调用kubeadm join --control-plane之前，需要用户或者使用高级工具拷贝自举控制节点的证书到新的节点。
+证书包括：ca, front-proxy-ca certificate 和 service account key pair</div>
+            </div>
+            <div style="clear:both;"></div>
+            <hr>
+          </div>
+        
       </div>
     </div>
     <div class="modal-footer">
@@ -917,7 +926,7 @@ $ kubectl get pod -n kube-system -l &quot;name=tiller&quot; NAME READY STATUS RE
          data-message-zero=""
          data-message-one=""
          data-message-other="">
-         27 posts found
+         26 posts found
       </p>
     </div>
   </div>
