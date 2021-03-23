@@ -6,7 +6,26 @@
     <description>Recent content on Pytimer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 17 Mar 2021 15:53:53 +0800</lastBuildDate><atom:link href="https://pytimer.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 22 Mar 2021 13:36:21 +0800</lastBuildDate><atom:link href="https://pytimer.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>修改Kubernetes集群节点的CIDR</title>
+      <link>https://pytimer.github.io/post/cncf/kubernetes/change-cidr/</link>
+      <pubDate>Mon, 22 Mar 2021 13:36:21 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/post/cncf/kubernetes/change-cidr/</guid>
+      <description>使用Kubernetes集群的时候，遇到了在300台节点的时候，CNI从calico切换到flannel后，出现新建的pod无法分配IP的情况。
+排查发现，是因为节点的podCIDR没有可分配的IP地址段。节点的podCIDR是由kube-controller-manager进行分配的，因此需要查看kube-controller-manager中--cluster-cidr和--node-cidr-mask-size配置，计算下支持的最大节点数。
+集群最大节点数计算公式：(cluster-cidr的可用地址数)/(node-cidr-mask-size每台节点可用地址数)。
+了解到集群修改过两次--cluster-cidr和--node-cidr-mask-size的值，集群刚创建的时候，使用的是--cluster-cidr=10.244.0.0/16和--node-cidr-mask-size=24，根据公式算出最大节点数为258，第二次修改配置为--cluster-cidr=10.244.0.0/12和--node-cidr-mask-size=16，根据公式算出最大节点数为16，因此随着节点规模增加，kube-controller-manager经过计算没有可分配的IP地址段给节点，所以节点的podCIDR为空。
+原因了解后，修改kube-controller-manager的配置，即：--cluster-cidr=10.244.0.0/12和--node-cidr-mask-size=24，修改后集群可支持500以上节点。
+修改后可以通过kubectl get nodes -ojsonpath=&amp;quot;{range .items[*]}{.metadata.name}{&#39;\t&#39;}{.spec.podCIDR}{&#39;\n&#39;}{end}&amp;quot;，看到所有节点都分配了IP地址段。
+在节点已分配好podCIDR后，创建几个nginx的pod，确认是否解决问题。查看结果，可以看到IP已经可以分配，pod已经正常运行。
+$ kubectl get pod -owide NAME READY STATUS RESTARTS AGE IP NODE nginx-deployment-6f769989f-2479j 1/1 Running 0 9d 10.244.52.4 worker1 nginx-deployment-6f769989f-278zs 1/1 Running 1 9d 10.240.31.10 worker289 nginx-deployment-6f769989f-27fv6 1/1 Running 1 9d 10.244.208.4 worker3 nginx-deployment-6f769989f-27phv 1/1 Running 1 9d 10.244.200.3 worker4 nginx-deployment-6f769989f-29hkt 1/1 Running 1 9d 10.241.12.6 worker5 虽然pod正常运行，但是发现在worker1上无法ping通worker289的pod，这个时候需要看下worker1的flannel的日志，看到日志有类似的错误：ignoring non-vxlan subnet(10.240.31.0/24): type=host-gw，因为我们的flannel采用的vxlan模式，而上面的错误，会导致flannel忽略worker289上的podCIDR，所以才会导致在worker1上无法连通worker289的pod。
+连接不通的原因找到了，但是具体是什么导致了这个情况呢，查看了flannel的代码，没有找到比较明显的原因，只是怀疑可能是因为集群中有部分节点的podCIDR有重复的，所以导致flannel这边有问题，因此比对了下整个集群节点的podCIDR，发现果然有20个左右的节点重复，依次通过ping尝试连接这些节点的pod，都无法连通。到这里发现了根本原因，应该是之前两次修改--cluster-cidr和--node-cidr-mask-size导致的。因此下面要做的就是手动重新分配下重复的节点，使整个集群正常。
+一开始想用kubectl patch修改podCIDR，但是发现不允许修改这个字段，因此只能采用另外一种方式，重新生成node的资源。因为在k8s上，所有的对象都是可以通过yaml来生成的，因此node也是可以通过yaml来重新生成。
+$ kubectl get node &amp;lt;nodename&amp;gt; -oyaml &amp;gt; &amp;lt;nodename&amp;gt;.</description>
+    </item>
+    
     <item>
       <title>Linux禁用IPv6</title>
       <link>https://pytimer.github.io/post/linux/disable-ipv6/</link>
