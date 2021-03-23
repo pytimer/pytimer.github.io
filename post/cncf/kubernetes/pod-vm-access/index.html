@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Software Develper, **Like Go and Kubernetes** Golang developer China Pytimer https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/gopher.png ">
+<meta name="description" content="使用Kubernetes的时候，会想要在集群外部机器直接访问pod的ip，我们知道在kubernetes的网络模型上，做到了可以在集群中节点连通任意节点的pod和service的ip，但是在集群外部机器上无法直接访问。
+这个时候可以通过一种方式，即在外部机器上配置两条路由规则，让机器访问pod和service的网段转发到集群节点，这样就可以实现外部机器访问了。下面说下如何配置。
+首先要明确当前Kubernetes集群的pod和service的cidr，假设分别是10.244.0.0/16和10.96.0.0/12，这个时候，使用route命令在外部机器上配置路由规则。
+在外部机器上增加一条如下的路由，其中192.168.100.25为k8s一台节点的ip： $ sudo route add -net 10.244.0.0/16 gw 192.168.100.25 $ sudo route add -net 10.96.0.0/12 gw 192.168.100.25 这样的话，就可以在外部机器上直接访问pod和service了。" />
+<meta name="keywords" content=", pod" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://pytimer.github.io/post/cncf/kubernetes/pod-vm-access/" />
+
+
+    <title>
+        
+            集群外部机器访问pod的IP :: Pytimer  — Kubernetes爱好者
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.d7bdd8ee18bfbf4c605488a7e5b1b92cd980dfeed2bdaeab4dd5e931a7a78bc0.css">
+
+
+
+
+
+
+<meta itemprop="name" content="集群外部机器访问pod的IP">
+<meta itemprop="description" content="使用Kubernetes的时候，会想要在集群外部机器直接访问pod的ip，我们知道在kubernetes的网络模型上，做到了可以在集群中节点连通任意节点的pod和service的ip，但是在集群外部机器上无法直接访问。
+这个时候可以通过一种方式，即在外部机器上配置两条路由规则，让机器访问pod和service的网段转发到集群节点，这样就可以实现外部机器访问了。下面说下如何配置。
+首先要明确当前Kubernetes集群的pod和service的cidr，假设分别是10.244.0.0/16和10.96.0.0/12，这个时候，使用route命令在外部机器上配置路由规则。
+在外部机器上增加一条如下的路由，其中192.168.100.25为k8s一台节点的ip： $ sudo route add -net 10.244.0.0/16 gw 192.168.100.25 $ sudo route add -net 10.96.0.0/12 gw 192.168.100.25 这样的话，就可以在外部机器上直接访问pod和service了。"><meta itemprop="datePublished" content="2021-03-23T11:29:57&#43;08:00" />
+<meta itemprop="dateModified" content="2021-03-23T11:29:57&#43;08:00" />
+<meta itemprop="wordCount" content="21"><meta itemprop="image" content="https://pytimer.github.io/"/>
+<meta itemprop="keywords" content="pod," />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://pytimer.github.io/"/>
+
+<meta name="twitter:title" content="集群外部机器访问pod的IP"/>
+<meta name="twitter:description" content="使用Kubernetes的时候，会想要在集群外部机器直接访问pod的ip，我们知道在kubernetes的网络模型上，做到了可以在集群中节点连通任意节点的pod和service的ip，但是在集群外部机器上无法直接访问。
+这个时候可以通过一种方式，即在外部机器上配置两条路由规则，让机器访问pod和service的网段转发到集群节点，这样就可以实现外部机器访问了。下面说下如何配置。
+首先要明确当前Kubernetes集群的pod和service的cidr，假设分别是10.244.0.0/16和10.96.0.0/12，这个时候，使用route命令在外部机器上配置路由规则。
+在外部机器上增加一条如下的路由，其中192.168.100.25为k8s一台节点的ip： $ sudo route add -net 10.244.0.0/16 gw 192.168.100.25 $ sudo route add -net 10.96.0.0/12 gw 192.168.100.25 这样的话，就可以在外部机器上直接访问pod和service了。"/>
+
+
+
+
+
+
+    <meta property="article:section" content="Kubernetes" />
+
+
+
+    <meta property="article:published_time" content="2021-03-23 11:29:57 &#43;0800 CST" />
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ kubectl</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/post">博客</a></li><li><a href="/categories">类别</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://pytimer.github.io/post/cncf/kubernetes/pod-vm-access/">集群外部机器访问pod的IP</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                <p>使用Kubernetes的时候，会想要在集群外部机器直接访问pod的ip，我们知道在kubernetes的网络模型上，做到了可以在集群中节点连通任意节点的pod和service的ip，但是在集群外部机器上无法直接访问。</p>
+<p>这个时候可以通过一种方式，即在外部机器上配置两条路由规则，让机器访问pod和service的网段转发到集群节点，这样就可以实现外部机器访问了。下面说下如何配置。</p>
+<p>首先要明确当前Kubernetes集群的pod和service的cidr，假设分别是<code>10.244.0.0/16</code>和<code>10.96.0.0/12</code>，这个时候，使用<code>route</code>命令在外部机器上配置路由规则。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">在外部机器上增加一条如下的路由，其中192.168.100.25为k8s一台节点的ip：
+$ sudo route add -net 10.244.0.0/16 gw 192.168.100.25
+$ sudo route add -net 10.96.0.0/12 gw 192.168.100.25
+</code></pre></div><p>这样的话，就可以在外部机器上直接访问pod和service了。</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
+
+        <span class="tag"><a href="https://pytimer.github.io/tags/pod/">pod</a></span>
+        
+    </p>
+
+            
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-folder meta-icon"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+
+        <span class="tag"><a href="https://pytimer.github.io/categories/kubernetes/">Kubernetes</a></span>
+        
+    </p>
+
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2021</span>
+            <span><a href="https://pytimer.github.io/">Pytimer</a></span>
+            <span><a href="https://pytimer.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">Djordje Atlialp</a></span>
+          </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="/bundle.min.2ce64ea6ea44a72b13dd812fc2eb5cca3efe878cce258a47c137c17edf46e0602a05e422b618a5b80b5939c731b7a293351c2f2222a21f6ee27e54a8448dd20e.js" integrity="sha512-LOZOpupEpysT3YEvwutcyj7&#43;h4zOJYpHwTfBft9G4GAqBeQithiluAtZOccxt6KTNRwvIiKiH27iflSoRI3SDg=="></script>
+
+
+
+    </body>
+</html>

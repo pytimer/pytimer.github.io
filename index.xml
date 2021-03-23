@@ -6,7 +6,19 @@
     <description>Recent content on Pytimer</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 22 Mar 2021 13:36:21 +0800</lastBuildDate><atom:link href="https://pytimer.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 23 Mar 2021 11:29:57 +0800</lastBuildDate><atom:link href="https://pytimer.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>集群外部机器访问pod的IP</title>
+      <link>https://pytimer.github.io/post/cncf/kubernetes/pod-vm-access/</link>
+      <pubDate>Tue, 23 Mar 2021 11:29:57 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/post/cncf/kubernetes/pod-vm-access/</guid>
+      <description>使用Kubernetes的时候，会想要在集群外部机器直接访问pod的ip，我们知道在kubernetes的网络模型上，做到了可以在集群中节点连通任意节点的pod和service的ip，但是在集群外部机器上无法直接访问。
+这个时候可以通过一种方式，即在外部机器上配置两条路由规则，让机器访问pod和service的网段转发到集群节点，这样就可以实现外部机器访问了。下面说下如何配置。
+首先要明确当前Kubernetes集群的pod和service的cidr，假设分别是10.244.0.0/16和10.96.0.0/12，这个时候，使用route命令在外部机器上配置路由规则。
+在外部机器上增加一条如下的路由，其中192.168.100.25为k8s一台节点的ip： $ sudo route add -net 10.244.0.0/16 gw 192.168.100.25 $ sudo route add -net 10.96.0.0/12 gw 192.168.100.25 这样的话，就可以在外部机器上直接访问pod和service了。</description>
+    </item>
+    
     <item>
       <title>修改Kubernetes集群节点的CIDR</title>
       <link>https://pytimer.github.io/post/cncf/kubernetes/change-cidr/</link>
