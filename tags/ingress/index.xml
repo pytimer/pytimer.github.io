@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ingress on Pytimer</title>
+    <link>https://pytimer.github.io/tags/ingress/</link>
+    <description>Recent content in ingress on Pytimer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 29 Mar 2021 17:26:20 +0800</lastBuildDate><atom:link href="https://pytimer.github.io/tags/ingress/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Nginx-ingress-controller的打开文件数过多，服务异常处理</title>
+      <link>https://pytimer.github.io/post/cncf/kubernetes/nginx-ingress-ulimit/</link>
+      <pubDate>Mon, 29 Mar 2021 17:26:20 +0800</pubDate>
+      
+      <guid>https://pytimer.github.io/post/cncf/kubernetes/nginx-ingress-ulimit/</guid>
+      <description>在新创建的k8s集群上，push容器镜像到Harbor的时候，发现镜像时不时会上传失败，这个时候看Harbor的Pod都是运行正常的，服务也没有异常，因为Harbor是通过Ingress的方式对外暴露服务的，因此怀疑可能是nginx-ingress-controller的问题。
+查看nginx-ingress-controller相关的Pod日志，内容如下：
+$ kubectl logs -n kube-system nginx-ingress-controller-d5d6d6954-vb8wt ------------------------------------------------------------------------------- NGINX Ingress controller Release: 0.21.0 Build: git-b65b85cd9 Repository: https://github.com/aledbf/ingress-nginx ------------------------------------------------------------------------------- nginx version: nginx/1.15.6 W0329 08:20:25.976376 9 client_config.go:548] Neither --kubeconfig nor --master was specified. Using the inClusterConfig. This might not work. I0329 08:20:25.976784 9 main.go:196] Creating API client for https://10.96.0.1:443 I0329 08:20:25.991435 9 main.go:240] Running in Kubernetes cluster version v1.11+ (v1.11.6) - git (clean) commit 612bdcbaa5ce6967727036073ae81414a0d25af8 - platform linux/amd64 I0329 08:20:25.993591 9 main.</description>
+    </item>
+    
+  </channel>
+</rss>

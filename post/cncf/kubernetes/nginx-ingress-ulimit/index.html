@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+    <head>
+        <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="author" content="Software Develper, **Like Go and Kubernetes** Golang developer China Pytimer https://raw.githubusercontent.com/pytimer/pytimer.github.io/master/gopher.png ">
+<meta name="description" content="在新创建的k8s集群上，push容器镜像到Harbor的时候，发现镜像时不时会上传失败，这个时候看Harbor的Pod都是运行正常的，服务也没有异常，因为Harbor是通过Ingress的方式对外暴露服务的，因此怀疑可能是nginx-ingress-controller的问题。
+查看nginx-ingress-controller相关的Pod日志，内容如下：
+$ kubectl logs -n kube-system nginx-ingress-controller-d5d6d6954-vb8wt ------------------------------------------------------------------------------- NGINX Ingress controller Release: 0.21.0 Build: git-b65b85cd9 Repository: https://github.com/aledbf/ingress-nginx ------------------------------------------------------------------------------- nginx version: nginx/1.15.6 W0329 08:20:25.976376 9 client_config.go:548] Neither --kubeconfig nor --master was specified. Using the inClusterConfig. This might not work. I0329 08:20:25.976784 9 main.go:196] Creating API client for https://10.96.0.1:443 I0329 08:20:25.991435 9 main.go:240] Running in Kubernetes cluster version v1.11&#43; (v1.11.6) - git (clean) commit 612bdcbaa5ce6967727036073ae81414a0d25af8 - platform linux/amd64 I0329 08:20:25.993591 9 main." />
+<meta name="keywords" content=", ingress" />
+<meta name="robots" content="noodp" />
+<meta name="theme-color" content="" />
+<link rel="canonical" href="https://pytimer.github.io/post/cncf/kubernetes/nginx-ingress-ulimit/" />
+
+
+    <title>
+        
+            Nginx-ingress-controller的打开文件数过多，服务异常处理 :: Pytimer  — Kubernetes爱好者
+        
+    </title>
+
+
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" rel="stylesheet"
+    type="text/css">
+
+
+
+<link rel="stylesheet" href="/main.d7bdd8ee18bfbf4c605488a7e5b1b92cd980dfeed2bdaeab4dd5e931a7a78bc0.css">
+
+
+
+
+
+
+<meta itemprop="name" content="Nginx-ingress-controller的打开文件数过多，服务异常处理">
+<meta itemprop="description" content="在新创建的k8s集群上，push容器镜像到Harbor的时候，发现镜像时不时会上传失败，这个时候看Harbor的Pod都是运行正常的，服务也没有异常，因为Harbor是通过Ingress的方式对外暴露服务的，因此怀疑可能是nginx-ingress-controller的问题。
+查看nginx-ingress-controller相关的Pod日志，内容如下：
+$ kubectl logs -n kube-system nginx-ingress-controller-d5d6d6954-vb8wt ------------------------------------------------------------------------------- NGINX Ingress controller Release: 0.21.0 Build: git-b65b85cd9 Repository: https://github.com/aledbf/ingress-nginx ------------------------------------------------------------------------------- nginx version: nginx/1.15.6 W0329 08:20:25.976376 9 client_config.go:548] Neither --kubeconfig nor --master was specified. Using the inClusterConfig. This might not work. I0329 08:20:25.976784 9 main.go:196] Creating API client for https://10.96.0.1:443 I0329 08:20:25.991435 9 main.go:240] Running in Kubernetes cluster version v1.11&#43; (v1.11.6) - git (clean) commit 612bdcbaa5ce6967727036073ae81414a0d25af8 - platform linux/amd64 I0329 08:20:25.993591 9 main."><meta itemprop="datePublished" content="2021-03-29T17:26:20&#43;08:00" />
+<meta itemprop="dateModified" content="2021-03-29T17:26:20&#43;08:00" />
+<meta itemprop="wordCount" content="910"><meta itemprop="image" content="https://pytimer.github.io/"/>
+<meta itemprop="keywords" content="ingress," />
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://pytimer.github.io/"/>
+
+<meta name="twitter:title" content="Nginx-ingress-controller的打开文件数过多，服务异常处理"/>
+<meta name="twitter:description" content="在新创建的k8s集群上，push容器镜像到Harbor的时候，发现镜像时不时会上传失败，这个时候看Harbor的Pod都是运行正常的，服务也没有异常，因为Harbor是通过Ingress的方式对外暴露服务的，因此怀疑可能是nginx-ingress-controller的问题。
+查看nginx-ingress-controller相关的Pod日志，内容如下：
+$ kubectl logs -n kube-system nginx-ingress-controller-d5d6d6954-vb8wt ------------------------------------------------------------------------------- NGINX Ingress controller Release: 0.21.0 Build: git-b65b85cd9 Repository: https://github.com/aledbf/ingress-nginx ------------------------------------------------------------------------------- nginx version: nginx/1.15.6 W0329 08:20:25.976376 9 client_config.go:548] Neither --kubeconfig nor --master was specified. Using the inClusterConfig. This might not work. I0329 08:20:25.976784 9 main.go:196] Creating API client for https://10.96.0.1:443 I0329 08:20:25.991435 9 main.go:240] Running in Kubernetes cluster version v1.11&#43; (v1.11.6) - git (clean) commit 612bdcbaa5ce6967727036073ae81414a0d25af8 - platform linux/amd64 I0329 08:20:25.993591 9 main."/>
+
+
+
+
+
+
+    <meta property="article:section" content="Kubernetes" />
+
+
+
+    <meta property="article:published_time" content="2021-03-29 17:26:20 &#43;0800 CST" />
+
+
+
+
+
+
+
+
+    </head>
+
+    
+        <body>
+    
+    
+        <div class="container">
+            <header class="header">
+    <span class="header__inner">
+        <a href="/" style="text-decoration: none;">
+    <div class="logo">
+        
+            <span class="logo__mark">></span>
+            <span class="logo__text">$ kubectl</span>
+            <span class="logo__cursor" style=
+                  "
+                   
+                   ">
+            </span>
+        
+    </div>
+</a>
+
+
+        <span class="header__right">
+            
+                <nav class="menu">
+    <ul class="menu__inner"><li><a href="/post">博客</a></li><li><a href="/categories">类别</a></li>
+    </ul>
+</nav>
+
+                <span class="menu-trigger">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/>
+                    </svg>
+                </span>
+            
+        </span>
+    </span>
+</header>
+
+
+            <div class="content">
+                
+    <main class="post">
+
+        <div class="post-info">
+            
+            </p>
+        </div>
+
+        <article>
+            <h2 class="post-title"><a href="https://pytimer.github.io/post/cncf/kubernetes/nginx-ingress-ulimit/">Nginx-ingress-controller的打开文件数过多，服务异常处理</a></h2>
+
+            
+            
+            
+
+            <div class="post-content">
+                <p>在新创建的k8s集群上，push容器镜像到Harbor的时候，发现镜像时不时会上传失败，这个时候看Harbor的Pod都是运行正常的，服务也没有异常，因为Harbor是通过<code>Ingress</code>的方式对外暴露服务的，因此怀疑可能是<code>nginx-ingress-controller</code>的问题。</p>
+<p>查看<code>nginx-ingress-controller</code>相关的Pod日志，内容如下：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl logs -n kube-system nginx-ingress-controller-d5d6d6954-vb8wt
+-------------------------------------------------------------------------------
+NGINX Ingress controller
+  Release:    0.21.0
+  Build:      git-b65b85cd9
+  Repository: https://github.com/aledbf/ingress-nginx
+-------------------------------------------------------------------------------
+
+nginx version: nginx/1.15.6
+W0329 08:20:25.976376       <span style="color:#ae81ff">9</span> client_config.go:548<span style="color:#f92672">]</span> Neither --kubeconfig nor --master was specified.  Using the inClusterConfig.  This might not work.
+I0329 08:20:25.976784       <span style="color:#ae81ff">9</span> main.go:196<span style="color:#f92672">]</span> Creating API client <span style="color:#66d9ef">for</span> https://10.96.0.1:443
+I0329 08:20:25.991435       <span style="color:#ae81ff">9</span> main.go:240<span style="color:#f92672">]</span> Running in Kubernetes cluster version v1.11+ <span style="color:#f92672">(</span>v1.11.6<span style="color:#f92672">)</span> - git <span style="color:#f92672">(</span>clean<span style="color:#f92672">)</span> commit 612bdcbaa5ce6967727036073ae81414a0d25af8 - platform linux/amd64
+I0329 08:20:25.993591       <span style="color:#ae81ff">9</span> main.go:101<span style="color:#f92672">]</span> Validated kube-system/default-http-backend as the default backend.
+I0329 08:20:26.240013       <span style="color:#ae81ff">9</span> nginx.go:258<span style="color:#f92672">]</span> Starting NGINX Ingress controller
+I0329 08:20:26.246790       <span style="color:#ae81ff">9</span> event.go:221<span style="color:#f92672">]</span> Event<span style="color:#f92672">(</span>v1.ObjectReference<span style="color:#f92672">{</span>Kind:<span style="color:#e6db74">&#34;ConfigMap&#34;</span>, Namespace:<span style="color:#e6db74">&#34;kube-system&#34;</span>, Name:<span style="color:#e6db74">&#34;udp-services&#34;</span>, UID:<span style="color:#e6db74">&#34;7682fb09-9064-11eb-824d-ecc89cd7753a&#34;</span>, APIVersion:<span style="color:#e6db74">&#34;v1&#34;</span>, ResourceVersion:<span style="color:#e6db74">&#34;867&#34;</span>, FieldPath:<span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">})</span>: type: <span style="color:#e6db74">&#39;Normal&#39;</span> reason: <span style="color:#e6db74">&#39;CREATE&#39;</span> ConfigMap kube-system/udp-services
+I0329 08:20:26.246896       <span style="color:#ae81ff">9</span> event.go:221<span style="color:#f92672">]</span> Event<span style="color:#f92672">(</span>v1.ObjectReference<span style="color:#f92672">{</span>Kind:<span style="color:#e6db74">&#34;ConfigMap&#34;</span>, Namespace:<span style="color:#e6db74">&#34;kube-system&#34;</span>, Name:<span style="color:#e6db74">&#34;tcp-services&#34;</span>, UID:<span style="color:#e6db74">&#34;76819994-9064-11eb-824d-ecc89cd7753a&#34;</span>, APIVersion:<span style="color:#e6db74">&#34;v1&#34;</span>, ResourceVersion:<span style="color:#e6db74">&#34;866&#34;</span>, FieldPath:<span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">})</span>: type: <span style="color:#e6db74">&#39;Normal&#39;</span> reason: <span style="color:#e6db74">&#39;CREATE&#39;</span> ConfigMap kube-system/tcp-services
+I0329 08:20:26.246945       <span style="color:#ae81ff">9</span> event.go:221<span style="color:#f92672">]</span> Event<span style="color:#f92672">(</span>v1.ObjectReference<span style="color:#f92672">{</span>Kind:<span style="color:#e6db74">&#34;ConfigMap&#34;</span>, Namespace:<span style="color:#e6db74">&#34;kube-system&#34;</span>, Name:<span style="color:#e6db74">&#34;nginx-configuration&#34;</span>, UID:<span style="color:#e6db74">&#34;767ff18c-9064-11eb-824d-ecc89cd7753a&#34;</span>, APIVersion:<span style="color:#e6db74">&#34;v1&#34;</span>, ResourceVersion:<span style="color:#e6db74">&#34;2879&#34;</span>, FieldPath:<span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">})</span>: type: <span style="color:#e6db74">&#39;Normal&#39;</span> reason: <span style="color:#e6db74">&#39;CREATE&#39;</span> ConfigMap kube-system/nginx-configuration
+I0329 08:20:27.342725       <span style="color:#ae81ff">9</span> event.go:221<span style="color:#f92672">]</span> Event<span style="color:#f92672">(</span>v1.ObjectReference<span style="color:#f92672">{</span>Kind:<span style="color:#e6db74">&#34;Ingress&#34;</span>, Namespace:<span style="color:#e6db74">&#34;kube-system&#34;</span>, Name:<span style="color:#e6db74">&#34;harbor-ingress&#34;</span>, UID:<span style="color:#e6db74">&#34;7694f15b-9064-11eb-824d-ecc89cd7753a&#34;</span>, APIVersion:<span style="color:#e6db74">&#34;extensions/v1beta1&#34;</span>, ResourceVersion:<span style="color:#e6db74">&#34;903&#34;</span>, FieldPath:<span style="color:#e6db74">&#34;&#34;</span><span style="color:#f92672">})</span>: type: <span style="color:#e6db74">&#39;Normal&#39;</span> reason: <span style="color:#e6db74">&#39;CREATE&#39;</span> Ingress kube-system/harbor-ingress
+I0329 08:20:27.344309       <span style="color:#ae81ff">9</span> backend_ssl.go:68<span style="color:#f92672">]</span> Adding Secret <span style="color:#e6db74">&#34;kube-system/secret-tls&#34;</span> to the local store
+I0329 08:20:27.440598       <span style="color:#ae81ff">9</span> nginx.go:279<span style="color:#f92672">]</span> Starting NGINX process
+I0329 08:20:27.440772       <span style="color:#ae81ff">9</span> leaderelection.go:187<span style="color:#f92672">]</span> attempting to acquire leader lease  kube-system/ingress-controller-leader-nginx...
+I0329 08:20:27.441920       <span style="color:#ae81ff">9</span> controller.go:172<span style="color:#f92672">]</span> Configuration changes detected, backend reload required.
+I0329 08:20:27.443592       <span style="color:#ae81ff">9</span> status.go:148<span style="color:#f92672">]</span> new leader elected: nginx-ingress-controller-d5d6d6954-pt64p
+I0329 08:20:27.530325       <span style="color:#ae81ff">9</span> backend_ssl.go:189<span style="color:#f92672">]</span> Updating local copy of SSL certificate <span style="color:#e6db74">&#34;kube-system/secret-tls&#34;</span> with missing intermediate CA certs
+I0329 08:20:28.214064       <span style="color:#ae81ff">9</span> controller.go:190<span style="color:#f92672">]</span> Backend successfully reloaded.
+I0329 08:20:28.214120       <span style="color:#ae81ff">9</span> controller.go:202<span style="color:#f92672">]</span> Initial sync, sleeping <span style="color:#66d9ef">for</span> <span style="color:#ae81ff">1</span> second.
+<span style="color:#f92672">[</span>29/Mar/2021:08:20:29 +0000<span style="color:#f92672">]</span>TCP200000.001
+I0329 08:20:31.324847       <span style="color:#ae81ff">9</span> controller.go:172<span style="color:#f92672">]</span> Configuration changes detected, backend reload required.
+I0329 08:20:31.921507       <span style="color:#ae81ff">9</span> controller.go:190<span style="color:#f92672">]</span> Backend successfully reloaded.
+<span style="color:#f92672">[</span>29/Mar/2021:08:20:31 +0000<span style="color:#f92672">]</span>TCP200000.000
+2021/03/29 08:20:31 <span style="color:#f92672">[</span>alert<span style="color:#f92672">]</span> 8520#8520: socketpair<span style="color:#f92672">()</span> failed <span style="color:#f92672">(</span>24: Too many open files<span style="color:#f92672">)</span>
+2021/03/29 08:20:31 <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> 8544#8544: eventfd<span style="color:#f92672">()</span> failed <span style="color:#f92672">(</span>24: Too many open files<span style="color:#f92672">)</span>
+2021/03/29 08:20:31 <span style="color:#f92672">[</span>alert<span style="color:#f92672">]</span> 8544#8544: socketpair<span style="color:#f92672">()</span> failed <span style="color:#f92672">(</span>24: Too many open files<span style="color:#f92672">)</span>
+2021/03/29 08:20:31 <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> 8607#8607: epoll_create<span style="color:#f92672">()</span> failed <span style="color:#f92672">(</span>24: Too many open files<span style="color:#f92672">)</span>
+2021/03/29 08:20:31 <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> 8638#8638: epoll_create<span style="color:#f92672">()</span> failed <span style="color:#f92672">(</span>24: Too many open files<span style="color:#f92672">)</span>
+2021/03/29 08:20:31 <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> 8651#8651: epoll_create<span style="color:#f92672">()</span> failed <span style="color:#f92672">(</span>24: Too many open files<span style="color:#f92672">)</span>
+2021/03/29 08:20:31 <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> 8678#8678: epoll_create<span style="color:#f92672">()</span> failed <span style="color:#f92672">(</span>24: Too many open files<span style="color:#f92672">)</span>
+2021/03/29 08:20:31 <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> 8679#8679: epoll_create<span style="color:#f92672">()</span> failed <span style="color:#f92672">(</span>24: Too many open files<span style="color:#f92672">)</span>
+2021/03/29 08:20:31 <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> 8680#8680: epoll_create<span style="color:#f92672">()</span> failed <span style="color:#f92672">(</span>24: Too many open files<span style="color:#f92672">)</span>
+2021/03/29 08:20:31 <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> 8681#8681: epoll_create<span style="color:#f92672">()</span> failed <span style="color:#f92672">(</span>24: Too many open files<span style="color:#f92672">)</span>
+2021/03/29 08:20:31 <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> 8682#8682: epoll_create<span style="color:#f92672">()</span> failed <span style="color:#f92672">(</span>24: Too many open files<span style="color:#f92672">)</span>
+2021/03/29 08:20:31 <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> 8683#8683: epoll_create<span style="color:#f92672">()</span> failed <span style="color:#f92672">(</span>24: Too many open files<span style="color:#f92672">)</span>
+2021/03/29 08:20:31 <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> 8684#8684: epoll_create<span style="color:#f92672">()</span> failed <span style="color:#f92672">(</span>24: Too many open files<span style="color:#f92672">)</span>
+2021/03/29 08:20:31 <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> 8685#8685: epoll_create<span style="color:#f92672">()</span> failed <span style="color:#f92672">(</span>24: Too many open files<span style="color:#f92672">)</span>
+2021/03/29 08:20:31 <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> 8686#8686: epoll_create<span style="color:#f92672">()</span> failed <span style="color:#f92672">(</span>24: Too many open files<span style="color:#f92672">)</span>
+2021/03/29 08:20:31 <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> 8687#8687: epoll_create<span style="color:#f92672">()</span> failed <span style="color:#f92672">(</span>24: Too many open files<span style="color:#f92672">)</span>
+2021/03/29 08:20:31 <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> 8688#8688: epoll_create<span style="color:#f92672">()</span> failed <span style="color:#f92672">(</span>24: Too many open files<span style="color:#f92672">)</span>
+2021/03/29 08:20:31 <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> 8689#8689: epoll_create<span style="color:#f92672">()</span> failed <span style="color:#f92672">(</span>24: Too many open files<span style="color:#f92672">)</span>
+2021/03/29 08:20:31 <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> 8690#8690: epoll_create<span style="color:#f92672">()</span> failed <span style="color:#f92672">(</span>24: Too many open files<span style="color:#f92672">)</span>
+2021/03/29 08:20:31 <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> 8691#8691: epoll_create<span style="color:#f92672">()</span> failed <span style="color:#f92672">(</span>24: Too many open files<span style="color:#f92672">)</span>
+2021/03/29 08:20:31 <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> 8692#8692: epoll_create<span style="color:#f92672">()</span> failed <span style="color:#f92672">(</span>24: Too many open files<span style="color:#f92672">)</span>
+2021/03/29 08:20:31 <span style="color:#f92672">[</span>emerg<span style="color:#f92672">]</span> 8693#8693: epoll_create<span style="color:#f92672">()</span> failed <span style="color:#f92672">(</span>24: Too many open files<span style="color:#f92672">)</span>
+2021/03/29 08:20:32 <span style="color:#f92672">[</span>alert<span style="color:#f92672">]</span> 49#49: worker process <span style="color:#ae81ff">8607</span> exited with fatal code <span style="color:#ae81ff">2</span> and cannot be respawned
+2021/03/29 08:20:32 <span style="color:#f92672">[</span>alert<span style="color:#f92672">]</span> 49#49: worker process <span style="color:#ae81ff">8638</span> exited with fatal code <span style="color:#ae81ff">2</span> and cannot be respawned
+2021/03/29 08:20:32 <span style="color:#f92672">[</span>alert<span style="color:#f92672">]</span> 49#49: worker process <span style="color:#ae81ff">8651</span> exited with fatal code <span style="color:#ae81ff">2</span> and cannot be respawned
+2021/03/29 08:20:32 <span style="color:#f92672">[</span>alert<span style="color:#f92672">]</span> 49#49: worker process <span style="color:#ae81ff">8678</span> exited with fatal code <span style="color:#ae81ff">2</span> and cannot be respawned
+2021/03/29 08:20:32 <span style="color:#f92672">[</span>alert<span style="color:#f92672">]</span> 49#49: worker process <span style="color:#ae81ff">8679</span> exited with fatal code <span style="color:#ae81ff">2</span> and cannot be respawned
+2021/03/29 08:20:32 <span style="color:#f92672">[</span>alert<span style="color:#f92672">]</span> 49#49: worker process <span style="color:#ae81ff">8680</span> exited with fatal code <span style="color:#ae81ff">2</span> and cannot be respawned
+2021/03/29 08:20:32 <span style="color:#f92672">[</span>alert<span style="color:#f92672">]</span> 49#49: worker process <span style="color:#ae81ff">8681</span> exited with fatal code <span style="color:#ae81ff">2</span> and cannot be respawned
+2021/03/29 08:20:32 <span style="color:#f92672">[</span>alert<span style="color:#f92672">]</span> 49#49: worker process <span style="color:#ae81ff">8682</span> exited with fatal code <span style="color:#ae81ff">2</span> and cannot be respawned
+2021/03/29 08:20:32 <span style="color:#f92672">[</span>alert<span style="color:#f92672">]</span> 49#49: worker process <span style="color:#ae81ff">8683</span> exited with fatal code <span style="color:#ae81ff">2</span> and cannot be respawned
+2021/03/29 08:20:32 <span style="color:#f92672">[</span>alert<span style="color:#f92672">]</span> 49#49: worker process <span style="color:#ae81ff">8684</span> exited with fatal code <span style="color:#ae81ff">2</span> and cannot be respawned
+2021/03/29 08:20:32 <span style="color:#f92672">[</span>alert<span style="color:#f92672">]</span> 49#49: worker process <span style="color:#ae81ff">8685</span> exited with fatal code <span style="color:#ae81ff">2</span> and cannot be respawned
+2021/03/29 08:20:32 <span style="color:#f92672">[</span>alert<span style="color:#f92672">]</span> 49#49: worker process <span style="color:#ae81ff">8686</span> exited with fatal code <span style="color:#ae81ff">2</span> and cannot be respawned
+2021/03/29 08:20:32 <span style="color:#f92672">[</span>alert<span style="color:#f92672">]</span> 49#49: worker process <span style="color:#ae81ff">8687</span> exited with fatal code <span style="color:#ae81ff">2</span> and cannot be respawned
+2021/03/29 08:20:32 <span style="color:#f92672">[</span>alert<span style="color:#f92672">]</span> 49#49: worker process <span style="color:#ae81ff">8688</span> exited with fatal code <span style="color:#ae81ff">2</span> and cannot be respawned
+2021/03/29 08:20:32 <span style="color:#f92672">[</span>alert<span style="color:#f92672">]</span> 49#49: worker process <span style="color:#ae81ff">8689</span> exited with fatal code <span style="color:#ae81ff">2</span> and cannot be respawned
+2021/03/29 08:20:32 <span style="color:#f92672">[</span>alert<span style="color:#f92672">]</span> 49#49: worker process <span style="color:#ae81ff">8690</span> exited with fatal code <span style="color:#ae81ff">2</span> and cannot be respawned
+2021/03/29 08:20:32 <span style="color:#f92672">[</span>alert<span style="color:#f92672">]</span> 49#49: worker process <span style="color:#ae81ff">8691</span> exited with fatal code <span style="color:#ae81ff">2</span> and cannot be respawned
+2021/03/29 08:20:32 <span style="color:#f92672">[</span>alert<span style="color:#f92672">]</span> 49#49: worker process <span style="color:#ae81ff">8692</span> exited with fatal code <span style="color:#ae81ff">2</span> and cannot be respawned
+2021/03/29 08:20:32 <span style="color:#f92672">[</span>alert<span style="color:#f92672">]</span> 49#49: worker process <span style="color:#ae81ff">8693</span> exited with fatal code <span style="color:#ae81ff">2</span> and cannot be respawned
+</code></pre></div><p>发现有大量的<code>24: Too many open files</code>的错误日志，这种错误应该是操作系统打开的文件数超过了限制，查看nginx所在节点允许打开的最大文件数：</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ulimit -a
+core file size          <span style="color:#f92672">(</span>blocks, -c<span style="color:#f92672">)</span> <span style="color:#ae81ff">0</span>
+data seg size           <span style="color:#f92672">(</span>kbytes, -d<span style="color:#f92672">)</span> unlimited
+scheduling priority             <span style="color:#f92672">(</span>-e<span style="color:#f92672">)</span> <span style="color:#ae81ff">0</span>
+file size               <span style="color:#f92672">(</span>blocks, -f<span style="color:#f92672">)</span> unlimited
+pending signals                 <span style="color:#f92672">(</span>-i<span style="color:#f92672">)</span> <span style="color:#ae81ff">514376</span>
+max locked memory       <span style="color:#f92672">(</span>kbytes, -l<span style="color:#f92672">)</span> <span style="color:#ae81ff">64</span>
+max memory size         <span style="color:#f92672">(</span>kbytes, -m<span style="color:#f92672">)</span> unlimited
+open files                      <span style="color:#f92672">(</span>-n<span style="color:#f92672">)</span> <span style="color:#ae81ff">1024</span>
+pipe size            <span style="color:#f92672">(</span><span style="color:#ae81ff">512</span> bytes, -p<span style="color:#f92672">)</span> <span style="color:#ae81ff">8</span>
+POSIX message queues     <span style="color:#f92672">(</span>bytes, -q<span style="color:#f92672">)</span> <span style="color:#ae81ff">819200</span>
+real-time priority              <span style="color:#f92672">(</span>-r<span style="color:#f92672">)</span> <span style="color:#ae81ff">0</span>
+stack size              <span style="color:#f92672">(</span>kbytes, -s<span style="color:#f92672">)</span> <span style="color:#ae81ff">8192</span>
+cpu time               <span style="color:#f92672">(</span>seconds, -t<span style="color:#f92672">)</span> unlimited
+max user processes              <span style="color:#f92672">(</span>-u<span style="color:#f92672">)</span> <span style="color:#ae81ff">514376</span>
+virtual memory          <span style="color:#f92672">(</span>kbytes, -v<span style="color:#f92672">)</span> unlimited
+file locks                      <span style="color:#f92672">(</span>-x<span style="color:#f92672">)</span> unlimited
+</code></pre></div><p>看到最大为<code>1024</code>，对比了下其他正常的集群，这个配置是一致的，那为什么只有在这个集群上遇到了这个问题呢。</p>
+<p>查看下nginx相关的进程，发现在节点上启动了特别多的nginx worker进程，因为没有配置nginx的<code>work-processes</code>，所以nginx会启动和当前节点的CPU数量相同的worker，通过<code>lscpu</code>看了下，这个节点有128CPU，因此worker很多，从而达到操作系统允许打开的最大文件数。</p>
+<p>降低nginx的worker数量，修改ingress的ConfigMap中nginx相关配置。</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ kubectl edit cm -n kube-system nginx-configuration
+<span style="color:#75715e"># 增加下面的配置，具体worker数可以根据实际来设置。</span>
+<span style="color:#75715e"># 相关说明：https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/#worker-processes</span>
+worker-processes: <span style="color:#e6db74">&#34;8&#34;</span>
+</code></pre></div><p>修改后重建nginx-ingress-controller的pod，日志不再打印<code>24: Too many open files</code>相关的信息，同时push镜像到Harbor正常。</p>
+
+            </div>
+        </article>
+
+        <hr />
+
+        <div class="post-info">
+            
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-tag meta-icon"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7" y2="7"></line></svg>
+
+        <span class="tag"><a href="https://pytimer.github.io/tags/ingress/">ingress</a></span>
+        
+    </p>
+
+            
+    <p>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-folder meta-icon"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path></svg>
+
+        <span class="tag"><a href="https://pytimer.github.io/categories/kubernetes/">Kubernetes</a></span>
+        
+    </p>
+
+  		</div>
+    </main>
+
+            </div>
+
+            
+                <footer class="footer">
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>&copy; 2021</span>
+            <span><a href="https://pytimer.github.io/">Pytimer</a></span>
+            <span><a href="https://pytimer.github.io/posts/index.xml" target="_blank" title="rss"><svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-rss"><path d="M4 11a9 9 0 0 1 9 9"></path><path d="M4 4a16 16 0 0 1 16 16"></path><circle cx="5" cy="19" r="1"></circle></svg></a></span>
+        </div>
+    </div>
+    <div class="footer__inner">
+        <div class="footer__content">
+            <span>Powered by <a href="http://gohugo.io">Hugo</a></span>
+            <span>Made with &#10084; by <a href="https://github.com/rhazdon">Djordje Atlialp</a></span>
+          </div>
+    </div>
+</footer>
+
+            
+        </div>
+
+        
+
+
+
+<script type="text/javascript" src="/bundle.min.2ce64ea6ea44a72b13dd812fc2eb5cca3efe878cce258a47c137c17edf46e0602a05e422b618a5b80b5939c731b7a293351c2f2222a21f6ee27e54a8448dd20e.js" integrity="sha512-LOZOpupEpysT3YEvwutcyj7&#43;h4zOJYpHwTfBft9G4GAqBeQithiluAtZOccxt6KTNRwvIiKiH27iflSoRI3SDg=="></script>
+
+
+
+    </body>
+</html>
